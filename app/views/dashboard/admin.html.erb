@@ -3,5 +3,6 @@
 
 <% if current_user %>
 <h2>Hi, <%= current_user.email %>! You are logged in now! ☀️</h2>
+<%= button_to "Logout", destroy_user_session_path, method: :delete %>
 <% else %>
 <% end %>
