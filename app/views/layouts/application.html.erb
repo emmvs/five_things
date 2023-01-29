@@ -12,6 +12,7 @@
   </head>
 
   <body>
+    <%= render partial: 'layouts/navbar' if @should_render_navbar  %>
     <%= render partial: 'layouts/alerts'  %>
     <%= yield %>
     <footer>
