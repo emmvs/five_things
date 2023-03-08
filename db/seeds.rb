@@ -7,6 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.destroy_all
+Thing.destroy_all
+
+puts "Creating Users ..."
 
 lea = User.create(
   first_name: 'Lea',
@@ -20,6 +23,8 @@ emma = User.create(
   email: 'emma@test.com'
 )
 
+puts "Creating Things ..."
+
 thing_one = Thing.create(
   date: DateTime.new(2023,9,1,17),
   first: '1. Coffee in the morning',
@@ -27,7 +32,7 @@ thing_one = Thing.create(
   third: '3. Message from Lea',
   forth: '4. Tea with lemon',
   fifth: '5. Hugging someone after they lost somebody',
-  user: emma
+  user_id: emma.id
 )
 
 thing_two = Thing.create(
@@ -37,5 +42,7 @@ thing_two = Thing.create(
   third: '3. Message from Emma',
   forth: '4. Black Tea',
   fifth: '5. Hugging someone after a long day',
-  user: lea
+  user_id: lea.id
 )
+
+puts "Done ✅"
