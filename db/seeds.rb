@@ -6,44 +6,43 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-puts "Clean Database 🧼"
 User.destroy_all
-HappyThings.destroy_all
+Thing.destroy_all
+
+puts "Creating Users ..."
 
 lea = User.create(
   first_name: 'Lea',
   last_name: 'Balkenhol',
-  email: 'lea.balkenhol@outlook.de',
-  password: '123456'
+  email: 'lea.balkenhol@outlook.de'
 )
 
 emma = User.create(
   first_name: 'Emma',
   last_name: 'Rünzel',
-  email: 'emma@test.com',
-  password: '123456'
+  email: 'emma@test.com'
 )
 
-puts "Create Users 🙌"
+puts "Creating Things ..."
 
-# Seed HappyThings for Lea for the last 5 days
-5.times do |i|
-  happy_thing = HappyThing.create(
-    user: lea,
-    content: "Theater spielen #{i + 1}!",
-    date: Date.today - i,
-    time: Time.now - (i * 2).hours
-  )
-end
+thing_one = Thing.create(
+  date: DateTime.new(2023,9,1,17),
+  first: '1. Coffee in the morning',
+  second: '2. Three cats looking at me with big eyes',
+  third: '3. Message from Lea',
+  forth: '4. Tea with lemon',
+  fifth: '5. Hugging someone after they lost somebody',
+  user_id: emma.id
+)
 
-# Seed HappyThings for Emma for the last 3 days
-3.times do |i|
-  happy_thing = HappyThing.create(
-    user: emma,
-    content: "Mit meinen Geschwistern sein #{i + 1}!",
-    date: Date.today - i,
-    time: Time.now - (i * 3).hours
-  )
-end
+thing_two = Thing.create(
+  date: DateTime.new(2023,9,1,17),
+  first: '1. Run in the morning',
+  second: '2. One dog looking at me with big eyes',
+  third: '3. Message from Emma',
+  forth: '4. Black Tea',
+  fifth: '5. Hugging someone after a long day',
+  user_id: lea.id
+)
 
-puts "Create HappyThings 🙌"
+puts "Done ✅"

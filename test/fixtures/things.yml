@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first: MyText
+  second: MyText
+  third: MyText
+  forth: MyText
+  fifth: MyText
+  date: 2023-03-08 14:45:53
+  user: one
+
+two:
+  first: MyText
+  second: MyText
+  third: MyText
+  forth: MyText
+  fifth: MyText
+  date: 2023-03-08 14:45:53
+  user: two
