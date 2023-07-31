@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_08_134553) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_31_082311) do
+  create_table "happy_things", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.integer "status"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "date", default: "2023-07-31"
+    t.time "time", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["user_id"], name: "index_happy_things_on_user_id"
+  end
+
   create_table "things", force: :cascade do |t|
     t.text "first"
     t.text "second"
@@ -38,5 +50,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_134553) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "happy_things", "users"
   add_foreign_key "things", "users"
 end

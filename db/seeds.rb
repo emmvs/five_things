@@ -1,11 +1,11 @@
 # Seed data for Five Things App
 
 # Gems
-require "faker"
+# require "faker"
 
 # Clear existing data
-User.destroy_all
 Thing.destroy_all
+User.destroy_all
 
 
 # Create Users
@@ -22,7 +22,7 @@ users << User.create(
   email: 'emma@test.com',
   password: '123456'
 )
-puts "Create Users 🙌"
+puts "Create #{users.first.first_name} 💁🏻‍♀️ & #{users.last.first_name} 🤷🏼‍♀️"
 
 
 # Create HappyThings
@@ -31,12 +31,12 @@ users.each do |user|
   5.times do |i|
     happy_things << HappyThing.create(
       user: user,
-      content: "Placeholder Happy Thing #{i + 1} for #{user.full_name} on Day #{i + 1}",
+      body: "Happy Thing #{i + 1} for #{user.first_name} on Day #{i + 1}",
       date: Date.today - i,
       time: Time.now - (i * 2).hours
     )
   end
 end
-puts "Create HappyThings 🙌"
+puts "Create HappyThings 🙌 🙌 🙌 🙌 🙌"
 
 puts "Done ✅"
