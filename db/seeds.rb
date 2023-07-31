@@ -4,7 +4,7 @@
 # require "faker"
 
 # Clear existing data
-Thing.destroy_all
+HappyThing.destroy_all
 User.destroy_all
 
 

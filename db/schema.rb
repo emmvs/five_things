@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema[7.0].define(version: 2023_07_31_082311) do
   create_table "happy_things", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.text "body"
     t.integer "status"
     t.integer "user_id", null: false
@@ -21,19 +21,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_082311) do
     t.date "date", default: "2023-07-31"
     t.time "time", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["user_id"], name: "index_happy_things_on_user_id"
-  end
-
-  create_table "things", force: :cascade do |t|
-    t.text "first"
-    t.text "second"
-    t.text "third"
-    t.text "forth"
-    t.text "fifth"
-    t.datetime "date"
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_things_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -51,5 +38,4 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_082311) do
   end
 
   add_foreign_key "happy_things", "users"
-  add_foreign_key "things", "users"
 end
