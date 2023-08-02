@@ -81,6 +81,6 @@ test:
 #
 production:
   <<: *default
-  database: _five_things_production
+  url: <%= ENV["MY_APP_DATABASE_URL"] %>
   username: _five_things
   password: <%= ENV["_FIVE_THINGS_DATABASE_PASSWORD"] %>
