@@ -11,14 +11,17 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_07_31_082311) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "happy_things", force: :cascade do |t|
     t.string "title", null: false
     t.text "body"
     t.integer "status"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "date", default: "2023-07-31"
+    t.date "date", default: "2023-08-02"
     t.time "time", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["user_id"], name: "index_happy_things_on_user_id"
   end
