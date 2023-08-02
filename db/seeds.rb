@@ -7,14 +7,13 @@
 HappyThing.destroy_all
 User.destroy_all
 
-
 # Create Users
 users = []
 users << User.create(
   first_name: 'Lea',
   last_name: 'Balkenhol',
-  email: 'lea@test.com',
-  password: 'password'
+  email: 'lea.balkenhol@outlook.de',
+  password: 'beehappy'
 )
 users << User.create(
   first_name: 'Emma',
