@@ -24,9 +24,9 @@
         </ul>
       </div>
       <div class="row">
-        <%# <%= render @happy_things %>
-      <%= link_to "Edit Profile", edit_user_registration_path %>
-      <%= button_to "Logout", destroy_user_session_path, method: :delete %>
+        <%= render @happy_things %>
+        <%= link_to "Edit Profile", edit_user_registration_path %>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete %>
     <% else %>
     <% end %>
       </div>
