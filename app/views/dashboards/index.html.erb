@@ -1,0 +1,23 @@
+<main class="container">
+  <div class="header">
+    <div class="row">
+      <h1>Dashboard</h1>
+    </div>
+    <div class="row">
+    <% if current_user %>
+    <h2>Hi, <%= current_user.first_name %>! And welcome to your Dashboard!</h2>
+      <%= link_to "Edit Profile", edit_user_registration_path %>
+      <%= button_to "Logout", destroy_user_session_path, method: :delete %>
+    <% else %>
+    <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <h1>Your Happy Things</h1>
+    <%= link_to "New happy thing",
+                new_happy_thing_path,
+                class: "btn btn--primary" %>
+
+  <%# <%= render @happy_things %> 
+  </div>
+</main>
