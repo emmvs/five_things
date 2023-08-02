@@ -10,8 +10,6 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: localhost
-  # username: your_postgres_username # Replace with your PostgreSQL username
-  # password: your_postgres_password # Replace with your PostgreSQL password (if any)
   timeout: 5000
 
 development:
@@ -27,4 +25,4 @@ test:
 
 production:
   <<: *default
-  database: five_things_production
+  url: <%= ENV['DATABASE_URL'] %>
