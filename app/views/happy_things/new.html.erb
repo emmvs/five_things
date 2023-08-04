@@ -1,0 +1,9 @@
+<main class="container">
+  <%= link_to sanitize("&larr; Back to happy things"), happy_things_path %>
+
+  <div class="header">
+    <h1>New happy thing</h1>
+  </div>
+
+  <%= render "form", happy_thing: @happy_thing %>
+</main>

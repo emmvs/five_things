@@ -1,0 +1,10 @@
+<%= simple_form_for happy_thing, html: { class: "happy_thing form" } do |f| %>
+  <% if happy_thing.errors.any? %>
+    <div class="error-message">
+      <%= happy_thing.errors.full_messages.to_sentence.capitalize %>
+    </div>
+  <% end %>
+
+  <%= f.input :title, input_html: { autofocus: true } %>
+  <%= f.submit class: "btn btn--secondary" %>
+<% end %>
