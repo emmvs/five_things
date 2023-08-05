@@ -13,10 +13,12 @@ class HappyThingsController < ApplicationController
   end
 
   def create
-    @happy_thing = HappyThing.new(happy_thing_params)
+    # @happy_thing = HappyThing.new(happy_thing_params)
+    # @happy_thing.user = current_user
+    @happy_thing = current_user.happy_things.build(happy_thing_params)
 
-    if @happy_thing.save
-      redirect_to happy_things_path, notice: "HappyThing was successfully created."
+    if @happy_thing.save!
+      redirect_to happy_things_path, notice: "Happy Thing was successfully created."
     else
       render :new
     end
@@ -27,7 +29,7 @@ class HappyThingsController < ApplicationController
 
   def update
     if @happy_thing.update(happy_thing_params)
-      redirect_to happy_things_path, notice: "HappyThing was successfully updated."
+      redirect_to happy_things_path, notice: "Happy Thing was successfully updated."
     else
       render :edit
     end
@@ -35,7 +37,7 @@ class HappyThingsController < ApplicationController
 
   def destroy
     @happy_thing.destroy
-    redirect_to happy_things_path, notice: "HappyThing was successfully destroyed."
+    redirect_to happy_things_path, notice: "Happy Thing was successfully destroyed."
   end
 
   private
