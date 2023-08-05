@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_31_082311) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_04_105913) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_082311) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "date", default: "2023-08-02"
+    t.date "date", default: "2023-08-05"
     t.time "time", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["user_id"], name: "index_happy_things_on_user_id"
   end
