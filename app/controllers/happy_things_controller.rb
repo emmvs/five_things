@@ -20,7 +20,7 @@ class HappyThingsController < ApplicationController
     if @happy_thing.save!
       redirect_to happy_things_path, notice: "Happy Thing was successfully created."
     else
-      render :new
+      render :edit, status: :unprocessable_entity
     end
   end
 
