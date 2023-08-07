@@ -17,10 +17,10 @@ class HappyThingsController < ApplicationController
     # @happy_thing.user = current_user
     @happy_thing = current_user.happy_things.build(happy_thing_params)
 
-    if @happy_thing.save!
-      redirect_to happy_things_path, notice: "Happy Thing was successfully created."
+    if @happy_thing.save
+      redirect_to happy_things_path, notice: "Yay! 🎉 Happy Thing was successfully created."
     else
-      render :edit, status: :unprocessable_entity
+      redirect_to new_happy_thing_path, alert: @happy_thing.errors.full_messages.join(", ")
     end
   end
 
@@ -29,15 +29,15 @@ class HappyThingsController < ApplicationController
 
   def update
     if @happy_thing.update(happy_thing_params)
-      redirect_to happy_things_path, notice: "Happy Thing was successfully updated."
+      redirect_to happy_things_path, notice: "Yay! 🎉 Happy Thing was successfully updated. 🥰"
     else
-      render :edit
+      redirect_to new_happy_thing_path, alert: @happy_thing.errors.full_messages.join(", ")
     end
   end
 
   def destroy
     @happy_thing.destroy
-    redirect_to happy_things_path, notice: "Happy Thing was successfully destroyed."
+    redirect_to happy_things_path, notice: "Oh no! Happy Thing was destroyed. 😕"
   end
 
   private
