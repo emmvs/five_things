@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+# Ruby Ruby Ruby Rubyyyy
 ruby "3.1.2"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
@@ -16,6 +17,9 @@ gem "puma", "~> 5.0"
 gem "importmap-rails"
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+# By default, Turbo Drive speeds up our Ruby on Rails applications
+# by converting all link clicks and form submissions into AJAX requests.
+# Meaning our app is already a single-page application, and we had no custom code to write.
 gem "turbo-rails"
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
@@ -42,10 +46,16 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 
 # Use Sass to process CSS
-# gem "sassc-rails"
+gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
+
+# Devise
+gem "devise", "~> 4.8"
+
+# Simple Form
+gem "simple_form", "~> 5.1"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -70,7 +80,3 @@ group :test do
   gem "capybara"
   # gem 'webdrivers', '~> 5.0', require: false
 end
-
-gem "devise", "~> 4.8"
-gem "sassc"
-gem "simple_form", "~> 5.1"
