@@ -1,29 +1,18 @@
 <main class="container">
-  <div class="header shadow">
-    <div class="row">
-      <h1>Dashboard</h1>
-    </div>
-    <div class="row">
+  <div class="header">
       <% if current_user %>
-        <h2>Hi, <%= current_user.first_name %>! And welcome to your Dashboard!👋</h2>
+        <h2>Hi, <%= current_user.first_name.nil? ? "Sunshine" : current_user.first_name %>! And welcome to your Dashboard!👋</h2>
         <% if true %>
         <%= link_to "What made you smile today?",
             new_happy_thing_path,
-            class: "btn btn-main" %>
+            class: "btn" %>
         <% end %>
-    </div>
   </div>
 
-  <div class="row mt-5">
-    <h4>Your Happy Things of today</h4>
-      <ul>
-        <div class="row">
-          <%= render @happy_things %>
-        </div>
-      </ul>
+    <h3>Your Happy Things of today</h3>
+      <%= render @happy_things %>
       <%= link_to "Edit Profile", edit_user_registration_path %>
       <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn" %>
       <% else %>
       <% end %>
-    </div>
 </main>

@@ -16,16 +16,13 @@
 
 
  // Mixins
- // @import "mixins/*";
  @import "mixins/media";
 
  // Configuration
- // @import "config/*";
  @import "config/variables";
  @import "config/reset";
 
  // Components
- // @import "components/*";
  @import "components/btn";
  @import "components/error_message";
  @import "components/form";
@@ -33,7 +30,6 @@
  @import "components/happy_thing";
 
  // Layouts
- // @import "layouts/*";
 @import "layouts/container";
 @import "layouts/header";
 
@@ -47,9 +43,3 @@ $turquoise: #1abc9c;
 
 // Fonts
 
-// Box Shadow
-.shadow {
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  padding: 5%;
-  border-radius: 1rem;
-}
