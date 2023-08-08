@@ -38,4 +38,7 @@ users.each do |user|
 end
 puts "Create HappyThings 🙌 🙌 🙌 🙌 🙌"
 
+puts "\n== Seeding the database with fixtures, too =="
+system("bin/rails db:fixtures:load")
+
 puts "Done ✅"

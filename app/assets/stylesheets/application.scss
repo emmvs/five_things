@@ -14,6 +14,29 @@
  *= require_self
  */
 
+
+ // Mixins
+ // @import "mixins/*";
+ @import "mixins/media";
+
+ // Configuration
+ // @import "config/*";
+ @import "config/variables";
+ @import "config/reset";
+
+ // Components
+ // @import "components/*";
+ @import "components/btn";
+ @import "components/error_message";
+ @import "components/form";
+ @import "components/visually_hidden";
+ @import "components/happy_thing";
+
+ // Layouts
+ // @import "layouts/*";
+@import "layouts/container";
+@import "layouts/header";
+
 // Colors
 $green: #2ecc71;
 $red: #e74c3c;
@@ -30,6 +53,3 @@ $turquoise: #1abc9c;
   padding: 5%;
   border-radius: 1rem;
 }
-
-@import "bootstrap";
-@import "components/*";

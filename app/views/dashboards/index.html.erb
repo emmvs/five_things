@@ -4,32 +4,26 @@
       <h1>Dashboard</h1>
     </div>
     <div class="row">
-    <% if current_user %>
-    <h2>Hi, <%= current_user.first_name %>! And welcome to your Dashboard!👋</h2>
-      <div class="row mt-5">
-        <h4>Your Happy Things:</h4>
-        <ul>
-          <li>• Thing I</li>
-          <li>• Thing II</li>
-          <li>• Thing III</li>
-          <li>• Thing IV</li>
-          <li>• Thing V</li>
-          <li class="mt-5">
-            <% if true %>
-            <%= link_to "New happy thing",
-                new_happy_thing_path,
-                class: "btn btn-main" %>
-          <% end %>
-          </li>
-        </ul>
-      </div>
-      <div class="row">
-        <%= render @happy_things %>
-        <%= link_to "Edit Profile", edit_user_registration_path %>
-        <%= button_to "Logout", destroy_user_session_path, method: :delete %>
-    <% else %>
-    <% end %>
-      </div>
+      <% if current_user %>
+        <h2>Hi, <%= current_user.first_name %>! And welcome to your Dashboard!👋</h2>
+        <% if true %>
+        <%= link_to "What made you smile today?",
+            new_happy_thing_path,
+            class: "btn btn-main" %>
+        <% end %>
     </div>
   </div>
+
+  <div class="row mt-5">
+    <h4>Your Happy Things of today</h4>
+      <ul>
+        <div class="row">
+          <%= render @happy_things %>
+        </div>
+      </ul>
+      <%= link_to "Edit Profile", edit_user_registration_path %>
+      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn" %>
+      <% else %>
+      <% end %>
+    </div>
 </main>

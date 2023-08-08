@@ -72,7 +72,5 @@ group :test do
 end
 
 gem "devise", "~> 4.8"
-
+gem "sassc"
 gem "simple_form", "~> 5.1"
-
-gem 'bootstrap', '~> 5.1.3'
