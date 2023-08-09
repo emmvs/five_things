@@ -3,6 +3,7 @@ class HappyThingsController < ApplicationController
 
   def index
     @happy_things = HappyThing.all
+    @should_render_navbar = true
   end
 
   def show
