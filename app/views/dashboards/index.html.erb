@@ -1,11 +1,11 @@
 <main class="container">
-  <div class="header">
+  <div data-controller="hello" class="header">
       <% if current_user %>
         <h2>Hi, <%= current_user.first_name.nil? ? "Sunshine" : current_user.first_name %>! And welcome to your Dashboard!👋</h2>
         <% if true %>
         <%= link_to "What made you smile today?",
             new_happy_thing_path,
-            class: "btn" %>
+            class: "btn", hello: true, data: { controller: 'hello', action: 'ajax:success->hello#append' }%>
         <% end %>
   </div>
 
