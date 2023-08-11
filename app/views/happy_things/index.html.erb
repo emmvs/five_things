@@ -1,13 +1,15 @@
 <main class="container">
-  <div class="header">
-    <% if current_user %>
+  <%= turbo_frame_tag "first_turbo_frame" do %>
+    <div class="header">
+      <% if current_user %>
 
-    <h1>Happy Things</h1>
-    <%= link_to "New happy thing",
-                new_happy_thing_path,
-                class: "btn btn--primary",
-                data: { turbo: false } %>
-  </div>
+      <h1>Happy Things</h1>
+      <%= link_to "New happy thing",
+                  new_happy_thing_path,
+                  class: "btn btn--primary",
+                  data: { turbo: false } %>
+    </div>
+  <% end %>
 
   <%= render @happy_things %>
     <% end %>
