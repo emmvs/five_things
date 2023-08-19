@@ -6,11 +6,10 @@
       <h1>Happy Things</h1>
       <%= link_to "New happy thing",
                   new_happy_thing_path,
-                  class: "btn btn--primary",
-                  data: { turbo: false } %>
+                  class: "btn btn--primary" %>
     </div>
   <% end %>
 
-  <%= render @happy_things %>
+    <%= render @happy_things %>
     <% end %>
 </main>

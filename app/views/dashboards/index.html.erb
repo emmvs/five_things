@@ -1,18 +1,23 @@
 <main class="container">
-  <div data-controller="hello" class="header">
-      <% if current_user %>
-        <h2>Hi, <%= current_user.first_name.nil? ? "Sunshine" : current_user.first_name %>! And welcome to your Dashboard!👋</h2>
-        <% if true %>
-        <%= link_to "What made you smile today?",
-            new_happy_thing_path,
-            class: "btn", hello: true, data: { controller: 'hello', action: 'ajax:success->hello#append' }%>
-        <% end %>
-  </div>
+<%# Turbo Frame %>
+  <%= turbo_frame_tag "first_turbo_frame" do %>
+    <div data-controller="hello" class="header">
+    <%# Current User %>
+        <% if current_user %>
+          <h2>Hi, <%= current_user.first_name.nil? ? "Sunshine" : current_user.first_name %>! And welcome to your Dashboard!👋</h2>
+          <%= link_to "What made you smile today?",
+              new_happy_thing_path,
+              class: "btn",
+              data: { controller: 'hello',
+              action: 'ajax:success->hello#append' } %>
+    </div>
+  <% end %>
 
     <h3>Your Happy Things of today</h3>
-      <%= render @happy_things %>
-      <%= link_to "Edit Profile", edit_user_registration_path %>
-      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn" %>
-      <% else %>
+      <%= turbo_frame_tag "second_frame" do %>
+        <%= render @happy_things %>
       <% end %>
+        <%= link_to "Edit Profile", edit_user_registration_path %>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn" %>
+        <% end %>
 </main>

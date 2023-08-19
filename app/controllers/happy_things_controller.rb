@@ -18,7 +18,7 @@ class HappyThingsController < ApplicationController
     # @happy_thing.user = current_user
     @happy_thing = current_user.happy_things.build(happy_thing_params)
 
-    if @happy_thing.save
+    if @happy_thing.save!
       redirect_to happy_things_path, notice: "Yay! 🎉 Happy Thing was successfully created."
     else
       redirect_to new_happy_thing_path, alert: @happy_thing.errors.full_messages.join(", ")
