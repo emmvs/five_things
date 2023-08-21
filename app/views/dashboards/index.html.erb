@@ -13,7 +13,19 @@
     </div>
   <% end %>
 
-    <h3>Your Happy Things of today</h3>
+  <div class="m-5">
+    <h3>Your Poem of the day</h3>
+      <% if @random_poem %>
+        <h3><%= @random_poem["title"] %></h3>
+        <% @random_poem["lines"].each do |line| %>
+          <p><%= line %></p>
+        <% end %>
+      <% else %>
+        <p> Sorry, could not find a random poem today 🙁 </p>
+      <% end %>
+  </div>
+
+    <h3 class="m-4" >Your Happy Things of today</h3>
       <%= turbo_frame_tag "second_frame" do %>
         <%= render @happy_things %>
       <% end %>
