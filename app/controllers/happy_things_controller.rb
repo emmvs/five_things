@@ -32,9 +32,9 @@ class HappyThingsController < ApplicationController
 
   def update
     if @happy_thing.update(happy_thing_params)
-      redirect_to happy_things_path, notice: "Yay! 🎉 Happy Thing was successfully updated. 🥰"
+      redirect_to root_path, notice: "Yay! 🎉 Happy Thing was successfully updated. 🥰"
     else
-      redirect_to new_happy_thing_path, alert: @happy_thing.errors.full_messages.join(", ")
+      render :edit, status: 422
     end
   end
 

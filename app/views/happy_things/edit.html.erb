@@ -5,5 +5,7 @@
     <h1>Edit happy thing</h1>
   </div>
 
-  <%= render "form", happy_thing: @happy_thing %>
+  <%= turbo_frame_tag "happy_thing_#{@happy_thing.id}" do %>
+    <%= render "form", happy_thing: @happy_thing %>
+  <% end %>
 </main>
