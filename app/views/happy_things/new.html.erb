@@ -5,7 +5,7 @@
     <h1>New happy thing</h1>
   </div>
 
-  <%= turbo_frame_tag "second_frame" do %>
-    <%= render "form", happy_thing: @happy_thing %>
+  <%= turbo_frame_tag "happy_things_frame_one" do %>
+    <%= render "happy_things/form", happy_thing: @happy_thing %>
   <% end %>
 </main>

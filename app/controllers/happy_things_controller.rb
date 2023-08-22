@@ -21,9 +21,9 @@ class HappyThingsController < ApplicationController
     @happy_thing = current_user.happy_things.build(happy_thing_params)
 
     if @happy_thing.save!
-      redirect_to happy_things_path, notice: "Yay! 🎉 Happy Thing was successfully created."
+      redirect_to root_path, notice: "Yay! 🎉 Happy Thing was successfully created."
     else
-      redirect_to new_happy_thing_path, alert: @happy_thing.errors.full_messages.join(", ")
+      render :new, status: 422
     end
   end
 
@@ -40,7 +40,7 @@ class HappyThingsController < ApplicationController
 
   def destroy
     @happy_thing.destroy
-    redirect_to happy_things_path, notice: "Oh no! Happy Thing was destroyed. 😕"
+    redirect_to root_path, notice: "Oh no! Happy Thing was destroyed. 😕"
   end
 
   private

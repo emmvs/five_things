@@ -4,6 +4,7 @@
     <%= button_to "Delete",
                   happy_thing_path(happy_thing),
                   method: :delete,
+                  data: { turbo_frame: "happy_things_frame_after_create"},
                   class: "btn btn--light" %>
     <%= link_to "Edit",
                 edit_happy_thing_path(happy_thing),
