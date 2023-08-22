@@ -6,6 +6,11 @@ class DashboardsController < ApplicationController
 
     @happy_thing = HappyThing.new
     @happy_things = HappyThing.all
-    @random_poem = PoetryService.get_random_poem_by_dickinson
+  end
+
+  def get_poem
+    author = params[:author]
+    @random_poem = PoetryService.get_random_poem_by_author(author)
+    render 'index'
   end
 end

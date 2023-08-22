@@ -2,9 +2,8 @@ Rails.application.routes.draw do
   devise_for :users
 
   root 'dashboards#index'
-  resources :happy_things
+  resources :happy_things, except: :index
+  resources :dashboards, only: :index, as: :dashboard
 
-  # resources :users do
-  #   resources :happy_things, only: %i[new create edit update destroy]
-  # end
+  get 'get_poem_dashboard', to: 'dashboards#get_poem'
 end
