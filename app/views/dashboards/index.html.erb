@@ -4,12 +4,17 @@
     <div data-controller="hello" class="header">
     <%# Current User %>
         <% if current_user %>
-          <h2>Hi, <%= current_user.first_name.nil? ? "Sunshine" : current_user.first_name %>! And welcome to your Dashboard!👋</h2>
-          <%= link_to "What made you smile today?",
-              new_happy_thing_path,
-              class: "btn",
-              data: { controller: 'hello',
-              action: 'ajax:success->hello#append' } %>
+          <h2>Hi, <%= current_user.first_name.nil? ? "Sunshine" : current_user.first_name %>!
+          And welcome to your Dashboard!👋</h2>
+
+        <%# Togglable Button %>
+        <div data-controller="toggle">
+          <button class="btn mt-4" data-action="click->toggle#fire">What made you smile today?</button>
+
+          <div class="mt-3 d-none" data-toggle-target="togglableElement">
+            <%= render "happy_things/form", happy_thing: @happy_thing %>
+          </div>
+        </div>
     </div>
   <% end %>
 
@@ -25,27 +30,12 @@
       <% end %>
   </div>
 
-  <%# <%= link_to 'New Happy Thing', new_happy_thing_path, class: "btn btn-primary", data: { action: "click->toggle#fire" } %>
-
-<%# **`data-controller`**: allows to instantiate a controller
-**`data-target`**: replaces `querySelector`
-**`data-action`**: replaces `addEventListener` %>
-
-
-  <div data-controller="toggle">
-  <%# Data action, Eventlistnener %>
-    <button class="btn btn-primary mt-4" data-action="click->toggle#fire">Add a new Happy Thing</button>
-
-    <div class="mt-3 d-none" data-toggle-target="togglableElement">
-      <%= render "happy_things/form", happy_thing: @happy_thing %>
-    </div>
+  <div class="m-5">
+      <h3>Your Happy Things of today</h3>
+        <%= turbo_frame_tag "second_frame" do %>
+          <%= render @happy_things %>
+        <% end %>
   </div>
-
-
-    <h3 class="m-4" >Your Happy Things of today</h3>
-      <%= turbo_frame_tag "second_frame" do %>
-        <%= render @happy_things %>
-      <% end %>
 
         <%= link_to "Edit Profile", edit_user_registration_path %>
         <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn" %>
