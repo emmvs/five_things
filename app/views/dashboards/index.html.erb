@@ -34,19 +34,12 @@
 
   <div data-controller="toggle">
   <%# Data action, Eventlistnener %>
-    <button class="btn btn-primary mt-4">Add a new Happy Thing</button>
+    <button class="btn btn-primary mt-4" data-action="click->toggle#fire">Add a new Happy Thing</button>
 
-    <div class="mt-3">
+    <div class="mt-3 d-none" data-toggle-target="togglableElement">
       <%= render "happy_things/form", happy_thing: @happy_thing %>
     </div>
   </div>
-
-  <%# <div data-controller-target="toggle" class="d-none">
-    <div data-toggle-target="togglableElement" class="d-none">
-    </div>
-  </div> %>
-
-
 
 
     <h3 class="m-4" >Your Happy Things of today</h3>
