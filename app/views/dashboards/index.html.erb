@@ -25,10 +25,35 @@
       <% end %>
   </div>
 
+  <%# <%= link_to 'New Happy Thing', new_happy_thing_path, class: "btn btn-primary", data: { action: "click->toggle#fire" } %>
+
+<%# **`data-controller`**: allows to instantiate a controller
+**`data-target`**: replaces `querySelector`
+**`data-action`**: replaces `addEventListener` %>
+
+
+  <div data-controller="toggle">
+  <%# Data action, Eventlistnener %>
+    <button class="btn btn-primary mt-4">Add a new Happy Thing</button>
+
+    <div class="mt-3">
+      <%= render "happy_things/form", happy_thing: @happy_thing %>
+    </div>
+  </div>
+
+  <%# <div data-controller-target="toggle" class="d-none">
+    <div data-toggle-target="togglableElement" class="d-none">
+    </div>
+  </div> %>
+
+
+
+
     <h3 class="m-4" >Your Happy Things of today</h3>
       <%= turbo_frame_tag "second_frame" do %>
         <%= render @happy_things %>
       <% end %>
+
         <%= link_to "Edit Profile", edit_user_registration_path %>
         <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn" %>
         <% end %>

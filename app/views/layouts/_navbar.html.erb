@@ -3,9 +3,8 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
 
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="<% link_to root_path, class: "navbar-brand"%>">
       <%= image_tag 'five.png', width: "40", height: "40", class: "d-inline-block align-text-top" %>
-        <%# <%= link_to "FiveThings", dashboard_path, class: "navbar-brand"  %>
       </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,9 +20,12 @@
         <%# DROPDOWN %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <%= current_user.email  %>
+            <%= current_user.first_name.nil? ? current_user.email : current_user.first_name   %>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <%= link_to "Home", root_path, class: "dropdown-item" %>
+            <%= link_to "Friends", root_path, class: "dropdown-item" %>
+            <%= link_to "New Happy Thing", new_happy_thing_path, class: "dropdown-item" %>
             <%= link_to "My Account", edit_user_registration_path, class: "dropdown-item" %>
             <%# <li><a class="dropdown-item" href="#">Another action</a></li> %>
             <li><hr class="dropdown-divider"></li>

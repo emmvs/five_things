@@ -2,8 +2,10 @@ class HappyThingsController < ApplicationController
   before_action :set_happy_thing, only: [:show, :edit, :update, :destroy]
 
   def index
-    @happy_things = HappyThing.all
     @should_render_navbar = true
+
+    @happy_thing = HappyThing.new
+    @happy_things = HappyThing.all
   end
 
   def show
