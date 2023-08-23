@@ -14,23 +14,25 @@
  *= require_self
  */
 
+// Packages
+@import "font-awesome";
 
- // Mixins
- @import "mixins/media";
+// Mixins
+@import "mixins/media";
 
- // Configuration
- @import "config/variables";
- @import "config/reset";
+// Configuration
+@import "config/variables";
+@import "config/reset";
 
- // Components
- @import "components/btn";
- @import "components/error_message";
- @import "components/form";
- @import "components/visually_hidden";
- @import "components/happy_thing";
- @import "components/turbo_progress_bar";
+// Components
+@import "components/btn";
+@import "components/error_message";
+@import "components/form";
+@import "components/visually_hidden";
+@import "components/happy_thing";
+@import "components/turbo_progress_bar";
 
- // Layouts
+// Layouts
 @import "layouts/container";
 @import "layouts/header";
 
