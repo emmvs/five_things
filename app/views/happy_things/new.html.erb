@@ -1,4 +1,4 @@
-<main class="container">
+<div class="container">
   <%= link_to sanitize("&larr; Back to happy things"), happy_things_path %>
 
   <div class="header">
@@ -8,4 +8,4 @@
   <%= turbo_frame_tag "happy_things_frame_one" do %>
     <%= render "happy_things/form", happy_thing: @happy_thing %>
   <% end %>
-</main>
+</div>
