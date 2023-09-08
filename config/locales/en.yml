@@ -2,7 +2,7 @@ en:
   simple_form:
     placeholders:
       happy_thing:
-        title: Name of your happy thing
+        title: What made you smile today?
     labels:
       happy_thing:
         title: Name

@@ -1,51 +1,22 @@
-<main class="container">
-<%# Turbo Frame %>
-  <%= turbo_frame_tag "first_turbo_frame" do %>
-    <div data-controller="hello" class="header">
-    <%# Current User %>
-        <% if current_user %>
-          <h2>Hi, <%= current_user.first_name.nil? ? "Sunshine" : current_user.first_name %>!
-          And welcome to your Dashboard!👋</h2>
+<div class="container p-3">
+  <h2>Hi, <%= current_user.first_name || "Sunshine"%>! And welcome to your Dashboard!👋</h2>
 
-        <%# Togglable Button %>
-        <div data-controller="toggle">
-          <button class="btn mt-4" data-action="click->toggle#fire">What made you smile today?</button>
+  <%= turbo_frame_tag "happy_things_frame_after_create" do  %>
 
-          <div class="mt-3 d-none" data-toggle-target="togglableElement">
-            <%= render "happy_things/form", happy_thing: @happy_thing %>
-          </div>
-        </div>
+    <%= turbo_frame_tag "happy_things_frame_one" do %>
+      <%= link_to 'What made you happy today?',
+          new_happy_thing_path,
+          class: "btn" %>
+    <% end %>
+
+    <div class="m-5">
+      <h3>Your Happy Things of today</h3>
+      <%= render @happy_things %>
     </div>
   <% end %>
 
-  <div class="m-5">
-    <h2>Your Poem of the day</h2>
-
-    <h3>Get a Poem by Author</h3>
-    <%= form_tag get_poem_dashboard_path, method: :get do %>
-      <%= label_tag :author, "Enter author's name:" %>
-      <%= text_field_tag :author %>
-      <%= submit_tag "Get Poem" %>
-    <% end %>
-
-      <% if @random_poem %>
-        <h3><%= @random_poem["title"] %></h3>
-        <% @random_poem["lines"].each do |line| %>
-          <p><%= line %></p>
-        <% end %>
-      <% else %>
-        <p> Sorry, could not find a poem of that author today 🙁 </p>
-      <% end %>
-  </div>
-
-  <div class="m-5">
-      <h3>Your Happy Things of today</h3>
-        <%= turbo_frame_tag "second_frame" do %>
-          <%= render @happy_things %>
-        <% end %>
-  </div>
-
-        <%= link_to "Edit Profile", edit_user_registration_path %>
-        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn" %>
-        <% end %>
-</main>
+  <% if user_signed_in? %>
+    <%= link_to "Edit Profile", edit_user_registration_path %>
+    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-warning" %>
+  <% end %>
+</div>

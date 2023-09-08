@@ -57,6 +57,9 @@ gem "devise", "~> 4.8"
 # Simple Form
 gem "simple_form", "~> 5.1"
 
+# Font Awesome
+gem "font-awesome-rails"
+
 # For API Calls
 gem "httparty"
 

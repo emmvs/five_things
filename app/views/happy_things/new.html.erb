@@ -1,11 +1,11 @@
-<main class="container">
+<div class="container">
   <%= link_to sanitize("&larr; Back to happy things"), happy_things_path %>
 
   <div class="header">
     <h1>New happy thing</h1>
   </div>
 
-  <%= turbo_frame_tag "second_frame" do %>
-    <%= render "form", happy_thing: @happy_thing %>
+  <%= turbo_frame_tag "happy_things_frame_one" do %>
+    <%= render "happy_things/form", happy_thing: @happy_thing %>
   <% end %>
-</main>
+</div>
