@@ -17,6 +17,6 @@
 
   <% if user_signed_in? %>
     <%= link_to "Edit Profile", edit_user_registration_path %>
-    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn" %>
+    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-warning" %>
   <% end %>
 </div>
