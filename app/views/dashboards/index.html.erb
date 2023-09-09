@@ -1,6 +1,15 @@
 <div class="container p-3">
   <h2>Hi, <%= current_user.first_name || "Sunshine"%>! And welcome to your Dashboard!👋</h2>
 
+    <% if @random_poem %>
+      <h3><%= @random_poem["title"] %></h3>
+      <% @random_poem["lines"].each do |line| %>
+        <p><%= line %></p>
+      <% end %>
+    <% else %>
+      <p> Sorry, could not find a poem of that author today 🙁 </p>
+    <% end %>
+
   <%= turbo_frame_tag "happy_things_frame_after_create" do  %>
 
     <%= turbo_frame_tag "happy_things_frame_one" do %>

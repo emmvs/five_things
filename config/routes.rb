@@ -2,8 +2,13 @@ Rails.application.routes.draw do
   devise_for :users
 
   root 'dashboards#index'
-  resources :happy_things, except: :index
-  resources :dashboards, only: :index, as: :dashboard
+  resources :happy_things
 
-  get 'get_poem_dashboard', to: 'dashboards#get_poem'
+  resources :friendships do
+    post :change_status, on: :member
+  end
+
+  resources :dashboards, as: :dashboard do
+    get :retrieve_poem, on: :collection
+  end
 end
