@@ -1,0 +1,24 @@
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.logo {
+  width: 100px; /* Adjust as necessary */
+  height: 100px; /* Adjust as necessary */
+  animation: fadeOut 3s forwards; /* 3 seconds animation duration */
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}

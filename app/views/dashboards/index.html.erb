@@ -1,3 +1,8 @@
+<%# ? Loading Screen with Logo %>
+<div data-controller="loading" class="loading-screen">
+  <img src="path/to/your/five.png" alt="Logo" class="logo">
+</div>
+
 <div class="container p-3">
   <h2>Hi, <%= current_user.first_name || "Sunshine"%>! And welcome to your Dashboard!👋</h2>
 
@@ -28,8 +33,4 @@
     <%= link_to "Edit Profile", edit_user_registration_path %>
     <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-warning" %>
   <% end %>
-</div>
-
-<div data-controller="loading" class="loading-screen">
-  <img src="path/to/your/five.png" alt="Logo" class="logo">
 </div>
