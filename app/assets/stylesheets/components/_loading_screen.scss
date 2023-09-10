@@ -12,13 +12,17 @@
 }
 
 .logo {
-  width: 100px; /* Adjust as necessary */
-  height: 100px; /* Adjust as necessary */
-  animation: fadeOut 3s forwards; /* 3 seconds animation duration */
+  width: 100px;
+  height: 100px;
+  animation: fadeOut 2s forwards;
 }
 
 @keyframes fadeOut {
-  to {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
     opacity: 0;
   }
 }
