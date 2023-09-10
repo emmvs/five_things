@@ -1,5 +1,4 @@
 require 'httparty'
-
 class PoetryService
   BASE_URL = 'https://poetrydb.org/'
 
