@@ -1,8 +1,8 @@
 .btn {
   // Base
   display: inline-block;
-  padding: var(--space-xxs) var(--space-m);
-  border-radius: var(--border-radius);
+  padding: 0.375rem 1rem;
+  border-radius: $border-radius;
   background-origin: border-box; // Invisible borders with linear gradients
   background-color: transparent;
   border: solid 2px transparent;
@@ -21,54 +21,54 @@
 
   // Modifiers
   &--primary {
-    color: var(--color-white);
-    background-image: linear-gradient(to right, var(--color-primary), var(--color-primary-rotate));
+    color: $color-white;
+    background-image: linear-gradient(to right, $color-primary, $color-primary-rotate);
 
     &:hover,
     &:focus,
     &:focus-within,
     &:active {
-      color: var(--color-white);
+      color: $color-white;
       filter: saturate(1.4) brightness(115%);
     }
   }
 
   &--secondary {
-    color: var(--color-white);
-    background-image: linear-gradient(to right, var(--color-secondary), var(--color-secondary-rotate));
+    color: $color-white;
+    background-image: linear-gradient(to right, $color-secondary, $color-secondary-rotate);
 
     &:hover,
     &:focus,
     &:focus-within,
     &:active {
-      color: var(--color-white);
+      color: $color-white;
       filter: saturate(1.2) brightness(110%);
     }
   }
 
   &--light {
-    color: var(--color-dark);
-    background-color: var(--color-light);
+    color: $color-dark;
+    background-color: $color-light;
 
     &:hover,
     &:focus,
     &:focus-within,
     &:active {
-      color: var(--color-dark);
+      color: $color-dark;
       filter: brightness(92%);
     }
   }
 
   &--dark {
-    color: var(--color-white);
-    border-color: var(--color-dark);
-    background-color: var(--color-dark);
+    color: $color-white;
+    border-color: $color-dark;
+    background-color: $color-dark;
 
     &:hover,
     &:focus,
     &:focus-within,
     &:active {
-      color: var(--color-white);
+      color: $color-white;
     }
   }
 }

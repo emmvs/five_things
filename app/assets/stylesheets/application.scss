@@ -10,18 +10,12 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
  */
 
-// Packages
-@import "font-awesome";
-
-// Mixins
-@import "mixins/media";
-
-// Configuration
-@import "config/variables";
+// Graphical variables
+@import "config/fonts";
+@import "config/colors";
+@import "config/bootstrap_variables";
 @import "config/reset";
 
 // Components
@@ -31,12 +25,9 @@
 @import "layouts/container";
 @import "layouts/header";
 
-// Colors
-$green: #2ecc71;
-$red: #e74c3c;
-$blue: #3498db;
-$yellow: #f1c40f;
-$purple: #8e44ad;
-$turquoise: #1abc9c;
+// Mixins
+@import "mixins/media";
 
-// Fonts
+// External Packages
+@import "font-awesome";
+@import "bootstrap";

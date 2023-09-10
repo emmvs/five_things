@@ -3,14 +3,14 @@
 
 .container {
   width: 100%;
-  padding-right: var(--space-xs);
-  padding-left: var(--space-xs);
+  padding-right: $space-xs;
+  padding-left: $space-xs;
   margin-left: auto;
   margin-right: auto;
 
   @include media(tabletAndUp) {
-    padding-right: var(--space-m);
-    padding-left: var(--space-m);
+    padding-right: $space-m;
+    padding-left: $space-m;
     max-width: 60rem;
   }
 }

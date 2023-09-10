@@ -21,10 +21,10 @@ body {
   flex-direction: column;
   min-height: 100%;
 
-  background-color: var(--color-background);
-  color: var(--color-text-body);
-  line-height: var(--line-height-body);
-  font-family: var(--font-family-sans);
+  background-color: $color-background;
+  color: $color-text-body;
+  line-height: $line-height-body;
+  font-family: $font-family-sans;
 }
 
 img,
@@ -47,34 +47,34 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--color-text-header);
-  line-height: var(--line-height-headers);
+  color: $color-text-header;
+  line-height: $line-height-headers;
 }
 
 h1 {
-  font-size: var(--font-size-xxxl);
+  font-size: $font-size-xxxl;
 }
 
 h2 {
-  font-size: var(--font-size-xxl);
+  font-size: $font-size-xxl;
 }
 
 h3 {
-  font-size: var(--font-size-xl);
+  font-size: $font-size-xl;
 }
 
 h4 {
-  font-size: var(--font-size-l);
+  font-size: $font-size-l;
 }
 
 a {
-  color: var(--color-primary);
+  color: $color-primary;
   text-decoration: none;
   transition: color 200ms;
 
   &:hover,
   &:focus,
   &:active {
-    color: var(--color-primary-rotate);
+    color: $color-primary-rotate;
   }
 }
