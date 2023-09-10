@@ -1,7 +1,7 @@
 // Define the breakpoints of our media queries
 
 @mixin media($query) {
-  @if $query ==tabletAndUp {
+  @if $query == tabletAndUp {
     @media (min-width: 50rem) {
       @content;
     }
