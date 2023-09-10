@@ -25,13 +25,7 @@
 @import "config/reset";
 
 // Components
-@import "components/btn";
-@import "components/error_message";
-@import "components/form";
-@import "components/visually_hidden";
-@import "components/happy_thing";
-@import "components/turbo_progress_bar";
-@import "components/loading_screen";
+@import "components/index";
 
 // Layouts
 @import "layouts/container";
