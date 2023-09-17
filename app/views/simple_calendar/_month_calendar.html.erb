@@ -5,7 +5,7 @@
     <%= link_to t('simple_calendar.next', default: '>>'), calendar.url_for_next_view %>
   </div>
 
-  <table class="calendar-table table-striped"> <!-- Added class here -->
+  <table class="calendar-table table-striped">
     <thead>
       <tr>
         <% date_range.slice(0, 7).each do |day| %>
@@ -19,7 +19,6 @@
         <tr>
           <% week.each do |day| %>
             <%= content_tag :td, class: "calendar-day #{'has-event' if sorted_events.fetch(day, []).any?} #{calendar.td_classes_for(day)}" do %>
-              <%= day.day %>
               <% if sorted_events.fetch(day, []).any? %>
                 <div class="event-indicator"></div>
               <% end %>
@@ -35,4 +34,3 @@
     </tbody>
   </table>
 </div>
-
