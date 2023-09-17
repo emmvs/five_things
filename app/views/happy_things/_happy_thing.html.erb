@@ -1,10 +1,13 @@
 <%= turbo_frame_tag happy_thing do %>
 
-  <div class="happy_thing shadow">
-    <%= link_to happy_thing.title, happy_thing_path(happy_thing) %>
-    <div class="happy_thing_creator">
-      <p>✏️ By: <%= happy_thing.user.first_name  %></p>
-    </div>
+    <%= link_to happy_thing_path(happy_thing), class: "text-decoration-none" do %>
+      <div class="happy_thing shadow">
+        <%= happy_thing.title.truncate(20) %>
+        <div class="happy_thing_creator">
+          <p class="">✏️ By: <%= happy_thing.user.first_name  %></p>
+        </div>
+    <% end %>
+
     <div class="happy_thing__actions">
       <%= button_to "X",
                     happy_thing_path(happy_thing),
