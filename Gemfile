@@ -54,13 +54,13 @@ gem "sassc-rails"
 # Devise
 gem "devise", "~> 4.8"
 
-# Simple Form
+# Forms & Calendar
 gem "simple_form", "~> 5.1"
+gem "simple_calendar", "~> 2.4"
 
 # External Libraries
 gem "font-awesome-rails"
 gem "bootstrap", "~> 5.2"
-
 
 gem "autoprefixer-rails"
 
