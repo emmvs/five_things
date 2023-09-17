@@ -25,7 +25,7 @@
 
     <div class="m-5">
       <h3>Your Happy Things of today</h3>
-      <%= render @happy_things %>
+      <%= render @happy_things.where("DATE(created_at) = ?", Date.today) %>
     </div>
   <% end %>
 
