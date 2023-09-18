@@ -1,6 +1,6 @@
 .calendar-table {
   width: 100%;
-  max-width: 1170px; // Set the max-width to match iPhone 12 width
+  max-width: 390px;
   margin: 0 auto;
   border-collapse: separate;
   border-spacing: 8px;
@@ -12,7 +12,7 @@
 
   .calendar-day {
     position: relative;
-    padding: 10px;
+    padding: 0px;
     border-radius: 12px;
     background-color: #f0f0f0;
     text-align: center;
@@ -21,22 +21,22 @@
       display: block;
     }
 
-    .event-indicator {
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      width: 10px;
-      height: 10px;
-      background-color: #2ecc71;
-      border-radius: 50%;
-      transform: translateX(-50%);
-      display: none;
-    }
+//     .event-indicator {
+//       position: absolute;
+//       bottom: 8px;
+//       left: 50%;
+//       width: 10px;
+//       height: 10px;
+//       background-color: #2ecc71;
+//       border-radius: 50%;
+//       transform: translateX(-50%);
+//       display: none;
+//     }
   }
 }
 
-@media only screen and (max-width: 1170px) {
-  .calendar-table {
-    width: 100%;
-  }
-}
+// @media only screen and (max-width: 1170px) {
+//   .calendar-table {
+//     width: 100%;
+//   }
+// }
