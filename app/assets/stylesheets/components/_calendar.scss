@@ -2,8 +2,10 @@
   width: 100%;
   max-width: 390px;
   margin: 0 auto;
+  border: 1px hidden #dddddd;
   border-collapse: separate;
   border-spacing: 8px;
+  border-radius: 5%;
 
   th {
     text-align: center;
