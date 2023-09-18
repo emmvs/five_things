@@ -1,0 +1,42 @@
+.calendar-table {
+  width: 100%;
+  max-width: 390px;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 8px;
+
+  th {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .calendar-day {
+    position: relative;
+    padding: 0px;
+    border-radius: 12px;
+    background-color: #f0f0f0;
+    text-align: center;
+
+    &.has-event .event-indicator {
+      display: block;
+    }
+
+//     .event-indicator {
+//       position: absolute;
+//       bottom: 8px;
+//       left: 50%;
+//       width: 10px;
+//       height: 10px;
+//       background-color: #2ecc71;
+//       border-radius: 50%;
+//       transform: translateX(-50%);
+//       display: none;
+//     }
+  }
+}
+
+// @media only screen and (max-width: 1170px) {
+//   .calendar-table {
+//     width: 100%;
+//   }
+// }
