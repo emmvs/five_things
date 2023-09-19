@@ -5,10 +5,11 @@ class DashboardsController < ApplicationController
     @should_render_navbar = true
     @happy_thing = HappyThing.new
     @happy_things = HappyThing.all
+    @random_poem = PoetryService.get_random_poem_by_author("Emily Dickinson")
   end
 
-  def retrieve_poem
-    @random_poem = PoetryService.get_random_poem_by_author(params[:author])
-    render 'index'
-  end
+  # def retrieve_poem
+  # @random_poem = PoetryService.get_random_poem_by_author("Emily Dickinson")
+  #   render 'index'
+  # end
 end

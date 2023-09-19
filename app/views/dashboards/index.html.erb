@@ -19,24 +19,27 @@
       <%= date %>
 
       <%= happy_things.each do |happy_thing| %>
-        <div><%= happy_thing.title.truncate(10) %></div>
+        <div><%= happy_thing.title.truncate(20) %></div>
       <% end %>
     <% end %>
 
-    <div class="m-5">
+    <div class="m-3 mt-5">
       <h3>Your Happy Things of today</h3>
       <%= render @happy_things.where("DATE(created_at) = ?", Date.today) %>
     </div>
   <% end %>
 
-  <% if @random_poem %>
-    <h3><%= @random_poem["title"] %></h3>
-    <% @random_poem["lines"].each do |line| %>
-      <p><%= line %></p>
+  <div class="m-4 mt-5">
+    <% if @random_poem %>
+      <h3><%= @random_poem["title"] %></h3>
+      <h4>by <%= @random_poem["author"] %></h4>
+      <% @random_poem["lines"].each do |line| %>
+        <p><%= line %></p>
+      <% end %>
+    <% else %>
+      <p>Sorry, could not find a poem of that author today 🙁</p>
     <% end %>
-  <% else %>
-    <p> Sorry, could not find a poem of that author today 🙁 </p>
-  <% end %>
+  </div>
 
   <% if user_signed_in? %>
     <%= link_to "Edit Profile", edit_user_registration_path %>
