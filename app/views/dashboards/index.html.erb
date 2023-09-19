@@ -23,13 +23,13 @@
       <% end %>
     <% end %>
 
-    <div class="m-3">
+    <div class="m-3 mt-5">
       <h3>Your Happy Things of today</h3>
       <%= render @happy_things.where("DATE(created_at) = ?", Date.today) %>
     </div>
   <% end %>
 
-  <div class="m-3">
+  <div class="m-4 mt-5">
     <% if @random_poem %>
       <h3><%= @random_poem["title"] %></h3>
       <h4>by <%= @random_poem["author"] %></h4>
