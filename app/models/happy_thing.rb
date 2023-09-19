@@ -5,5 +5,6 @@ class HappyThing < ApplicationRecord
 
   def start_time
     self.date
+    # @date = HappyThing.find(params[:date]) ? Date.parse(params[:date]) : Date.today
   end
 end
