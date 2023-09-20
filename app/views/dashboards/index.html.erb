@@ -16,12 +16,19 @@
     <% end %>
 
     <%# ? Calendar %>
-    <%= month_calendar events: @happy_things, param_name: :date do |date, happy_things| %>
-      <%= date %>
+    <%= month_calendar(events: @happy_things_bubbles, param_name: :date) do |date, happy_things_bubbles| %>
+      <div class="day">
+        <%= date.day %>
+      </div>
 
-      <%= happy_things.each do |happy_thing| %>
-        <div><%= happy_thing.title.truncate(20) %></div>
+      <% happy_things_bubbles.each do |happy_bubble| %>
+        <div class="card-header">
+          <div class="card-title">
+            <%= happy_bubble.title.truncate(4) %>
+          </div>
+        </div>
       <% end %>
+
     <% end %>
 
     <%# ? HappyThings %>
