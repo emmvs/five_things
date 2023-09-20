@@ -11,12 +11,6 @@
   z-index: 1;
 }
 
-.logo {
-  width: 100px;
-  height: 100px;
-  animation: fadeOut 2s forwards;
-}
-
 @keyframes fadeOut {
   0% {
     opacity: 1;

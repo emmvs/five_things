@@ -54,10 +54,15 @@ gem "cloudinary"
 # Devise
 gem "devise", "~> 4.8"
 
-# Styling & Designs
-gem "sassc-rails"
+# Simple Form
 gem "simple_form", "~> 5.1"
+gem "simple_calendar", "~> 2.4"
+
+# External Libraries
 gem "font-awesome-rails"
+gem "bootstrap", "~> 5.2"
+
+gem "autoprefixer-rails"
 
 # For API Calls
 gem "httparty"

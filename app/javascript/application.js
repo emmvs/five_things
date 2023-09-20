@@ -5,3 +5,6 @@ import "controllers"
 // ! Disable Turbo Drive on the whole app
 // import { Turbo } from "@hotwired/turbo-rails"
 // Turbo.session.drive = false
+
+import "bootstrap"
+import "@popperjs/core"
