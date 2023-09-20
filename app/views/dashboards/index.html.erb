@@ -26,14 +26,14 @@
     <% end %>
 
     <%# ? HappyThings %>
-    <div class="m-3 mt-5">
+    <div class="m-2 mt-5">
       <h3 class="mb-3">Your Happy Things of today</h3>
       <%= render @happy_things.where("DATE(created_at) = ?", Date.today).reverse %>
     </div>
   <% end %>
 
   <%# ? PoetrySection %>
-  <div class="m-4 mt-5">
+  <div class="m-2 mt-5 poetry-box">
     <% if @random_poem %>
       <h3><%= @random_poem["title"] %></h3>
       <h4>by <%= @random_poem["author"] %></h4>
@@ -45,8 +45,10 @@
     <% end %>
   </div>
 
-  <% if user_signed_in? %>
-    <%= link_to "Edit Profile", edit_user_registration_path %>
-    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-warning" %>
-  <% end %>
+  <div class="mt-5">
+    <% if user_signed_in? %>
+      <%= link_to "Edit Profile", edit_user_registration_path %>
+      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-warning" %>
+    <% end %>
+  </div>
 </div>
