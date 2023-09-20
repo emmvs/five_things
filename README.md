@@ -14,7 +14,7 @@ Ensure that you have the following installed on your local machine:
 
 * [Ruby](https://www.ruby-lang.org/en/documentation/installation/) - 3.1.2
 * [Rails](https://guides.rubyonrails.org/v5.0/getting_started.html) - 7.0.6
-* [Database System](https://www.postgresql.org/download/) - PostgreSQL is recommended, check `config/database.yml` for configuration details.
+* PostgreSQL
 
 ### Installation
 
