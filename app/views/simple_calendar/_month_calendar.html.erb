@@ -20,6 +20,10 @@
           <% week.each do |day| %>
             <%= content_tag :td, class: calendar.td_classes_for(day) do %>
               <% passed_block.call day, sorted_events.fetch(day, []) %>
+
+              <% if sorted_events.fetch(day, []).any? %>
+                <div class="event-indicator"></div>
+              <% end %>
             <% end %>
           <% end %>
         </tr>

@@ -20,15 +20,9 @@
       <div class="day">
         <%= date.day %>
       </div>
-
-      <% happy_things_bubbles.each do |happy_bubble| %>
-        <div class="card-header">
-          <div class="card-title">
-            <%= happy_bubble.title.truncate(4) %>
-          </div>
-        </div>
+      <% if happy_things_bubbles.any? %>
+        <div class="happy-emoji-indicator">😊</div> <!-- Emoji indicator -->
       <% end %>
-
     <% end %>
 
     <%# ? HappyThings %>
