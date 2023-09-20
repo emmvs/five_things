@@ -18,6 +18,7 @@
       <%= f.input :password_confirmation,
                   required: true,
                   input_html: { autocomplete: "new-password" } %>
+      <%= f.input :avatar, as: :file %>
     </div>
 
     <div class="form-actions d-flex justify-content-center mt-2">

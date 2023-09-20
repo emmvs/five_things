@@ -5,6 +5,14 @@
     <%= f.error_notification %>
 
     <div class="form-inputs container">
+      <%= cl_image_tag @user.avatar.key,
+      class: "pb-3",
+      height: 300, width: 300,
+      transformation: [
+        { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+        { radius: :max }
+        ] unless @user.avatar.key.nil? %>
+      <%= f.input :avatar, as: :file %>
       <%= f.input :first_name %>
       <%= f.input :last_name %>
       <%= f.input :email, required: true, autofocus: true %>
