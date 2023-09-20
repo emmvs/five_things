@@ -2,7 +2,7 @@
 
     <%= link_to happy_thing_path(happy_thing), class: "text-decoration-none" do %>
       <div class="happy_thing shadow">
-        <%= happy_thing.title.truncate(20) %>
+        <%= happy_thing.title %>
         <div class="happy_thing_creator">
           <p class="">✏️ By: <%= happy_thing.user.first_name  %></p>
         </div>

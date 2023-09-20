@@ -3,8 +3,13 @@
   font-size: 36px !important;
 }
 
+.calendar_header {
+  font-family: $headers-font;
+}
+
 .dash-box {
-  background-color: rgb(237, 247, 255);
+  background-color: $pink;
+  color: #063784;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   opacity: 70%;
   border-radius: 5px;
@@ -12,7 +17,8 @@
 }
 
 .poetry-box {
-  background-color: rgb(237, 247, 255);
+  background-color: $pink;
+  color: #063784;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   opacity: 70%;
   border-radius: 5px;
