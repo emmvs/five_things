@@ -18,7 +18,7 @@ Ensure that you have the following installed on your local machine:
 
 ### Installation
 
-1. Clone the repository to your local machine:
+1. Clone the repository to your local machine
    
 `git clone https://github.com/yourusername/five-things-app.git`
 
