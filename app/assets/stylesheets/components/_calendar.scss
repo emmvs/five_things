@@ -10,8 +10,8 @@
   .day {
     position: relative;
     padding: 0px;
-    height: 20px;
-    border-radius: 12px;
+    height: 30px !important;
+    border-radius: 5px;
     background-color: #f0f0f0;
     text-align: center;
 
@@ -47,7 +47,6 @@
 }
 
 .event-indicator {
-  line-height: 1;
   text-align: center;
 }
 
