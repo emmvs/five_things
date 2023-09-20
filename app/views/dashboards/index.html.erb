@@ -45,6 +45,8 @@
     <% end %>
   </div>
 
+  <%= link_to 'See all Happy Things', happy_things_path, class: "btn btn-blue mt-4" %>
+
   <div class="mt-5">
     <% if user_signed_in? %>
       <%= link_to "Edit Profile", edit_user_registration_path %>
