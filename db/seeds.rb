@@ -30,9 +30,7 @@ users.each do |user|
   5.times do |i|
     happy_things << HappyThing.create(
       user: user,
-      body: "Happy Thing #{i + 1} for #{user.first_name} on Day #{i + 1}",
-      date: Date.today - i,
-      time: Time.now - (i * 2).hours
+      body: "Happy Thing #{i + 1} for #{user.first_name} on Day #{i + 1}"
     )
   end
 end

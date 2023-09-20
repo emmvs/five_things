@@ -4,7 +4,7 @@
 </div>
 
 <%# ? Dashboard %>
-<div class="container p-3">
+<div class="container p-3 text-center">
   <h2 class="dash-box dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
 
   <%= turbo_frame_tag "happy_things_frame_after_create" do  %>
@@ -16,18 +16,25 @@
     <% end %>
 
     <%# ? Calendar %>
-    <%= month_calendar events: @happy_things, param_name: :date do |date, happy_things| %>
-      <%= date %>
+    <%= month_calendar(events: @happy_things_bubbles, param_name: :date) do |date, happy_things_bubbles| %>
+      <div class="day">
+        <%= date.day %>
+      </div>
 
-      <%= happy_things.each do |happy_thing| %>
-        <div><%= happy_thing.title.truncate(20) %></div>
+      <% happy_things_bubbles.each do |happy_bubble| %>
+        <div class="card-header">
+          <div class="card-title">
+            <%= happy_bubble.title.truncate(4) %>
+          </div>
+        </div>
       <% end %>
+
     <% end %>
 
     <%# ? HappyThings %>
     <div class="m-3 mt-5">
-      <h3>Your Happy Things of today</h3>
-      <%= render @happy_things.where("DATE(created_at) = ?", Date.today) %>
+      <h3 class="mb-3">Your Happy Things of today</h3>
+      <%= render @happy_things.where("DATE(created_at) = ?", Date.today).reverse %>
     </div>
   <% end %>
 
