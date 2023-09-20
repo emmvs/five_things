@@ -18,22 +18,39 @@ Ensure that you have the following installed on your local machine:
 
 ### Installation
 
-1. Clone the repository to your local machine: `git clone https://github.com/yourusername/five-things-app.git`
-2. Navigate to the project directory: `cd five-things-app`
-3. Install necessary gems: `bundle install`
+1. Clone the repository to your local machine:
+   
+`git clone https://github.com/yourusername/five-things-app.git`
+
+2. Navigate to the project directory
+
+`cd five-things-app`
+
+3. Install necessary gems
+
+`bundle install`
 
 ### Database Creation
 
-1. Create the database: `rails db:create`
-2. Migrate the database: `rails db:migrate`
+1. Create the database
+
+`rails db:create`
+
+3. Migrate the database
+
+`rails db:migrate`
 
 ### Database Initialization
 
-1. Seed the database: `rails db:seed`
+1. Seed the database
+
+`rails db:seed`
 
 ### Running the Test Suite
 
-1. To run the complete test suite, execute: `rails test`
+1. To run the complete test suite, execute
+
+`rails test`
 
 ### Services
 
@@ -41,8 +58,11 @@ Ensure that you have the following installed on your local machine:
 
 ### Deployment Instructions
 
-1. Precompile assets: `rails assets:precompile`
-2. Push to your deployment platform
+1. Precompile assets
+
+`rails assets:precompile`
+
+3. Push to your deployment platform
 
 ## Contributing
 
