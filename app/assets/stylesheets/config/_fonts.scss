@@ -1,10 +1,14 @@
 // Import Google fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700|Work+Sans:400,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=MuseoModerno&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Montserrat:wght@100&family=Pacifico&display=swap');
 
 // Define fonts for body and headers
 $body-font: "Work Sans", "Helvetica", "sans-serif";
 $headers-font: 'MuseoModerno', "sans-serif";
+$pacifico-font: 'Pacifico', "cursive";
+$amatic-font: 'Amatic SC', "cursive";
 
 // To use a font file (.woff) uncomment following lines
 // @font-face {
