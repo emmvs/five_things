@@ -4,11 +4,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Montserrat:wght@100&family=Pacifico&display=swap');
 
+// Fonts
+$amatic-font: 'Amatic SC', "cursive";
+$pacifico-font: 'Pacifico', "cursive";
+
 // Define fonts for body and headers
 $body-font: "Work Sans", "Helvetica", "sans-serif";
-$headers-font: 'MuseoModerno', "sans-serif";
-$pacifico-font: 'Pacifico', "cursive";
-$amatic-font: 'Amatic SC', "cursive";
+$headers-font: $amatic-font;
+// $headers-font: 'MuseoModerno', "sans-serif";
 
 // To use a font file (.woff) uncomment following lines
 // @font-face {
