@@ -1,0 +1,14 @@
+<div class="homepage-container">
+  <div class="logo-home">
+      <%= image_tag "five.png", alt: "Five Things Logo" %>
+  </div>
+
+  <div class="slogan">
+    <h2>What made you happy today?</h2>
+  </div>
+
+  <div class="actions">
+    <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary" %>
+    <%= link_to "Log In", new_user_session_path, class: "btn btn-secondary" %>
+  </div>
+</div>
