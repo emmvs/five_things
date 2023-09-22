@@ -4,8 +4,20 @@
 </div>
 
 <%# ? Dashboard %>
-<div class="container p-3 text-center">
-  <h2 class="dash-box dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
+<div class="container p-3text-center">
+  <h2 class="dash-box mb-5 dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
+
+    <%# ? Calendar %>
+    <%= month_calendar(events: @happy_things_bubbles, param_name: :date) do |date, happy_things_bubbles| %>
+      <div class="day">
+        <%= link_to happy_things_path(date_param: date.to_s), class: 'calendar-day-link' do %>
+          <%= date.day %>
+        <% end %>
+      </div>
+      <% if happy_things_bubbles.any? %>
+        <div class="event-indicator">😊</div> <!-- Emoji indicator -->
+      <% end %>
+    <% end %>
 
   <%= turbo_frame_tag "happy_things_frame_after_create" do  %>
 
@@ -15,15 +27,6 @@
           class: "btn btn-blue shadow m-4" %>
     <% end %>
 
-    <%# ? Calendar %>
-    <%= month_calendar(events: @happy_things_bubbles, param_name: :date) do |date, happy_things_bubbles| %>
-      <div class="day">
-        <%= date.day %>
-      </div>
-      <% if happy_things_bubbles.any? %>
-        <div class="event-indicator">😊</div> <!-- Emoji indicator -->
-      <% end %>
-    <% end %>
 
     <%# ? HappyThings %>
     <div class="m-2 mt-5">

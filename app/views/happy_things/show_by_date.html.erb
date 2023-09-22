@@ -1,0 +1,16 @@
+<h1>Happy Things for <%= @start_time.strftime('%B %d, %Y') %></h1>
+
+<% if @happy_things.any? %>
+  <ul>
+    <% @happy_things.each do |happy_thing| %>
+      <li>
+        <strong><%= happy_thing.title %></strong>
+        <%# Display other attributes if needed, like happy_thing.body or whatever attributes you have for the model %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No happy things recorded for this day.</p>
+<% end %>
+
+<%= link_to 'Back to Dashboard', root_path %>  <%# Adjust the path accordingly %>
