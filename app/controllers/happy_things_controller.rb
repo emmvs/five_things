@@ -8,8 +8,7 @@ class HappyThingsController < ApplicationController
     @happy_things = HappyThing.all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @happy_thing = HappyThing.new
@@ -27,8 +26,7 @@ class HappyThingsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @happy_thing.update(happy_thing_params)
@@ -41,6 +39,13 @@ class HappyThingsController < ApplicationController
   def destroy
     @happy_thing.destroy
     redirect_to root_path, notice: "Oh no! Happy Thing was destroyed. 😕"
+  end
+
+  def show_by_date
+    date = Date.parse(params[:start_time])
+    start_of_day = date.beginning_of_day
+    end_of_day = date.end_of_day
+    @happy_things = HappyThing.where(start_time: start_of_day..end_of_day)
   end
 
   private

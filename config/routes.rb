@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :happy_things
 
+  get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date
+
   resources :friendships do
     post :change_status, on: :member
   end
