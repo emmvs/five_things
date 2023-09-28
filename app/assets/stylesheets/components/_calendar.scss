@@ -10,7 +10,8 @@
   .day {
     position: relative;
     padding: 0px;
-    height: 40px !important;
+    height: 2rem !important;
+    width: 2rem !important;
     border-radius: 4px;
     background-color: $sky-blue;
     text-align: center;
@@ -20,20 +21,20 @@
     }
   }
 
-  // .calendar-day-link {
-  //   display: block;
-  //   color: inherit;
-  //   /* To inherit the color of the parent (td) */
-  //   text-decoration: none;
-  //   /* To remove the underline from the link */
-  //   padding: 4px;
-  //   /* Some padding to make it easier to click */
-  // }
+  .calendar-day-link {
+    display: block;
+    color: inherit;
+    /* To inherit the color of the parent (td) */
+    text-decoration: none;
+    /* To remove the underline from the link */
+    padding: 4px;
+    /* Some padding to make it easier to click */
+  }
 
-  // .calendar-day-link:hover {
-  //   background-color: #f0f0f0;
-  //   /* A light gray background on hover */
-  // }
+  .calendar-day-link:hover {
+    background-color: #f0f0f0;
+    /* A light gray background on hover */
+  }
 
   .table {
     width: 100%;
