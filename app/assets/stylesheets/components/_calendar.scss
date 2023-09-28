@@ -23,12 +23,9 @@
 
   .calendar-day-link {
     display: block;
-    color: inherit;
-    /* To inherit the color of the parent (td) */
+    // color: inherit;
     text-decoration: none;
-    /* To remove the underline from the link */
     padding: 4px;
-    /* Some padding to make it easier to click */
   }
 
   .calendar-day-link:hover {

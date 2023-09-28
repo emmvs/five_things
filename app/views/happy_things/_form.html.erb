@@ -1,4 +1,4 @@
-<%= simple_form_for happy_thing, html: { class: "happy_thing form", data: { turbo_frame: happy_thing.persisted? ? dom_id(happy_thing) : "happy_things_frame_after_create" } } do |f| %>
+<%= simple_form_for happy_thing, html: { class: "happy_thing form mt-4", data: { turbo_frame: happy_thing.persisted? ? dom_id(happy_thing) : "happy_things_frame_after_create" } } do |f| %>
   <% if happy_thing.errors.any? %>
     <div class="error-message">
       <%= happy_thing.errors.full_messages.to_sentence.capitalize %>
@@ -6,5 +6,5 @@
   <% end %>
 
   <%= f.input :title, input_html: { autofocus: true } %>
-  <%= f.submit class: "btn btn--secondary" %>
+  <%= f.submit class: "btn btn-blue m-2" %>
 <% end %>
