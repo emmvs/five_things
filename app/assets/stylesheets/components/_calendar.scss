@@ -7,6 +7,18 @@
     border-top-right-radius: 20px; // Match with the border-radius given to simple-calendar
   }
 
+  .prev-month {
+    background: #bad8e5 !important;
+  }
+
+  .today {
+    background: $pink !important;
+  }
+
+  .next-month{
+    background: #bad8e5 !important;
+  }
+
   .day {
     position: relative;
     padding: 0px;
