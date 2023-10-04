@@ -51,25 +51,29 @@
     <% end %>
   </div>
 
-    <%# ? Today one year ago Section %>
-    <div class="m-2 mt-5">
-      <h3 class="mb-3">Today one year ago...</h3>
-      <% if @happy_things_one_year_ago.any? %>
-        <ul>
-          <% @happy_things_one_year_ago.each do |happy_thing| %>
-            <li class="list-unstyled">"<%= happy_thing.title %>" - <%= happy_thing.user.first_name %></li>
+  <%# ? Today one year ago Section %>
+  <div class="m-2 mt-5">
+    <h3 class="mb-3">Today one year ago...</h3>
+    <% if @happy_things_one_year_ago.any? %>
+      <% @happy_things_one_year_ago.group_by(&:user).each do |user, happy_things| %>
+        <h4><%= user.emoji %> <%= user.first_name %></h4>
+        <ol>
+          <% happy_things.each do |happy_thing| %>
+            <li><%= happy_thing.title %></li>
           <% end %>
-        </ul>
-      <% else %>
-        <p>No Happy Things found for this date one year ago.</p>
-        <!-- Add a form to allow adding a Happy Thing for this date -->
+        </ol>
       <% end %>
-    </div>
+    <% else %>
+      <p>No Happy Things found for this date one year ago.</p>
+      <%= link_to 'Add an old Happy Thing from last year', old_happy_thing_path, class: "btn btn-blue shadow" %>
+      <!-- Add a form to allow adding a Happy Thing for this date -->
+    <% end %>
+  </div>
 
-    <div class="m-2 mt-5">
-      <h3 class="mb-3">Forgot something?</h3>
-        <%= link_to 'Add an Old Happy Thing', old_happy_thing_path, class: "btn shadow" %>
-    </div>
+  <div class="m-2 mt-5">
+    <h3 class="mb-3">Forgot something?</h3>
+      <%= link_to 'Add old Happy Thing', old_happy_thing_path, class: "btn shadow" %>
+  </div>
 
   <%= link_to 'See all Happy Things', happy_things_path, class: "btn btn-blue mt-4" %>
 
