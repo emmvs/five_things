@@ -20,11 +20,11 @@ Ensure that you have the following installed on your local machine:
 
 1. Clone the repository to your local machine
    
-`git clone https://github.com/yourusername/five-things-app.git`
+`git clone https://github.com/yourusername/five-things.git`
 
 2. Navigate to the project directory
 
-`cd five-things-app`
+`cd five-things`
 
 3. Install necessary gems
 
@@ -46,11 +46,11 @@ Ensure that you have the following installed on your local machine:
 
 `rails db:seed`
 
-### Running the Test Suite
+### Running Tests
 
 1. To run the complete test suite, execute
 
-`rails test`
+`rspec`
 
 ### Services
 
