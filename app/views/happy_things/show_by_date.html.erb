@@ -1,16 +1,18 @@
-<h1>Happy Things for <%= @start_time.strftime('%B %d, %Y') %></h1>
+<div class="container mt-5">
+  <h1>Happy Things for <%= @date.strftime('%B %d, %Y') %></h1>
 
-<% if @happy_things.any? %>
-  <ul>
-    <% @happy_things.each do |happy_thing| %>
-      <li>
-        <strong><%= happy_thing.title %></strong>
-        <%# Display other attributes if needed, like happy_thing.body or whatever attributes you have for the model %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No happy things recorded for this day.</p>
-<% end %>
+  <% if @happy_things.any? %>
+    <ul>
+      <% @happy_things.each do |happy_thing| %>
+        <li>
+          <strong><%= happy_thing.title.capitalize %></strong>
+          <p>by <%= happy_thing.user.first_name %> <%= happy_thing.user.emoji %></p>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No happy things recorded for this day.</p>
+  <% end %>
 
-<%= link_to 'Back to Dashboard', root_path %>  <%# Adjust the path accordingly %>
+  <%= link_to 'Back to Dashboard', root_path %>
+</div>
