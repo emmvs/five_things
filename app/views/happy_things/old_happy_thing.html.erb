@@ -1,0 +1,13 @@
+<div class="container">
+  <%= link_to sanitize("&larr; Back to happy things"), happy_things_path %>
+
+  <div class="header">
+    <h1>Add an old happy thing</h1>
+  </div>
+
+  <%= simple_form_for @old_happy_thing, url: old_happy_thing_path do |f| %>
+    <%= f.input :title, label: 'Title' %>
+    <%= f.input :start_time %>
+    <%= f.button :submit, 'Save' %>
+  <% end %>
+</div>
