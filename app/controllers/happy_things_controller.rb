@@ -42,10 +42,8 @@ class HappyThingsController < ApplicationController
   end
 
   def show_by_date
-    date = Date.parse(params[:start_time])
-    start_of_day = date.beginning_of_day
-    end_of_day = date.end_of_day
-    @happy_things = HappyThing.where(start_time: start_of_day..end_of_day)
+    @date = Date.parse(params[:date])
+    @happy_things = HappyThing.where(start_time: @date.beginning_of_day..@date.end_of_day)
   end
 
   private

@@ -10,7 +10,7 @@
     <%# ? Calendar %>
     <%= month_calendar(events: @happy_things_bubbles, param_name: :date) do |date, happy_things_bubbles| %>
       <div class="day">
-        <%= link_to happy_things_path(date_param: date.to_s), class: 'calendar-day-link' do %>
+        <%= link_to happy_things_by_date_path(date: date.strftime('%Y-%m-%d')), class: 'calendar-day-link' do %>
           <%= date.day %>
         <% end %>
       </div>
