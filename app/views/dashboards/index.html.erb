@@ -53,8 +53,17 @@
 
     <%# ? Today one year ago Section %>
     <div class="m-2 mt-5">
-      <h3 class="mb-3">On this day...</h3>
-        <p>Coming Soon</p>
+      <h3 class="mb-3">Today one year ago...</h3>
+      <% if @happy_things_one_year_ago.any? %>
+        <ul>
+          <% @happy_things_one_year_ago.each do |happy_thing| %>
+            <li class="list-unstyled">"<%= happy_thing.title %>" - <%= happy_thing.user.first_name %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No Happy Things found for this date one year ago.</p>
+        <!-- Add a form to allow adding a Happy Thing for this date -->
+      <% end %>
     </div>
 
     <div class="m-2 mt-5">

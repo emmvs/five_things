@@ -4,9 +4,9 @@
   <% if @happy_things.any? %>
     <ul>
       <% @happy_things.each do |happy_thing| %>
-        <li>
+        <li class="list-unstyled">
           <strong><%= happy_thing.title.sub(/\S/, &:upcase) %></strong>
-          <p>by <%= happy_thing.user.first_name %> <%= happy_thing.user.emoji %></p>
+          <p>✏️ <%= happy_thing.user.first_name %></p>
         </li>
       <% end %>
     </ul>
