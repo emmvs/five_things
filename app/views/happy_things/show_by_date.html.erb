@@ -5,7 +5,7 @@
     <ul>
       <% @happy_things.each do |happy_thing| %>
         <li>
-          <strong><%= happy_thing.title.capitalize %></strong>
+          <strong><%= happy_thing.title.sub(/\S/, &:upcase) %></strong>
           <p>by <%= happy_thing.user.first_name %> <%= happy_thing.user.emoji %></p>
         </li>
       <% end %>
