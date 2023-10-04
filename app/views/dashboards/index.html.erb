@@ -15,8 +15,9 @@
         <% end %>
       </div>
       <% if happy_things_bubbles.any? %>
-        <% happy_things_bubbles.each do |happy_thing| %>
-          <div class="event-indicator"><%= happy_thing.user.emoji %></div>
+        <% unique_users = happy_things_bubbles.map(&:user).uniq %>
+        <% unique_users.each do |user| %>
+          <div class="event-indicator"><%= user.emoji %></div>
         <% end %>
       <% end %>
     <% end %>
