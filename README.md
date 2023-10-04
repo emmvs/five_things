@@ -70,7 +70,7 @@ If you would like to contribute, please fork the repository and use a feature br
 
 ## Contact
 
-- Repository: [Five Things App](https://github.com/emmvs/five-things-app)
+- Repository: [Five Things App](https://github.com/emmvs/five_things)
 - Developer: Emma Rünzel - emma@ruenzel.de
 
 **Enjoy the Five Things App, and remember to appreciate the litte things!**
