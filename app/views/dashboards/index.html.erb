@@ -15,7 +15,9 @@
         <% end %>
       </div>
       <% if happy_things_bubbles.any? %>
-        <div class="event-indicator">🪩</div> <!-- Emoji indicator -->
+        <% happy_things_bubbles.each do |happy_thing| %>
+          <div class="event-indicator"><%= happy_thing.user.emoji %></div>
+        <% end %>
       <% end %>
     <% end %>
 
