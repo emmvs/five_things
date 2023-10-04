@@ -15,6 +15,7 @@
       <%= f.input :avatar, as: :file %>
       <%= f.input :first_name %>
       <%= f.input :last_name %>
+      <%= f.input :emoji %>
       <%= f.input :email, required: true, autofocus: true %>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
