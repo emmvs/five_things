@@ -13,10 +13,6 @@
         { radius: :max }
         ] unless @user.avatar.key.nil? %>
       <%= f.input :avatar, as: :file %>
-      <%= f.input :first_name %>
-      <%= f.input :last_name %>
-      <%= f.input :emoji %>
-      <%= f.input :email, required: true, autofocus: true %>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
         <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
@@ -29,6 +25,8 @@
                   hint: "What's your first name?",
                   required: false,
                   input_html: { autocomplete: "new-password" } %>
+      <%= f.input :emoji %>
+      <%= f.input :email, required: true, autofocus: true %>
       <%= f.input :password,
                   hint: "leave it blank if you don't want to change it",
                   required: false,
@@ -38,7 +36,7 @@
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :current_password,
                   hint: "we need your current password to confirm your changes",
-                  required: true,
+                  required: false,
                   input_html: { autocomplete: "current-password" } %>
     </div>
 
