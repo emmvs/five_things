@@ -13,7 +13,9 @@ Rails.application.routes.draw do
   # If not authenticated, route to the home page
   root to: "pages#home"
 
-  get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date
+  get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date, constraints: { date: /\d{4}-\d{2}-\d{2}/ }
+  # get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date
+
   resources :happy_things
 
 
