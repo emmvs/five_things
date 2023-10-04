@@ -30,7 +30,7 @@ class HappyThingsController < ApplicationController
 
   def update
     if @happy_thing.update(happy_thing_params)
-      redirect_to root_path, notice: "Yay! 🎉 Happy Thing was successfully updated. 🥰"
+      redirect_to root_path, notice: "Yay! 🎉 Happy Thing was updated 🥰"
     else
       render :edit, status: 422
     end
@@ -38,12 +38,25 @@ class HappyThingsController < ApplicationController
 
   def destroy
     @happy_thing.destroy
-    redirect_to root_path, notice: "Oh no! Happy Thing was destroyed. 😕"
+    redirect_to root_path, notice: "Happy Thing was destroyed 😕"
   end
 
   def show_by_date
     @date = Date.parse(params[:date])
     @happy_things = HappyThing.where(start_time: @date.beginning_of_day..@date.end_of_day)
+  end
+
+  def old_happy_thing
+    @old_happy_thing = current_user.happy_things.new
+  end
+
+  def create_old_happy_thing
+    @old_happy_thing = current_user.happy_things.build(happy_thing_params)
+    if @old_happy_thing.save!
+      redirect_to root_path, notice: "Yay! 🎉 Old Happy Thing was successfully created."
+    else
+      render :old, status: 422
+    end
   end
 
   private
@@ -53,6 +66,6 @@ class HappyThingsController < ApplicationController
   end
 
   def happy_thing_params
-    params.require(:happy_thing).permit(:title, :body, :status, :date, :time)
+    params.require(:happy_thing).permit(:title, :body, :status, :start_time)
   end
 end
