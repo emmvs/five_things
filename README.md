@@ -71,6 +71,6 @@ If you would like to contribute, please fork the repository and use a feature br
 ## Contact
 
 - Repository: [Five Things App](https://github.com/yourusername/five-things-app)
-- Developer: Emma Rünzel - emma@ruenzel.de
+- Developer: E. Rünzel - emma@ruenzel.de
 
-**Enjoy the Five Things App, and remember to appreciate the litte things!**
+**Enjoy Five Things, and remember to appreciate the litte things!**
