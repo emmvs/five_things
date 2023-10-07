@@ -8,8 +8,7 @@
           <h4><%= user.emoji %> <%= user.first_name %></h4>
           <ol>
             <% happy_things.each do |happy_thing| %>
-              <strong><%= happy_thing.title.sub(/\S/, &:upcase) %></strong>
-              <p>✏️ <%= happy_thing.user.first_name %></p></li>
+              <li><strong><%= happy_thing.title.sub(/\S/, &:upcase) %></strong></li>
             <% end %>
           </ol>
       <% end %>
