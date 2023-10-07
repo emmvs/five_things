@@ -8,10 +8,6 @@ class HappyThing < ApplicationRecord
     self.start_time = DateTime.now
   end
 
-  # def add_date_time_to_happy_thing
-  #   self.start_time ||= DateTime.now
-  # end
-
   private
 
   def start_time_present?
