@@ -5,7 +5,7 @@ class HappyThingsController < ApplicationController
     @should_render_navbar = true
 
     @happy_thing = HappyThing.new
-    @happy_things = HappyThing.all
+    @happy_things = HappyThing.order(start_time: :asc)
   end
 
   def show; end
