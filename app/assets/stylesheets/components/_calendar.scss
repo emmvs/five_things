@@ -22,7 +22,7 @@
   .day {
     position: relative;
     padding: 0px;
-    height: 2rem !important;
+    height: 3.5rem !important;
     width: 2rem !important;
     border-radius: 4px;
     background-color: $sky-blue;
@@ -35,7 +35,6 @@
 
   .calendar-day-link {
     display: block;
-    // color: inherit;
     text-decoration: none;
     padding: 4px;
   }
@@ -73,7 +72,13 @@
 }
 
 .event-indicator {
-  text-align: center;
+  position: absolute;
+  top: 74%;
+  /* Adjust this value to vertically center the indicator */
+  left: 50%;
+  /* Adjust this value to horizontally center the indicator */
+  transform: translate(-50%, -50%);
+  z-index: 1;
 }
 
 @media only screen and (max-width: 1170px) {

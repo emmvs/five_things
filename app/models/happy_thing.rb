@@ -6,7 +6,6 @@ class HappyThing < ApplicationRecord
 
   def add_date_time_to_happy_thing
     self.start_time = DateTime.now
-    puts "Setting start_time to #{self.start_time}"
   end
 
   private
