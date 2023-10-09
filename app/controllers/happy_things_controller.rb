@@ -66,6 +66,11 @@ class HappyThingsController < ApplicationController
   end
 
   def happy_thing_params
-    params.require(:happy_thing).permit(:title, :body, :status, :start_time)
+    params.require(:happy_thing).permit(
+      :title,
+      :body,
+      :status,
+      :start_time
+    )
   end
 end
