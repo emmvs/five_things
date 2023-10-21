@@ -12,6 +12,7 @@ class DashboardsController < ApplicationController
 
     # Retrieve Happy Things from one year ago
     @happy_things_one_year_ago = @happy_things.where("DATE(start_time) = ?", 1.year.ago.to_date).order(created_at: :desc)
+    @grouped_happy_things = @happy_things.where("DATE(start_time) = ?", Date.today).reverse.group_by(&:user)
   end
 
   # def retrieve_poem
