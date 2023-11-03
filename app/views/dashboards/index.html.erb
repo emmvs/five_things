@@ -34,20 +34,11 @@
     <%# ? HappyThings %>
     <div class="m-2 mt-5">
       <h3 class="mb-3">Your Happy Things of today</h3>
-      <%= render @happy_things.where("DATE(start_time) = ?", Date.today).reverse %>
+      <% @happy_things.each do |user, happy_things| %>
+        <h4><%= user.emoji %> <%= user.first_name %></h4>
+        <%= render "happy_things/happy_thing", user: user, happy_things: happy_things %>
+      <% end %>
     </div>
-  <% end %>
-
-  <% if @happy_things.any? %>
-    <% @grouped_happy_things.each do |user, happy_things| %>
-      <h4><%= user.emoji %> <%= user.first_name %></h4>
-      <ol>
-        <%= render partial: 'happy_thing', collection: happy_things, as: :happy_thing %>
-      </ol>
-    <% end %>
-  <% else %>
-    <p>No Happy Things found for this date one year ago.</p>
-    <%= link_to 'Add an old Happy Thing from last year', old_happy_thing_path, class: "btn btn-blue shadow" %>
   <% end %>
 
 
