@@ -1,5 +1,3 @@
-<%# app/views/layouts/_navbar.html.erb %>
-
 <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
 
@@ -19,8 +17,8 @@
           <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
 
         <%# DROPDOWN %>
-        <li class="nav-item dropdown" data-bs-toggle="dropdown" >
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"  aria-expanded="false">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarDropdown" role="button"  aria-expanded="false">
             <%= current_user.first_name.nil? ? current_user.email : current_user.first_name   %>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -29,7 +27,6 @@
             <%= link_to "New Happy Thing", new_happy_thing_path, class: "dropdown-item" %>
             <%= link_to "Old Happy Thing", root_path, class: "dropdown-item" %>
             <%= link_to "My Account", edit_user_registration_path, class: "dropdown-item" %>
-            <%# <li><a class="dropdown-item" href="#">Another action</a></li> %>
             <li><hr class="dropdown-divider"></li>
             <%# Rails 7 %>
             <li><%= link_to "Log Out", destroy_user_session_path, data: {turbo_method: "delete"}, class:"dropdown-item" %></li>

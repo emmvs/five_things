@@ -1,13 +1,11 @@
 <div class="container">
   <%= link_to 'Back Home', root_path, class: "btn btn-blue m-4" %>
   <%= turbo_frame_tag "first_turbo_frame" do %>
-    <div class="header">
-      <% if current_user %>
-
-      <h1>Happy Things</h1>
-    </div>
-  <% end %>
-
-    <%= render 'happy_things/happy_thing', happy_things: @happy_things %>
+    <% if current_user %>
+      <div class="header">
+        <h1>Happy Things</h1>
+      </div>
     <% end %>
+  <%= render 'happy_things/happy_thing', happy_things: @happy_things %>
+  <% end %>
 </div>
