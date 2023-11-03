@@ -5,7 +5,7 @@ class HappyThingsController < ApplicationController
     @should_render_navbar = true
 
     @happy_thing = HappyThing.new
-    @happy_things = HappyThing.order(start_time: :asc)
+    @happy_things = HappyThing.all.order(start_time: :asc)
   end
 
   def show; end
@@ -18,7 +18,7 @@ class HappyThingsController < ApplicationController
     # @happy_thing = HappyThing.new(happy_thing_params)
     # @happy_thing.user = current_user
     @happy_thing = current_user.happy_things.build(happy_thing_params)
-    
+
     if @happy_thing.save!
       redirect_to root_path, notice: "Yay! 🎉 Happy Thing was successfully created."
     else
