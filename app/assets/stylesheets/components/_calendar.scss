@@ -74,11 +74,9 @@
 .event-indicator {
   position: absolute;
   top: 74%;
-  /* Adjust this value to vertically center the indicator */
   left: 50%;
-  /* Adjust this value to horizontally center the indicator */
   transform: translate(-50%, -50%);
-  z-index: 1;
+  // z-index: 1;
 }
 
 @media only screen and (max-width: 1170px) {

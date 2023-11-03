@@ -17,9 +17,10 @@
         </li>
       </ul>
           <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+
         <%# DROPDOWN %>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="nav-item dropdown" data-bs-toggle="dropdown" >
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"  aria-expanded="false">
             <%= current_user.first_name.nil? ? current_user.email : current_user.first_name   %>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
