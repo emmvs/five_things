@@ -1,6 +1,6 @@
 .dashboards_header {
   font-family: $headers-font;
-  font-size: 36px !important;
+  font-size: $font-size-xxxxl !important;
 }
 
 .calendar_header {
@@ -11,7 +11,7 @@
   background-color: $white;
   color: $black;
   box-shadow: $box-shadow;
-  border-radius: 5px;
+  border-radius: $border-radius;
   padding: 24px;
 }
 
@@ -19,6 +19,6 @@
   background-color: $white;
   color: $black;
   box-shadow: $box-shadow;
-  border-radius: 5px;
+  border-radius: $border-radius;
   padding: 34px;
 }
