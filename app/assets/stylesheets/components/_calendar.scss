@@ -1,23 +1,30 @@
 .simple-calendar {
-  border-radius: 20px; // Adjust as necessary to get the desired roundness
-  overflow: hidden; // This will ensure that content inside the border doesn't spill out
+  border-radius: $border-radius;
+  overflow: hidden;
 
   .calendar-heading {
-    border-top-left-radius: 20px; // Match with the border-radius given to simple-calendar
-    border-top-right-radius: 20px; // Match with the border-radius given to simple-calendar
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
     padding: 0% 1%;
+    background-color: $sky-blue;
+    /* Light Blue Header */
   }
 
-  .prev-month {
-    background: #bad8e5 !important;
+  .calendar-title {
+    font-size: $font-size-xxl;
+    color: white;
+    /* White text for contrast */
+  }
+
+  .prev-month,
+  .next-month {
+    background: lighten($sky-blue, 20%);
+    color: white;
   }
 
   .today {
     background: $pink !important;
-  }
-
-  .next-month{
-    background: #bad8e5 !important;
+    /* Soft pink for today */
   }
 
   .day {
@@ -25,31 +32,30 @@
     padding: 0px;
     height: 3.5rem !important;
     width: 2rem !important;
-    border-radius: 4px;
+    border-radius: $border-radius;
     background-color: $sky-blue;
+    /* Main day blocks in sky blue */
     text-align: center;
-
-    &.has-event .event-indicator {
-      display: block;
-    }
+    color: darken($sky-blue, 30%);
+    /* Darker text for readability */
   }
 
   .calendar-day-link {
     display: block;
     text-decoration: none;
     padding: 4px;
+    color: darken($sky-blue, 50%);
+    /* Even darker for links */
   }
 
   .calendar-day-link:hover {
     background-color: #f0f0f0;
-    /* A light gray background on hover */
+    /* Light gray background on hover */
   }
 
   .table {
     width: 100%;
-    // max-width: 390px;
     margin: 0 auto;
-    border: 1px hidden #dddddd;
     border-collapse: separate;
     border-spacing: 8px;
 
@@ -58,27 +64,11 @@
       width: 3rem !important;
       text-align: center;
       font-weight: bold;
-      box-shadow: $box-shadow;
-    }
-
-    .calendar-table {
-      width: 100%;
-      margin: 0 auto;
-      border: 1px hidden #dddddd;
-      border-collapse: separate;
-      border-spacing: 8px;
-      border-radius: 5%;
-      box-shadow: $box-shadow;
+      background-color: darken($sky-blue, 10%);
+      /* Slightly darker header cells */
+      color: white;
     }
   }
-}
-
-.event-indicator {
-  // position: absolute;
-  // top: 74%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
-  // z-index: 1;
 }
 
 @media only screen and (max-width: 1170px) {
