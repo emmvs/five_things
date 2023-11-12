@@ -7,7 +7,7 @@
 <div class="container p-3text-center">
   <h2 class="dash-box mb-5 dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
     <%# ? Calendar %>
-    <%= month_calendar(events: @happy_things_bubbles, param_name: :date) do |date, happy_things_bubbles| %>
+    <%= month_calendar(events: @happy_things, param_name: :date) do |date, happy_things_bubbles| %>
       <div class="day">
         <%= link_to happy_things_by_date_path(date: date.strftime('%Y-%m-%d')), class: 'calendar-day-link' do %>
           <%= date.day %>
@@ -32,7 +32,7 @@
     <%# ? HappyThings %>
     <div class="m-2 mt-5">
       <h3 class="mb-3">Your Happy Things of today</h3>
-      <% @happy_things.each do |user, happy_things| %>
+      <% @happy_things_today.each do |user, happy_things| %>
         <h4><%= user.emoji %> <%= user.first_name %></h4>
         <%= render "happy_things/happy_thing", user: user, happy_things: happy_things %>
       <% end %>
