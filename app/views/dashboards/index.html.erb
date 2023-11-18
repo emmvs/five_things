@@ -34,7 +34,7 @@
       <h3 class="mb-3">Your Happy Things of today</h3>
       <% @happy_things_today.each do |user, happy_things| %>
         <h4><%= user.emoji %> <%= user.first_name %></h4>
-        <%= render "happy_things/happy_thing", user: user, happy_things: happy_things %>
+          <%= render "happy_things/happy_thing", user: user, happy_things: happy_things %>
       <% end %>
     </div>
   <% end %>

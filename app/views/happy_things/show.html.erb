@@ -1,8 +1,9 @@
 <main class="container">
-  <%= link_to sanitize("&larr; Back to happy things"), happy_things_path %>
-  <div class="header">
+  <%= link_to sanitize("&larr; Back to happy things"), root_path %>
+  <div class="header d-flex justify-content-center text-center">
     <h1>
       <%= @happy_thing.title %>
+      <%= cl_image_tag @happy_thing.photo.key, class: "rounded", height: 300, width: 400, crop: :fill if @happy_thing.photo.key %>
     </h1>
   </div>
 </main>
