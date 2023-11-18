@@ -1,6 +1,6 @@
 <%= turbo_frame_tag happy_thing do %>
 
-    <%= link_to happy_thing_path(happy_thing), class: "text-decoration-none" do %>
+    <%= link_to happy_thing_path(happy_thing), data: { turbo_frame: "_top"}, class: "text-decoration-none" do %>
       <div class="happy_thing shadow">
         <%= happy_thing.title %>
         <div class="happy_thing_creator">
