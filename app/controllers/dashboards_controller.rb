@@ -5,17 +5,17 @@ class DashboardsController < ApplicationController
     @should_render_navbar = true
     @happy_thing = HappyThing.new
     @happy_things = HappyThing.all
-    @happy_things_bubbles = HappyThing.where(
-      start_time: Time.zone.now.beginning_of_month.beginning_of_week..Time.zone.now.end_of_month.end_of_week
-    )
-    @random_poem = PoetryService.get_random_poem_by_author("Emily Dickinson")
+    @happy_things_today = HappyThing.where(start_time: Date.today..Date.tomorrow).reverse.group_by(&:user)
+    @happy_things_one_year_ago = HappyThing.where("DATE(start_time) = ?", 1.year.ago.to_date).order(created_at: :desc)
 
-    # Retrieve Happy Things from one year ago
-    @happy_things_one_year_ago = @happy_things.where("DATE(start_time) = ?", 1.year.ago.to_date).order(created_at: :desc)
+    @random_poem = fetch_daily_poem
   end
 
-  # def retrieve_poem
-  # @random_poem = PoetryService.get_random_poem_by_author("Emily Dickinson")
-  #   render 'index'
-  # end
+  private
+
+  def fetch_daily_poem
+    Rails.cache.fetch("random_poem", expires_in: 24.hours) do
+      PoetryService.get_random_poem
+    end
+  end
 end

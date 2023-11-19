@@ -6,5 +6,6 @@
   <% end %>
 
   <%= f.input :title, input_html: { autofocus: true } %>
+  <%= f.input :photo, as: :file, input_html: { class: 'custom-file-upload' } %>
   <%= f.submit class: "btn btn-blue m-2" %>
 <% end %>

@@ -5,7 +5,11 @@ class HappyThingsController < ApplicationController
     @should_render_navbar = true
 
     @happy_thing = HappyThing.new
+<<<<<<< HEAD
     @happy_things = HappyThing.order(start_time: :asc)
+=======
+    @happy_things = HappyThing.all.order(start_time: :asc)
+>>>>>>> b418fdb235d016a5b4a5f723e8103514e71d2899
   end
 
   def show; end
@@ -66,6 +70,12 @@ class HappyThingsController < ApplicationController
   end
 
   def happy_thing_params
-    params.require(:happy_thing).permit(:title, :body, :status, :start_time)
+    params.require(:happy_thing).permit(
+      :title,
+      :photo,
+      :body,
+      :status,
+      :start_time
+    )
   end
 end

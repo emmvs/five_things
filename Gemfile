@@ -54,6 +54,7 @@ gem "rspec-rails"
 gem "factory_bot_rails"
 gem "shoulda-matchers"
 gem "dotenv-rails"
+gem "pry-byebug"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"

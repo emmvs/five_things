@@ -2,11 +2,11 @@
 
 ## Overview
 
-The "Five Things" app is designed to help users appreciate the smaller joys in life. In addition to listing down five things that make them happy, users can enjoy a random poem each time they visit the dashboard.
+The Five Things App is designed to help users appreciate the smaller joys in life by listing down five things that make them happy every day
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will get you a copy of the project up and running on your local machine
 
 ### Prerequisites & System Dependencies
 
@@ -70,7 +70,7 @@ If you would like to contribute, please fork the repository and use a feature br
 
 ## Contact
 
-- Repository: [Five Things App](https://github.com/yourusername/five-things-app)
-- Developer: E. Rünzel - emma@ruenzel.de
+- Repository: [Five Things App](https://github.com/emmvs/five_things)
+- Developer: Emma Rünzel - emma@ruenzel.de
 
 **Enjoy Five Things, and remember to appreciate the litte things!**
