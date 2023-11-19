@@ -7,7 +7,7 @@
 <div class="container p-3 text-center">
 <div class="dash-box">
   <h2 class="mb-5 dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
-  <p><%= @ai_happy_thing %></p>
+  <p>Something that could make you happy today: <%= @happy_thing.ai_title %></p>
 </div>
     <%# ? Calendar %>
     <%= month_calendar(events: @happy_things, param_name: :date) do |date, happy_things_bubbles| %>
