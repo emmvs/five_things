@@ -5,7 +5,10 @@
 
 <%# ? Dashboard %>
 <div class="container p-3 text-center">
-  <h2 class="dash-box mb-5 dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
+<div class="dash-box">
+  <h2 class="mb-5 dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
+  <p><%= @ai_happy_thing %></p>
+</div>
     <%# ? Calendar %>
     <%= month_calendar(events: @happy_things, param_name: :date) do |date, happy_things_bubbles| %>
       <div class="day">
