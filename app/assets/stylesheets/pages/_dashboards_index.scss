@@ -13,6 +13,9 @@
   box-shadow: $box-shadow;
   border-radius: $border-radius;
   padding: 24px;
+  p {
+    font-family: $body-font;
+  }
 }
 
 .poetry-box {

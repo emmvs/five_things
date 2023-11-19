@@ -3,13 +3,14 @@
 @import url('https://fonts.googleapis.com/css2?family=MuseoModerno&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Montserrat:wght@100&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 // Fonts
 $amatic-font: 'Amatic SC', "cursive";
 $pacifico-font: 'Pacifico', "cursive";
 
 // Define fonts for body and headers
-$body-font: "Work Sans", "Helvetica", "sans-serif";
+$body-font: 'Lato', "sans-serif";
 $headers-font: $amatic-font;
 // $headers-font: 'MuseoModerno', "sans-serif";
 
