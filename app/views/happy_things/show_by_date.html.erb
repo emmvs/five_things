@@ -2,16 +2,6 @@
   <h1>Happy Things for <%= @date.strftime('%B %d, %Y') %></h1>
 
   <% if @happy_things.any? %>
-<<<<<<< HEAD
-    <% @happy_things.group_by(&:user).each do |user, happy_things| %>
-      <h4><%= user.emoji %> <%= user.first_name %></h4>
-      <ol>
-        <% happy_things.each do |happy_thing| %>
-          <li><%= happy_thing.title.sub(/\S/, &:upcase) %></li>
-        <% end %>
-      </ol>
-    <% end %>
-=======
     <ul>
       <% @happy_things.group_by(&:user).each do |user, happy_things| %>
         <li class="list-unstyled">
@@ -27,7 +17,6 @@
         </li>
       <% end %>
     </ul>
->>>>>>> b418fdb235d016a5b4a5f723e8103514e71d2899
   <% else %>
     <p>No Happy Things found for this date one year ago.</p>
     <%= link_to 'Add an old Happy Thing from last year', old_happy_thing_path, class: "btn btn-blue shadow" %>
