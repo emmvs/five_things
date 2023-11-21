@@ -7,7 +7,6 @@
     border-top-right-radius: $border-radius;
     padding: 0% 1%;
     background-color: $sky-blue;
-    /* Light Blue Header */
   }
 
   .calendar-title {
@@ -17,24 +16,21 @@
 
   .prev-month,
   .next-month {
-    background: lighten($sky-blue, 20%);
+    background: lighten($sky-blue, 10%);
     color: white;
   }
 
   .today {
     background: $pink !important;
-    /* Soft pink for today */
   }
 
   .day {
-    // position: relative !important;
-    // padding: 0px;
-    // height: 2rem !important;
-    height: auto !important;
+    padding: 0;
+    position: relative;
+    // height: auto !important;
+    height: 40px !important;
     width: auto !important;
     border-radius: 50% !important;
-    // background-color: transparent !important;
-    // text-align: center !important;
   }
 
   .calendar-day-link {
@@ -45,39 +41,110 @@
     /* Even darker for links */
   }
 
-  .event-indicator {
-    position: absolute;
-  }
-
   .calendar-day-link:hover {
     background-color: #f0f0f0;
     border-radius: 50%;
-    /* Light gray background on hover */
   }
 
   .table {
     margin: 0 auto;
-    // border-collapse: separate;
+    border-collapse: separate;
     border-spacing: 8px;
     table-layout: fixed;
-    // width: 300px;
     width: 100%;
 
     thead tr th {
       border-radius: 10px;
       text-align: center;
       padding: 0;
-      // width: 3rem !important;
-      // text-align: center;
-      // font-weight: bold;
       background-color: darken($sky-blue, 10%);
       color: white;
     }
   }
-}
 
-@media only screen and (max-width: 1170px) {
-  .calendar-table {
-    width: 100%;
+  .table-striped > tbody > tr:nth-of-type(odd) > * {
+    --bs-table-bg-type: none;
+  }
+
+  .event-indicator {
+    position: absolute;
+    z-index: 1;
+    right: -5px;
+    top: -4px;
+    font-size: 1.1em;
   }
 }
+
+// $grid-breakpoints: (
+//   xs: 0,
+//   sm: 576px,
+//   md: 768px,
+//   lg: 992px,
+//   xl: 1200px,
+//   xxl: 1400px
+// );
+
+// @media only screen and (max-width: 575.98px) {
+//   .simple-calendar {
+//     .calendar-heading {
+//       padding: 2% 3%;
+//     }
+
+//     .calendar-title {
+//       font-size: 1.25rem;
+//     }
+
+//     .table {
+//       border-spacing: 4px;
+//     }
+
+//     .day {
+//       height: 60px !important;
+//       width: 60px !important;
+//     }
+//   }
+// }
+
+// @media only screen and (min-width: 576px) and (max-width: 991.98px) {
+//   .simple-calendar {
+//     .calendar-heading {
+//       padding: 1% 2%;
+//     }
+
+//     .calendar-title {
+//       font-size: $font-size-xl;
+//     }
+
+//     .table {
+//       border-spacing: 6px;
+//     }
+
+//     .day {
+//       height: 80px !important;
+//       width: 80px !important;
+//     }
+//   }
+// }
+
+// @media only screen and (min-width: 992px) {
+//   .simple-calendar {
+//     .calendar-heading {
+//       padding: 0.5% 1%;
+//     }
+
+//     .calendar-title {
+//       font-size: $font-size-xxl;
+//       /* Keeping the original size */
+//     }
+
+//     .table {
+//       border-spacing: 8px;
+//       /* Keeping the original spacing */
+//     }
+
+//     .day {
+//       height: auto !important;
+//       width: auto !important;
+//     }
+//   }
+// }
