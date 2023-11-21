@@ -1,4 +1,4 @@
-<%= simple_form_for happy_thing, html: { class: "happy_thing form mt-4", data: { turbo_frame: happy_thing.persisted? ? dom_id(happy_thing) : "happy_things_frame_after_create" } } do |f| %>
+<%= simple_form_for happy_thing, html: { class: "happy_thing form mt-4 p-3", data: { turbo_frame: happy_thing.persisted? ? dom_id(happy_thing) : "happy_things_frame_after_create" } } do |f| %>
   <% if happy_thing.errors.any? %>
     <div class="error-message">
       <%= happy_thing.errors.full_messages.to_sentence.capitalize %>

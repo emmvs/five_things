@@ -13,7 +13,6 @@
   .calendar-title {
     font-size: $font-size-xxl;
     color: white;
-    /* White text for contrast */
   }
 
   .prev-month,
@@ -28,44 +27,50 @@
   }
 
   .day {
-    position: relative;
-    padding: 0px;
-    height: 3.5rem !important;
-    width: 2rem !important;
-    border-radius: $border-radius;
-    background-color: $sky-blue;
-    /* Main day blocks in sky blue */
-    text-align: center;
-    color: darken($sky-blue, 30%);
-    /* Darker text for readability */
+    // position: relative !important;
+    // padding: 0px;
+    // height: 2rem !important;
+    height: auto !important;
+    width: auto !important;
+    border-radius: 50% !important;
+    // background-color: transparent !important;
+    // text-align: center !important;
   }
 
   .calendar-day-link {
     display: block;
     text-decoration: none;
-    padding: 4px;
+    // padding: 4px;
     color: darken($sky-blue, 50%);
     /* Even darker for links */
   }
 
+  .event-indicator {
+    position: absolute;
+  }
+
   .calendar-day-link:hover {
     background-color: #f0f0f0;
+    border-radius: 50%;
     /* Light gray background on hover */
   }
 
   .table {
-    width: 100%;
     margin: 0 auto;
-    border-collapse: separate;
+    // border-collapse: separate;
     border-spacing: 8px;
+    table-layout: fixed;
+    // width: 300px;
+    width: 100%;
 
     thead tr th {
       border-radius: 10px;
-      width: 3rem !important;
       text-align: center;
-      font-weight: bold;
+      padding: 0;
+      // width: 3rem !important;
+      // text-align: center;
+      // font-weight: bold;
       background-color: darken($sky-blue, 10%);
-      /* Slightly darker header cells */
       color: white;
     }
   }
