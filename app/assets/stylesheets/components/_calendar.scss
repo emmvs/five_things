@@ -7,72 +7,70 @@
     border-top-right-radius: $border-radius;
     padding: 0% 1%;
     background-color: $sky-blue;
-    /* Light Blue Header */
   }
 
   .calendar-title {
     font-size: $font-size-xxl;
     color: white;
-    /* White text for contrast */
   }
 
   .prev-month,
   .next-month {
-    background: lighten($sky-blue, 20%);
+    background: lighten($sky-blue, 10%);
     color: white;
   }
 
   .today {
     background: $pink !important;
-    /* Soft pink for today */
   }
 
   .day {
+    padding: 0;
     position: relative;
-    padding: 0px;
-    height: 3.5rem !important;
-    width: 2rem !important;
-    border-radius: $border-radius;
-    background-color: $sky-blue;
-    /* Main day blocks in sky blue */
-    text-align: center;
-    color: darken($sky-blue, 30%);
-    /* Darker text for readability */
+    // height: auto !important;
+    height: 40px !important;
+    width: auto !important;
+    border-radius: 50% !important;
   }
 
   .calendar-day-link {
     display: block;
     text-decoration: none;
-    padding: 4px;
+    // padding: 4px;
     color: darken($sky-blue, 50%);
     /* Even darker for links */
   }
 
   .calendar-day-link:hover {
     background-color: #f0f0f0;
-    /* Light gray background on hover */
+    border-radius: 50%;
   }
 
   .table {
-    width: 100%;
     margin: 0 auto;
     border-collapse: separate;
     border-spacing: 8px;
+    table-layout: fixed;
+    width: 100%;
 
     thead tr th {
       border-radius: 10px;
-      width: 3rem !important;
       text-align: center;
-      font-weight: bold;
+      padding: 0;
       background-color: darken($sky-blue, 10%);
-      /* Slightly darker header cells */
       color: white;
     }
   }
-}
 
-@media only screen and (max-width: 1170px) {
-  .calendar-table {
-    width: 100%;
+  .table-striped > tbody > tr:nth-of-type(odd) > * {
+    --bs-table-bg-type: none;
+  }
+
+  .event-indicator {
+    position: absolute;
+    z-index: 1;
+    right: -5px;
+    top: -4px;
+    font-size: 1.1em;
   }
 }
