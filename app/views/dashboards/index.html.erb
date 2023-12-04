@@ -2,7 +2,7 @@
   <%= image_tag "five.png", class: "logo", alt: "Five Things Logo" %>
 </div>
 
-<div class="container">
+<div class="container mx-2 my-3">
   <div class="dash-box mx-2 my-3">
     <h2 class="dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
     <p>Something that could make you happy today: <%= @happy_thing.ai_title %></p>
@@ -11,12 +11,12 @@
   <div class="dash-box mx-2 my-3">
     <h3>Your Happy Things of the last 3 days:</h3>
     <% @happy_things_of_the_last_three_days.each do |user, happy_things| %>
-        <h4><%= user.emoji %> <%= user.first_name %></h4>
+        <h4><%= user.emoji%> <%= user.first_name %></h4>
           <%= render "happy_things/happy_thing", user: user, happy_things: happy_things %>
       <% end %>
   </div>
 
-  <div id="calendar">
+  <div id="calendar" class="mx-2 my-3">
     <%= month_calendar(events: @happy_things, param_name: :date) do |date, happy_things_bubbles| %>
       <div class="day d-flex justify-content-center align-items-center">
         <% if happy_things_bubbles.any? %>
@@ -62,7 +62,7 @@
 
 
   <%# ? Today one year ago Section %>
-  <div class="m-2 mt-5">
+  <div class="m-2 mt-5 mx-2 my-3">
     <h3 class="mb-3">Today one year ago...</h3>
     <% if @happy_things_one_year_ago.any? %>
       <% @happy_things_one_year_ago.group_by(&:user).each do |user, happy_things| %>
@@ -80,14 +80,14 @@
     <% end %>
   </div>
 
-  <div class="m-2 mt-5">
+  <div class="m-2 mt-5 mx-2 my-3">
     <h3 class="mb-3">Forgot something?</h3>
       <%= link_to 'Add old Happy Thing', old_happy_thing_path, class: "btn shadow" %>
   </div>
 
-  <%= link_to 'See all Happy Things', happy_things_path, class: "btn btn-blue mt-4" %>
+  <%= link_to 'See all Happy Things', happy_things_path, class: "btn btn-blue mt-4 mx-2 my-3" %>
 
-  <div class="mt-5">
+  <div class="mt-5 mx-2 my-3">
     <% if user_signed_in? %>
       <%= link_to "Edit Profile", edit_user_registration_path %>
       <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-warning" %>
