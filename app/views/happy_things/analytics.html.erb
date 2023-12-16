@@ -1,5 +1,5 @@
-<div class="container analytics">
-  <%= link_to "🔙", root_path, class: "btn text-black" %>
+<div class="container analytics mx-2 my-3">
+  <%= link_to sanitize("&larr;"), root_path, class: "btn btn-blue m-4" %>
     <h1 class="title">My Profile</h1>
     <div class="d-flex justify-content-center mt-3">
       <%= cl_image_tag current_user.avatar.key,
@@ -11,17 +11,20 @@
         { radius: :max }
         ] unless current_user.avatar.key.nil? %>
     </div>
-    <div class="dash-box p-4">
+    <div class="dash-box p-4 mx-2 my-3">
       <h2><%= current_user.emoji %> <%= current_user.first_name %></h2>
     </div>
 
-    <h2>Happy Count</h2>
-      <div class="happy-count">
-        <%= @happy_count %>
-      </div>
+    <div class="dash-box p-4 mx-2 my-3">
+      <h2>Happy Count</h2>
+        <div class="happy-count d-flex justify-content-center">
+          <%= @happy_count %>
+        </div>
+    </div>
 
-  <div class="analytics-container">
+  <div class="analytics-container dash-box p-4 mx-2 my-3">
     <h2>Happy Analytics</h2>
+    <h4>Coming Soon...</h4>
     <div id="dream-chart">
       <canvas id="dreamPieChart" data-controller="analytics"
                 data-analytics-labels-value="<%#{}= @label_counts.keys %>"
