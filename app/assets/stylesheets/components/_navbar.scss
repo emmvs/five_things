@@ -1,3 +1,4 @@
+// Main Navbar
 .navbar {
   justify-content: space-between;
   background: white;
@@ -9,4 +10,45 @@
 
 .navbar .navbar-brand img {
   width: 40px;
+}
+
+// Bottom Navbar
+.bottom-navbar {
+  background-color: $pink;
+  opacity: 80%;
+  margin-left: 18px;
+  margin-bottom: 56px;
+  border-radius: 20px;
+  width: 362px;
+  padding: 15px 15px;
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 0;
+}
+
+.nav-item {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.nav-link.bottom-nav-icons {
+  text-align: center !important;
+  color: rgba(181, 174, 190, 1);
+  text-decoration: none;
+  display: block;
+}
+
+/* Mobile */
+@media screen and (max-width: 390px) {
+  .navbar-media {
+    display: none !important;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 391px) {
+  .bottom-navbar-media {
+    display: none !important;
+  }
 }
