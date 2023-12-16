@@ -1,0 +1,33 @@
+<div class="container analytics">
+  <%= link_to "🔙", root_path, class: "btn text-black" %>
+    <h1 class="title">My Profile</h1>
+    <div class="d-flex justify-content-center mt-3">
+      <%= cl_image_tag current_user.avatar.key,
+      style: "border-radius: 50%; width: 200px; height: 100%;",
+      class: "pb-3",
+      alt: "User Avatar",
+      transformation: [
+        { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+        { radius: :max }
+        ] unless current_user.avatar.key.nil? %>
+    </div>
+    <div class="dash-box p-4">
+      <h2><%= current_user.emoji %> <%= current_user.first_name %></h2>
+    </div>
+
+    <h2>Happy Count</h2>
+      <div class="happy-count">
+        <%= @happy_count %>
+      </div>
+
+  <div class="analytics-container">
+    <h2>Happy Analytics</h2>
+    <div id="dream-chart">
+      <canvas id="dreamPieChart" data-controller="analytics"
+                data-analytics-labels-value="<%#{}= @label_counts.keys %>"
+                data-analytics-data-value="<%#{}= @label_counts.values %>">
+      </canvas>
+    </div>
+  </div>
+  <%= link_to "Edit Profile", edit_user_registration_path, class: "mb-5 btn nav-link bottom-icons" %>
+</div>
