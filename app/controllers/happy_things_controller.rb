@@ -42,6 +42,10 @@ class HappyThingsController < ApplicationController
     redirect_to root_path, notice: "Happy Thing was destroyed 😕"
   end
 
+  def analytics
+    @happy_count = HappyThing.where(user: current_user).size
+  end
+
   def show_by_date
     @date = Date.parse(params[:date])
     @happy_things = HappyThing.where(start_time: @date.beginning_of_day..@date.end_of_day)
