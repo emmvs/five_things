@@ -87,7 +87,7 @@
 
   <%= link_to 'See all Happy Things', happy_things_path, class: "btn btn-blue mt-4 mx-2 my-3" %>
 
-  <div class="mt-5 mx-2 my-3">
+  <div style="margin-bottom: 100px;" class="mt-5 mx-2">
     <% if user_signed_in? %>
       <%= link_to "Edit Profile", edit_user_registration_path %>
       <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-warning" %>
