@@ -1,3 +1,4 @@
+// Main Navbar
 .navbar {
   justify-content: space-between;
   background: white;
@@ -9,4 +10,67 @@
 
 .navbar .navbar-brand img {
   width: 40px;
+}
+
+// Bottom Navbar
+.bottom-navbar {
+  background-color: $pink;
+  opacity: 80%;
+  margin-left: 16px;
+  margin-bottom: 56px;
+  border-radius: 20px;
+  width: 362px;
+  height: 75px;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  bottom: 0;
+}
+
+.nav-item {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.nav-link.bottom-nav-icons {
+  text-align: center !important;
+  text-decoration: none;
+  display: block;
+}
+
+.nav-item-large {
+  position: relative;
+  z-index: 2;
+
+  i {
+    font-size: 1.5em;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 390px) {
+  .navbar-media {
+    display: none !important;
+  }
+}
+
+.bottom-navbar::before {
+content: '';
+  position: absolute;
+  top: -29%;
+  left: 134px;
+  right: 0;
+  width: 90px;
+  height: 90px;
+  border-radius: 50% !important;
+  background-color: inherit;
+  z-index: 1;
+}
+
+/* Desktop */
+@media screen and (min-width: 391px) {
+  .bottom-navbar-media {
+    display: none !important;
+  }
 }

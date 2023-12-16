@@ -17,7 +17,11 @@ Rails.application.routes.draw do
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date, constraints: { date: /\d{4}-\d{2}-\d{2}/ }
   get 'happy_things/old_happy_thing', to: 'happy_things#old_happy_thing', as: :old_happy_thing
   post 'happy_things/old_happy_thing', to: 'happy_things#create_old_happy_thing'
-  resources :happy_things
+  resources :happy_things do
+    collection do
+      get :analytics
+    end
+  end
 
   # Friendships
   resources :friendships do

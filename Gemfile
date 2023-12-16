@@ -71,6 +71,7 @@ gem "font-awesome-rails"
 gem "bootstrap", "~> 5.2"
 
 gem "autoprefixer-rails"
+gem 'sassc-rails'
 
 # For API Calls
 gem "httparty"
