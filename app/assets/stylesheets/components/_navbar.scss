@@ -48,24 +48,24 @@
   }
 }
 
-/* Mobile */
-@media screen and (max-width: 390px) {
-  .navbar-media {
-    display: none !important;
-  }
-}
-
 .bottom-navbar::before {
 content: '';
   position: absolute;
   top: -29%;
-  left: 134px;
+  left: 137px;
   right: 0;
   width: 90px;
   height: 90px;
   border-radius: 50% !important;
   background-color: inherit;
   z-index: 1;
+}
+
+/* Mobile */
+@media screen and (max-width: 390px) {
+  .navbar-media {
+    display: none !important;
+  }
 }
 
 /* Desktop */
