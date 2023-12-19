@@ -16,14 +16,15 @@
 .bottom-navbar {
   background-color: $pink;
   opacity: 88%;
-  margin-left: 16px;
-  margin-bottom: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
   // border-radius: 20px;
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
-  width: 362px;
-  height: 60px;
-  padding: 10px 15px;
+  width: 350px;
+  height: 70px;
+  padding: 10px 2px;
   display: flex;
   justify-content: space-around;
   position: relative;
@@ -41,15 +42,6 @@
   display: block;
 }
 
-// .nav-item-large {
-//   position: relative;
-//   z-index: 2;
-
-//   i {
-//     font-size: 1.9em;
-//   }
-// }
-
 .middle-item {
   background-color: #95b7ff;
   border-radius: 50%;
@@ -61,7 +53,7 @@
   font-size: 24px;
   position: absolute;
   bottom: 30px;
-  left: 50%;
+  left: 47%;
   transform: translateX(-50%);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -70,10 +62,10 @@
   content: '';
   position: absolute;
   bottom: 25px;
-  left: 53%;
+  left: 50%;
   transform: translateX(-50%);
   width: 65px;
-  height: 50px;
+  height: 45px;
   background-color: #ffffff;
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;

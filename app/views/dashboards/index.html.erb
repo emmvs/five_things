@@ -2,15 +2,15 @@
   <%= image_tag "five.png", class: "logo", alt: "Five Things Logo" %>
 </div>
 
-<div class="container mx-2 my-3">
+<div class="container mt-1">
   <div class="dash-box mx-2 my-3">
     <h2 class="dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
-    <p>Something that could make you happy today: <%= @happy_thing.ai_title %></p>
+    <p><%= @happy_thing.ai_title %></p>
   </div>
 
   <div class="dash-box mx-2 my-3">
-    <h3>Your Happy Things of the last 3 days:</h3>
-    <% @happy_things_of_the_last_three_days.each do |user, happy_things| %>
+    <h3>Your Happy Things of the last days:</h3>
+    <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
         <h4><%= user.emoji%> <%= user.first_name %></h4>
           <%= render "happy_things/happy_thing", user: user, happy_things: happy_things %>
       <% end %>
