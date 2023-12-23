@@ -74,3 +74,5 @@ If you would like to contribute, please fork the repository and use a feature br
 - Developer: Emma Rünzel - emma@ruenzel.de
 
 **Enjoy Five Things, and remember to appreciate the litte things!**
+
+Made with ❤️ by emmvs
