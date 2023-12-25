@@ -5,7 +5,8 @@
 <div class="container mt-1">
   <div class="dash-box mx-2 my-3">
     <h2 class="dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
-    <p><%= @happy_thing.ai_title %></p>
+    <h4>Quote of the day:</h4>
+    <h5><%= @random_quote %></h5>
   </div>
 
   <div class="dash-box mx-2 my-3">
@@ -47,19 +48,6 @@
       <% end %>
     </div>
   <% end %>
-
-  <div class="m-2 mt-5 poetry-box">
-    <% if @random_poem %>
-      <h3><%= @random_poem["title"] %></h3>
-      <h4>by <%= @random_poem["author"] %></h4>
-      <% @random_poem["lines"].each do |line| %>
-        <p><%= line %></p>
-      <% end %>
-    <% else %>
-      <p>Sorry, could not find a poem today 🙁</p>
-    <% end %>
-  </div>
-
 
   <%# ? Today one year ago Section %>
   <div class="m-2 mt-5 mx-2 my-3">
