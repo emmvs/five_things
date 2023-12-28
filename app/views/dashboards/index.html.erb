@@ -6,7 +6,11 @@
   <div class="dash-box mx-2 my-3">
     <h2 class="dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
     <h4>Quote of the day:</h4>
-    <h5><%= @random_quote %></h5>
+      <% if @random_quote %>
+        <h5><%= @random_quote %></h5>
+      <% else %>
+        <h5>Sorry, no quote available today.</h5>
+      <% end %>
   </div>
 
   <div class="dash-box mx-2 my-3">

@@ -1,0 +1,11 @@
+  <div class="m-2 mt-5 poetry-box">
+    <% if @random_poem %>
+      <h3><%= @random_poem["title"] %></h3>
+      <h4>by <%= @random_poem["author"] %></h4>
+      <% @random_poem["lines"].each do |line| %>
+        <p><%= line %></p>
+      <% end %>
+    <% else %>
+      <p>Sorry, could not find a poem today 🙁</p>
+    <% end %>
+  </div>
