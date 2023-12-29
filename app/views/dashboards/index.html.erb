@@ -16,7 +16,7 @@
   <div class="dash-box mx-2 my-3">
     <h3>Your Happy Things of the last days:</h3>
     <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
-        <h4><%= user.emoji%> <%= user.first_name %></h4>
+        <h4><%= user.emoji %> <%= user.first_name %></h4>
           <%= render "happy_things/happy_thing", user: user, happy_things: happy_things %>
       <% end %>
   </div>
