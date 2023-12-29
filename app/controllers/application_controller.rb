@@ -1,11 +1,6 @@
-# app/controllers/application_controller.rb
-
 class ApplicationController < ActionController::Base
   before_action :set_should_render_navbar
   before_action :configure_permitted_parameters, if: :devise_controller?
-
-  # Add Sleep to see changes
-  # before_action -> { sleep 3 }
 
   protected
 
