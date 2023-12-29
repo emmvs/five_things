@@ -2,6 +2,9 @@
 
     <%= link_to happy_thing_path(happy_thing), data: { turbo_frame: "_top"}, class: "text-decoration-none" do %>
       <div class="happy_thing shadow">
+        <% if happy_thing.photo.attached? %>
+          <span>📸</span>
+        <% end %>
         <%= happy_thing.title %>
         <div class="happy_thing_creator">
         </div>
