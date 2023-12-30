@@ -27,9 +27,11 @@
     <br>
     <h3>Most used words this year:</h3>
       <% if @words_for_wordcloud.present? %>
-        <% @words_for_wordcloud.each do |word| %>
-          <h4><%= word %></h4>
-        <% end %>
+        <div class="word-cloud">
+          <% @words_for_wordcloud.each do |word, frequency| %>
+            <%= content_tag :span, word, class: "word-#{frequency}" %>
+          <% end %>
+        </div>
       <% else %>
         <p>No words data available for this year 😔</p>
       <% end %>
