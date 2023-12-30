@@ -29,7 +29,7 @@
       <% if @words_for_wordcloud.present? %>
         <div class="word-cloud">
           <% @words_for_wordcloud.each do |word, frequency| %>
-            <%= content_tag :span, word, class: "word-#{frequency}" %>
+            <%= content_tag :span, word.capitalize, class: "word-#{frequency}" %>
           <% end %>
         </div>
       <% else %>
