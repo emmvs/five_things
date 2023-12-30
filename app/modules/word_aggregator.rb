@@ -20,8 +20,20 @@ module WordAggregator
   end
 
   def clean_and_extract_words(text)
-    words = text.downcase.gsub(/[^a-z0-2\s]/i, '').split
-    stop_words = %w[ein einen dem den aber von wie die der das dass ist in im mich nach am es und weil mit ohne the and but if or on as etc of else w to sth i]
+    words = text.downcase.gsub(/[^a-zA-Zäöüß0-9\s]/i, '').split
+    stop_words = %w[
+      als ab am aber an auf
+      dem den
+      ein eine einen einem es
+      für
+      ist in ins im mich mit nach
+      von wie die der das dass
+      ohne und um weil was
+      zu zum
+      the and but if or
+      on as etc of else
+      w to sth i
+    ]
     words.reject { |word| stop_words.include?(word) }
   end
 end
