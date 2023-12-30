@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mb-5">
   <%= link_to sanitize("&larr;"), root_path, class: "btn btn-blue m-4" %>
   <%= turbo_frame_tag "first_turbo_frame" do %>
     <% if current_user %>
@@ -7,5 +7,6 @@
       </div>
     <% end %>
   <%= render 'happy_things/happy_thing', happy_things: @happy_things %>
+  <%= paginate @happy_things %>
   <% end %>
 </div>
