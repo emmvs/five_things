@@ -25,3 +25,47 @@
     gap: $space-xs;
   }
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  // gap: 5px;
+
+  a,
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10px;
+    height: 44px;
+    padding: 5px 10px;
+    margin: 0 1px;
+    text-decoration: none;
+    color: $pink;
+    // background-color: $white;
+    // border-radius: 4px;
+
+    &:hover {
+      background-color: $white;
+      color: $pink;
+    }
+  }
+
+  .current {
+    font-weight: bold;
+    background-color: $pink;
+    border-radius: 8px;
+    color: $white;
+  }
+
+  .disabled {
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 600px) {
+  .pagination li a {
+    padding: 12px 10px;
+    font-size: 0.9rem;
+  }
+}
