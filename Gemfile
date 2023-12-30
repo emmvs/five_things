@@ -1,104 +1,69 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# Ruby Ruby Ruby Rubyyyy
+# Ruby version
 ruby "3.1.2"
 
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+# Core Rails gems
 gem "rails", "~> 7.0.6"
+gem "pg" # PostgreSQL as the database for Active Record
+gem "puma", "~> 5.0" # Use Puma as the app server
+gem "sprockets-rails" # Asset pipeline
+gem "importmap-rails" # Importmap support for Rails
+gem "turbo-rails" # Hotwire's Turbo library for Rails
+gem "stimulus-rails" # Hotwire's Stimulus framework for Rails
+gem "bootsnap", require: false # Reduces boot times through caching
+gem "httparty" # For API calls
 
-# Postgres
-gem "pg"
-
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
-
-# Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 5.0"
-
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
-
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-# By default, Turbo Drive speeds up our Ruby on Rails applications
-# by converting all link clicks and form submissions into AJAX requests.
-# Meaning our app is already a single-page application, and we had no custom code to write.
-gem "turbo-rails"
-
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails"
-
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
-# gem "jbuilder"
-
-# Use Redis adapter to run Action Cable in production
+# Redis and Kredis for caching & Action Cable
 gem "redis", "~> 4.0"
-
-# Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+# Front-end
+gem "bootstrap", "~> 5.2" # Bootstrap for styling
+gem "autoprefixer-rails" # Parses CSS and adds vendor prefixes
+gem 'sassc-rails' # Use SCSS for stylesheets
+gem "font-awesome-rails" # Font Awesome icons
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
-
-# Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
-
-# Images & Videos
-gem "cloudinary"
-
-# Testing
-gem "rspec-rails"
-gem "factory_bot_rails"
-gem "shoulda-matchers"
-gem "dotenv-rails"
-gem "pry-byebug"
-
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
-
-# Devise
+# Devise for authentication
 gem "devise", "~> 4.8"
 
-# Simple Form
+# Pagination with kaminari
+gem 'kaminari'
+
+# Simple Form for forms
 gem "simple_form", "~> 5.1"
 gem "simple_calendar", "~> 2.4"
 
-# External Libraries
-gem "font-awesome-rails"
-gem "bootstrap", "~> 5.2"
-
-gem "autoprefixer-rails"
-gem 'sassc-rails'
-
-# For API Calls
-gem "httparty"
+# Cloudinary for image and video storage
+gem "cloudinary"
 
 # AI
 gem "ruby-openai"
 
+# Testing suite
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "rspec-rails" # RSpec for testing
+  gem "factory_bot_rails" # Factory Bot for test data
+  gem "shoulda-matchers" # Additional matchers for RSpec
+  gem "dotenv-rails" # Load environment variables from .env
+  gem "pry-byebug" # Pry for debugging
 end
 
 group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem "web-console"
-
-  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
-  # gem "rack-mini-profiler"
-
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
+  gem "web-console" # Rails console for the browser
+  # gem "spring" # Speeds up development by keeping app running in the background
+  # gem "rack-mini-profiler" # Displays speed badge for performance profiling
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "webdrivers"
-  gem "selenium-webdriver"
-  gem "capybara"
-  # gem 'webdrivers', '~> 5.0', require: false
+  gem "capybara" # Capybara for integration testing
+  gem "selenium-webdriver" # WebDriver for browsers
+  gem "webdrivers" # Auto-updates webdrivers
 end
+
+# Optional gems for specific features
+# gem "bcrypt", "~> 3.1.7" # Use Active Model has_secure_password
+# gem "image_processing", "~> 1.2" # Use Active Storage variants for image processing
+# gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ] # Timezone data
