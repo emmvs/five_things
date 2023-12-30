@@ -88,8 +88,8 @@ class HappyThingsController < ApplicationController
     words = clean_and_extract_words(all_titles)
 
     word_count = words.each_with_object(Hash.new(0)) { |word, counts| counts[word] += 1 }
-    sorted_words = word_count.sort_by { |word, count| -count }.map(&:first)
-    sorted_words.first(word_limit)
+    sorted_word_counts = word_count.sort_by { |_word, count| -count }
+    sorted_word_counts.first(word_limit).to_h
   end
 
   def happy_things_by_period(user, period)
