@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  devise_for :users
 
   # Create a constraint to check if the user is logged in
   constraints ->(request) { request.env['warden'].user } do
@@ -13,10 +12,15 @@ Rails.application.routes.draw do
   # If not authenticated, route to the home page
   root to: 'pages#home'
 
+  # Users
+  devise_for :users
+  resources :users, only: [:index]
+
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date, constraints: { date: /\d{4}-\d{2}-\d{2}/ }
   get 'happy_things/old_happy_thing', to: 'happy_things#old_happy_thing', as: :old_happy_thing
   post 'happy_things/old_happy_thing', to: 'happy_things#create_old_happy_thing'
+
   resources :happy_things do
     collection do
       get :analytics
@@ -24,13 +28,11 @@ Rails.application.routes.draw do
   end
 
   # Friendships
-  resources :friendships do
-    post :change_status, on: :member
-  end
+  resources :friendships, only: [:create, :update, :destroy]
 
   # Poems
+  # get 'dashboards/retrieve_poem', to: 'dashboards#retrieve_poem'
   resources :dashboards, as: :dashboard do
     # get :retrieve_poem, on: :collection
   end
-  # get 'dashboards/retrieve_poem', to: 'dashboards#retrieve_poem'
 end
