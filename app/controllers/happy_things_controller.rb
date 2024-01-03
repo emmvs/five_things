@@ -7,7 +7,8 @@ class HappyThingsController < ApplicationController
     @should_render_navbar = true
 
     @happy_thing = HappyThing.new
-    @happy_things = HappyThing.order(start_time: :asc).page(params[:page]).per(10)
+    @happy_things = happy_things_of_friends.page(params[:page]).per(10)
+    # @happy_things = HappyThing.order(start_time: :asc).page(params[:page]).per(10)
   end
 
   def new
@@ -39,7 +40,9 @@ class HappyThingsController < ApplicationController
 
   def show_by_date
     @date = Date.parse(params[:date])
-    @happy_things = HappyThing.where(start_time: @date.beginning_of_day..@date.end_of_day)
+    friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id)
+    # @happy_things = HappyThing.where(start_time: @date.beginning_of_day..@date.end_of_day)
+    @happy_things = HappyThing.where(user_id: friend_ids << current_user.id, start_time: @date.beginning_of_day..@date.end_of_day)
   end
 
   def old_happy_thing
@@ -73,5 +76,10 @@ class HappyThingsController < ApplicationController
     else
       render :new, status: 422
     end
+  end
+
+  def happy_things_of_friends
+    friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id)
+    HappyThing.where(user_id: friend_ids << current_user.id).order(start_time: :asc)
   end
 end

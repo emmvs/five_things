@@ -1,0 +1,46 @@
+<div class="container m-4">
+  <%= link_to sanitize("&larr;"), root_path, class: "btn btn-blue mb-3" %>
+  <h2 class="mt-2">Add or Search Friends</h2>
+
+  <h2 class="mt-3">My Friends</h2>
+  <% current_user.all_friends.each do |friend| %>
+    <div style="width: 320px;" class="card p-2 my-2">
+      <%= cl_image_tag friend.avatar.key,
+        style: "width: 50px; height: 100%;",
+        class: "pb-3",
+        alt: "Friend Avatar",
+        transformation: [
+          { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+          { radius: :max }
+        ] unless friend.avatar.key.nil? %>
+      <h4><%= friend.first_name %></h4>
+    </div>
+  <% end %>
+
+  <h2 class="mt-3">Users</h2>
+  <% @users.each do |user| %>
+    <% next if user == current_user %>
+    <% direct_friendship = current_user.friendships.find { |f| f.friend_id == user.id } %>
+    <% inverse_friendship = user.friendships.find { |f| f.user_id == current_user.id } %>
+
+    <div style="width: 320px;" class="card p-2 my-2">
+      <%= cl_image_tag user.avatar.key,
+        style: "width: 50px; height: 100%;",
+        class: "pb-3",
+        alt: "User Avatar",
+        transformation: [
+          { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+          { radius: :max }
+        ] unless user.avatar.key.nil? %>
+      <h4><%= user.first_name %></h4>
+
+      <% if direct_friendship && !direct_friendship.accepted %>
+        <%= button_to "Cancel Request", friendship_path(direct_friendship), method: :delete, class: "btn btn-blue" %>
+      <% elsif inverse_friendship && !inverse_friendship.accepted %>
+        <%= button_to "Accept Request", friendship_path(inverse_friendship), method: :patch, class: "btn btn-blue" %>
+      <% elsif !direct_friendship && !inverse_friendship %>
+        <%= button_to "Add Friend", friendships_path(friend_id: user.id), method: :post, class: "btn btn-blue" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
