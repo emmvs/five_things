@@ -15,6 +15,10 @@ class User < ApplicationRecord
     friends + inverse_friends
   end
 
+  def accepted_friends
+    friendships.where(status: :accepted)
+  end
+
   def pending_friends
     friendships.where(status: :pending)
   end
