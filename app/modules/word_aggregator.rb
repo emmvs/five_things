@@ -13,6 +13,12 @@ module WordAggregator
     sorted_word_counts.first(word_limit).to_h
   end
 
+  def iterate_over_text_files(directory_path)
+    Dir.glob("#{directory_path}/*.txt").map do |file_path|
+      File.read(file_path)
+    end
+  end
+
   private
 
   def happy_things_by_period(user, period)
@@ -21,19 +27,13 @@ module WordAggregator
 
   def clean_and_extract_words(text)
     words = text.downcase.gsub(/[^a-zA-Zäöüß0-9\s]/i, '').split
-    stop_words = %w[
-      als ab am aber an auf
-      dem den
-      ein eine einen einem es
-      für
-      ist in ins im mich mit nach
-      von wie die der das dass
-      ohne und um weil was
-      zu zum
-      the and but if or
-      on as etc of else
-      w to sth i
-    ]
-    words.reject { |word| stop_words.include?(word) }
+    german_stop_words = load_stop_words(Rails.root.join('config', 'data', 'german_stopwords.txt'))
+    english_stop_words = load_stop_words(Rails.root.join('config', 'data', 'english_stopwords.txt'))
+    all_stop_words = german_stop_words + english_stop_words
+    words.reject { |word| all_stop_words.include?(word) }
+  end
+
+  def load_stop_words(file_path)
+    File.readlines(file_path).map(&:strip)
   end
 end
