@@ -23,6 +23,22 @@
 # )
 # puts "Create #{users.first.first_name} 💁🏻‍♀️ & #{users.last.first_name} 🤷🏼‍♀️"
 
+# Create More Users
+users = []
+users << User.create(
+  first_name: 'Florence',
+  last_name: 'Böhm',
+  email: 'florence@test.com',
+  password: '123456'
+)
+users << User.create(
+  first_name: 'Hansi',
+  last_name: 'Steffens',
+  email: 'hansi@test.com',
+  password: '123456'
+)
+puts "Create #{users.first.first_name} 💁🏻‍♀️ & #{users.last.first_name} 🤷🏼‍♀️"
+
 
 # Create HappyThings
 # happy_things = []
@@ -40,8 +56,8 @@
 # system("bin/rails db:fixtures:load")
 
 # Create Friendships
-friendships = []
-friendships << Friendship.create(wanna_be_friend: User.where(first_name: "Emma"), friend: User.where(first_name: "Name"),)
-friendships << Friendship.create(wanna_be_friend: User.last, friend: User.first)
+# friendships = []
+# friendships << Friendship.create(user: User.where(first_name: "Emma"), friend: User.where(first_name: "Name"),)
+# friendships << Friendship.create(user: User.last, friend: User.first)
 
 puts "Done ✅"
