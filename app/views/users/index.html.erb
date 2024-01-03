@@ -1,0 +1,32 @@
+<div class="container m-4">
+  <%= link_to sanitize("&larr;"), root_path, class: "btn btn-blue mb-3" %>
+  <h2>Add or Search friends ( ) </h2>
+  <h1>Users</h1>
+
+  <% @users.each do |user| %>
+    <% next if user == current_user %>
+    <div class="card p-2 my-2">
+      <%= cl_image_tag user.avatar.key,
+        style: "width: 50px; height: 100%;",
+        class: "pb-3",
+        alt: "User Avatar",
+        transformation: [
+          { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+          { radius: :max }
+        ] unless user.avatar.key.nil? %>
+      <h4><%= user.first_name %></h4>
+
+      <% friendship = current_user.friendships.find { |f| f.friend_id == user.id } %>
+
+      <% if friendship && friendship.accepted %>
+        <span>Already friends</span>
+      <% elsif friendship %>
+        <%= link_to "Cancel Request", friendship_path(friendship), method: :delete, class: "btn btn-red" %>
+      <% elsif current_user.inverse_friendships.exists?(user_id: user.id) %>
+        <%= link_to "Accept Request", friendship_path(friendship_id: current_user.inverse_friendships.find_by(user_id: user.id)), method: :patch, class: "btn btn-green" %>
+      <% else %>
+      <%= button_to "Add Friend", friendships_path(friend_id: user.id), method: :post, class: "btn btn-blue" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
