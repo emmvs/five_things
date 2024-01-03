@@ -1,5 +1,5 @@
 class FriendshipsController < ApplicationController
-  before_action :set_friendship, only: [:change_status]
+  before_action :set_friendship, only: [:update, :destroy]
 
   def index
     @users = User.all - [current_user]
@@ -12,7 +12,6 @@ class FriendshipsController < ApplicationController
   end
 
   def create
-    raise
     @friendship = current_user.friendships.build(friend_id: params[:friend_id])
     if @friendship.save!
       redirect_to root_path, notice: "Yay! 🎉 You sent a friend request!"
@@ -22,12 +21,16 @@ class FriendshipsController < ApplicationController
   end
 
   def update
-    @friendship = Friendship.find(params[:id])
     if @friendship.update(accepted: true)
       redirect_to root_path, notice: "Yay! 🎉 You accepted a friend request!"
     else
       render :new, status: 422
     end
+  end
+
+  def destroy
+    @friendship.destroy
+    redirect_to root_path, notice: "Happy Thing was destroyed 😕"
   end
 
   private
