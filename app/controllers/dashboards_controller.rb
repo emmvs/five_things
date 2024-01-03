@@ -11,14 +11,15 @@ class DashboardsController < ApplicationController
   private
 
   def set_happy_things
-    @happy_things = HappyThing.all
-    @happy_things_today = happy_things_by_period(Date.today..Date.tomorrow)
-    @happy_things_of_the_last_two_days = happy_things_by_period((Date.today - 2.days)..Date.today.end_of_day)
-    @happy_things_one_year_ago = HappyThing.where("DATE(start_time) = ?", 1.year.ago.to_date).order(created_at: :desc)
+    friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id) + [current_user.id]
+    @happy_things = HappyThing.where(user_id: friend_ids)
+    @happy_things_today = happy_things_by_period(Date.today..Date.tomorrow, friend_ids)
+    @happy_things_of_the_last_two_days = happy_things_by_period((Date.today - 2.days)..Date.today.end_of_day, friend_ids)
+    @happy_things_one_year_ago = HappyThing.where("DATE(start_time) = ? AND user_id IN (?)", 1.year.ago.to_date, friend_ids).order(created_at: :desc)
   end
 
-  def happy_things_by_period(period)
-    HappyThing.where(start_time: period).reverse.group_by(&:user)
+  def happy_things_by_period(period, friend_ids)
+    HappyThing.where(start_time: period, user_id: friend_ids).reverse.group_by(&:user)
   end
 
   def fetch_daily_quote
