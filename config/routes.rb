@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   # Users
   devise_for :users
-  resources :users, only: [:index]
+  resources :users, only: [:index, :show]
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date, constraints: { date: /\d{4}-\d{2}-\d{2}/ }
