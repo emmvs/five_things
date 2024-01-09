@@ -22,4 +22,17 @@ class User < ApplicationRecord
   def pending_friends
     friendships.where(status: :pending)
   end
+
+  def happy_streak
+    streak = 0
+    last_date = nil
+
+    happy_things.order(created_at: :desc).each do |happy_thing|
+      break if last_date && (last_date - happy_thing.created_at).to_i > 1
+      streak += 1
+      last_date = happy_thing.created_at
+    end
+
+    streak
+  end
 end
