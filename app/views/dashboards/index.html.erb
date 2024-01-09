@@ -4,13 +4,19 @@
 
 <div class="container mt-1">
   <div class="dash-box mx-2 my-3">
-    <h2 class="dashboards_header">Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
-    <h4>Quote of the day:</h4>
-      <% if @random_quote %>
-        <h5><%= @random_quote %></h5>
-      <% else %>
-        <h5>Sorry, no quote available today.</h5>
-      <% end %>
+    <h2 class="dashboards_header">
+      Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️
+    </h2>
+      <div class="my-3">
+        <h4>Happy Streak</h4>
+          <h5><%= current_user.happy_streak %> <%= "day".pluralize(current_user.happy_streak) %></h5>
+      </div>
+      <h4>Quote of the day:</h4>
+        <% if @random_quote %>
+          <h5><%= @random_quote %></h5>
+        <% else %>
+          <h5>Sorry, no quote available today.</h5>
+        <% end %>
   </div>
 
   <div class="dash-box mx-2 my-3">
