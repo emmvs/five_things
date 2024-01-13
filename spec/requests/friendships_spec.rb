@@ -22,7 +22,7 @@ RSpec.describe "Friendships", type: :request do
 
     it "updates the friendship" do
       put friendship_path(friendship), params: { friendship: { accepted: true } }
-      expect(response).to have_http_status(:redirect) # or :success, depending on your implementation
+      expect(response).to have_http_status(:redirect)
       expect(friendship.reload.accepted).to eq(true)
     end
   end
@@ -34,7 +34,7 @@ RSpec.describe "Friendships", type: :request do
       expect {
         delete friendship_path(friendship)
       }.to change(Friendship, :count).by(-1)
-      expect(response).to have_http_status(:redirect) # or :success, depending on your implementation
+      expect(response).to have_http_status(:redirect)
     end
   end
 end
