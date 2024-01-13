@@ -43,6 +43,7 @@ gem "ruby-openai"
 
 # Testing suite
 group :development, :test do
+  gem 'rails-controller-testing'
   gem 'faker'
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "rspec-rails" # RSpec for testing
