@@ -12,8 +12,8 @@ class FriendshipsController < ApplicationController
   end
 
   def create
-    @friendship = current_user.friendships.build(friend_id: params[:friend_id])
-    if @friendship.save!
+    @friendship = current_user.friendships.build(friend_id: params[:friendship][:friend_id])
+    if @friendship.save
       redirect_to root_path, notice: "Yay! 🎉 You sent a friend request!"
     else
       render :new, status: 422
