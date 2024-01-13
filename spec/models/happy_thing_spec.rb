@@ -1,21 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe HappyThing, type: :model do
-  # Validations section
   describe "Validations" do
     it "has a title" do
       should validate_presence_of(:title)
     end
   end
 
-  # Associations section
   describe "Associations" do
     it "belongs to a user" do
       should belong_to(:user)
     end
   end
 
-  # Scope section
   describe "Scope" do
     it "orders by created_at in descending order" do
       user = create(:user)
@@ -25,11 +22,10 @@ RSpec.describe HappyThing, type: :model do
     end
   end
 
-  # Method: 'add_date_time_to_happy_thing' section
   describe "Methods" do
     it "sets the start_time if not already present" do
       happy_thing = build(:happy_thing, start_time: nil)
-      happy_thing.add_date_time_to_happy_thing  # Add this line to set the start_time
+      happy_thing.add_date_time_to_happy_thing
       expect(happy_thing.start_time).to be_present
     end
 

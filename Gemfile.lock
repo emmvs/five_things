@@ -120,6 +120,8 @@ GEM
     factory_bot_rails (6.4.2)
       factory_bot (~> 6.4)
       railties (>= 5.0.0)
+    faker (3.2.3)
+      i18n (>= 1.8.11, < 2)
     faraday (2.7.12)
       base64
       faraday-net_http (>= 2.0, < 3.1)
@@ -226,6 +228,10 @@ GEM
       activesupport (= 7.0.8)
       bundler (>= 1.15.0)
       railties (= 7.0.8)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
@@ -350,6 +356,7 @@ DEPENDENCIES
   devise (~> 4.8)
   dotenv-rails
   factory_bot_rails
+  faker
   font-awesome-rails
   httparty
   importmap-rails
@@ -358,6 +365,7 @@ DEPENDENCIES
   pry-byebug
   puma (~> 5.0)
   rails (~> 7.0.6)
+  rails-controller-testing
   redis (~> 4.0)
   rspec-rails
   ruby-openai
