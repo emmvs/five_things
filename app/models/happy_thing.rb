@@ -8,7 +8,7 @@ class HappyThing < ApplicationRecord
   has_one_attached :photo
 
   def add_date_time_to_happy_thing
-    self.start_time = DateTime.now
+    self.start_time ||= DateTime.now
   end
 
   def ai_title
