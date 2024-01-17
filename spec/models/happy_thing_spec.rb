@@ -34,4 +34,25 @@ RSpec.describe HappyThing, type: :model do
       expect { happy_thing.add_date_time_to_happy_thing }.to_not change(happy_thing, :start_time)
     end
   end
+
+  describe 'callbacks' do
+    context 'when a user adds 5 happy things in a day' do
+      it 'sends an email to their friends' do
+        user = create(:user)
+        3.times do
+          friend = create(:user)
+          create(:friendship, user: user, friend: friend)
+          create(:friendship, user: friend, friend: user)
+        end
+
+        # Debugging
+        puts "Friends count: #{user.friends.count}"
+        puts "Inverse Friends count: #{user.inverse_friends.count}"
+
+        expect {
+          5.times { create(:happy_thing, user: user) }
+        }.to change { ActionMailer::Base.deliveries.count }.by(3)
+      end
+    end
+  end
 end
