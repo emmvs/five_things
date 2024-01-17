@@ -4,6 +4,7 @@ class HappyThing < ApplicationRecord
 
   default_scope { order(created_at: :desc) }
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
+  after_create :check_happy_things_count
 
   has_one_attached :photo
 
@@ -29,5 +30,15 @@ class HappyThing < ApplicationRecord
 
   def start_time_present?
     start_time.present?
+  end
+
+  def check_happy_things_count
+    count_today = self.user.happy_things.where('created_at >= ?', Time.zone.now.beginning_of_day).count
+
+    if count_today == 5
+      self.user.friends.each do |friend|
+        UserMailer.happy_things_notification(friend).deliver_now
+      end
+    end
   end
 end
