@@ -41,6 +41,9 @@ gem "cloudinary"
 # AI
 gem "ruby-openai"
 
+# Action Mailer
+gem 'letter_opener'
+
 # Testing suite
 group :development, :test do
   gem 'rails-controller-testing'
