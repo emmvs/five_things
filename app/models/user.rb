@@ -25,12 +25,28 @@ class User < ApplicationRecord
 
   def happy_streak
     streak = 0
-    last_date = nil
+    date_of_most_recent_happy_thing = nil
 
-    happy_things.order(created_at: :desc).each do |happy_thing|
-      break if last_date && (last_date - happy_thing.created_at).to_i > 1
-      streak += 1
-      last_date = happy_thing.created_at
+    happy_things.order(start_time: :desc).each do |happy_thing|
+
+      next if happy_thing.start_time.nil?
+
+      current_date = happy_thing.start_time.to_date
+
+      if date_of_most_recent_happy_thing.nil?
+        streak = 1
+      else
+        # Check if the current HappyThing is on the consecutive day
+        # The difference between date_of_most_recent_happy_thing (January 20)
+        # and current_date (January 19) is 1 day. streak is incremented to 2
+        if (date_of_most_recent_happy_thing - current_date).to_i == 1
+          streak += 1
+        else
+          return streak
+        end
+      end
+
+      date_of_most_recent_happy_thing = current_date
     end
 
     streak
