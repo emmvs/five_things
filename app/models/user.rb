@@ -24,30 +24,22 @@ class User < ApplicationRecord
   end
 
   # Calculates streak of consecutive days with happy things
-  # Each 'happy thing' is an event marked with a start_time
   def happy_streak
     sorted_happy_things = happy_things.order(start_time: :desc)
-
     return 0 if sorted_happy_things.empty?
 
-    # Initialize the streak count and set the most recent date to the first item's date
-    previous_date = sorted_happy_things.first.start_time.to_date
+    unique_dates = sorted_happy_things.reject { |ht| ht.start_time.nil? }
+                                      .map { |ht| ht.start_time.to_date }
+                                      .uniq
+
+    return 0 if unique_dates.empty?
     streak = 1
 
-    # Iterate over the sorted happy things, starting from the second item
-    # Break the loop if the current date is not consecutive to the previous one
-    # Increment the streak and update the previous_date for the next iteration
-    sorted_happy_things.drop(1).each do |happy_thing|
-      current_date = happy_thing.start_time.to_date
-      if previous_date - current_date == 1
-        streak += 1
-        previous_date = current_date
-      else
-        break
-      end
+    unique_dates.each_cons(2) do |yesterday, today|
+      break unless yesterday - today == 1
+      streak += 1
     end
 
     streak
   end
-
 end
