@@ -1,15 +1,7 @@
+<!-- app/views/happy_things/_happy_thing.html.erb -->
+
 <% happy_things.each do |happy_thing| %>
-  <%= turbo_frame_tag happy_thing do %>
-    <%# <% if @happy_things.any? %>
-      <%# happy_things.each do |user, happy_things| %>
-        <ol>
-          <%#= render partial: 'dashboards/happy_thing', collection: happy_things, as: :happy_thing %>
-          <%= render 'dashboards/happy_thing', happy_thing: happy_thing  %>
-        </ol>
-      <%# end %>
-    <%# <% else %>
-      <%# <p>No Happy Things found for this date one year ago.</p> %>
-      <%# <%= link_to 'Add an old Happy Thing from last year', old_happy_thing_path, class: "btn btn-blue shadow" %>
-    <%# <% end %>
-  <% end %>
+  <%#= turbo_frame_tag happy_thing do %>
+    <%= render 'dashboards/happy_thing', happy_thing: happy_thing  %>
+  <%# end %>
 <% end %>
