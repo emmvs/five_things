@@ -6,6 +6,7 @@ class DashboardsController < ApplicationController
     set_happy_things
     @random_poem = fetch_daily_poem
     @random_quote = fetch_daily_quote
+    @happy_thing = HappyThing.new
   end
 
   private
