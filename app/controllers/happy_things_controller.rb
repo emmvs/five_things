@@ -35,7 +35,7 @@ class HappyThingsController < ApplicationController
 
   def analytics
     @happy_count = HappyThing.where(user: current_user).size
-    @words_for_wordcloud = WordAggregator.get_aggregated_words(current_user, 50)
+    @words_for_wordcloud = WordAggregator.get_aggregated_words(current_user, 40)
   end
 
   def show_by_date
@@ -71,12 +71,16 @@ class HappyThingsController < ApplicationController
   end
 
   def create_happy_thing(happy_thing)
-    if happy_thing.save
-      redirect_to root_path, notice: "Yay! 🎉 #{happy_thing.class} was successfully created."
-    else
-      render :new, status: 422
+    respond_to do |format|
+      if happy_thing.save
+        format.html { redirect_to root_path, notice: "Happy Thing was successfully created." }
+        format.json { render json: { status: :created, happy_thing: happy_thing } }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: happy_thing.errors, status: :unprocessable_entity }
+      end
     end
-  end
+  end  
 
   def happy_things_of_friends
     friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id)

@@ -30,6 +30,7 @@ anderm
 andern
 anderr
 anders
+ans
 au
 auch
 auf
@@ -54,6 +55,7 @@ bin
 bis
 bisher
 bist
+bringt
 c
 d
 d.h
@@ -429,6 +431,7 @@ rechter
 rechtes
 richtig
 rund
+ruft
 s
 sa
 sache
@@ -618,3 +621,5 @@ zwölf
 über
 überhaupt
 übrigens
+10
+1108

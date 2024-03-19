@@ -1,0 +1,13 @@
+self.addEventListener('install', event => {
+  console.log('Service worker installing...');
+  // Put your assets caching logic here
+});
+
+self.addEventListener('activate', event => {
+  console.log('Service worker activated.');
+});
+
+self.addEventListener('fetch', event => {
+  console.log('Fetching:', event.request.url);
+  // Put your fetching and caching logic here
+});

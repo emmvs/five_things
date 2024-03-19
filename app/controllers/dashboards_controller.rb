@@ -6,6 +6,7 @@ class DashboardsController < ApplicationController
     set_happy_things
     @random_poem = fetch_daily_poem
     @random_quote = fetch_daily_quote
+    @happy_thing = HappyThing.new
   end
 
   private
@@ -14,7 +15,7 @@ class DashboardsController < ApplicationController
     friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id) + [current_user.id]
     @happy_things = HappyThing.where(user_id: friend_ids)
     @happy_things_today = happy_things_by_period(Date.today..Date.tomorrow, friend_ids)
-    @happy_things_of_the_last_two_days = happy_things_by_period((Date.today - 2.days)..Date.today.end_of_day, friend_ids)
+    @happy_things_of_the_last_two_days = happy_things_by_period((Date.today - 1.days)..Date.today.end_of_day, friend_ids)
     @happy_things_one_year_ago = HappyThing.where("DATE(start_time) = ? AND user_id IN (?)", 1.year.ago.to_date, friend_ids).order(created_at: :desc)
   end
 
@@ -24,7 +25,7 @@ class DashboardsController < ApplicationController
 
   def fetch_daily_quote
     quote_service = QuoteService.new('happiness')
-    quote_info = quote_service.call
+    quote_service.call
   end
 
   def fetch_daily_poem
