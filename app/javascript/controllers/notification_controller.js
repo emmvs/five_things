@@ -74,7 +74,6 @@ export default class extends Controller {
     // What is a payload?
     // Create a payload object that includes the body of the notification.
     const payload = { body };
-
     // Check if the showNotification method is available on the Service Worker registration.
     if ('showNotification' in this.registration) {
       // If it is, use it to show the notification with the title and payload.
@@ -86,5 +85,3 @@ export default class extends Controller {
     }
   }
 }
-
-
