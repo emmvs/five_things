@@ -35,7 +35,7 @@ class HappyThingsController < ApplicationController
 
   def analytics
     @happy_count = HappyThing.where(user: current_user).size
-    @words_for_wordcloud = WordAggregator.get_aggregated_words(current_user, 50)
+    @words_for_wordcloud = WordAggregator.get_aggregated_words(current_user, 40)
   end
 
   def show_by_date
