@@ -39,10 +39,14 @@ class HappyThingsController < ApplicationController
   end
 
   def show_by_date
-    @date = Date.parse(params[:date])
-    friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id)
-    # @happy_things = HappyThing.where(start_time: @date.beginning_of_day..@date.end_of_day)
-    @happy_things = HappyThing.where(user_id: friend_ids << current_user.id, start_time: @date.beginning_of_day..@date.end_of_day)
+    @date = Date.parse(params[:date]) rescue Date.today
+    setup_happy_things_for_view
+    @old_happy_thing = current_user.happy_things.new(start_time: @date)
+  end
+
+  def setup_happy_things_for_view
+      friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id)
+      @happy_things = HappyThing.where(user_id: friend_ids + [current_user.id], start_time: @date.all_day)
   end
 
   def old_happy_thing
@@ -51,7 +55,12 @@ class HappyThingsController < ApplicationController
 
   def create_old_happy_thing
     @old_happy_thing = current_user.happy_things.build(happy_thing_params)
-    create_happy_thing(@old_happy_thing)
+    @old_happy_thing.start_time = Date.parse(params[:happy_thing][:start_time])
+    if @old_happy_thing.save
+      redirect_to root_path, notice: "Happy Thing was successfully created."
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   private

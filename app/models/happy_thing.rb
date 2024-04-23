@@ -6,12 +6,11 @@ class HappyThing < ApplicationRecord
 
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
   after_create :check_happy_things_count
-  # after_create_commit -> { broadcast_append_to "happy_things" }
 
   has_one_attached :photo
 
   def add_date_time_to_happy_thing
-    self.start_time ||= DateTime.now
+    self.start_time ||= Time.zone.now
   end
 
   def ai_title
