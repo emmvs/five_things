@@ -14,6 +14,7 @@ gem "turbo-rails" # Hotwire's Turbo library for Rails
 gem "stimulus-rails" # Hotwire's Stimulus framework for Rails
 gem "bootsnap", require: false # Reduces boot times through caching
 gem "httparty" # For API calls
+gem "jbuilder"
 
 # Redis and Kredis for caching & Action Cable
 gem "redis", "~> 4.0"
@@ -38,7 +39,7 @@ gem "simple_calendar", "~> 2.4"
 # Cloudinary for image and video storage
 gem "cloudinary"
 
-# AI
+# APIs
 gem "ruby-openai"
 
 # Action Mailer
