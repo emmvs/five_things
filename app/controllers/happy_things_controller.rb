@@ -17,7 +17,6 @@ class HappyThingsController < ApplicationController
 
   def create
     @happy_thing = current_user.happy_things.build(happy_thing_params)
-    create_happy_thing(@happy_thing)
   end
 
   def update
@@ -79,17 +78,17 @@ class HappyThingsController < ApplicationController
     )
   end
 
-  def create_happy_thing(happy_thing)
+  def create_happy_thing
     respond_to do |format|
-      if happy_thing.save
+      if @happy_thing.save
         format.html { redirect_to root_path, notice: "Happy Thing was successfully created." }
-        format.json { render json: { status: :created, happy_thing: happy_thing } }
+        format.json { render json: { status: :created, happy_thing: @happy_thing } }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: happy_thing.errors, status: :unprocessable_entity }
+        format.json { render json: @happy_thing.errors, status: :unprocessable_entity }
       end
     end
-  end  
+  end
 
   def happy_things_of_friends
     friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id)
