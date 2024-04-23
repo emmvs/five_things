@@ -5,10 +5,10 @@ export default class extends Controller {
   static targets = ["notification", "newHappyThingform", "happyThings"]
 
   connect() {
-    console.log("👻 buh from notifications");
-    console.log("newHappyThingform", this.newHappyThingformTarget);
-    console.log("happyThings", this.happyThingsTarget);
-    console.log("notification", this.notificationTarget);
+    // console.log("👻 buh from notifications");
+    // console.log("newHappyThingform", this.newHappyThingformTarget);
+    // console.log("happyThings", this.happyThingsTarget);
+    // console.log("notification", this.notificationTarget);
 
     this.registration = null;
 
