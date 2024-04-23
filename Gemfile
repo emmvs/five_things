@@ -39,7 +39,7 @@ gem "simple_calendar", "~> 2.4"
 # Cloudinary for image and video storage
 gem "cloudinary"
 
-# AI
+# APIs
 gem "ruby-openai"
 
 # Action Mailer
