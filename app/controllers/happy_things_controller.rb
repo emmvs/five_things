@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
+# Controller for creating & handling Happythings
 class HappyThingsController < ApplicationController
   include WordAggregator
 
-  before_action :set_happy_thing, only: [:show, :edit, :update, :destroy]
+  before_action :set_happy_thing, only: %i[show edit update destroy]
 
   def index
     @should_render_navbar = true
@@ -16,12 +19,22 @@ class HappyThingsController < ApplicationController
   end
 
   def create
-    @happy_thing = current_user.happy_things.build(happy_thing_params)
+    @happy_thing = current_user.happy_things.new(happy_thing_params)
+
+    respond_to do |format|
+      if @happy_thing.save
+        format.html { redirect_to happy_thing_path(@happy_thing) }
+        format.json
+      else
+        format.html { render 'happy_things/new', status: :unprocessable_entity }
+        format.json
+      end
+    end
   end
 
   def update
     if @happy_thing.update(happy_thing_params)
-      redirect_to root_path, notice: "Yay! 🎉 Happy Thing was updated 🥰"
+      redirect_to root_path, notice: 'Yay! 🎉 Happy Thing was updated 🥰'
     else
       render :edit, status: 422
     end
@@ -29,7 +42,7 @@ class HappyThingsController < ApplicationController
 
   def destroy
     @happy_thing.destroy
-    redirect_to root_path, notice: "Happy Thing was destroyed 😕"
+    redirect_to root_path, notice: 'Happy Thing was destroyed 😕'
   end
 
   def analytics
@@ -44,8 +57,8 @@ class HappyThingsController < ApplicationController
   end
 
   def setup_happy_things_for_view
-      friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id)
-      @happy_things = HappyThing.where(user_id: friend_ids + [current_user.id], start_time: @date.all_day)
+    friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id)
+    @happy_things = HappyThing.where(user_id: friend_ids + [current_user.id], start_time: @date.all_day)
   end
 
   def old_happy_thing
@@ -56,7 +69,7 @@ class HappyThingsController < ApplicationController
     @old_happy_thing = current_user.happy_things.build(happy_thing_params)
     @old_happy_thing.start_time = Date.parse(params[:happy_thing][:start_time])
     if @old_happy_thing.save
-      redirect_to root_path, notice: "Happy Thing was successfully created."
+      redirect_to root_path, notice: 'Happy Thing was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -81,7 +94,7 @@ class HappyThingsController < ApplicationController
   def create_happy_thing
     respond_to do |format|
       if @happy_thing.save
-        format.html { redirect_to root_path, notice: "Happy Thing was successfully created." }
+        format.html { redirect_to root_path, notice: 'Happy Thing was successfully created.' }
         format.json { render json: { status: :created, happy_thing: @happy_thing } }
       else
         format.html { render :new, status: :unprocessable_entity }
