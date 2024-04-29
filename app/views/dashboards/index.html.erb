@@ -21,10 +21,7 @@
     <h3>Your Happy Things of the last days:</h3>
     <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
         <h4><%= user.emoji %> <%= user.first_name %></h4>
-          <%#= render "happy_things/happy_thing", user: user, happy_things: happy_things %>
           <% happy_things.each do |happy_thing| %>
-            <%#= turbo_frame_tag happy_thing do %>
-              <%#= render 'dashboards/happy_thing', happy_thing: happy_thing  %>
               <%= link_to happy_thing_path(happy_thing), class: "text-decoration-none" do %>
                 <div class="happy_thing shadow">
                   <% if happy_thing.photo.attached? %>
@@ -42,11 +39,11 @@
                     <%= link_to "Edit", edit_happy_thing_path(happy_thing), class: "btn btn--light edit-link" %>
                   </div>
                 </div>
-            <%# end %>
           <% end %>
       <% end %>
   </div>
 
+  <!-- Section: Calendar -->
   <div id="calendar" class="mx-2 my-3">
     <%= month_calendar(events: @happy_things, param_name: :date) do |date, happy_things_bubbles| %>
       <div class="day d-flex justify-content-center align-items-center">
@@ -63,48 +60,47 @@
     <% end %>
   </div>
 
+  <!-- Section: Notifications -->
   <div class="dash-box p-4 mx-2 my-3">
     <%= link_to "Notify me", "#", data: { action: "click->notification#sendNotification" }, class: "btn btn-primary" %>          
   </div>
 
-  <%#= turbo_frame_tag "happy_things_display_frame" do  %>
-
-    <%#= turbo_frame_tag "new_happy_thing_form_frame" do %>
-      <%#= link_to 'What made you happy today?', new_happy_thing_path, class: "btn btn-blue shadow m-2 mt-3" %>
-      <div class="div dash-box p-4 mx-2 my-3">
-        <h3>What made you happy today?</h3>
-        <%= simple_form_for @happy_thing,
-        data: { 
-          notification_target: "newHappyThingform", 
-          action: "submit->notification#send" 
-        },
-        html: { 
-          class: "happy_thing form mt-4 p-3" 
-        } do |f| %>
-          <% if @happy_thing.errors.any? %>
-            <div class="error-message">
-              <%= @happy_thing.errors.full_messages.to_sentence.capitalize %>
-            </div>
-          <% end %>
-  
-          <%= f.input :title, input_html: { autofocus: true } %>
-          <%= f.input :photo, as: :file, input_html: { class: 'custom-file-upload' } %>
-          <%= f.submit class: "btn btn-blue m-2" %>
+  <!-- Section: HappyThings List -->
+  <div data-controller="insert-in-list">
+    <div class="div dash-box p-4 mx-2 my-3">
+      <h3>What made you happy today?</h3>
+      <%= simple_form_for @happy_thing,
+      data: {
+        insert_in_list_target: "form",
+        notification_target: "newHappyThingform",
+        action: "submit->insert-in-list#send submit->notification#send"
+      }, html: { class: "happy_thing form mt-4 p-3" } do |f| %>
+        <% if @happy_thing.errors.any? %>
+          <div class="error-message">
+            <%= @happy_thing.errors.full_messages.to_sentence.capitalize %>
+          </div>
         <% end %>
-      </div>
-    <%# end %>
 
-    <div id="happy_things" class="m-2 mt-5" data-notification-target="happyThings">
-      <h3 class="mb-3">Your Happy Things of today</h3>
-      <% @happy_things_today.each do |user, happy_things| %>
-        <h4><%= user.emoji %> <%= user.first_name %></h4>
-          <%= render "happy_things/happy_thing", user: user, happy_things: happy_things %>
+        <%= f.input :title, input_html: { autofocus: true } %>
+        <%= f.input :photo, as: :file, input_html: { class: 'custom-file-upload' } %>
+        <%= f.submit class: "btn btn-blue m-2" %>
       <% end %>
     </div>
 
-  <%# end %>
+    <div id="happy_things" class="m-2 mt-5"
+      data-notification-target="happyThings"
+      data-insert-in-list-target="items">
+      <h3 class="mb-3">Your Happy Things of today</h3>
+      <% @happy_things_today.each do |user, happy_things| %>
+        <h4><%= user.emoji %> <%= user.first_name %></h4>
+          <% happy_things.each do |happy_thing| %>
+            <%= render "happy_things/happy_thing", user: user, happy_thing: happy_thing %>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
 
-  <%# ? Today one year ago Section %>
+  <!-- Section: Today one year ago -->
   <div class="m-2 mt-5 mx-2 my-3">
     <h3 class="mb-3">Today one year ago...</h3>
     <% if @happy_things_one_year_ago.any? %>

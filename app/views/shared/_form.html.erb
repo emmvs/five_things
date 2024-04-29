@@ -1,0 +1,11 @@
+<%= simple_form_for happy_thing, html: { class: "happy_thing form mt-4 p-3" } do |f| %>
+  <% if happy_thing.errors.any? %>
+    <div class="error-message">
+      <%= happy_thing.errors.full_messages.to_sentence.capitalize %>
+    </div>
+  <% end %>
+
+  <%= f.input :title, input_html: { autofocus: true } %>
+  <%= f.input :photo, as: :file, input_html: { class: 'custom-file-upload' } %>
+  <%= f.submit class: "btn btn-blue m-2" %>
+<% end %>
