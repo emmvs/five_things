@@ -22,7 +22,7 @@
   <% end %>
 
   <!-- Conditional Form to add a new Happy Thing, shown only if there are less than 5 happy things -->
-  <% if @happy_things.count < 5 %>
+  <% if @happy_things.count < 10 %>
     <div class="my-5">
       <h2>Forgot something? Add more Happy Things</h2>
       <%= simple_form_for(@old_happy_thing, url: happy_things_old_happy_thing_path, method: :post, html: { multipart: true }) do |f| %>

@@ -1,12 +1,8 @@
+# frozen_string_literal: true
+
 if @happy_thing.persisted?
-  json.form do
-    json.partial! "happy_things/form", happy_thing: HappyThing.new
-  end
-  json.inserted_item do
-    json.partial! "happy_things/happy_thing", happy_thing: @happy_thing
-  end
+  json.form render(partial: 'happy_things/form', formats: :html, locals: { happy_thing: HappyThing.new })
+  json.inserted_item render(partial: 'happy_things/happy_thing', formats: :html, locals: { happy_thing: @happy_thing })
 else
-  json.form do
-    json.partial! "happy_things/form", happy_thing: @happy_thing
-  end
+  json.form render(partial: 'happy_things/form', formats: :html, locals: { happy_thing: @happy_thing })
 end
