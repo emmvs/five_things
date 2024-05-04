@@ -5,6 +5,8 @@
         <h1>Happy Things</h1>
       </div>
     <% end %>
-  <%= render 'happy_things/happy_thing', happy_things: @happy_things %>
+    <% @happy_things.each do |happy_thing|  %>
+      <%= render 'happy_things/happy_thing', happy_thing: happy_thing %>
+    <% end %>
   <%= paginate @happy_things %>
 </div>
