@@ -67,7 +67,6 @@ class HappyThingsController < ApplicationController
 
   def create_old_happy_thing
     @old_happy_thing = current_user.happy_things.build(happy_thing_params)
-    @old_happy_thing.start_time = Date.parse(params[:happy_thing][:start_time])
     if @old_happy_thing.save
       redirect_to root_path, notice: 'Happy Thing was successfully created.'
     else
