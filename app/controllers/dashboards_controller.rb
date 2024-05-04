@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# DashboardsController is in charge of setting the HappyThings for our index page
 class DashboardsController < ApplicationController
   before_action :authenticate_user!
 
