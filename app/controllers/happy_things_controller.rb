@@ -45,13 +45,8 @@ class HappyThingsController < ApplicationController
     fetch_happy_count
     fetch_words_for_wordcloud
     fetch_visited_places
-    @markers = current_user.happy_things.geocoded.map do |ht|
-      {
-        lat: ht.latitude,
-        lng: ht.longitude
-      }
-    end
-    # TODO: Category/Label Count @label_counts = @happy_things.group(:category).count
+    fetch_label_count
+    @markers = current_user.happy_things.geocoded.map {|ht| { lat: ht.latitude, lng: ht.longitude } }
   end
 
   def show_by_date
@@ -79,6 +74,14 @@ class HappyThingsController < ApplicationController
 
   def fetch_visited_places
     @visited_places_count = @visited_places_count = HappyThing.where(user_id: current_user.id).distinct.count(:place)
+  end
+
+  def fetch_label_count
+    if @happy_things.present?
+      @label_counts = @happy_things.group(:category).count
+    else
+      @label_counts = {}
+    end
   end
 
   def create_old_happy_thing

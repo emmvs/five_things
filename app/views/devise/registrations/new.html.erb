@@ -1,4 +1,4 @@
-<div class="container m-5 p-5">
+<div class="container p-5">
   <h2 class="session-manager-header">Let's get you an Account!</h2>
 
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -29,7 +29,7 @@
     </div>
 
     <div class="form-actions d-flex justify-content-center mt-2">
-      <%= f.button :submit, "Sign up", class: "btn btn-primary", data: { turbo: false } %>
+      <%= f.button :submit, "Sign up", class: "btn btn-primary w-100 btn-blue mb-2", data: { turbo: false } %>
     </div>
   <% end %>
 
