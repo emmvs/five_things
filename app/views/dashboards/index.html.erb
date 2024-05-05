@@ -19,6 +19,7 @@
       <% end %>
   </div>
 
+  <!-- Section: Happy Things of the last days -->
   <div class="dash-box mx-2 my-3">
     <h3>Your Happy Things of the last days:</h3>
     <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
@@ -59,9 +60,9 @@
       <h3 class="mb-3">Your Happy Things of today</h3>
       <% @happy_things_today.each do |user, happy_things| %>
         <h4><%= user.first_name %></h4>
-          <% happy_things.each do |happy_thing| %>
-            <%= render "happy_things/happy_thing", user: user, happy_thing: happy_thing %>
-          <% end %>
+        <% happy_things.each do |happy_thing| %>
+          <%= render "happy_things/happy_thing", user: user, happy_thing: happy_thing %>
+        <% end %>
       <% end %>
     </div>
   </div>
