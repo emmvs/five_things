@@ -4,43 +4,29 @@
 
 <div class="container mt-1">
   <div class="dash-box mx-2 my-3">
-    <h2 class="dashboards_header"> Hi, <%= current_user.first_name || "Sunshine"%>, and welcome to your Dashboard! ☀️</h2>
+    <h2 class="dashboards_header">
+      <%= time_based_greeting %> <%= current_user ? current_user.first_name : "Sunshine" %>, and welcome to your Dashboard! <%= time_based_emoji %>
+    </h2>
       <div class="my-3">
         <h4>Happy Streak</h4>
-        <h5><%= current_user.happy_streak %> <%= "day".pluralize(current_user.happy_streak) %></h5>
+        <p><%= current_user.happy_streak %> <%= "day".pluralize(current_user.happy_streak) %></p>
       </div>
-      <h4>Quote of the day:</h4>
+      <h4>Quote of the day</h4>
       <% if @random_quote %>
-        <h5><%= @random_quote %></h5>
+        <p><%= @random_quote %></p>
       <% else %>
-        <h5>Sorry, no quote available today.</h5>
+        <p>Sorry, no quote available today.</p>
       <% end %>
   </div>
 
   <div class="dash-box mx-2 my-3">
     <h3>Your Happy Things of the last days:</h3>
     <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
-        <h4><%= user.emoji %> <%= user.first_name %></h4>
-          <% happy_things.each do |happy_thing| %>
-              <%= link_to happy_thing_path(happy_thing), class: "text-decoration-none" do %>
-                <div class="happy_thing shadow">
-                  <% if happy_thing.photo.attached? %>
-                    <span>📸</span>
-                  <% end %>
-                  <%= happy_thing.title %>
-                  <div class="happy_thing_creator">
-                  </div>
-              <% end %>
-                  <div class="happy_thing__actions">
-                    <%= button_to "X",
-                                  happy_thing_path(happy_thing),
-                                  method: :delete,
-                                  class: "btn btn--light" %>
-                    <%= link_to "Edit", edit_happy_thing_path(happy_thing), class: "btn btn--light edit-link" %>
-                  </div>
-                </div>
-          <% end %>
+      <h4><%= user.first_name %></h4>
+      <% happy_things.each do |happy_thing| %>
+        <%= render 'happy_things/happy_thing', happy_thing: happy_thing %>
       <% end %>
+    <% end %>
   </div>
 
   <!-- Section: Calendar -->
@@ -58,11 +44,6 @@
         <% end %>
       </div>
     <% end %>
-  </div>
-
-  <!-- Section: Notifications -->
-  <div class="dash-box p-4 mx-2 my-3">
-    <%= link_to "Notify me", "#", data: { action: "click->notification#sendNotification" }, class: "btn btn-primary" %>          
   </div>
 
   <!-- Section: HappyThings List -->
@@ -92,7 +73,7 @@
       data-insert-in-list-target="items">
       <h3 class="mb-3">Your Happy Things of today</h3>
       <% @happy_things_today.each do |user, happy_things| %>
-        <h4><%= user.emoji %> <%= user.first_name %></h4>
+        <h4><%= user.first_name %></h4>
           <% happy_things.each do |happy_thing| %>
             <%= render "happy_things/happy_thing", user: user, happy_thing: happy_thing %>
           <% end %>
@@ -100,23 +81,35 @@
     </div>
   </div>
 
-  <!-- Section: Today one year ago -->
+  <!-- Section: Happy Things Through the Years -->
   <div class="m-2 mt-5 mx-2 my-3">
-    <h3 class="mb-3">Today one year ago...</h3>
-    <% if @happy_things_one_year_ago.any? %>
-      <% @happy_things_one_year_ago.group_by(&:user).each do |user, happy_things| %>
-        <h4><%= user.emoji %> <%= user.first_name %></h4>
-        <ol>
-          <% happy_things.each do |happy_thing| %>
-            <li><%= happy_thing.title %></li>
+    <h3 class="mb-3">Through the years...</h3>
+    <% if @happy_things_by_date.any? %>
+      <% @happy_things_by_date.group_by { |ht| ht.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
+        <div class="p-2" style="border-radius: 0.375rem; background-color: <%= index.even? ? '#f8f9fa' : '#f1f3f5'; %>;">
+          <h4><%= year %></h4>
+          <% year_happy_things.group_by(&:user).each do |user, happy_things| %>
+            <div>
+              <h5><%= user.emoji %> <%= user.first_name %></h5>
+              <ol>
+                <% happy_things.each do |happy_thing| %>
+                  <li><%= happy_thing.title %></li>
+                <% end %>
+              </ol>
+            </div>
           <% end %>
-        </ol>
+        </div>
       <% end %>
     <% else %>
-      <p>No Happy Things found for this date one year ago.</p>
-      <%= link_to 'Add an old Happy Thing from last year', old_happy_thing_path, class: "btn btn-blue shadow" %>
-      <!-- Add a form to allow adding a Happy Thing for this date -->
+      <p>No Happy Things found for today in past years.</p>
+      <%= link_to 'Add a Happy Thing from a past year', old_happy_thing_path, class: "btn btn-primary" %>
+      <!-- Optionally, include a form here to add Happy Things directly -->
     <% end %>
+  </div>
+
+  <!-- Section: Notifications -->
+  <div class="dash-box p-4 mx-2 my-3">
+    <%= link_to "Notify me", "#", data: { action: "click->notification#sendNotification" }, class: "btn btn-primary" %>          
   </div>
 
   <div class="m-2 mt-5 mx-2 my-3">
