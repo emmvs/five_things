@@ -1,37 +1,49 @@
 # frozen_string_literal: true
 
-# DashboardsController is in charge of setting the HappyThings for our index page
+# Controller for dashboard functionalities including fetching and displaying HappyThings
 class DashboardsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_happy_things
+  before_action :set_today_happy_things, only: [:index]
 
   def index
     @should_render_navbar = true
-    set_happy_things
-    @random_poem = fetch_daily_poem
-    @random_quote = fetch_daily_quote
+    @random_poem = PoetryService.call
+    @random_quote = QuoteService.new('happiness').call
     @happy_thing = HappyThing.new
   end
 
   private
 
+  # Sets various collections of HappyThings based on user's friends & specific time periods
   def set_happy_things
-    friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id) + [current_user.id]
-    @happy_things = HappyThing.where(user_id: friend_ids)
+    friend_ids = current_user.friends_and_inverse_friends_ids + [current_user.id]
+    @happy_things = HappyThing.where(user_id: friend_ids).order(created_at: :desc)
+    fetch_periodic_happy_things(friend_ids)
+  end
+
+  # Fetch HappyThings f/ specific periods: today, last two days, and one year ago
+  def fetch_periodic_happy_things(friend_ids)
     @happy_things_today = happy_things_by_period(Date.today..Date.tomorrow, friend_ids)
     @happy_things_of_the_last_two_days = happy_things_by_period((Date.today - 1.days)..Date.today.end_of_day, friend_ids)
-    @happy_things_one_year_ago = HappyThing.where("DATE(start_time) = ? AND user_id IN (?)", 1.year.ago.to_date, friend_ids).order(created_at: :desc)
+    @happy_things_one_year_ago = HappyThing.where('DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date, friend_ids)
   end
 
+  # Helper to fetch HappyThings for a given period and user_ids
   def happy_things_by_period(period, friend_ids)
-    HappyThing.where(start_time: period, user_id: friend_ids).reverse.group_by(&:user)
+    HappyThing.where(start_time: period, user_id: friend_ids).order(created_at: :desc).group_by(&:user)
   end
 
-  def fetch_daily_quote
-    quote_service = QuoteService.new('happiness')
-    quote_service.call
+  # Sets HappyThings for the current day
+  def set_today_happy_things
+    today = Date.today
+    @happy_things_by_date = HappyThing.where('extract(month from start_time) = ? AND extract(day from start_time) = ?', today.month, today.day)
   end
+end
 
-  def fetch_daily_poem
-    PoetryService.call
+# Extends User model to fetch friend IDs
+class User < ApplicationRecord
+  def friends_and_inverse_friends_ids
+    friends.pluck(:id) + inverse_friends.pluck(:id)
   end
 end
