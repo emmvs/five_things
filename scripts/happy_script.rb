@@ -8,7 +8,7 @@ current_user = nil
 created_count = 0
 
 # Read file and process HappyThings
-happy_things_string = File.read('fuenf_dinge_2022.txt')
+happy_things_string = File.read('fuenf_dinge_2021.txt')
 happy_things_string.each_line do |line|
   line.strip!
   case line
