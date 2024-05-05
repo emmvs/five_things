@@ -2,11 +2,11 @@
 
 # HappyThing Model
 class HappyThing < ApplicationRecord
-  default_scope { order(created_at: :desc) }
-  scope :of_friends, ->(user) {
-    friend_ids = user.friends.ids + user.inverse_friends.ids
-    where(user_id: friend_ids + [user.id])
-  }
+  # default_scope { order(created_at: :desc) }
+  # scope :of_friends, ->(user) {
+  #   friend_ids = user.friends.ids + user.inverse_friends.ids
+  #   where(user_id: friend_ids + [user.id])
+  # }
 
   geocoded_by :place
 
@@ -17,7 +17,7 @@ class HappyThing < ApplicationRecord
   has_many :comments
 
   before_validation :set_default_category, on: :create
-  validates :title, presence: true
+  validates :title, :start_time, presence: true
   after_validation :geocode, if: :will_save_change_to_place?
 
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?

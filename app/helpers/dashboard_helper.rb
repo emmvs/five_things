@@ -31,7 +31,7 @@ module DashboardHelper
 
   def moon_phase_emoji
     moon = MoonPhases.new
-    fullness = moon.getMoonFullness(Date.current).percent.to_i
+    fullness = moon.getMoonFullness(Date.current).getPercent.to_i
     moon_phase_emojis[find_moon_phase(fullness)]
   end
 
