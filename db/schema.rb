@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_30_201859) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_05_161708) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,7 +61,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_30_201859) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "start_time"
+    t.string "place"
+    t.float "latitude"
+    t.float "longitude"
     t.index ["user_id"], name: "index_happy_things_on_user_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "happy_thing_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["happy_thing_id"], name: "index_likes_on_happy_thing_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -85,4 +97,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_30_201859) do
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "happy_things", "users"
+  add_foreign_key "likes", "happy_things"
+  add_foreign_key "likes", "users"
 end

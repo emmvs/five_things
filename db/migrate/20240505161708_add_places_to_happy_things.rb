@@ -1,0 +1,7 @@
+class AddPlacesToHappyThings < ActiveRecord::Migration[7.0]
+  def change
+    add_column :happy_things, :place, :string
+    add_column :happy_things, :latitude, :float
+    add_column :happy_things, :longitude, :float
+  end
+end
