@@ -11,6 +11,10 @@ class HappyThing < ApplicationRecord
   geocoded_by :place
 
   belongs_to :user
+  belongs_to :category
+
+  has_many :likes
+  has_many :comments
 
   validates :title, presence: true
   after_validation :geocode, if: :will_save_change_to_place?
