@@ -7,7 +7,8 @@ ruby '3.1.2'
 # Core Rails gems
 gem 'bootsnap', require: false # Reduces boot times through caching
 gem 'httparty' # For API calls
-gem 'importmap-rails' # Importmap support for Rails
+gem 'importmap-rails', '~> 1.2.3' # Importmap support for Rails (Version for Geocoder)
+# gem 'importmap-rails'
 gem 'jbuilder'
 gem 'pg' # PostgreSQL as the database for Active Record
 gem 'puma', '~> 5.0' # Use Puma as the app server
@@ -38,6 +39,9 @@ gem 'simple_form', '~> 5.1'
 
 # Cloudinary for image and video storage
 gem 'cloudinary'
+
+# Maps
+gem 'geocoder'
 
 # APIs & Special Gems
 gem 'moonphases'

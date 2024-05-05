@@ -133,6 +133,7 @@ GEM
     ffi (1.16.3)
     font-awesome-rails (4.7.0.8)
       railties (>= 3.2, < 8.0)
+    geocoder (1.8.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
     http-accept (1.7.0)
@@ -390,8 +391,9 @@ DEPENDENCIES
   factory_bot_rails
   faker
   font-awesome-rails
+  geocoder
   httparty
-  importmap-rails
+  importmap-rails (~> 1.2.3)
   jbuilder
   kaminari
   letter_opener

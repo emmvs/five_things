@@ -50,22 +50,7 @@
   <div data-controller="insert-in-list">
     <div class="div dash-box p-4 mx-2 my-3">
       <h3>What made you happy today?</h3>
-      <%= simple_form_for @happy_thing,
-      data: {
-        insert_in_list_target: "form",
-        notification_target: "newHappyThingform",
-        action: "submit->insert-in-list#send submit->notification#send"
-      }, html: { class: "happy_thing form mt-4 p-3" } do |f| %>
-        <% if @happy_thing.errors.any? %>
-          <div class="error-message">
-            <%= @happy_thing.errors.full_messages.to_sentence.capitalize %>
-          </div>
-        <% end %>
-
-        <%= f.input :title, input_html: { autofocus: true } %>
-        <%= f.input :photo, as: :file, input_html: { class: 'custom-file-upload' } %>
-        <%= f.submit class: "btn btn-blue m-2" %>
-      <% end %>
+      <%= render 'happy_things/form', happy_thing: @happy_thing %>
     </div>
 
     <div id="happy_things" class="m-2 mt-5"
@@ -84,8 +69,12 @@
   <!-- Section: Happy Things Through the Years -->
   <div class="m-2 mt-5 mx-2 my-3">
     <h3 class="mb-3">Through the years...</h3>
+    <% current_year = Date.current.year %>
+
     <% if @happy_things_by_date.any? %>
       <% @happy_things_by_date.group_by { |ht| ht.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
+        <% next if year == current_year %>
+
         <div class="p-2" style="border-radius: 0.375rem; background-color: <%= index.even? ? '#f8f9fa' : '#f1f3f5'; %>;">
           <h4><%= year %></h4>
           <% year_happy_things.group_by(&:user).each do |user, happy_things| %>
