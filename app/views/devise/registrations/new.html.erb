@@ -20,6 +20,12 @@
                   required: true,
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :avatar, as: :file %>
+
+      <!-- Consent checkboxes -->
+      <%= f.input :email_opt_in, as: :boolean, required: true,
+                  label: 'I agree to receive emails about my happy things and other updates.' %>
+      <%= f.input :location_opt_in, as: :boolean, required: true,
+                  label: 'I consent to the collection of my location data for creating HappyThings.' %>
     </div>
 
     <div class="form-actions d-flex justify-content-center mt-2">
