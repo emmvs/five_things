@@ -188,6 +188,8 @@ GEM
     mime-types-data (3.2023.1205)
     mini_mime (1.1.5)
     minitest (5.20.0)
+    moonphases (1.0.3)
+      nokogiri
     msgpack (1.7.2)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
@@ -393,6 +395,7 @@ DEPENDENCIES
   jbuilder
   kaminari
   letter_opener
+  moonphases
   pg
   pry-byebug
   puma (~> 5.0)

@@ -39,7 +39,8 @@ gem 'simple_form', '~> 5.1'
 # Cloudinary for image and video storage
 gem 'cloudinary'
 
-# APIs
+# APIs & Special Gems
+gem 'moonphases'
 gem 'ruby-openai'
 
 # Action Mailer
