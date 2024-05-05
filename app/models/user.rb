@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
+# User Model w/ HappyStreak & Friendships
 class User < ApplicationRecord
   # Devise modules
   devise :database_authenticatable, :registerable,
-        :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable
 
   has_many :happy_things
   has_many :friendships, foreign_key: 'user_id'
@@ -29,23 +32,30 @@ class User < ApplicationRecord
     friendships.where(status: :pending)
   end
 
-  # Calculates streak of consecutive days with happy things
   def happy_streak
-    sorted_happy_things = happy_things.order(start_time: :desc)
-    return 0 if sorted_happy_things.empty?
+    return 0 if happy_things.empty?
 
-    unique_dates = sorted_happy_things.reject { |ht| ht.start_time.nil? }
-                                      .map { |ht| ht.start_time.to_date }
-                                      .uniq
+    dates = happy_things_dates
+    return 0 if dates.empty?
 
-    return 0 if unique_dates.empty?
-    streak = 1
+    calculate_streak(dates)
+  end
 
-    unique_dates.each_cons(2) do |yesterday, today|
-      break unless yesterday - today == 1
-      streak += 1
+  private
+
+  def happy_things_dates
+    happy_things.reorder(start_time: :desc)
+                .pluck(:start_time)
+                .compact
+                .map(&:to_date)
+                .uniq
+  end
+
+  def calculate_streak(dates)
+    dates.each_cons(2).with_object(streak: 1) do |(yesterday, today), accumulator|
+      break accumulator[:streak] unless yesterday - today == 1
+
+      accumulator[:streak] += 1
     end
-
-    streak
   end
 end
