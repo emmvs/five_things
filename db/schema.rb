@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_05_183747) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_05_192637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -80,6 +80,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_05_183747) do
     t.string "place"
     t.float "latitude"
     t.float "longitude"
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_happy_things_on_category_id"
     t.index ["user_id"], name: "index_happy_things_on_user_id"
   end
 
@@ -116,6 +118,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_05_183747) do
   add_foreign_key "comments", "users"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "happy_things", "categories"
   add_foreign_key "happy_things", "users"
   add_foreign_key "likes", "happy_things"
   add_foreign_key "likes", "users"

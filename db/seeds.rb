@@ -61,4 +61,9 @@
 # friendships << Friendship.create(user: User.where(first_name: "Emma"), friend: User.where(first_name: "Name"),)
 # friendships << Friendship.create(user: User.last, friend: User.first)
 
+%w[General Family Friends Nature Fitness Celebrations Spiritual Hobby].each do |category_name|
+  Category.find_or_create_by(name: category_name)
+end
+
+puts "#{Category.count} Categories created! 👻"
 puts 'Done ✅'

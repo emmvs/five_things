@@ -50,7 +50,11 @@ class HappyThingsController < ApplicationController
   end
 
   def show_by_date
-    @date = Date.parse(params[:date]) # TODO: rescue Date.today
+    @date = begin
+              Date.parse(params[:date])
+            rescue ArgumentError
+              Date.today
+            end
     setup_happy_things_for_view
     @old_happy_thing = current_user.happy_things.new(start_time: @date)
   end

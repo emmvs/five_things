@@ -13,6 +13,10 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
+  def friends_and_inverse_friends_ids
+    friends.pluck(:id) + inverse_friends.pluck(:id)
+  end
+
   def all_friends
     friends + inverse_friends
   end

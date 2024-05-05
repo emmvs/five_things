@@ -16,6 +16,7 @@ class HappyThing < ApplicationRecord
   has_many :likes
   has_many :comments
 
+  before_validation :set_default_category, on: :create
   validates :title, presence: true
   after_validation :geocode, if: :will_save_change_to_place?
 
@@ -49,6 +50,10 @@ class HappyThing < ApplicationRecord
   end
 
   private
+
+  def set_default_category
+    self.category ||= Category.find_by(name: "General")
+  end
 
   def start_time_present?
     start_time.present?
