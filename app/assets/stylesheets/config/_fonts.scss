@@ -1,5 +1,5 @@
 // Import Google fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,700|Work+Sans:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=MuseoModerno&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Montserrat:wght@100&family=Pacifico&display=swap');
@@ -8,18 +8,18 @@
 // Fonts
 $amatic-font: 'Amatic SC', "cursive";
 $pacifico-font: 'Pacifico', "cursive";
+$nunito-font: 'Nunito', "sans-serif";
+$moderno-font: 'MuseoModerno', "sans-serif";
 
 // Define fonts for body and headers
-$body-font: 'Lato', "sans-serif";
+$body-font: $nunito-font;
 $headers-font: $amatic-font;
-// $headers-font: 'MuseoModerno', "sans-serif";
 
-// To use a font file (.woff) uncomment following lines
-// @font-face {
-//   font-family: "Font Name";
-//   src: font-url('FontFile.eot');
-//   src: font-url('FontFile.eot?#iefix') format('embedded-opentype'),
-//        font-url('FontFile.woff') format('woff'),
-//        font-url('FontFile.ttf') format('truetype')
-// }
-// $my-font: "Font Name";
+// CSS rules for body and headers
+body {
+  font-family: $body-font;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $headers-font;
+}

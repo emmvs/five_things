@@ -2,12 +2,15 @@
     <% if happy_thing.photo.attached? %>
         <span>📸</span>
     <% end %>
-    <%= happy_thing.title %>
+    <div class="happy_thing_content">
+        <span><%= happy_thing.user.emoji %>  <%= link_to happy_thing.title, happy_thing_path(happy_thing), class: "text-decoration-none" %></span>
+    </div>
     <div class="happy_thing_creator">
+        <!-- TODO: Show user's name or other details -->
     </div>
 
-    <div class="happy_thing__actions">
-        <%= button_to "X", happy_thing_path(happy_thing), method: :delete, class: "btn btn--light" %>
-        <%= link_to "Edit", edit_happy_thing_path(happy_thing), class: "btn btn--light edit-link" %>
+    <div class="happy_thing_actions" style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #888; font-size: 0.85em;"><%= friendly_date(happy_thing.start_time) %></span>
+        <%= link_to "⋮", edit_happy_thing_path(happy_thing), class: "btn btn--light edit-link" %>
     </div>
 </div>

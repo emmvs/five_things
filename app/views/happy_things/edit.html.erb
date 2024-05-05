@@ -1,11 +1,9 @@
 <main class="container">
-  <%= link_to sanitize("&larr; Back to quote"), happy_thing_path(@happy_thing) %>
+  <%= link_to sanitize("&larr;"), root_path, class: "btn btn-blue m-4" %>
 
   <div class="header">
     <h1>Edit happy thing</h1>
   </div>
 
-  <%= turbo_frame_tag "happy_thing_#{@happy_thing.id}" do %>
-    <%= render "form", happy_thing: @happy_thing %>
-  <% end %>
+  <%= render "form", happy_thing: @happy_thing %>
 </main>

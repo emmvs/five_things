@@ -1,4 +1,5 @@
 <div class="container mt-5">
+  <%= link_to sanitize("&larr;"), root_path, class: "btn btn-blue m-4" %>
   <h1>Happy Things for <%= @date.strftime('%B %d, %Y') %></h1>
 
   <% if @happy_things.any? %>
