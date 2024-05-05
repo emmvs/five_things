@@ -1,13 +1,30 @@
+# frozen_string_literal: true
+
+# HappyThing Model
 class HappyThing < ApplicationRecord
   default_scope { order(created_at: :desc) }
+  scope :of_friends, ->(user) {
+    friend_ids = user.friends.ids + user.inverse_friends.ids
+    where(user_id: friend_ids + [user.id])
+  }
+
+  geocoded_by :place
 
   belongs_to :user
+
   validates :title, presence: true
+  after_validation :geocode, if: :will_save_change_to_place?
 
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
   after_create :check_happy_things_count
 
   has_one_attached :photo
+
+  def self.geocoded_markers
+    geocoded.select(:latitude, :longitude).map do |ht|
+      { lat: ht.latitude, lng: ht.longitude }
+    end
+  end
 
   def add_date_time_to_happy_thing
     self.start_time ||= Time.zone.now

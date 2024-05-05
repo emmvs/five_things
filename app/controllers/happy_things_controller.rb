@@ -3,6 +3,7 @@
 # Controller for creating & handling Happythings
 class HappyThingsController < ApplicationController
   include WordAggregator
+  include UserRelated
 
   before_action :set_happy_thing, only: %i[show edit update destroy]
 
@@ -10,8 +11,12 @@ class HappyThingsController < ApplicationController
     @should_render_navbar = true
 
     @happy_thing = HappyThing.new
-    @happy_things = happy_things_of_friends.page(params[:page]).per(10)
-    # @happy_things = HappyThing.order(start_time: :asc).page(params[:page]).per(10)
+    # @happy_things = happy_things_of_friends.page(params[:page]).per(10)
+    @happy_things = HappyThing.of_friends(current_user).page(params[:page]).per(10)
+  end
+
+  def show
+    @marker = @happy_thing.geocoded? ? { lat: @happy_thing.latitude, lng: @happy_thing.longitude } : nil
   end
 
   def new
@@ -19,17 +24,8 @@ class HappyThingsController < ApplicationController
   end
 
   def create
-    @happy_thing = current_user.happy_things.new(happy_thing_params)
-
-    respond_to do |format|
-      if @happy_thing.save
-        format.html { redirect_to happy_thing_path(@happy_thing) }
-        format.json
-      else
-        format.html { render 'happy_things/new', status: :unprocessable_entity }
-        format.json
-      end
-    end
+    @happy_thing = current_user_happy_things.new(happy_thing_params)
+    save_and_respond(@happy_thing)
   end
 
   def update
@@ -46,12 +42,20 @@ class HappyThingsController < ApplicationController
   end
 
   def analytics
-    @happy_count = HappyThing.where(user: current_user).size
-    @words_for_wordcloud = WordAggregator.get_aggregated_words(current_user, 40)
+    fetch_happy_count
+    fetch_words_for_wordcloud
+    fetch_visited_places
+    @markers = current_user.happy_things.geocoded.map do |ht|
+      {
+        lat: ht.latitude,
+        lng: ht.longitude
+      }
+    end
+    # TODO: Category/Label Count @label_counts = @happy_things.group(:category).count
   end
 
   def show_by_date
-    @date = Date.parse(params[:date]) rescue Date.today
+    @date = Date.parse(params[:date]) # TODO: rescue Date.today
     setup_happy_things_for_view
     @old_happy_thing = current_user.happy_things.new(start_time: @date)
   end
@@ -63,6 +67,18 @@ class HappyThingsController < ApplicationController
 
   def old_happy_thing
     @old_happy_thing = current_user.happy_things.new
+  end
+
+  def fetch_happy_count
+    @happy_count = HappyThing.where(user: current_user).size
+  end
+
+  def fetch_words_for_wordcloud
+    @words_for_wordcloud = WordAggregator.get_aggregated_words(current_user, 40)
+  end
+
+  def fetch_visited_places
+    @visited_places_count = @visited_places_count = HappyThing.where(user_id: current_user.id).distinct.count(:place)
   end
 
   def create_old_happy_thing
@@ -77,17 +93,24 @@ class HappyThingsController < ApplicationController
   private
 
   def set_happy_thing
-    @happy_thing = HappyThing.find(params[:id])
+    # @happy_thing = HappyThing.find(params[:id])
+    @happy_thing = current_user_happy_things.find(params[:id])
+  end
+
+  def save_and_respond(resource)
+    respond_to do |format|
+      if resource.save
+        format.html { redirect_to root_path, notice: 'Happy Thing was successfully created.' }
+        format.json { render json: { status: :created, happy_thing: resource } }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: resource.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def happy_thing_params
-    params.require(:happy_thing).permit(
-      :title,
-      :photo,
-      :body,
-      :status,
-      :start_time
-    )
+    params.require(:happy_thing).permit(:title, :photo, :body, :status, :start_time, :place, :longitude, :latitude)
   end
 
   def create_happy_thing
@@ -95,15 +118,17 @@ class HappyThingsController < ApplicationController
       if @happy_thing.save
         format.html { redirect_to root_path, notice: 'Happy Thing was successfully created.' }
         format.json { render json: { status: :created, happy_thing: @happy_thing } }
+        # format.json
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @happy_thing.errors, status: :unprocessable_entity }
+        # format.json
       end
     end
   end
 
-  def happy_things_of_friends
-    friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id)
-    HappyThing.where(user_id: friend_ids << current_user.id).order(start_time: :asc)
-  end
+  # def happy_things_of_friends
+  #   friend_ids = current_user.friends.pluck(:id) + current_user.inverse_friends.pluck(:id)
+  #   HappyThing.where(user_id: friend_ids << current_user.id).order(start_time: :asc)
+  # end
 end
