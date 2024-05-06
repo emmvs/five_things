@@ -9,10 +9,7 @@ class HappyThingsController < ApplicationController
 
   def index
     @should_render_navbar = true
-
-    @happy_thing = HappyThing.new
     @happy_things = happy_things_of_friends.page(params[:page]).per(10)
-    # @happy_things = HappyThing.of_friends(current_user).page(params[:page]).per(10)
   end
 
   def show
@@ -100,7 +97,6 @@ class HappyThingsController < ApplicationController
   private
 
   def set_happy_thing
-    # @happy_thing = HappyThing.find(params[:id])
     @happy_thing = current_user_happy_things.find(params[:id])
   end
 
@@ -117,7 +113,7 @@ class HappyThingsController < ApplicationController
   end
 
   def happy_thing_params
-    params.require(:happy_thing).permit(:title, :photo, :body, :status, :start_time, :place, :longitude, :latitude)
+    params.require(:happy_thing).permit(:title, :photo, :body, :status, :start_time, :place, :longitude, :latitude, :category_id)
   end
 
   def create_happy_thing

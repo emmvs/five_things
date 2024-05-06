@@ -17,7 +17,7 @@ class HappyThing < ApplicationRecord
   has_many :comments
 
   before_validation :set_default_category, on: :create
-  validates :title, :start_time, presence: true
+  validates :title, presence: true
   after_validation :geocode, if: :will_save_change_to_place?
 
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
