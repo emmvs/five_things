@@ -5,7 +5,7 @@
 <div class="container mt-1">
   <div class="dash-box mx-2 my-3">
     <h2 class="dashboards_header">
-      <%= time_based_greeting %> <%= current_user ? current_user.first_name : "Sunshine" %>, and welcome to your Dashboard! <%= time_based_emoji %>
+      <%= time_based_greeting %> <%= current_user ? current_user.first_name : "Sunshine" %>! <%= time_based_emoji %>
     </h2>
       <div class="my-3">
         <h4>Happy Streak</h4>
@@ -32,7 +32,7 @@
 
   <!-- Section: Calendar -->
   <div id="calendar" class="mx-2 my-3">
-    <%= month_calendar(events: @happy_things, param_name: :date) do |date, happy_things_bubbles| %>
+    <%= month_calendar(events: @happy_things_of_you_and_friends, param_name: :date) do |date, happy_things_bubbles| %>
       <div class="day d-flex justify-content-center align-items-center">
         <% if happy_things_bubbles.any? %>
           <% unique_users = happy_things_bubbles.map(&:user).uniq %>
