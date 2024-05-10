@@ -35,24 +35,25 @@ class HappyThing < ApplicationRecord
     self.start_time ||= Time.zone.now
   end
 
-  def ai_title
+  def ai_title # rubocop:disable Metrics/MethodLength
     Rails.cache.fetch("#{cache_key_with_version}/content") do
       client = OpenAI::Client.new
       chaptgpt_response = client.chat(
         parameters: {
-          model: "gpt-4",
+          model: 'gpt-4',
           messages: [{
-            role: "user",
+            role: 'user',
             content: "Give me a simple thing to do that would make someone happy who is suffering from depression. Give me only the title, without any of your own weird metaphors or answers like 'Here is a simple happy thing.' Please ensure that the things are unique and suitable for intelligent people who need their brains stimulated by good things. It should fit into a text like so: 'Something to make you happy is\n todo.'"}]
-        })
-      @ai_happy_thing = chaptgpt_response["choices"][0]["message"]["content"]
+        }
+      )
+      @ai_happy_thing = chaptgpt_response['choices'][0]['message']['content']
     end
   end
 
   private
 
   def set_default_category
-    self.category ||= Category.find_by(name: "General")
+    self.category ||= Category.find_by(name: 'General')
   end
 
   def start_time_present?
@@ -60,12 +61,11 @@ class HappyThing < ApplicationRecord
   end
 
   def check_happy_things_count
-    count_today = self.user.happy_things.where('created_at >= ?', Time.zone.now.beginning_of_day).count
+    count_today = user.happy_things.where('created_at >= ?', Time.zone.now.beginning_of_day).count
+    return unless count_today == 5
 
-    if count_today == 5
-      self.user.friends.each do |friend|
-        UserMailer.happy_things_notification(friend).deliver_now
-      end
+    user.friends.each do |friend|
+      UserMailer.happy_things_notification(friend).deliver_now
     end
   end
 end

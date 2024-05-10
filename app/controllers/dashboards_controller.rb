@@ -18,13 +18,15 @@ class DashboardsController < ApplicationController
   # Sets various collections of HappyThings based on user's friends & specific time periods
   def set_happy_things
     friend_ids = current_user.friends_and_inverse_friends_ids
-    @happy_things = HappyThing.where(user_id: friend_ids).order(created_at: :desc)
+    user_ids = friend_ids + [current_user.id]
+
+    @happy_things_of_you_and_friends = HappyThing.where(user_id: user_ids).order(created_at: :desc)
     fetch_periodic_happy_things(friend_ids)
   end
 
   # Fetch HappyThings f/ specific periods: today, last two days, and one year ago
   def fetch_periodic_happy_things(friend_ids)
-    friend_ids_with_self = friend_ids + [current_user.id]  # Ensure the current user's ID is also included
+    friend_ids_with_self = friend_ids + [current_user.id]
     @happy_things_today = happy_things_by_period(Date.today..Date.tomorrow, friend_ids_with_self)
     @happy_things_of_the_last_two_days = happy_things_by_period((Date.today - 1.days)..Date.today.end_of_day, friend_ids_with_self)
     @happy_things_one_year_ago = HappyThing.where('DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date, friend_ids_with_self).group_by(&:user)
