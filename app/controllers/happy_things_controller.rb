@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Controller for creating & handling Happythings
-class HappyThingsController < ApplicationController
+class HappyThingsController < ApplicationController # rubocop:disable Metrics/ClassLength
   include WordAggregator
   include UserRelated
 
@@ -70,7 +70,7 @@ class HappyThingsController < ApplicationController
   end
 
   def fetch_words_for_wordcloud
-    @words_for_wordcloud = WordAggregator.get_aggregated_words(current_user, 40)
+    @words_for_wordcloud = WordAggregator.aggregated_words(current_user, 40)
   end
 
   def fetch_visited_places
@@ -97,7 +97,10 @@ class HappyThingsController < ApplicationController
   private
 
   def set_happy_thing
-    @happy_thing = current_user_happy_things.find(params[:id])
+    friend_ids = current_user.friends_and_inverse_friends_ids
+    user_ids = friend_ids + [current_user.id]
+
+    @happy_thing = HappyThing.where(user_id: user_ids).find(params[:id])
   end
 
   def save_and_respond(resource)

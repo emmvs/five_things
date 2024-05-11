@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# UserRelated Stuff
 module UserRelated
   extend ActiveSupport::Concern
 
