@@ -6,15 +6,26 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  scope :all_except, ->(user) { where.not(id: user.id) }
+
   has_many :happy_things
-  has_many :friendships, foreign_key: 'user_id'
-  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
-  has_many :friends, through: :friendships, source: :friend
-  has_many :inverse_friends, through: :inverse_friendships, source: :user # Users who have listed this user as a friend
   has_many :comments
   has_many :likes
 
+  # Friendships
+  has_many :friendships
+  # has_many :friendships, foreign_key: 'user_id'
+  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
+  has_many :friends, -> { where(friendships: { accepted: true }) }, through: :friendships, source: :friend
+  # Users who have listed this user as a friend
+  has_many :inverse_friends, -> { where(friendships: { accepted: true }) }, through: :inverse_friendships, source: :user
+
   has_one_attached :avatar
+
+  def self.search(query)
+    where('first_name ILIKE :query OR last_name ILIKE :query OR username ILIKE :query OR email ILIKE :query',
+          query: "%#{query}%")
+  end
 
   def friends_and_inverse_friends_ids
     friends.pluck(:id) + inverse_friends.pluck(:id)
@@ -29,7 +40,7 @@ class User < ApplicationRecord
   end
 
   def pending_friends
-    friendships.where(status: :pending)
+    friendships.pending + inverse_friendships.pending
   end
 
   def happy_streak

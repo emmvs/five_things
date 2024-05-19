@@ -5,7 +5,11 @@ class UsersController < ApplicationController
   helper FriendshipsHelper
 
   def index
-    @users = User.all
+    if params[:query].present?
+      @users = User.search(params[:query]).all_except(current_user)
+    else
+      @users = User.all_except(current_user)
+    end
   end
 
   def show
