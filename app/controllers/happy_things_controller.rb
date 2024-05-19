@@ -43,7 +43,8 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     fetch_words_for_wordcloud
     fetch_visited_places
     fetch_label_count
-    @markers = current_user.happy_things.geocoded.map {|ht| { lat: ht.latitude, lng: ht.longitude } }
+    @markers = current_user.happy_things.geocoded.map { |ht| { lat: ht.latitude, lng: ht.longitude } }
+    @category_count = HappyThing.where(user: current_user).group(:category).count
   end
 
   def show_by_date

@@ -60,9 +60,10 @@
 
 <%= link_to "Edit Profile", edit_user_registration_path, class: "mb-5 btn nav-link bottom-icons" %>
 
-<div id="dream-chart">
-  <canvas id="dreamPieChart" data-controller="analytics"
-          data-analytics-labels-value="<%= @label_counts.keys %>"
-          data-analytics-data-value="<%= @label_counts.values %>">
-  </canvas>
-</div>
+      <!-- Category Analytics -->
+      <div id="dream-chart">
+        <canvas id="categoriesPieChart" data-controller="analytics"
+                data-analytics-labels-value="<%= @category_count %>"
+                data-analytics-data-value="<%= @category_count %>">
+        </canvas>
+      </div>

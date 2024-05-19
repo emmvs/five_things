@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import Chart from "chart.js/auto"
+import { Chart } from "chart.js"
 
 // Connects to data-controller="analytics"
 export default class extends Controller {
@@ -9,11 +9,11 @@ export default class extends Controller {
   }
 
   connect() {
-    this.drawChart();
+    this.drawChart()
   }
 
   drawChart() {
-    const ctx = document.getElementById('dreamPieChart').getContext('2d');
+    const ctx = document.getElementById('categoriesPieChart').getContext('2d')
     new Chart(ctx, {
       type: 'pie',
       data: {
@@ -48,6 +48,6 @@ export default class extends Controller {
           },
         }
       }
-    });
+    })
   }
 }
