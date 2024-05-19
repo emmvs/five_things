@@ -1,45 +1,44 @@
+# frozen_string_literal: true
+
+# FriendshipsController for creating, updating and deleting a friendship
 class FriendshipsController < ApplicationController
-  before_action :set_friendship, only: [:update, :destroy]
+  before_action :set_friendship, only: %i[update destroy]
 
   def index
-    @users = User.all - [current_user]
     @should_render_navbar = true
+    @users = User.all_except(current_user)
     @friendships = current_user.friendships
   end
 
-  def new
-    @friendship = Friendship.new
-  end
-
   def create
-    @friendship = current_user.friendships.build(friend_id: params[:friendship][:friend_id])
-    if @friendship.save
-      redirect_to root_path, notice: "Yay! 🎉 You sent a friend request!"
-    else
-      render :new, status: 422
-    end
+    @friendship = current_user.friendships.build(friend_id: params[:friend_id])
+    flash[:notice] = if @friendship.save
+                       'Friend request sent. 👻'
+                     else
+                       'Unable to send friend request. 🤔'
+                     end
+    redirect_to users_path
   end
 
   def update
-    if @friendship.update(accepted: true)
-      redirect_to root_path, notice: "Yay! 🎉 You accepted a friend request!"
-    else
-      render :new, status: 422
-    end
+    flash[:notice] = if @friendship.update(accepted: true)
+                       'Friend request accepted. 🫱🏻‍🫲🏾'
+                     else
+                       'Unable to accept friend request. 🙈'
+                     end
+    redirect_to users_path
   end
 
   def destroy
     @friendship.destroy
-    redirect_to root_path, notice: "Happy Thing was destroyed 😕"
+    flash[:notice] = 'Friendship removed. 😭'
+    redirect_to users_path
   end
 
   private
 
   def set_friendship
-    @friendship = Friendship.find(params[:id])
-  end
-
-  def friendship_params
-    params.require(:friendship).permit(:status, :friend_id, :user_id)
+    @friendship = current_user.friendships.find_by(friend_id: params[:id]) ||
+                  current_user.inverse_friendships.find_by(user_id: params[:id])
   end
 end
