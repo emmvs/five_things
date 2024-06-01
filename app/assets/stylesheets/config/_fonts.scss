@@ -1,25 +1,65 @@
 // Import Google fonts
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Montserrat:wght@100');
+// @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200');
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=MuseoModerno&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Pacifico&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Montserrat:wght@100&family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Rubik+Mono+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Yeseva+One&display=swap');
+
+// New Google fonts to test
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap');
 
 // Fonts
-$amatic-font: 'Amatic SC', "cursive";
-$pacifico-font: 'Pacifico', "cursive";
+$amatic-font: 'Amatic SC', "cursive"; // OG Font
+$yeseva-font: 'Yeseva One', "serif";
+$bebas-font: 'Bebas Neue', "sans-serif";
 $nunito-font: 'Nunito', "sans-serif";
 $moderno-font: 'MuseoModerno', "sans-serif";
+$montserrat-font: 'Montserrat', "sans-serif";
+$inter-font: 'Inter', "sans-serif";
+$rubik-font: 'Rubik Mono One', "sans-serif";
+$lato-font: 'Lato', "sans-serif";
+
+// New font variables for testing
+$poppins-font: 'Poppins', "serif";
+$roboto-font: 'Roboto', "serif";
+
+$raleway-font: 'Raleway', "sans-serif";
+$lora-font: 'Lora', "sans-serif";
+
+$pacifico-font: 'Pacifico', "sans-serif";
+$quicksand-font: 'Quicksand', "sans-serif";
+
+$playfair-font: 'Playfair Display', "serif";
+$dancing-script-font: 'Dancing Script', "cursive";
+$merriweather-font: 'Merriweather', "serif";
+$open-sans-font: 'Open Sans', "sans-serif";
 
 // Define fonts for body and headers
-$body-font: $nunito-font;
 $headers-font: $amatic-font;
+$accent-font: $montserrat-font;
+$body-font: $open-sans-font;
 
 // CSS rules for body and headers
-body {
-  font-family: $body-font;
+h1 {
+  font-family: $headers-font;
+  text-transform: uppercase;
+  font-size: 3rem !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: $headers-font;
+body {
+  font-family: $body-font;
+  font-weight: 300;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: $accent-font;
+}
+
+span, p {
+  font-family: $body-font;
+  font-weight: 300;
 }

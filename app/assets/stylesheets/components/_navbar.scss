@@ -14,12 +14,11 @@
 
 // Bottom Navbar
 .bottom-navbar {
-  background-color: $pink;
+  background-color: $white;
   opacity: 88%;
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom: 20px;
-  // border-radius: 20px;
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   width: 350px;
@@ -43,7 +42,7 @@
 }
 
 .middle-item {
-  background-color: #95b7ff;
+  background-color: $soft-purple;
   border-radius: 50%;
   width: 50px;
   height: 50px;

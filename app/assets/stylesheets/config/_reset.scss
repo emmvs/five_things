@@ -41,19 +41,15 @@ select {
   font: inherit;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: $color-text-header;
-  line-height: $line-height-headers;
-}
-
-h1 {
-  font-size: $font-size-xxxl;
-}
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//   color: $color-text-header;
+//   line-height: $line-height-headers;
+// }
 
 h2 {
   font-size: $font-size-xxl;
