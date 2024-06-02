@@ -1,5 +1,5 @@
-<div class="container analytics mt-5">
-  <%= link_to sanitize("&larr;"), root_path, class: "btn btn-blue mb-3" %>
+<div class="container analytics my-3">
+  <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary mb-3" %>
     <h1 class="title">My Profile</h1>
 
       <div class="d-flex justify-content-center mt-3">
@@ -37,7 +37,7 @@
           <% end %>
         </div>
         <% else %>
-        <p>No words data available for this year 😔</p>
+        <p class="opacity-50">No words data available for this year 😔</p>
         <% end %>
       </div>
 

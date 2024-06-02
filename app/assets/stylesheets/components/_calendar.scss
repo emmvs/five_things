@@ -8,17 +8,17 @@
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
     padding: 0% 1%;
-    background-color: $sky-blue;
+    background-color: $soft-purple;
   }
 
   .calendar-title {
     font-size: $font-size-xxl;
-    color: white;
+    color: $white;
   }
 
   .prev-month,
   .next-month {
-    background: lighten($sky-blue, 10%);
+    background: lighten($soft-purple, 10%);
     color: white;
   }
 
@@ -27,19 +27,17 @@
   }
 
   .day {
-    padding: 0;
+    padding: 1px;
     position: relative;
     height: 40px !important;
     width: 40px !important;
-    border-radius: 50% !important;
+    border-radius: $border-radius !important;
   }
 
   .calendar-day-link {
     display: block;
     text-decoration: none;
-    // padding: 4px;
-    color: darken($sky-blue, 50%);
-    /* Even darker for links */
+    color: darken($soft-purple, 50%);
   }
 
   .calendar-day-link:hover {
@@ -55,10 +53,10 @@
     width: 100%;
 
     thead tr th {
-      border-radius: 10px;
+      border-radius: $border-radius;
       text-align: center;
       padding: 0;
-      background-color: darken($sky-blue, 10%);
+      background-color: darken($soft-purple, 10%);
       color: white;
     }
   }

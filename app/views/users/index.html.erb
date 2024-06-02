@@ -1,12 +1,14 @@
-<div class="container m-3">
-  <%= link_to sanitize("&larr;"), root_path, class: "btn btn-blue mb-3" %>
+<div class="container my-3">
+  <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary mb-3" %>
   <h2 class="mt-2">Add or Search Friends</h2>
 
   <!-- Search Form -->
   <%= form_with(url: users_path, method: :get, local: true, class: 'form-inline mb-3') do %>
     <div class="form-group d-flex align-items-center">
-      <%= text_field_tag :query, params[:query], placeholder: "Search for names, usernames, or emails", class: "form-control w-75 mr-2" %>
-      <%= submit_tag "🔍", class: "btn btn-blue" %>
+      <%= text_field_tag :query, params[:query],
+        placeholder: "Search for names, usernames, or emails",
+        class: "form-control w-100 mr-2" %>
+      <%= submit_tag "🔍", class: "btn button--primary" %>
     </div>
   <% end %>
 
@@ -14,10 +16,9 @@
   <h2 class="mt-3">My Friends</h2>
   <% current_user.all_friends.each do |friend| %>
     <%= link_to user_path(friend) do %>
-      <div style="width: 320px;" class="card p-2 my-2">
+      <div class="card w-100 p-2 my-3">
         <%= cl_image_tag friend.avatar.key,
-          style: "width: 50px; height: 100%;",
-          class: "pb-3",
+          class: "w-100 h-100 pb-3",
           alt: "Friend Avatar",
           transformation: [
             { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
@@ -33,7 +34,7 @@
   <% current_user.pending_friends.each do |friendship| %>
     <% friend = friendship.friend %>
     <%= link_to user_path(friend) do %>
-      <div style="width: 320px;" class="card p-2 my-2">
+      <div class="card w-100 p-2 my-3">
         <%= cl_image_tag friend.avatar.key,
           style: "width: 50px; height: 100%;",
           class: "pb-3",
@@ -43,7 +44,7 @@
             { radius: :max }
           ] unless friend.avatar.key.nil? %>
         <h4><%= friend.first_name %></h4>
-        <%= button_to "⤬", friendship_path(friendship), method: :delete, class: "btn btn-blue" %>
+        <%= button_to "⤬", friendship_path(friendship), method: :delete, class: "btn button--primary" %>
       </div>
     <% end %>
   <% end %>
@@ -58,7 +59,7 @@
       <% direct_friendship = current_user.friendships.find { |f| f.friend_id == user.id } %>
       <% inverse_friendship = user.friendships.find { |f| f.user_id == current_user.id } %>
 
-      <div class="card p-2 my-2 d-flex flex-row justify-content-between" style="width: 320px" >
+      <div class="card w-100 p-2 my-3 d-flex flex-row justify-content-between" >
         <div class="flex-item">
           <%= cl_image_tag user.avatar.key,
           style: "width: 50px; height: 100%;",
@@ -76,11 +77,11 @@
         
         <div class="flex-item">
           <% if direct_friendship && !direct_friendship.accepted %>
-          <%= button_to "Cancel Request", friendship_path(direct_friendship), method: :delete, class: "btn btn-blue" %>
+          <%= button_to "Cancel Request", friendship_path(direct_friendship), method: :delete, class: "btn button--primary" %>
           <% elsif inverse_friendship && !inverse_friendship.accepted %>
-          <%= button_to "Accept Request", friendship_path(inverse_friendship), method: :patch, class: "btn btn-blue" %>
+          <%= button_to "Accept Request", friendship_path(inverse_friendship), method: :patch, class: "btn button--primary" %>
           <% elsif !direct_friendship && !inverse_friendship %>
-          <%= button_to "➕", friendships_path(friend_id: user.id), method: :post, class: "btn btn-blue" %>
+          <%= button_to "➕", friendships_path(friend_id: user.id), method: :post, class: "btn button--primary" %>
           <% end %>
         </div>
       </div>

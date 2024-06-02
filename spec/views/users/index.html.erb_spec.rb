@@ -33,6 +33,6 @@
 #     # Example: Test for the presence of 'Add Friend' button
 #     # Adjust the test according to the actual buttons and logic in your view
 #     # expect(rendered).to have_selector("input[type=submit][value='Add Friend']")
-#     expect(rendered).to have_selector(".btn.btn-blue", text: 'Add Friend')
+#     expect(rendered).to have_selector(".btn.button--primary", text: 'Add Friend')
 #   end
 # end

@@ -6,13 +6,13 @@ module DashboardHelper
     current_hour = Time.current.in_time_zone('Berlin').hour
 
     if current_hour < 12
-      'Good Morning, '
+      'Good Morning, '
     elsif current_hour < 18
       day_greetings.sample
     elsif current_hour < 22
-      'Good Evening, '
+      'Good Evening, '
     else
-      'Good Night, '
+      'Good Night, '
     end
   end
 
@@ -40,12 +40,11 @@ module DashboardHelper
   def day_greetings
     [
       'Hej, ',
-      'Isn’t it a Lovely Day, ',
-      'Hey there, ',
-      'Have a Wonderful Day, ',
-      'What’s Up, ',
-      'Hey There, ',
-      'Hals & Beinbrunch, '
+      'Isn’t it a Lovely Day, ',
+      'Hals & Beinbruch, ',
+      'Have a Wonderful Day, ',
+      'What’s Up, ',
+      'Hey There, '
     ]
   end
 

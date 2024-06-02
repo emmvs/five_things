@@ -1,5 +1,5 @@
-<div class="container mt-5">
-  <%= link_to sanitize("&larr;"), root_path, class: "btn btn-blue" %>
+<div class="container my-3">
+  <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary" %>
 
   <div class="header">
     <h1>Add an old happy thing</h1>
@@ -10,6 +10,6 @@
     <%= f.input :start_time,
             as: :string,
             input_html: { data: { controller: "datepicker" } } %>
-    <%= f.button :submit, 'Save', class: 'btn btn-blue mt-3' %>
+    <%= f.button :submit, 'Save', class: 'btn button--primary mt-3' %>
   <% end %>
 </div>
