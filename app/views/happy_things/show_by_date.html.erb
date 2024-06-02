@@ -1,5 +1,5 @@
-<div class="container mt-5">
-  <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary my-4" %>
+<div class="container my-3">
+  <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary my-3" %>
   <h1><%= @date.strftime('%B %d, %Y') %></h1>
 
   <% if @happy_things.any? %>
@@ -19,7 +19,7 @@
       <% end %>
     </ul>
   <% else %>
-    <p>No Happy Things found for this date.</p>
+    <p class="opacity-50">No Happy Things found for this date.</p>
   <% end %>
 
   <!-- Conditional Form to add a new Happy Thing, shown only if there are less than 5 happy things -->

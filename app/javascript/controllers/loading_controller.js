@@ -3,7 +3,11 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="loading"
 export default class extends Controller {
   connect() {
-    this.element.addEventListener("animationend", this.removeElement);
+    if (localStorage.getItem("loadingScreenShown")) {
+      this.element.style.display = "none";
+    } else {
+      this.element.addEventListener("animationend", this.removeElement);
+    }
   }
 
   disconnect() {
@@ -12,5 +16,6 @@ export default class extends Controller {
 
   removeElement = () => {
     this.element.remove();
+    localStorage.setItem("loadingScreenShown", "true");
   };
 }
