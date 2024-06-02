@@ -19,6 +19,7 @@ gem 'turbo-rails' # Hotwire's Turbo library for Rails
 
 # Redis and Kredis for caching & Action Cable
 gem 'redis', '~> 4.0'
+gem 'redis-rails'
 # gem 'kredis'
 
 # Front-end
