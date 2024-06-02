@@ -1,11 +1,11 @@
 <div class="container mt-5">
-  <%= link_to sanitize("&larr;"), root_path, class: "btn btn-blue m-4" %>
-  <h1>Happy Things for <%= @date.strftime('%B %d, %Y') %></h1>
+  <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary my-4" %>
+  <h1><%= @date.strftime('%B %d, %Y') %></h1>
 
   <% if @happy_things.any? %>
     <ul>
       <% @happy_things.group_by(&:user).each do |user, happy_things| %>
-        <li class="list-unstyled">
+        <li class="list-unstyled mt-3">
           <h2><%= user.emoji %> <%= user.first_name %></h2>
           <ol>
             <% happy_things.each do |happy_thing| %>
@@ -25,15 +25,15 @@
   <!-- Conditional Form to add a new Happy Thing, shown only if there are less than 5 happy things -->
   <% if @happy_things.count < 10 %>
     <div class="my-5">
-      <h2>Forgot something? Add more Happy Things</h2>
+      <h3>Forgot something? Add more Happy Things</h3>
       <%= simple_form_for(@old_happy_thing, url: happy_things_old_happy_thing_path, method: :post, html: { multipart: true }) do |f| %>
-        <%= f.input :title, label: 'Title', required: true, input_html: {class: 'form-control'} %>
+        <%= f.input :title, label: 'Title', required: true, input_html: {class: 'form-control mt-3 mb-2'} %>
         <%= f.hidden_field :start_time, value: @date.strftime('%Y-%m-%d %H:%M:%S') %>
-        <%= f.input :photo, as: :file, label: 'Upload Photo (optional)', input_html: {class: 'form-control-file'} %>
-        <%= f.button :submit, 'Save', class: 'btn btn-success' %>
+        <%= f.input :photo, as: :file, label: 'Upload Photo (optional)', input_html: {class: 'form-control-file mt-3'} %>
+        <%= f.button :submit, 'Save', class: 'btn button--primary mt-3' %>
       <% end %>
     </div>
   <% end %>
 
-  <%= link_to 'Back to Dashboard', root_path, class: "btn btn-blue" %>
+  <%= link_to 'Back to Dashboard', root_path, class: "btn button--primary" %>
 </div>
