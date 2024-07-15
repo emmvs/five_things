@@ -43,15 +43,16 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     fetch_words_for_wordcloud
     fetch_visited_places
     fetch_label_count
-    @markers = current_user.happy_things.geocoded.map {|ht| { lat: ht.latitude, lng: ht.longitude } }
+    @markers = current_user.happy_things.geocoded.map { |ht| { lat: ht.latitude, lng: ht.longitude } }
   end
 
   def show_by_date
+    @comment = Comment.new
     @date = begin
-              Date.parse(params[:date])
-            rescue ArgumentError
-              Date.today
-            end
+      Date.parse(params[:date])
+    rescue ArgumentError
+      Date.today
+    end
     setup_happy_things_for_view
     @old_happy_thing = current_user.happy_things.new(start_time: @date)
   end
@@ -78,11 +79,9 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def fetch_label_count
-    if @happy_things.present?
-      @label_counts = @happy_things.group(:category).count
-    else
-      @label_counts = {}
-    end
+    return @label_counts = @happy_things.group(:category).count if @happy_things.present?
+
+    @label_counts = {}
   end
 
   def create_old_happy_thing
@@ -116,7 +115,8 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def happy_thing_params
-    params.require(:happy_thing).permit(:title, :photo, :body, :status, :start_time, :place, :longitude, :latitude, :category_id)
+    params.require(:happy_thing).permit(:title, :photo, :body, :status, :start_time, :place, :longitude, :latitude,
+                                        :category_id, :share_location)
   end
 
   def create_happy_thing

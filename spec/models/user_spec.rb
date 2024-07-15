@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
   it 'is valid with valid attributes' do
-    user = User.new(first_name: 'Emma', email: 'emma@test.com', password: "123456")
+    user = User.new(first_name: 'Emma', email: 'emma@test.com', password: '123456')
     expect(user).to be_valid
   end
 
@@ -17,7 +19,7 @@ RSpec.describe User, type: :model do
 
     context 'when there are consecutive happy things' do
       before do
-        3.times { |n| create(:happy_thing, user: user, start_time: 2.days.ago + n.days) }
+        3.times { |n| create(:happy_thing, user:, start_time: 2.days.ago + n.days) }
       end
 
       it 'returns the correct streak count' do
@@ -27,8 +29,8 @@ RSpec.describe User, type: :model do
 
     context 'when happy things are not consecutive' do
       before do
-        create(:happy_thing, user: user, start_time: 3.days.ago)
-        create(:happy_thing, user: user, start_time: 1.day.ago)
+        create(:happy_thing, user:, start_time: 3.days.ago)
+        create(:happy_thing, user:, start_time: 1.day.ago)
       end
 
       it 'returns a streak ending at the first gap' do
