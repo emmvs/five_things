@@ -5,22 +5,33 @@ export default class extends Controller {
   static targets = ["form"]
 
   connect() {
-    console.log("connected lol 👻");
     this.formTarget.addEventListener("submit", event => {
       event.preventDefault();
-      this.getLocation();
+      this.handleFormSubmit();
     });
+  }
+
+  handleFormSubmit() {
+    const shareLocationCheckbox = this.formTarget.querySelector('input[name="happy_thing[share_location]"]');
+    if (shareLocationCheckbox && shareLocationCheckbox.checked) {
+      this.getLocation();
+    } else {
+      this.formTarget.submit();
+    }
   }
 
   getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => this.submitFormWithLocation(position),
-        error => console.error('Error obtaining location', error)
+        error => {
+          console.error('Error obtaining location', error);
+          this.formTarget.submit();
+        }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
-      this.formTarget.submit(); // Fallback: submit form without location
+      this.formTarget.submit();
     }
   }
 

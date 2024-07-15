@@ -1,5 +1,6 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+Rails.application.routes.draw do
   # Create a constraint to check if the user is logged in
   constraints ->(request) { request.env['warden'].user } do
     #              ☝🏻 current HTTP request object
@@ -14,21 +15,25 @@ Rails.application.routes.draw do
 
   # Users
   devise_for :users
-  resources :users, only: [:index, :show]
+  resources :users, only: %i[index show]
 
   # Happy Things
-  get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date, constraints: { date: /\d{4}-\d{2}-\d{2}/ }
+  get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,
+                            constraints: { date: /\d{4}-\d{2}-\d{2}/ }
   get 'happy_things/old_happy_thing', to: 'happy_things#old_happy_thing', as: :old_happy_thing
   post 'happy_things/old_happy_thing', to: 'happy_things#create_old_happy_thing'
 
   resources :happy_things do
+    resources :comments, only: %i[create]
     collection do
       get :analytics
     end
   end
 
+  resources :comments, only: %i[destroy]
+
   # Friendships
-  resources :friendships, only: [:create, :update, :destroy]
+  resources :friendships, only: %i[create update destroy]
 
   # Poems
   # get 'dashboards/retrieve_poem', to: 'dashboards#retrieve_poem'

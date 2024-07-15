@@ -15,6 +15,8 @@
 <%= f.input :category_id, collection: Category.all, prompt: "Select a category" %>
 <%= f.input :photo, as: :file, input_html: { class: 'custom-file-upload' } %>
 
+<%= f.input :share_location, as: :boolean, label: 'Share my location' %>
+
 <!-- Allow editing the place only on the edit page -->
 <% if params[:action] == 'edit' %>
   <%= f.input :place %>

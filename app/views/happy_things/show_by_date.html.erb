@@ -12,6 +12,29 @@
               <li>
                 <strong><%= happy_thing.title.sub(/\S/, &:upcase) %></strong>
                 <%= cl_image_tag happy_thing.photo.key, class: "rounded mt-3", height: 200, width: 200, crop: :fill, gravity: :auto if happy_thing.photo.attached? %>
+
+                <!-- Comments Section -->
+                <div class="comments mt-3">
+                  <h5>Comments:</h5>
+                    <% if happy_thing.comments %>
+                      <% happy_thing.comments.each do |comment| %>
+                        <div class="comment mb-2">
+                          <p><strong><%= comment.user.first_name %>:</strong> <%= comment.content %></p>
+                        </div>
+                      <% end %>
+                    <% else %>
+                      <p class="opacity-80">No Comments yet.</p>
+                    <% end %>
+
+                  <!-- Form to Add a New Comment -->
+                  <%= simple_form_for([happy_thing, @comment], html: { class: 'mt-2' }) do |f| %>
+                    <div class="form-group">
+                      <%= f.input :content, label: false, placeholder: 'Add a comment...', input_html: { class: 'form-control' } %>
+                    </div>
+                    <%= f.button :submit, 'Add Comment', class: 'btn button--primary mt-2' %>
+                  <% end %>
+                </div>
+                <!-- End of Comments Section -->
               </li>
             <% end %>
           </ol>
@@ -22,7 +45,7 @@
     <p class="opacity-50">No Happy Things found for this date.</p>
   <% end %>
 
-  <!-- Conditional Form to add a new Happy Thing, shown only if there are less than 5 happy things -->
+  <!-- Conditional Form to add a new Happy Thing, shown only if there are less than 10 happy things -->
   <% if @happy_things.count < 10 %>
     <div class="my-5">
       <h3>Forgot something? Add more Happy Things</h3>

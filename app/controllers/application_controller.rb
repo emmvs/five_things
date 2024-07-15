@@ -8,8 +8,10 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :avatar, :emoji, :email_opt_in, :location_opt_in])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :avatar, :emoji, :email_opt_in, :location_opt_in])
+    devise_parameter_sanitizer.permit(:sign_up,
+                                      keys: %i[first_name last_name avatar emoji email_opt_in location_opt_in])
+    devise_parameter_sanitizer.permit(:account_update,
+                                      keys: %i[first_name last_name avatar emoji email_opt_in location_opt_in])
   end
 
   def set_should_render_navbar

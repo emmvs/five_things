@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FriendshipsHelper
   def can_add_as_friend?(current_user, potential_friend)
     return false if current_user.friends.include?(potential_friend)

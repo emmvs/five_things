@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PoetryService < ApplicationService
-  BASE_URL = ENV['POETRY_DB_URL'] || 'https://poetrydb.org/'.freeze
+  BASE_URL = ENV['POETRY_DB_URL'] || 'https://poetrydb.org/'
 
   def call
     fetch_real_poem || fetch_fake_poem
@@ -14,29 +16,25 @@ class PoetryService < ApplicationService
   def self.random_poem
     response = HTTParty.get("#{BASE_URL}authors")
     return nil unless response.ok?
-  
-    begin
-      authors = JSON.parse(response.body)["authors"]
-  
-      if authors.is_a?(Array) && authors.any?
-        chosen_author = authors.sample
-        return chosen_author
-      else
-        return nil
-      end
 
+    begin
+      authors = JSON.parse(response.body)['authors']
+
+      return nil unless authors.is_a?(Array) && authors.any?
+
+      authors.sample
     rescue JSON::ParserError
-      return nil
+      nil
     end
   end
 
   def self.format_poem(poem)
-    return nil unless poem && poem["title"] && poem["author"] && poem["lines"]
+    return nil unless poem && poem['title'] && poem['author'] && poem['lines']
 
     {
-      title: poem["title"],
-      author: poem["author"],
-      lines: poem["lines"].is_a?(Array) ? poem["lines"] : poem["lines"].split("\n")
+      title: poem['title'],
+      author: poem['author'],
+      lines: poem['lines'].is_a?(Array) ? poem['lines'] : poem['lines'].split("\n")
     }
   end
 
@@ -44,7 +42,7 @@ class PoetryService < ApplicationService
     response = HTTParty.get("#{BASE_URL}authors")
     return nil unless response.ok?
 
-    authors = JSON.parse(response.body)["authors"]
+    authors = JSON.parse(response.body)['authors']
     authors.sample if authors.is_a?(Array)
   end
 
