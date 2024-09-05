@@ -3,4 +3,6 @@
 class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :happy_thing
+
+  validates :content, presence: true
 end
