@@ -18,6 +18,11 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
+  it 'is not valid with www. in the name' do
+    user = User.new(first_name: 'www.pornhub.org', email: 'emma@test.com', password: '123456')
+    expect(user).not_to be_valid
+  end
+
   it 'is not valid with https in the name' do
     user = User.new(first_name: 'https://Emma', email: 'emma@test.com', password: '123456')
     expect(user).not_to be_valid

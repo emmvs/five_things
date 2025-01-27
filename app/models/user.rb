@@ -8,8 +8,8 @@ class User < ApplicationRecord
 
   scope :all_except, ->(user) { where.not(id: user.id) }
 
-  validates :first_name, presence: true, format: { without: /http|https/i }
-  validates :password, presence: true, format: { without: /<script>/i }
+  validates :first_name, presence: true, format: { without: /http|https|www/i }
+  validates :password, presence: true, format: { without: /(<script.*?>|<\/script>)/i }
 
   has_many :happy_things
   has_many :comments
