@@ -8,6 +8,21 @@ RSpec.describe User, type: :model do
     expect(user).to be_valid
   end
 
+  it 'validate that the password with scripts is not valid' do
+    user = User.new(first_name: 'Emma', email: 'emma@test.com', password: '<script>123456</script>')
+    expect(user).not_to be_valid
+  end
+
+  it 'is not valid with links in the name' do
+    user = User.new(first_name: 'http://Emma', email: 'emma@test.com', password: '123456')
+    expect(user).not_to be_valid
+  end
+
+  it 'is not valid with https in the name' do
+    user = User.new(first_name: 'https://Emma', email: 'emma@test.com', password: '123456')
+    expect(user).not_to be_valid
+  end
+
   describe '#happy_streak' do
     let(:user) { create(:user) }
 
