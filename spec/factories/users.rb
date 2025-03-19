@@ -2,8 +2,14 @@
 
 FactoryBot.define do
   factory :user do
-    first_name { Faker::Name.first_name }
+    first_name { %w[Emmsi Leamaus Juanfairy].sample }
     email { Faker::Internet.unique.email }
-    password { '123456' }
+    username { Faker::Internet.username }
+    password { 'Secret_pa$$word_1' }
+    emoji { '👻' }
+    email_opt_in { false }
+    location_opt_in { false }
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
   end
 end
