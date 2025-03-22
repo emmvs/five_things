@@ -71,14 +71,14 @@
 }
 
 /* Mobile */
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: 768px) {
   .bottom-navbar {
     display: none !important;
   }
 }
 
 /* Desktop */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 767px) {
   .bottom-navbar {
     display: flex;
   }
