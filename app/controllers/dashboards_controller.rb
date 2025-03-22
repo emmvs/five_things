@@ -50,15 +50,21 @@ class DashboardsController < ApplicationController
   end
 
   def fetch_happy_things_by_time(friend_ids)
-    friend_ids_with_self = get_all_ids(friend_ids)
-    @happy_things_today = happy_things_by_period(Date.today..Date.tomorrow, friend_ids_with_self)
-    @happy_things_of_the_last_two_days = happy_things_by_period((Date.today - 1.days)..Date.today.end_of_day,
-                                                                friend_ids_with_self)
-    @happy_things_one_year_ago = HappyThing.where('DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date,
-                                                  friend_ids_with_self).group_by(&:user)
+    ids = with_current_user(friend_ids)
+    @happy_things_today = happy_things_by_period(
+      Date.today..Date.tomorrow, ids
+    )
+
+    @happy_things_of_the_last_two_days = happy_things_by_period(
+      (Date.today - 1.days)..Date.today.end_of_day, ids
+    )
+
+    @happy_things_one_year_ago = HappyThing.where(
+      'DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date, ids
+    ).group_by(&:user)
   end
 
-  def get_all_ids(friend_ids)
+  def with_current_user(friend_ids)
     friend_ids + [current_user.id]
   end
 
@@ -68,9 +74,10 @@ class DashboardsController < ApplicationController
 
   def set_happy_things_of_today
     today = Date.today
-    friend_ids = current_user.friends_and_friends_who_added_me_ids + [current_user.id]
+    friend_ids = with_current_user(current_user.friends_and_friends_who_added_me_ids)
     @happy_things_by_date = HappyThing.where(
-      'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)', today.month, today.day, friend_ids
+      'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
+      today.month, today.day, friend_ids
     )
   end
 end
