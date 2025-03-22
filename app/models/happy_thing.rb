@@ -1,6 +1,23 @@
 # frozen_string_literal: true
 
-# HappyThing Model
+# == Schema Information
+#
+# Table name: happy_things
+#
+#  id              :bigint           not null, primary key
+#  title           :string           not null
+#  body            :text
+#  status          :integer
+#  user_id         :bigint           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  start_time      :datetime
+#  place           :string
+#  latitude        :float
+#  longitude       :float
+#  category_id     :bigint
+#  share_location  :boolean
+#
 class HappyThing < ApplicationRecord
   # default_scope { order(created_at: :desc) }
   # scope :of_friends, ->(user) {
