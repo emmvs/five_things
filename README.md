@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Five Things App is designed to help users appreciate the smaller joys in life by listing down five things that make them happy every day
+The 5 Things App is designed to help users appreciate the smaller joys in life by listing down five things that make them happy every day.
 
 ## Getting Started
 
@@ -29,6 +29,13 @@ Ensure that you have the following installed on your local machine:
 3. Install necessary gems
 
 `bundle install`
+
+4. Install PostgreSQL
+
+```
+brew install postgresql
+brew services start postgresql
+```
 
 ### Database Creation
 
@@ -75,4 +82,4 @@ If you would like to contribute, please fork the repository and use a feature br
 
 **Enjoy Five Things, and remember to appreciate the litte things!**
 
-Made with ❤️ by emmvs
+Made with ♥️ by emmvs
