@@ -5,12 +5,8 @@ class PoetryService < ApplicationService
 
   def call
     fetch_real_poem || fetch_fake_poem
-  end
-
-  private
-
-  def fetch_real_poem
-    self.class.random_poem
+  rescue JSON::ParserError
+    fetch_fake_poem
   end
 
   def self.random_poem
@@ -46,10 +42,6 @@ class PoetryService < ApplicationService
     authors.sample if authors.is_a?(Array)
   end
 
-  def fetch_fake_poem
-    self.class.fake_poem
-  end
-
   def self.fake_poem
     {
       title: 'Journey of the Magi',
@@ -62,5 +54,15 @@ class PoetryService < ApplicationService
         'The very dead of winter'
       ]
     }
+  end
+
+  private
+
+  def fetch_real_poem
+    self.class.random_poem
+  end
+
+  def fetch_fake_poem
+    self.class.fake_poem
   end
 end

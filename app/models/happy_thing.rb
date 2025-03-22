@@ -19,28 +19,20 @@
 #  share_location  :boolean
 #
 class HappyThing < ApplicationRecord
-  # default_scope { order(created_at: :desc) }
-  # scope :of_friends, ->(user) {
-  #   friend_ids = user.friends.ids + user.inverse_friends.ids
-  #   where(user_id: friend_ids + [user.id])
-  # }
-
   geocoded_by :place
 
   belongs_to :user
   belongs_to :category
-
   has_many :likes
   has_many :comments
+  has_one_attached :photo
+
+  validates :title, presence: true
 
   before_validation :set_default_category, on: :create
-  validates :title, presence: true
   after_validation :geocode, if: :will_save_change_to_place?
-
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
   after_create :check_happy_things_count
-
-  has_one_attached :photo
 
   def self.geocoded_markers
     geocoded.select(:latitude, :longitude).map do |ht|
