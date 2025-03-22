@@ -11,5 +11,6 @@ FactoryBot.define do
     location_opt_in { false }
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
+    confirmed_at { Time.zone.now }
   end
 end

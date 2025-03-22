@@ -104,4 +104,8 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Set the default host for mailer URLs.
+  Rails.application.routes.default_url_options[:host] = 'www.my5things.com'
+  Rails.application.routes.default_url_options[:protocol] = 'https'
 end
