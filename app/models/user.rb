@@ -46,11 +46,11 @@ class User < ApplicationRecord
 
   # Friendships
   has_many :friendships
-  # has_many :friendships, foreign_key: 'user_id'
-  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
+  has_many :received_friend_requests, class_name: 'Friendship', foreign_key: 'friend_id'
   has_many :friends, -> { where(friendships: { accepted: true }) }, through: :friendships, source: :friend
-  # Users who have listed this user as a friend
-  has_many :inverse_friends, -> { where(friendships: { accepted: true }) }, through: :inverse_friendships, source: :user
+  has_many :friends_who_added_me, lambda {
+                                    where(friendships: { accepted: true })
+                                  }, through: :received_friend_requests, source: :user
 
   has_one_attached :avatar
 
@@ -59,12 +59,12 @@ class User < ApplicationRecord
           query: "%#{query}%")
   end
 
-  def friends_and_inverse_friends_ids
-    friends.pluck(:id) + inverse_friends.pluck(:id)
+  def friends_and_friends_who_added_me_ids
+    friends.pluck(:id) + friends_who_added_me.pluck(:id)
   end
 
   def all_friends
-    friends + inverse_friends
+    friends + friends_who_added_me
   end
 
   def accepted_friends
@@ -72,7 +72,7 @@ class User < ApplicationRecord
   end
 
   def pending_friends
-    friendships.pending + inverse_friendships.pending
+    friendships.pending + received_friend_requests.pending
   end
 
   def happy_streak
