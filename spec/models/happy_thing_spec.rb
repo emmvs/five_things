@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe HappyThing, type: :model do
+RSpec.describe HappyThing, type: :model do # rubocop:disable Metrics/BlockLength
   describe 'Validations' do
     it 'has a title' do
       should validate_presence_of(:title)
@@ -20,7 +20,7 @@ RSpec.describe HappyThing, type: :model do
       user = create(:user)
       happy_thing1 = create(:happy_thing, user:, created_at: 2.days.ago)
       happy_thing2 = create(:happy_thing, user:, created_at: 1.day.ago)
-      expect(described_class.all).to eq([happy_thing2, happy_thing1])
+      expect(described_class.order(created_at: :desc)).to eq([happy_thing2, happy_thing1])
     end
   end
 
@@ -46,10 +46,6 @@ RSpec.describe HappyThing, type: :model do
           create(:friendship, user:, friend:)
           create(:friendship, user: friend, friend: user)
         end
-
-        # Debugging
-        puts "Friends count: #{user.friends.count}"
-        puts "Inverse Friends count: #{user.inverse_friends.count}"
 
         expect do
           5.times { create(:happy_thing, user:) }

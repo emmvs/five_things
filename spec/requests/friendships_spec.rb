@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Friendships', type: :request do
+RSpec.describe 'Friendships', type: :request do # rubocop:disable Metrics/BlockLength
   let(:user) { create(:user) }
   let(:friend) { create(:user) }
 
@@ -13,7 +13,7 @@ RSpec.describe 'Friendships', type: :request do
   describe 'POST /create' do
     it 'creates a new friendship' do
       expect do
-        post friendships_path, params: { friendship: { friend_id: friend.id } }
+        post friendships_path, params: { friend_id: friend.id }
       end.to change(Friendship, :count).by(1)
       expect(response).to have_http_status(:redirect) # or :success
     end

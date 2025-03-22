@@ -1,0 +1,24 @@
+de:
+  simple_form:
+    placeholders:
+      happy_thing:
+        title: Was hat dich heute zum Lächeln gebracht?
+    labels:
+      happy_thing:
+        title: Name
+
+  helpers:
+    submit:
+      happy_thing:
+        create: Glücklichen Moment erstellen
+        update: Glücklichen Moment aktualisieren
+
+  errors:
+    models:
+      user:
+        first_name:
+          length: "muss zwischen 3 und 30 Zeichen lang sein"
+          invalid: "darf keine Links oder Skripte enthalten"
+        password:
+          length: "muss zwischen 12 und 30 Zeichen lang sein"
+          invalid: "muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten und darf keine Leerzeichen enthalten"

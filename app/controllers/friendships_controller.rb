@@ -37,8 +37,12 @@ class FriendshipsController < ApplicationController
 
   private
 
+  # Ensures only friendships involving the current_user can be updated or destroyed.
+  # This prevents users from accessing or manipulating friendships they are not part of,
+  # which could otherwise happen via ID guessing (e.g. /friendships/42)
   def set_friendship
-    @friendship = current_user.friendships.find_by(friend_id: params[:id]) ||
-                  current_user.inverse_friendships.find_by(user_id: params[:id])
+    @friendship = Friendship.where(id: params[:id])
+                            .where('user_id = ? OR friend_id = ?', current_user.id, current_user.id)
+                            .first
   end
 end

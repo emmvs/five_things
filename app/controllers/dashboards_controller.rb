@@ -42,7 +42,7 @@ class DashboardsController < ApplicationController
   end
 
   def set_happy_things
-    friend_ids = current_user.friends_and_inverse_friends_ids
+    friend_ids = current_user.friends_and_friends_who_added_me_ids
     user_ids = friend_ids + [current_user.id]
 
     @happy_things_of_you_and_friends = HappyThing.where(user_id: user_ids).order(created_at: :desc)
@@ -68,7 +68,7 @@ class DashboardsController < ApplicationController
 
   def set_happy_things_of_today
     today = Date.today
-    friend_ids = current_user.friends_and_inverse_friends_ids + [current_user.id]
+    friend_ids = current_user.friends_and_friends_who_added_me_ids + [current_user.id]
     @happy_things_by_date = HappyThing.where(
       'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)', today.month, today.day, friend_ids
     )
