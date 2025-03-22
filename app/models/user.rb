@@ -8,6 +8,20 @@ class User < ApplicationRecord
 
   scope :all_except, ->(user) { where.not(id: user.id) }
 
+  validates :first_name, presence: true,
+                         length: { in: 3..30, message: I18n.t('errors.models.user.first_name.length') },
+                         format: {
+                           without: %r{http|https|www|<script.*?>|</script>}i,
+                           message: I18n.t('errors.models.user.first_name.invalid')
+                         }
+
+  validates :password, presence: true,
+                       length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
+                       format: {
+                         with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,30}\z/,
+                         message: I18n.t('errors.models.user.password.invalid')
+                       }
+
   has_many :happy_things
   has_many :comments
   has_many :likes
