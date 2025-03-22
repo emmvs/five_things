@@ -13,6 +13,13 @@
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  sign_in_count          :integer          default(0), not null
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :string
+#  last_sign_in_ip        :string
+#  failed_attempts        :integer          default(0), null: false
+#  unlock_token           :string
+#  locked_at              :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  emoji                  :string
@@ -22,7 +29,8 @@
 #
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :confirmable # TODO: Add :trackable, :lockable
 
   scope :all_except, ->(user) { where.not(id: user.id) }
 
@@ -84,11 +92,11 @@ class User < ApplicationRecord
     calculate_streak(dates)
   end
 
-  private
-
-  def password_required?
-    password.present? || new_record?
+  def friends_and_friends_who_added_me
+    User.where(id: friends_and_friends_who_added_me_ids)
   end
+
+  private
 
   def happy_things_dates
     happy_things.reorder(start_time: :desc)

@@ -3,16 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe HappyThing, type: :model do # rubocop:disable Metrics/BlockLength
+  include ActiveJob::TestHelper
+
   describe 'Validations' do
-    it 'has a title' do
-      should validate_presence_of(:title)
-    end
+    it { should validate_presence_of(:title) }
   end
 
   describe 'Associations' do
-    it 'belongs to a user' do
-      should belong_to(:user)
-    end
+    it { should belong_to(:user) }
   end
 
   describe 'Scope' do
@@ -20,6 +18,7 @@ RSpec.describe HappyThing, type: :model do # rubocop:disable Metrics/BlockLength
       user = create(:user)
       happy_thing1 = create(:happy_thing, user:, created_at: 2.days.ago)
       happy_thing2 = create(:happy_thing, user:, created_at: 1.day.ago)
+
       expect(described_class.order(created_at: :desc)).to eq([happy_thing2, happy_thing1])
     end
   end
@@ -31,26 +30,65 @@ RSpec.describe HappyThing, type: :model do # rubocop:disable Metrics/BlockLength
       expect(happy_thing.start_time).to be_present
     end
 
-    it 'does not set the start_time if already present' do
-      happy_thing = build(:happy_thing, start_time: DateTime.now)
-      expect { happy_thing.add_date_time_to_happy_thing }.to_not change(happy_thing, :start_time)
+    it 'does not change start_time if already present' do
+      time = DateTime.now
+      happy_thing = build(:happy_thing, start_time: time)
+      expect { happy_thing.add_date_time_to_happy_thing }.not_to change(happy_thing, :start_time)
     end
   end
 
-  describe 'callbacks' do
+  describe 'Callbacks' do
     context 'when a user adds 5 happy things in a day' do
-      it 'sends an email to their friends' do
+      it 'sends an email to each of their friends' do
         user = create(:user)
-        3.times do
-          friend = create(:user)
+        friends = create_list(:user, 3)
+
+        friends.each do |friend|
           create(:friendship, user:, friend:)
           create(:friendship, user: friend, friend: user)
         end
 
-        expect do
-          5.times { create(:happy_thing, user:) }
-        end.to change { ActionMailer::Base.deliveries.count }.by(3)
+        perform_enqueued_jobs do
+          create_list(:happy_thing, 5, user:)
+        end
+
+        delivered_emails = ActionMailer::Base.deliveries.map(&:to).flatten
+
+        friends.each do |friend|
+          expect(delivered_emails).to include(friend.email)
+        end
       end
     end
+  end
+
+  describe 'Mailers' do
+    before { clear_enqueued_jobs }
+
+    it 'sends an email to each of their friends but not to non-friends' do
+      user = create(:user)
+      friends = create_list(:user, 3)
+      non_friend = create(:user)
+
+      friends.each do |friend|
+        create(:friendship, user:, friend:)
+        create(:friendship, user: friend, friend: user)
+      end
+
+      create_list(:happy_thing, 4, user:)
+
+      perform_enqueued_jobs do
+        create(:happy_thing, user:)
+      end
+
+      delivered_emails = ActionMailer::Base.deliveries.map(&:to).flatten
+
+      friends.each do |friend|
+        expect(delivered_emails).to include(friend.email)
+      end
+
+      expect(delivered_emails).not_to include(non_friend.email)
+    end
+
+    after { clear_performed_jobs }
   end
 end

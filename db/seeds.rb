@@ -14,13 +14,13 @@
 # users << User.create(
 #   first_name: 'Lea',
 #   last_name: 'Balkenhol',
-#   email: 'lea.balkenhol@outlook.de',
+#   email: 'lea@test.de',
 #   password: 'beehappy'
 # )
 # users << User.create(
 #   first_name: 'Emma',
 #   last_name: 'Rünzel',
-#   email: 'emma@ruenzel.de',
+#   email: 'emma@test.de',
 #   password: '123456'
 # )
 # puts "Create #{users.first.first_name} 💁🏻‍♀️ & #{users.last.first_name} 🤷🏼‍♀️"

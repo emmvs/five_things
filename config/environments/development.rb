@@ -76,4 +76,7 @@ Rails.application.configure do
 
   # Local Tunnel (Allow requests)
   config.hosts.clear
+
+  # Use an explicit host for mailer URLs.
+  Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 end

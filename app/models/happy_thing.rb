@@ -79,11 +79,15 @@ class HappyThing < ApplicationRecord
   end
 
   def check_happy_things_count
-    count_today = user.happy_things.where('created_at >= ?', Time.zone.now.beginning_of_day).count
-    return unless count_today == 5
+    today_count = user.happy_things.where(start_time: Time.zone.today.all_day).count
+    return unless today_count == 5
 
-    user.friends.each do |friend|
-      UserMailer.happy_things_notification(friend).deliver_now
+    notify_friends_about_happy_things
+  end
+
+  def notify_friends_about_happy_things
+    user.friends_and_friends_who_added_me.each do |friend|
+      UserMailer.happy_things_notification(friend).deliver_later
     end
   end
 end

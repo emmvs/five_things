@@ -1,5 +1,20 @@
-<p>Welcome <%= @email %>!</p>
+<h1>
+  Hey there<%= @resource.first_name.present? ? ", #{@resource.first_name}" : '' %> <%= @resource.emoji.presence || '☀️' %>
+</h1>
 
-<p>You can confirm your account email through the link below:</p>
+<p>
+  This is to confirm that <strong><%= @resource.email %></strong> is the email you want to use on your account.
+  If you ever lose your password, that's where we'll email a reset link.
+</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p>
+  You must click the link below to confirm that you received this email:
+</p>
+
+<p>
+  <%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %>
+</p>
+
+<p>
+  Have questions or need help? Just reply to this email and our happy team will help you sort it out.
+</p>
