@@ -1,69 +1,119 @@
 # frozen_string_literal: true
 
-# Seed data for Five Things App
+# Seed data for 5 Things App
 
-# Gems
-# require "faker"
+require 'faker'
 
-# Clear existing data
-# HappyThing.destroy_all
-# User.destroy_all
-
-# Create Users
-# users = []
-# users << User.create(
-#   first_name: 'Lea',
-#   last_name: 'Balkenhol',
-#   email: 'lea@test.de',
-#   password: 'beehappy'
-# )
-# users << User.create(
-#   first_name: 'Emma',
-#   last_name: 'Rünzel',
-#   email: 'emma@test.de',
-#   password: '123456'
-# )
-# puts "Create #{users.first.first_name} 💁🏻‍♀️ & #{users.last.first_name} 🤷🏼‍♀️"
-
-# Create More Users
-# users = []
-# users << User.create(
-#   first_name: 'Florence',
-#   last_name: 'Böhm',
-#   email: 'florence@test.com',
-#   password: '123456'
-# )
-# users << User.create(
-#   first_name: 'Hansi',
-#   last_name: 'Steffens',
-#   email: 'hansi@test.com',
-#   password: '123456'
-# )
-# puts "Create #{users.first.first_name} 💁🏻‍♀️ & #{users.last.first_name} 🤷🏼‍♀️"
-
-# Create HappyThings
-# happy_things = []
-# users.each do |user|
-#   5.times do |i|
-#     happy_things << HappyThing.create(
-#       user: user,
-#       body: "Happy Thing #{i + 1} for #{user.first_name} on Day #{i + 1}"
-#     )
-#   end
-# end
-# puts "Create HappyThings 🙌 🙌 🙌 🙌 🙌"
-
-# puts "\n== Seeding the database with fixtures, too =="
-# system("bin/rails db:fixtures:load")
-
-# Create Friendships
-# friendships = []
-# friendships << Friendship.create(user: User.where(first_name: "Emma"), friend: User.where(first_name: "Name"),)
-# friendships << Friendship.create(user: User.last, friend: User.first)
-
-%w[General Family Friends Nature Fitness Celebrations Spiritual Hobby].each do |category_name|
-  Category.find_or_create_by(name: category_name)
+# Clean data
+if Rails.env.development?
+  HappyThing.destroy_all
+  Friendship.destroy_all
+  User.destroy_all
+  Category.destroy_all
+  puts "Let's clean this mess up 🧼"
 end
 
-puts "#{Category.count} Categories created! 👻"
-puts 'Done ✅'
+EMOJIS = %w[🦊 🐝 🦙 🐳 🐼 🐧 🐨 🐰 🦄 🐯 🐥 🦩 🐺 🪐 🎈 🎨 🎵 🎮 📚 🍕 🍣 🍩]
+
+# Create Users
+users = []
+users << User.create!(
+  first_name: 'Leababy',
+  last_name: 'Balkenhol',
+  email: 'lea@test.com',
+  emoji: "👻",
+  password: 'G1ggl3!Fluff',
+  confirmed_at: Time.current
+)
+
+users << User.create!(
+  first_name: 'Emmsiboom',
+  last_name: 'Rünzel',
+  email: 'emma@test.com',
+  emoji: EMOJIS.sample,
+  password: 'G1ggl3!Fluff',
+  confirmed_at: Time.current
+)
+
+puts "Created #{users.first.first_name} 💁🏻‍♀️ & #{users.last.first_name} 🤷🏼‍♀️"
+
+# Create additional users
+more_users = %w[Joshy Nadieschka Hansibaby Juanfairy Nomnom Santimaus Florenke Mäx].map do |name|
+  User.create!(
+    first_name: name,
+    last_name: 'Testy',
+    email: "#{name.downcase}@test.com",
+    emoji: EMOJIS.sample,
+    password: 'G1ggl3!Fluff',
+    confirmed_at: Time.current
+  )
+end
+
+puts "Created users: #{more_users.map(&:first_name).join(', ')} ✅"
+
+all_users = User.all
+
+# Helper to look up users by name
+def u(name)
+  User.find_by(first_name: name)
+end
+
+# -- Accepted Friendships for Emma --
+Friendship.create!(user: u('Emmsiboom'), friend: u('Joshy'), accepted: true)
+Friendship.create!(user: u('Joshy'), friend: u('Emmsiboom'), accepted: true)
+
+Friendship.create!(user: u('Emmsiboom'), friend: u('Hansibaby'), accepted: true)
+Friendship.create!(user: u('Hansibaby'), friend: u('Emmsiboom'), accepted: true)
+
+Friendship.create!(user: u('Emmsiboom'), friend: u('Juanfairy'), accepted: true)
+Friendship.create!(user: u('Juanfairy'), friend: u('Emmsiboom'), accepted: true)
+
+# -- Pending incoming requests to Emma --
+Friendship.create!(user: u('Mäx'), friend: u('Emmsiboom'), accepted: false)
+Friendship.create!(user: u('Santimaus'), friend: u('Emmsiboom'), accepted: false)
+
+# -- Emma sends a request to Florenke --
+Friendship.create!(user: u('Emmsiboom'), friend: u('Florenke'), accepted: false)
+
+# -- Other friendships --
+Friendship.create!(user: u('Joshy'), friend: u('Hansibaby'), accepted: true)
+Friendship.create!(user: u('Hansibaby'), friend: u('Joshy'), accepted: true)
+
+Friendship.create!(user: u('Juanfairy'), friend: u('Santimaus'), accepted: true)
+Friendship.create!(user: u('Santimaus'), friend: u('Juanfairy'), accepted: true)
+
+Friendship.create!(user: u('Mäx'), friend: u('Joshy'), accepted: false)
+Friendship.create!(user: u('Juanfairy'), friend: u('Mäx'), accepted: false)
+
+puts 'Friendships created 🤝 (some still pending...)'
+
+# Create Categories
+category_names = %w[General Family Friends Nature Fitness Celebrations Spiritual Hobby]
+categories = category_names.map { |name| Category.find_or_create_by!(name:) }
+puts "#{categories.size} Categories created! 👻"
+
+# Create 1–5 HappyThings per user for the last 30 days
+all_users.each do |user|
+  rand(1..5).times do
+    day_offset = rand(0..30)
+    created_day = Time.current - day_offset.days
+
+    HappyThing.create!(
+      user:,
+      title: Faker::Hobby.activity,
+      body: Faker::Lorem.paragraph(sentence_count: 2),
+      start_time: created_day.change(hour: rand(8..22)),
+      place: Faker::Address.city,
+      latitude: Faker::Address.latitude,
+      longitude: Faker::Address.longitude,
+      share_location: [true, false].sample,
+      status: [0, 1, 2].sample,
+      category: categories.sample,
+      created_at: created_day,
+      updated_at: created_day
+    )
+  end
+end
+
+puts 'HappyThings created for the past 30 days 🙌'
+puts 'Seeding complete ✅'
