@@ -55,11 +55,10 @@
         <% end %>
       </div>
 
-
       <!-- Section: Happy Places -->
       <div class="analytics-container dash-box p-4 mx-2 my-3">
         <h2>Visited Happy Places</h2>
-        <p>This year you have visited <%= @visited_places_count %> places. 🧳</p>
+        <p>This year you have visited <%= pluralize(@visited_places_count, 'place') %>. 🧳</p>
       </div>
 
       <!-- Mapbox Map -->

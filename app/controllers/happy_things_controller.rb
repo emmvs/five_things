@@ -76,7 +76,8 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def fetch_words_for_wordcloud
-    @words_for_wordcloud = WordAggregator.aggregated_words(current_user, 40)
+    @words_for_wordcloud = WordAggregator.aggregated_words(current_user, 40, period: :year)
+    @words_for_wordcloud_month = WordAggregator.aggregated_words(current_user, 40, period: :month)
   end
 
   def fetch_visited_places
