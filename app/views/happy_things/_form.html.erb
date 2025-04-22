@@ -14,8 +14,16 @@
 <%= f.input :title, input_html: { autofocus: true } %>
 <%= f.input :category_id, collection: Category.all, prompt: "Select a category" %>
 <%= f.input :photo, as: :file, input_html: { class: 'custom-file-upload' } %>
-
 <%= f.input :share_location, as: :boolean, label: 'Share my location' %>
+
+<%= f.input :shared_with_ids,
+  label: "Who should see this?",
+  as: :select,
+  collection: grouped_visibility_options(current_user),
+  input_html: {
+    multiple: true,
+    class: "form-control"
+  } %>
 
 <!-- Allow editing the place only on the edit page -->
 <% if params[:action] == 'edit' %>

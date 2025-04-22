@@ -87,6 +87,25 @@ Friendship.create!(user: u('Juanfairy'), friend: u('Mäx'), accepted: false)
 
 puts 'Friendships created 🤝 (some still pending...)'
 
+# Create Groups
+emma = u('Emmsiboom')
+lea  = u('Leababy')
+
+favorites = emma.groups.find_or_create_by!(name: 'Favorites')
+friends_group = emma.groups.find_or_create_by!(name: 'Friends')
+
+# Add Lea to Favorites
+favorites.group_memberships.create!(friend: lea)
+
+# Add a few users to the Friends group
+[u('Joshy'), u('Santimaus'), u('Nomnom')].each do |friend|
+  friends_group.group_memberships.create!(friend:)
+end
+
+puts "Emma's groups created 🎉"
+puts "Favorites: #{favorites.friends.pluck(:first_name).join(', ')}"
+puts "Friends: #{friends_group.friends.pluck(:first_name).join(', ')}"
+
 # Create Categories
 category_names = %w[General Family Friends Nature Fitness Celebrations Spiritual Hobby]
 categories = category_names.map { |name| Category.find_or_create_by!(name:) }

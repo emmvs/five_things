@@ -25,6 +25,10 @@ class HappyThing < ApplicationRecord
   belongs_to :category
   has_many :likes
   has_many :comments
+  has_many :happy_thing_user_shares, dependent: :destroy
+  has_many :shared_users, through: :happy_thing_user_shares, source: :friend
+  has_many :happy_thing_group_shares, dependent: :destroy
+  has_many :shared_groups, through: :happy_thing_group_shares, source: :group
   has_one_attached :photo
 
   validates :title, presence: true
@@ -33,6 +37,8 @@ class HappyThing < ApplicationRecord
   after_validation :geocode, if: :will_save_change_to_place?
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
   after_create :check_happy_things_count
+
+  attr_accessor :shared_with_ids
 
   def self.geocoded_markers
     geocoded.select(:latitude, :longitude).map do |ht|

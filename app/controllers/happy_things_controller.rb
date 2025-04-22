@@ -22,11 +22,16 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def create
     @happy_thing = current_user_happy_things.new(happy_thing_params)
+
     save_and_respond(@happy_thing)
+    handle_visibility(@happy_thing) if @happy_thing.persisted?
   end
 
   def update
     if @happy_thing.update(happy_thing_params)
+      @happy_thing.happy_thing_user_shares.destroy_all
+      @happy_thing.happy_thing_group_shares.destroy_all
+      handle_visibility(@happy_thing)
       redirect_to root_path, notice: 'Yay! 🎉 Happy Thing was updated 🥰'
     else
       render :edit, status: 422
@@ -114,9 +119,24 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     end
   end
 
+  def handle_visibility(happy_thing)
+    shared_ids = params[:happy_thing][:shared_with_ids] || []
+    return if shared_ids.blank?
+
+    shared_ids.each do |entry|
+      type, id = entry.split("_")
+      case type
+      when "group"
+        happy_thing.happy_thing_group_shares.create!(group_id: id)
+      when "friend"
+        happy_thing.happy_thing_user_shares.create!(friend_id: id)
+      end
+    end
+  end
+
   def happy_thing_params
     params.require(:happy_thing).permit(:title, :photo, :body, :status, :start_time, :place, :longitude, :latitude,
-                                        :category_id, :share_location)
+                                        :category_id, :share_location, shared_with_ids: [])
   end
 
   def create_happy_thing
@@ -124,17 +144,22 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
       if @happy_thing.save
         format.html { redirect_to root_path, notice: 'Happy Thing was successfully created.' }
         format.json { render json: { status: :created, happy_thing: @happy_thing } }
-        # format.json
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @happy_thing.errors, status: :unprocessable_entity }
-        # format.json
       end
     end
   end
 
   def happy_things_of_friends
-    friend_ids = current_user.friends.pluck(:id) + current_user.friends_who_added_me.pluck(:id)
-    HappyThing.where(user_id: friend_ids << current_user.id).reorder(start_time: :desc)
+    own = HappyThing.where(user_id: current_user.id)
+
+    shared_with_user = HappyThing.joins(:happy_thing_user_shares)
+                                 .where(happy_thing_user_shares: { friend_id: current_user.id })
+
+    shared_with_groups = HappyThing.joins(happy_thing_group_shares: { group: :group_memberships })
+                                   .where(group_memberships: { friend_id: current_user.id })
+
+    HappyThing.from_union([own, shared_with_user, shared_with_groups]).reorder(start_time: :desc)
   end
 end
