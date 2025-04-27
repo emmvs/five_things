@@ -44,7 +44,7 @@ class User < ApplicationRecord
   validates :password, presence: true,
                        length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
                        format: {
-                         with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,30}\z/,
+                         with: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}/,
                          message: I18n.t('errors.models.user.password.invalid')
                        }
 
