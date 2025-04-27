@@ -10,10 +10,46 @@ RSpec.describe 'Users', type: :request do # rubocop:disable Metrics/BlockLength
   end
 
   describe 'POST /login' do
-    it 'allows users with weak passwords to log in' do
+    it 'allows old users with weak passwords to log in' do
       post user_session_path, params: { user: { email: @user.email, password: '123456' } }
       follow_redirect!
       expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'User sign up and email confirmation flow' do # rubocop:disable Metrics/BlockLength
+    it 'allows a user to sign up, confirm their email, and log in' do # rubocop:disable Metrics/BlockLength
+      sign_out @user
+      ActionMailer::Base.deliveries.clear
+
+      post user_registration_path, params: {
+        user: {
+          first_name: 'Testy',
+          last_name: 'Tester',
+          email: 'testy-confirm@example.com',
+          password: 'StrongPass1!',
+          password_confirmation: 'StrongPass1!'
+        }
+      }
+
+      expect(response).to have_http_status(:found)
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
+      mail = ActionMailer::Base.deliveries.last
+      confirmation_url = mail.body.encoded.match(/href="(?<url>.+?)">/)[:url]
+
+      get confirmation_url
+      follow_redirect!
+      expect(response.body).to include('Your email address has been successfully confirmed')
+
+      post user_session_path, params: {
+        user: {
+          email: 'testy-confirm@example.com',
+          password: 'StrongPass1!'
+        }
+      }
+      expect(response).to have_http_status(:found)
+      follow_redirect!
+      expect(response.body).to include('Current Happy Streak')
     end
   end
 
