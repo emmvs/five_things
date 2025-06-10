@@ -17,11 +17,16 @@ export default class extends Controller {
   toggle(event) {
     if (event.target.checked) {
       this.getLocation();
+    } else {
+      this.resetLocationInputs();
     }
   }
 
   getLocation(callback) {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      if (callback) callback();
+      return;
+    }
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
