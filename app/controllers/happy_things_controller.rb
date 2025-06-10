@@ -22,7 +22,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def create
     @happy_thing = current_user_happy_things.new(happy_thing_params)
-
     save_and_respond(@happy_thing)
     handle_visibility(@happy_thing) if @happy_thing.persisted?
   end
@@ -125,11 +124,11 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     return if shared_ids.blank?
 
     shared_ids.each do |entry|
-      type, id = entry.split("_")
+      type, id = entry.split('_')
       case type
-      when "group"
+      when 'group'
         happy_thing.happy_thing_group_shares.create!(group_id: id)
-      when "friend"
+      when 'friend'
         happy_thing.happy_thing_user_shares.create!(friend_id: id)
       end
     end
