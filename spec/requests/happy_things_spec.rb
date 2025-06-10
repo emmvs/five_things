@@ -53,4 +53,28 @@ RSpec.describe 'HappyThings visibility', type: :request do # rubocop:disable Met
       expect(response.body).not_to include('Private One')
     end
   end
+
+  describe 'location sharing' do
+    it 'saves location when share_location is checked' do
+      sign_in owner
+
+      expect do
+        post happy_things_path, params: {
+          happy_thing: {
+            title: 'Shared with location',
+            share_location: '1',
+            latitude: 52.510885,
+            longitude: 13.3989367,
+            place: 'Berlin'
+          }
+        }
+      end.to change(HappyThing, :count).by(1)
+
+      happy_thing = HappyThing.last
+      expect(happy_thing.share_location).to be(true)
+      expect(happy_thing.latitude).to be_within(0.001).of(52.510885)
+      expect(happy_thing.longitude).to be_within(0.001).of(13.3989367)
+      expect(happy_thing.place).to eq('Berlin')
+    end
+  end
 end

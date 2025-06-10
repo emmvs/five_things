@@ -6,6 +6,7 @@ require 'faker'
 
 # Clean data
 if Rails.env.development?
+  GroupMembership.destroy_all
   HappyThing.destroy_all
   Friendship.destroy_all
   User.destroy_all
@@ -13,7 +14,7 @@ if Rails.env.development?
   puts "Let's clean this mess up 🧼"
 end
 
-EMOJIS = %w[🦊 🐝 🦙 🐳 🐼 🐧 🐨 🐰 🦄 🐯 🐥 🦩 🐺 🪐 🎈 🎨 🎵 🎮 📚 🍕 🍣 🍩]
+EMOJIS = %w[🦊 🐝 🦙 🐳 🐼 🐧 🐨 🐰 🦄 🐯 🐥 🦩 🐺 🪐 🎈 🎨 🎵 🎮 📚 🍕 🍣 🍩].freeze
 
 # Create Users
 users = []
@@ -21,7 +22,7 @@ users << User.create!(
   first_name: 'Leababy',
   last_name: 'Balkenhol',
   email: 'lea@test.com',
-  emoji: "👻",
+  emoji: '👻',
   password: 'G1ggl3!Fluff',
   confirmed_at: Time.current
 )
@@ -111,28 +112,28 @@ category_names = %w[General Family Friends Nature Fitness Celebrations Spiritual
 categories = category_names.map { |name| Category.find_or_create_by!(name:) }
 puts "#{categories.size} Categories created! 👻"
 
-# Create 1–5 HappyThings per user for the last 30 days
+# Create 1–5 HappyThings per user for each of today, and same date 1–5 years ago
 all_users.each do |user|
-  rand(1..5).times do
-    day_offset = rand(0..30)
-    created_day = Time.current - day_offset.days
-
-    HappyThing.create!(
-      user:,
-      title: Faker::Hobby.activity,
-      body: Faker::Lorem.paragraph(sentence_count: 2),
-      start_time: created_day.change(hour: rand(8..22)),
-      place: Faker::Address.city,
-      latitude: Faker::Address.latitude,
-      longitude: Faker::Address.longitude,
-      share_location: [true, false].sample,
-      status: [0, 1, 2].sample,
-      category: categories.sample,
-      created_at: created_day,
-      updated_at: created_day
-    )
+  (0..5).each do |year_offset|
+    date = Time.current - year_offset.years
+    rand(1..3).times do
+      HappyThing.create!(
+        user:,
+        title: Faker::Hobby.activity,
+        body: Faker::Lorem.paragraph(sentence_count: 2),
+        start_time: date.change(hour: rand(8..22)),
+        place: Faker::Address.city,
+        latitude: Faker::Address.latitude,
+        longitude: Faker::Address.longitude,
+        share_location: [true, false].sample,
+        status: [0, 1, 2].sample,
+        category: categories.sample,
+        created_at: date,
+        updated_at: date
+      )
+    end
   end
 end
 
-puts 'HappyThings created for the past 30 days 🙌'
+puts 'HappyThings created for today and past 1–5 years 🎉'
 puts 'Seeding complete ✅'

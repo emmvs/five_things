@@ -5,49 +5,61 @@ export default class extends Controller {
   static targets = ["form"]
 
   connect() {
-    this.formTarget.addEventListener("submit", event => {
-      event.preventDefault();
-      this.handleFormSubmit();
+    this.formTarget.addEventListener("submit", (event) => {
+      const shareLocationCheckbox = this.formTarget.querySelector('input[name="happy_thing[share_location]"]');
+      if (shareLocationCheckbox && shareLocationCheckbox.checked) {
+        event.preventDefault();
+        this.getLocation(() => this.formTarget.submit());
+      }
     });
   }
 
-  handleFormSubmit() {
-    const shareLocationCheckbox = this.formTarget.querySelector('input[name="happy_thing[share_location]"]');
-    if (shareLocationCheckbox && shareLocationCheckbox.checked) {
+  toggle(event) {
+    if (event.target.checked) {
       this.getLocation();
-    } else {
-      this.formTarget.submit();
     }
   }
 
-  getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        position => this.submitFormWithLocation(position),
-        error => {
-          console.error('Error obtaining location', error);
-          this.formTarget.submit();
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-      this.formTarget.submit();
-    }
+  getLocation(callback) {
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setHiddenInput("happy_thing[latitude]", position.coords.latitude);
+        this.setHiddenInput("happy_thing[longitude]", position.coords.longitude);
+
+        // optional: fetch rough city name from lat/lng
+        this.reverseGeocode(position.coords.latitude, position.coords.longitude);
+
+        if (callback) callback();
+      },
+      (error) => {
+        console.error("Geolocation failed", error);
+        if (callback) callback();
+      }
+    );
   }
 
-  submitFormWithLocation(position) {
-    const latitudeInput = document.createElement("input");
-    latitudeInput.type = "hidden";
-    latitudeInput.name = "happy_thing[latitude]";
-    latitudeInput.value = position.coords.latitude;
+  setHiddenInput(name, value) {
+    let input = this.formTarget.querySelector(`input[name="${name}"]`);
+    if (!input) {
+      input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      this.formTarget.appendChild(input);
+    }
+    input.value = value;
+  }
 
-    const longitudeInput = document.createElement("input");
-    longitudeInput.type = "hidden";
-    longitudeInput.name = "happy_thing[longitude]";
-    longitudeInput.value = position.coords.longitude;
-
-    this.formTarget.appendChild(latitudeInput);
-    this.formTarget.appendChild(longitudeInput);
-    this.formTarget.submit();
+  reverseGeocode(lat, lon) {
+    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+      .then(response => response.json())
+      .then(data => {
+        const city = data?.address?.city || data?.address?.town || data?.address?.village || "";
+        this.setHiddenInput("happy_thing[place]", city);
+      })
+      .catch(() => {
+        this.setHiddenInput("happy_thing[place]", "Unknown");
+      });
   }
 }
