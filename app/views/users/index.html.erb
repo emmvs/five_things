@@ -53,8 +53,9 @@
   <h2 class="mt-3">Friend Requests You Received</h2>
   <% current_user.received_friend_requests.pending.each do |friendship| %>
     <% friend = friendship.user %>
-    <%= link_to user_path(friend), class: "text-decoration-none" do %>
-      <div class="card w-100 p-2 my-3">
+
+    <div class="card w-100 p-2 my-3">
+      <%= link_to user_path(friend), class: "text-decoration-none" do %>
         <%= cl_image_tag friend.avatar.key,
           style: "width: 50px; height: 100%;",
           class: "pb-3",
@@ -64,10 +65,12 @@
             { radius: :max }
           ] unless friend.avatar.key.nil? %>
         <h4><%= friend.first_name %></h4>
-        <%= button_to "✅ Accept", friendship_path(friendship), method: :patch, class: "btn button--primary" %>
-      </div>
-    <% end %>
+      <% end %>
+
+      <%= button_to "✅ Accept", friendship_path(friendship), method: :patch, class: "btn button--primary mt-2" %>
+    </div>
   <% end %>
+
 
   <!-- All Users -->
   <div class="cards-friends">

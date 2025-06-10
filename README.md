@@ -57,7 +57,10 @@ brew services start postgresql
 
 1. To run the complete test suite, execute
 
-`rspec`
+```bash
+rspec # run all tests
+rspec spec/requests/users_spec.rb # run a specific test
+```
 
 ### Services
 

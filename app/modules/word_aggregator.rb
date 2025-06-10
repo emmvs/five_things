@@ -4,17 +4,23 @@
 module WordAggregator
   extend self
 
-  def aggregated_words(user, word_limit)
-    texts = user_happy_things_texts(user)
+  def aggregated_words(user, word_limit, period: :year)
+    texts = user_happy_things_texts(user, period)
     words = extract_significant_words(texts)
     sorted_word_counts(words, word_limit)
   end
 
   private
 
-  def user_happy_things_texts(user)
-    one_year_ago = Date.today - 1.year
-    user.happy_things.where(start_time: one_year_ago..Date.today).pluck(:title).join(' ')
+  def user_happy_things_texts(user, period)
+    start_date =
+      case period
+      when :year then Date.today - 1.year
+      when :month then Date.today - 1.month
+      else raise ArgumentError, "Unknown period: #{period}"
+      end
+
+    user.happy_things.where(start_time: start_date..Date.today).pluck(:title).join(' ')
   end
 
   def extract_significant_words(texts)

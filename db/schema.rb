@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_22_143311) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_20_155126) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,6 +69,41 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_22_143311) do
     t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
+  create_table "group_memberships", force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.bigint "friend_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["friend_id"], name: "index_group_memberships_on_friend_id"
+    t.index ["group_id"], name: "index_group_memberships_on_group_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_groups_on_user_id"
+  end
+
+  create_table "happy_thing_group_shares", force: :cascade do |t|
+    t.bigint "happy_thing_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_happy_thing_group_shares_on_group_id"
+    t.index ["happy_thing_id"], name: "index_happy_thing_group_shares_on_happy_thing_id"
+  end
+
+  create_table "happy_thing_user_shares", force: :cascade do |t|
+    t.bigint "happy_thing_id", null: false
+    t.bigint "friend_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["friend_id"], name: "index_happy_thing_user_shares_on_friend_id"
+    t.index ["happy_thing_id"], name: "index_happy_thing_user_shares_on_happy_thing_id"
+  end
+
   create_table "happy_things", force: :cascade do |t|
     t.string "title", null: false
     t.text "body"
@@ -116,6 +151,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_22_143311) do
   add_foreign_key "comments", "users"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "group_memberships", "groups"
+  add_foreign_key "group_memberships", "users", column: "friend_id"
+  add_foreign_key "groups", "users"
+  add_foreign_key "happy_thing_group_shares", "groups"
+  add_foreign_key "happy_thing_group_shares", "happy_things"
+  add_foreign_key "happy_thing_user_shares", "happy_things"
+  add_foreign_key "happy_thing_user_shares", "users", column: "friend_id"
   add_foreign_key "happy_things", "categories"
   add_foreign_key "happy_things", "users"
 end

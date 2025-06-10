@@ -29,7 +29,7 @@
       <!-- Section: Analytics -->
       <div class="analytics-container dash-box p-4 mx-2 my-3">
         <h2>Happy Analytics</h2>
-        <h3 class="mt-2">Most used words this year:</h3>
+        <h3 class="mt-4">Most used words this year:</h3>
         <% if @words_for_wordcloud.present? %>
         <div class="word-cloud">
           <% @words_for_wordcloud.each do |word, frequency| %>
@@ -41,10 +41,24 @@
         <% end %>
       </div>
 
+      <div class="analytics-container dash-box p-4 mx-2 my-3">
+        <h3 class="mt-4">Most used words this month:</h3>
+        <% if @words_for_wordcloud_month.present? %>
+          <div class="word-cloud">
+            <% @words_for_wordcloud_month.each do |word, frequency| %>
+              <% size = [[0.5 + frequency * 0.2, 0.75].max, 2.5].min %>
+              <%= content_tag :span, word.capitalize, style: "font-size: #{size}rem;" %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="opacity-50">No words data available for this month 😌</p>
+        <% end %>
+      </div>
+
       <!-- Section: Happy Places -->
       <div class="analytics-container dash-box p-4 mx-2 my-3">
         <h2>Visited Happy Places</h2>
-        <p>This year you have visited <%= @visited_places_count %> places. 🧳</p>
+        <p>This year you have visited <%= pluralize(@visited_places_count, 'place') %>. 🧳</p>
       </div>
 
       <!-- Mapbox Map -->

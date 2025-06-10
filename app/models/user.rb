@@ -44,13 +44,18 @@ class User < ApplicationRecord
   validates :password, presence: true,
                        length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
                        format: {
-                         with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,30}\z/,
+                         with: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}/,
                          message: I18n.t('errors.models.user.password.invalid')
                        }
 
   has_many :happy_things
   has_many :comments
   has_many :likes
+  has_many :groups, dependent: :destroy
+  has_many :happy_thing_user_shares, foreign_key: :friend_id, dependent: :destroy
+  has_many :received_happy_things, through: :happy_thing_user_shares, source: :happy_thing
+  has_many :group_memberships, foreign_key: :friend_id
+  has_many :groups_as_member, through: :group_memberships, source: :group
 
   # Friendships
   has_many :friendships

@@ -7,7 +7,7 @@
     <h1><%= time_based_greeting %> <%= current_user ? current_user.first_name : "Sunshine" %> <%= time_based_emoji %></h1>
     <div class="my-3">
       <h3>Current Happy Streak</h3>
-      <p><%= current_user.happy_streak %> <%= "day".pluralize(current_user.happy_streak) %></p>
+      <p><%= pluralize(current_user.happy_streak, 'day') %></p>
     </div>
   </div>
 
