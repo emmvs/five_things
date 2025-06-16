@@ -9,9 +9,11 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      redirect_to happy_things_by_date_path(@happy_thing.start_time.strftime('%Y-%m-%d')), notice: 'Comment added successfully!'
+      redirect_to happy_things_by_date_path(@happy_thing.start_time.strftime('%Y-%m-%d')),
+                  notice: 'Comment added successfully!'
     else
-      redirect_to happy_things_by_date_path(@happy_thing.start_time.strftime('%Y-%m-%d')), alert: 'Failed to add comment.'
+      redirect_to happy_things_by_date_path(@happy_thing.start_time.strftime('%Y-%m-%d')),
+                  alert: 'Failed to add comment.'
     end
   end
 

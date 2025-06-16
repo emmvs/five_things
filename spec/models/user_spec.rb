@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
-  describe 'Validations' do # rubocop:disable Metrics/BlockLength
+  describe 'Validations' do
     it 'is valid with valid attributes' do
       user = build(:user)
       expect(user).to be_valid
@@ -25,7 +25,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
     end
 
     it 'enforces strong password rules only when updating the password' do
-      user = create(:user)  # Persisted record
+      user = create(:user) # Persisted record
       user.password = 'weak'
       user.password_confirmation = 'weak'
       expect(user).not_to be_valid
