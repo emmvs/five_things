@@ -105,7 +105,7 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
-      user.first_name = auth.info.name || auth.info.name.split(' ').first.capitalize
+      user.first_name = auth.info.name || auth.info.email.split('@').first.capitalize
       user.password = generate_password_for_oauth
     end
   end
