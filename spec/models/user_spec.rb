@@ -69,7 +69,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
         provider: 'google_oauth2',
         uid: '123456789',
         info: {
-          name: 'Emma Doe',
+          name: 'Emma Who',
           email: 'emmazing@gmail.com'
         }
       })
