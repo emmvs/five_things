@@ -30,7 +30,8 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable # TODO: Add :trackable, :lockable
+         :confirmable, :omniauthable, omniauth_providers: [:google_oauth2] 
+         # TODO: Add :trackable, :lockable
 
   scope :all_except, ->(user) { where.not(id: user.id) }
 
@@ -101,6 +102,14 @@ class User < ApplicationRecord
     User.where(id: friends_and_friends_who_added_me_ids)
   end
 
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.first_name = auth.info.name || auth.info.name.split(' ').first.capitalize
+      user.password = generate_password_for_oauth
+    end
+  end
+
   private
 
   def happy_things_dates
@@ -119,5 +128,9 @@ class User < ApplicationRecord
       streak += 1
     end
     streak
+  end
+
+  def self.generate_password_for_oauth
+    "Oauth1!#{SecureRandom.hex(4)}"
   end
 end
