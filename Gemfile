@@ -33,6 +33,10 @@ gem 'sassc-rails' # Use SCSS for stylesheets
 # Devise for authentication
 gem 'devise', '~> 4.8'
 
+#OAauth Providers
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+
 # Pagination with kaminari
 gem 'kaminari'
 

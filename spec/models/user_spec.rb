@@ -62,4 +62,23 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
       end
     end
   end
+
+  describe '.from_omniauth' do
+    let(:auth_hash) do
+      OmniAuth::AuthHash.new({
+        provider: 'google_oauth2',
+        uid: '123456789',
+        info: {
+          name: 'Emma Doe',
+          email: 'emmazing@gmail.com'
+        }
+      })
+    end
+
+    it 'creates a new user from Google OAuth' do
+      expect {
+        User.from_omniauth(auth_hash)
+      }.to change(User, :count).by(1)
+    end
+  end
 end
