@@ -80,5 +80,14 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
         User.from_omniauth(auth_hash)
       }.to change(User, :count).by(1)
     end
+
+    it 'finds existing user with same provider and uid' do
+      existing_user = create(:user, provider: 'google_oauth2', uid: '123456789', email: 'emmazing@gmail.com')
+
+      user = User.from_omniauth(auth_hash)
+
+      expect(user).to eq(existing_user)
+      expect(User.count).to eq(1)
+    end
   end
 end
