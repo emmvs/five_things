@@ -105,12 +105,37 @@ class User < ApplicationRecord
   end
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.first_name = auth.info.name || auth.info.email.split('@').first.capitalize
-      user.password = generate_password_for_oauth
+    # Returning user signing in via OAuth
+    user = where(provider: auth.provider, uid: auth.uid).first
+    
+    # Manual-signup user now using OAuth for the first time
+    # Match by email and attach provider/uid
+    if user.nil?
+      user = find_by(email: auth.info.email)
+      if user
+        user.provider = auth.provider
+        user.uid = auth.uid
+        user.save!(validate: false)  # Skip password validations - user already has valid encrypted password from initial signup
+      end
     end
+    
+    # Brand new user via OAuth — create account from auth hash
+    if user.nil?
+      user = create!(
+        email: auth.info.email,
+        first_name: auth.info.name&.split&.first || 'User',
+        provider: auth.provider,
+        uid: auth.uid,
+        password: generate_password_for_oauth
+      )
+    end
+    
+    # All OAuth users are auto-confirmed to skip email verification
+    user.confirm unless user.confirmed?
+    
+    user
   end
+  
 
   private
 
