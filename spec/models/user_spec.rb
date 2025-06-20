@@ -105,33 +105,41 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
 
     context 'when confirmed manual user tries OAuth' do
       it 'links OAuth to existing confirmed account' do
-        existing_user = create(:user, email: auth_hash.info.email, confirmed_at: 1.day.ago)
+        existing_user = create(:user, 
+          email: auth_hash.info.email, 
+          confirmed_at: 1.day.ago)
         
         user = User.from_omniauth(auth_hash)
+        existing_user.reload
         
         expect(user).to eq(existing_user)
-        expect(user.provider).to eq('google_oauth2')
-        expect(user.uid).to eq('123456789')
+        expect(existing_user.provider).to eq('google_oauth2')
+        expect(existing_user.uid).to eq('123456789')
         expect(User.count).to eq(1)
       end
     end
 
     context 'when unconfirmed manual user tries OAuth' do
       it 'links OAuth and auto-confirms existing account' do
-        existing_user = create(:user, email: auth_hash.info.email, confirmed_at: nil)
+        existing_user = create(:user, 
+          email: auth_hash.info.email, 
+          confirmed_at: nil)
         
         user = User.from_omniauth(auth_hash)
+        existing_user.reload
         
         expect(user).to eq(existing_user)
-        expect(user.provider).to eq('google_oauth2')
-        expect(user.confirmed?).to be true
+        expect(existing_user.provider).to eq('google_oauth2')
+        expect(existing_user.uid).to eq('123456789')
+        expect(existing_user.confirmed?).to be true
         expect(User.count).to eq(1)
       end
     end
 
     context 'when OAuth user has different email' do
       it 'creates separate user for different email' do
-        create(:user, email: 'wonky@example.com')
+        create(:user, 
+          email: 'different@email.com')
         
         expect {
           User.from_omniauth(auth_hash)
