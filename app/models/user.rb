@@ -27,7 +27,7 @@
 #  location_opt_in        :boolean          default(FALSE)
 #  username               :string
 #  provider               :string
-#  "uid"                  :string
+#  uid                    :string
 # 
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
