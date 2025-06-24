@@ -151,6 +151,62 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
       end
     end
 
+    context 'when Google provides no name' do
+      let(:no_name_auth) { auth_hash.deep_merge(info: { name: nil }) }
+      
+      it 'creates valid user with placeholder name' do
+        expect {
+          User.from_omniauth(no_name_auth)
+        }.to change(User, :count).by(1)
+        
+        expect(User.last).to be_valid
+      end
+    end
+    
+    context 'when Google provides short first name' do
+      let(:short_name_auth) { auth_hash.deep_merge(info: { name: 'I. Am So Short' }) }
+      
+      it 'creates valid user despite short input' do
+        expect {
+          User.from_omniauth(short_name_auth)
+        }.to change(User, :count).by(1)
+        
+        expect(User.last).to be_valid
+      end
+    end
+    
+    context 'when Google provides suspicious first name' do
+      let(:suspicious_name_auth) { auth_hash.deep_merge(info: { name: 'www.verynaughty.com' }) }
+      
+      it 'creates valid user with safe name' do
+        expect {
+          User.from_omniauth(suspicious_name_auth)
+        }.to change(User, :count).by(1)
+        
+        expect(User.last).to be_valid
+      end
+    end
 
+
+  end
+
+  describe '.extract_first_name' do
+    it 'returns first word if valid' do
+      expect(User.extract_first_name('Emma Who', 'emmazing@gmail.com')).to eq('Emma')
+    end
+
+    it 'returns full name if first word is too short' do
+      expect(User.extract_first_name('I love rspec 🥳', 'email@gmail.com')).to eq('I love rspec 🥳')
+      expect(User.extract_first_name('A. B. B. A.', 'email@gmail.com')).to eq('A. B. B. A.')
+    end
+
+    it 'returns first word of email if name isn\'t usable' do 
+      expect(User.extract_first_name('www.<script>.com', 'bob.virtuous@gmail.com')).to eq('Bob')
+      expect(User.extract_first_name('', 'bob.virtuous@gmail.com')).to eq('Bob')
+    end
+
+    it 'returns "User" if name and email aren\'t usable' do
+      expect(User.extract_first_name(nil, nil)).to eq('User')
+    end
   end
 end
