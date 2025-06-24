@@ -9,7 +9,7 @@
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
     <%= form_for "Login", url: omniauth_authorize_path(resource_name, provider), method: :post, data: {turbo: "false"} do |f| %>
-      <%= f.submit "Sign in with Google", class: "btn button--primary w-100 btn-secondary mt-1 d-block border-0" %>
+      <%= f.submit controller_name == "registrations" ? "Sign up with Google" : "Log in with Google", class: "btn button--primary w-100 btn-secondary mt-1 d-block border-0" %>
     <% end %>
   <% end %>
 <% end %>
@@ -25,4 +25,3 @@
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
   <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
 <% end %>
-
