@@ -151,43 +151,20 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
       end
     end
 
-    context 'when Google provides no name' do
-      let(:no_name_auth) { auth_hash.deep_merge(info: { name: nil }) }
+    context 'when Google provides problematic name data' do
+      let(:bad_name_auth) { auth_hash.deep_merge(info: { name: 'E.' }) }
       
-      it 'creates valid user with placeholder name' do
+      it 'creates user with valid extracted name' do
         expect {
-          User.from_omniauth(no_name_auth)
+          User.from_omniauth(bad_name_auth)
         }.to change(User, :count).by(1)
         
-        expect(User.last).to be_valid
+        user = User.last
+        expect(user.first_name).to be_present
+        expect(user.first_name).not_to eq('E.')
+        expect(user.first_name).to eq('Emmazing')
       end
     end
-    
-    context 'when Google provides short first name' do
-      let(:short_name_auth) { auth_hash.deep_merge(info: { name: 'I. Am So Short' }) }
-      
-      it 'creates valid user despite short input' do
-        expect {
-          User.from_omniauth(short_name_auth)
-        }.to change(User, :count).by(1)
-        
-        expect(User.last).to be_valid
-      end
-    end
-    
-    context 'when Google provides suspicious first name' do
-      let(:suspicious_name_auth) { auth_hash.deep_merge(info: { name: 'www.verynaughty.com' }) }
-      
-      it 'creates valid user with safe name' do
-        expect {
-          User.from_omniauth(suspicious_name_auth)
-        }.to change(User, :count).by(1)
-        
-        expect(User.last).to be_valid
-      end
-    end
-
-
   end
 
   describe '.extract_first_name' do
@@ -203,6 +180,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
     it 'returns first word of email if name isn\'t usable' do 
       expect(User.extract_first_name('www.<script>.com', 'bob.virtuous@gmail.com')).to eq('Bob')
       expect(User.extract_first_name('', 'bob.virtuous@gmail.com')).to eq('Bob')
+      expect(User.extract_first_name("#{'Wayyyyyyyytoolong' * 99}", 'bob.long@gmail.com')).to eq('Bob')
     end
 
     it 'returns "User" if name and email aren\'t usable' do
