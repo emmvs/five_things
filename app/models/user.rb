@@ -123,7 +123,7 @@ class User < ApplicationRecord
     if user.nil?
       user = create!(
         email: auth.info.email,
-        first_name: auth.info.name&.split&.first || 'User',
+        first_name: extract_first_name(auth.info.name, auth.info.email),
         provider: auth.provider,
         uid: auth.uid,
         password: generate_password_for_oauth
@@ -135,7 +135,6 @@ class User < ApplicationRecord
     
     user
   end
-  
 
   private
 
@@ -159,5 +158,23 @@ class User < ApplicationRecord
 
   def self.generate_password_for_oauth
     "Oauth1!#{SecureRandom.hex(4)}"
+  end
+
+  def self.extract_first_name(name, email)
+    parsers = [
+      lambda { name&.split&.first },
+      lambda { name&.strip },
+      lambda { email&.split('@')&.first&.split('.')&.first&.capitalize }
+    ]
+
+    parsers.each do |parser|
+      first_name = parser.call
+
+      temp_user = User.new(first_name: first_name)
+      temp_user.validate
+      return first_name if temp_user.errors[:first_name].empty?
+    end
+
+    "User"
   end
 end
