@@ -39,3 +39,4 @@
 .env*
 cloudinary.yml
 .env*
+!.env.sample
