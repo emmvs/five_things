@@ -63,7 +63,10 @@ class HappyThing < ApplicationRecord
     today_count = user.happy_things.where(start_time: Time.zone.today.all_day).count
     return unless today_count == 5
 
+    return if user.daily_happy_email_sent
+
     notify_friends_about_happy_things
+    user.update(daily_happy_email_sent: true)
   end
 
   def notify_friends_about_happy_things
