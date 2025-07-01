@@ -67,7 +67,7 @@ class HappyThing < ApplicationRecord
   end
 
   def notify_friends_about_happy_things
-    user.friends_and_friends_who_added_me.each do |friend|
+    user.friends_and_friends_who_added_me.where(email_opt_in: true).each do |friend|
       UserMailer.happy_things_notification(friend).deliver_later
     end
   end
