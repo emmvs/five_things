@@ -54,11 +54,9 @@ gem 'geocoder'
 gem 'moonphases'
 gem 'ruby-openai'
 
-# Action Mailer
-gem 'letter_opener'
-
 # Testing suite
 group :development, :test do
+  gem 'letter_opener' # Preview emails in browser for testing
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails' # Load environment variables from .env
   gem 'factory_bot_rails' # Factory Bot for test data
