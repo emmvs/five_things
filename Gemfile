@@ -4,7 +4,13 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Ruby version
-ruby '3.1.2'
+ruby '3.4.4'
+
+gem 'bigdecimal'
+gem 'csv'
+gem 'drb'
+gem 'mutex_m'
+gem 'observer'
 
 # Core Rails gems
 gem 'bootsnap', require: false # Reduces boot times through caching

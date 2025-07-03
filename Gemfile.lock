@@ -77,6 +77,7 @@ GEM
     aws_cf_signer (0.1.3)
     base64 (0.2.0)
     bcrypt (3.1.20)
+    bigdecimal (3.2.2)
     bindex (0.8.1)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
@@ -100,6 +101,7 @@ GEM
     coderay (1.1.3)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
+    csv (3.3.5)
     date (3.3.4)
     debug (1.9.0)
       irb (~> 1.10)
@@ -116,6 +118,7 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
+    drb (2.2.3)
     erubi (1.12.0)
     event_stream_parser (1.0.0)
     execjs (2.9.1)
@@ -195,12 +198,14 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.1205)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (5.20.0)
     moonphases (1.0.3)
       nokogiri
     msgpack (1.7.2)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
+    mutex_m (0.3.0)
     net-imap (0.4.8)
       date
       net-protocol
@@ -212,11 +217,8 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.0)
-    nokogiri (1.15.5-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.15.5-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.15.5-x86_64-linux)
+    nokogiri (1.15.5)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oauth2 (2.0.12)
       faraday (>= 0.17.3, < 4.0)
@@ -226,6 +228,7 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0, >= 2.0.3)
       version_gem (>= 1.1.8, < 3)
+    observer (0.1.2)
     omniauth (2.1.3)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
@@ -439,13 +442,16 @@ PLATFORMS
 DEPENDENCIES
   annotate
   autoprefixer-rails
+  bigdecimal
   bootsnap
   bootstrap (~> 5.2)
   capybara
   cloudinary
+  csv
   debug
   devise (~> 4.8)
   dotenv-rails
+  drb
   factory_bot_rails
   faker
   font-awesome-rails
@@ -456,6 +462,8 @@ DEPENDENCIES
   kaminari
   letter_opener
   moonphases
+  mutex_m
+  observer
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
   pg
@@ -480,7 +488,7 @@ DEPENDENCIES
   webdrivers
 
 RUBY VERSION
-   ruby 3.1.2p20
+   ruby 3.4.4p34
 
 BUNDLED WITH
    2.4.22
