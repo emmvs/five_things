@@ -64,16 +64,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
   end
 
   describe '.from_omniauth' do
-    let(:auth_hash) do
-      OmniAuth::AuthHash.new({
-        provider: 'google_oauth2',
-        uid: '123456789',
-        info: {
-          name: 'Emma Who',
-          email: 'emmazing@gmail.com'
-        }
-      })
-    end
+    let(:auth_hash) { build(:oauth_auth_hash) }
 
     context 'when brand new user signs in with OAuth' do
       it 'creates new auto-confirmed user with parsed name' do
