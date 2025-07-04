@@ -13,22 +13,19 @@
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  sign_in_count          :integer          default(0), not null
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string
-#  last_sign_in_ip        :string
-#  failed_attempts        :integer          default(0), null: false
-#  unlock_token           :string
-#  locked_at              :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  emoji                  :string
 #  email_opt_in           :boolean          default(FALSE)
 #  location_opt_in        :boolean          default(FALSE)
 #  username               :string
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string
 #  provider               :string
 #  uid                    :string
-# 
+#
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,

@@ -72,6 +72,7 @@ end
 
 group :development do
   gem 'web-console' # Rails console for the browser
+  gem 'annotate' # Annotate models with schema
   # gem 'spring' # Speeds up development by keeping app running in the background
   # gem 'rack-mini-profiler' # Displays speed badge for performance profiling
 end
