@@ -40,14 +40,19 @@ class User < ApplicationRecord
                          format: {
                            without: %r{http|https|www|<script.*?>|</script>}i,
                            message: I18n.t('errors.models.user.first_name.invalid')
-                         }
+                         },
+                         on: [:create, :update, :oauth_linking]
 
   validates :password, presence: true,
                        length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
                        format: {
                          with: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}/,
                          message: I18n.t('errors.models.user.password.invalid')
-                       }
+                       },
+                       on: [:create, :update]
+
+  validates :provider, presence: true, on: :oauth_linking
+  validates :uid, presence: true, on: :oauth_linking
 
   has_many :happy_things
   has_many :comments
@@ -111,9 +116,8 @@ class User < ApplicationRecord
     if user.nil?
       user = find_by(email: auth.info.email)
       if user
-        user.provider = auth.provider
-        user.uid = auth.uid
-        user.save!(validate: false)  # Skip password validations - user already has valid encrypted password from initial signup
+        user.assign_attributes(provider: auth.provider, uid: auth.uid)
+        user.save!(context: :oauth_linking)
       end
     end
     
