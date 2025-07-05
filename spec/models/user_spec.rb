@@ -63,7 +63,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  describe '.from_omniauth' do
+  describe '.from_omniauth' do # rubocop:disable Metrics/BlockLength
     let(:auth_hash) { build(:oauth_auth_hash) }
 
     context 'when brand new user signs in with OAuth' do
@@ -71,7 +71,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
         expect {
           User.from_omniauth(auth_hash)
         }.to change(User, :count).by(1)
-        
+
         user = User.last
         expect(user.first_name).to eq('Emma')
         expect(user.confirmed?).to be true
@@ -81,14 +81,13 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
 
     context 'when repeat OAuth login' do
       it 'finds existing user by provider and uid' do
-        existing_user = create(:user, 
-          provider: auth_hash.provider, 
-          uid: auth_hash.uid, 
-          email: auth_hash.info.email
-        )
-        
+        existing_user = create(:user,
+                               provider: auth_hash.provider,
+                               uid: auth_hash.uid,
+                               email: auth_hash.info.email)
+
         user = User.from_omniauth(auth_hash)
-        
+
         expect(user).to eq(existing_user)
         expect(User.count).to eq(1)
       end
@@ -96,13 +95,13 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
 
     context 'when confirmed manual user tries OAuth' do
       it 'links OAuth to existing confirmed account' do
-        existing_user = create(:user, 
-          email: auth_hash.info.email, 
-          confirmed_at: 1.day.ago)
-        
+        existing_user = create(:user,
+                               email: auth_hash.info.email,
+                               confirmed_at: 1.day.ago)
+
         user = User.from_omniauth(auth_hash)
         existing_user.reload
-        
+
         expect(user).to eq(existing_user)
         expect(existing_user.provider).to eq('google_oauth2')
         expect(existing_user.uid).to eq('123456789')
@@ -112,13 +111,13 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
 
     context 'when unconfirmed manual user tries OAuth' do
       it 'links OAuth and auto-confirms existing account' do
-        existing_user = create(:user, 
-          email: auth_hash.info.email, 
-          confirmed_at: nil)
-        
+        existing_user = create(:user,
+                               email: auth_hash.info.email,
+                               confirmed_at: nil)
+
         user = User.from_omniauth(auth_hash)
         existing_user.reload
-        
+
         expect(user).to eq(existing_user)
         expect(existing_user.provider).to eq('google_oauth2')
         expect(existing_user.uid).to eq('123456789')
@@ -129,13 +128,13 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
 
     context 'when OAuth user has different email' do
       it 'creates separate user for different email' do
-        create(:user, 
-          email: 'different@email.com')
-        
+        create(:user,
+               email: 'different@email.com')
+
         expect {
           User.from_omniauth(auth_hash)
         }.to change(User, :count).by(1)
-        
+
         expect(User.count).to eq(2)
         oauth_user = User.find_by(email: 'emmazing@gmail.com')
         expect(oauth_user.provider).to eq('google_oauth2')
@@ -144,12 +143,12 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
 
     context 'when Google provides problematic name data' do
       let(:bad_name_auth) { auth_hash.deep_merge(info: { name: 'E.' }) }
-      
+
       it 'creates user with valid extracted name' do
         expect {
           User.from_omniauth(bad_name_auth)
         }.to change(User, :count).by(1)
-        
+
         user = User.last
         expect(user.first_name).to be_present
         expect(user.first_name).not_to eq('E.')
@@ -168,10 +167,10 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
       expect(User.extract_first_name('A. B. B. A.', 'email@gmail.com')).to eq('A. B. B. A.')
     end
 
-    it 'returns first word of email if name isn\'t usable' do 
+    it 'returns first word of email if name isn\'t usable' do
       expect(User.extract_first_name('www.<script>.com', 'bob.virtuous@gmail.com')).to eq('Bob')
       expect(User.extract_first_name('', 'bob.virtuous@gmail.com')).to eq('Bob')
-      expect(User.extract_first_name("#{'Wayyyyyyyytoolong' * 99}", 'bob.long@gmail.com')).to eq('Bob')
+      expect(User.extract_first_name(('Wayyyyyyyytoolong' * 99).to_s, 'bob.long@gmail.com')).to eq('Bob')
     end
 
     it 'returns "User" if name and email aren\'t usable' do
