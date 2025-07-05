@@ -138,19 +138,17 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     user
   end
 
-  def self.extract_first_name(name, email) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
-    parsers = [
-      -> { name&.split&.first },
-      -> { name&.strip },
-      -> { email&.split('@')&.first&.split('.')&.first&.capitalize }
+  def self.extract_first_name(name, email)
+    first_name_parsings = [
+      name&.split&.first,
+      name&.strip,
+      email&.split('@')&.first&.split('.')&.first&.capitalize
     ]
 
-    parsers.each do |parser|
-      first_name = parser.call
-
-      temp_user = User.new(first_name:)
+    first_name_parsings.each do |first_name_parsing|
+      temp_user = User.new(first_name: first_name_parsing)
       temp_user.validate
-      return first_name if temp_user.errors[:first_name].empty?
+      return first_name_parsing if temp_user.errors[:first_name].empty?
     end
 
     'User'
