@@ -26,12 +26,12 @@
 #  provider               :string
 #  uid                    :string
 #
-class User < ApplicationRecord
+class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable,
-         :omniauthable, omniauth_providers: [:google_oauth2] 
-         # TODO: Add :trackable, :lockable
+         :omniauthable, omniauth_providers: [:google_oauth2]
+  # TODO: Add :trackable, :lockable
 
   scope :all_except, ->(user) { where.not(id: user.id) }
 
@@ -41,7 +41,7 @@ class User < ApplicationRecord
                            without: %r{http|https|www|<script.*?>|</script>}i,
                            message: I18n.t('errors.models.user.first_name.invalid')
                          },
-                         on: [:create, :update, :oauth_linking]
+                         on: %i[create update oauth_linking]
 
   validates :password, presence: true,
                        length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
@@ -49,7 +49,7 @@ class User < ApplicationRecord
                          with: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}/,
                          message: I18n.t('errors.models.user.password.invalid')
                        },
-                       on: [:create, :update]
+                       on: %i[create update]
 
   validates :provider, presence: true, on: :oauth_linking
   validates :uid, presence: true, on: :oauth_linking
@@ -107,10 +107,10 @@ class User < ApplicationRecord
     User.where(id: friends_and_friends_who_added_me_ids)
   end
 
-  def self.from_omniauth(auth)
+  def self.from_omniauth(auth) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     # Returning user signing in via OAuth
     user = where(provider: auth.provider, uid: auth.uid).first
-    
+
     # Manual-signup user now using OAuth for the first time
     # Match by email and attach provider/uid
     if user.nil?
@@ -120,7 +120,7 @@ class User < ApplicationRecord
         user.save!(context: :oauth_linking)
       end
     end
-    
+
     # Brand new user via OAuth — create account from auth hash
     if user.nil?
       user = create!(
@@ -131,11 +131,33 @@ class User < ApplicationRecord
         password: generate_password_for_oauth
       )
     end
-    
+
     # All OAuth users are auto-confirmed to skip email verification
     user.confirm unless user.confirmed?
-    
+
     user
+  end
+
+  def self.extract_first_name(name, email) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+    parsers = [
+      -> { name&.split&.first },
+      -> { name&.strip },
+      -> { email&.split('@')&.first&.split('.')&.first&.capitalize }
+    ]
+
+    parsers.each do |parser|
+      first_name = parser.call
+
+      temp_user = User.new(first_name:)
+      temp_user.validate
+      return first_name if temp_user.errors[:first_name].empty?
+    end
+
+    'User'
+  end
+
+  def self.generate_password_for_oauth
+    "Oauth1!#{SecureRandom.hex(4)}"
   end
 
   private
@@ -158,25 +180,5 @@ class User < ApplicationRecord
     streak
   end
 
-  def self.generate_password_for_oauth
-    "Oauth1!#{SecureRandom.hex(4)}"
-  end
-
-  def self.extract_first_name(name, email)
-    parsers = [
-      lambda { name&.split&.first },
-      lambda { name&.strip },
-      lambda { email&.split('@')&.first&.split('.')&.first&.capitalize }
-    ]
-
-    parsers.each do |parser|
-      first_name = parser.call
-
-      temp_user = User.new(first_name: first_name)
-      temp_user.validate
-      return first_name if temp_user.errors[:first_name].empty?
-    end
-
-    "User"
-  end
+  private_class_method :generate_password_for_oauth
 end
