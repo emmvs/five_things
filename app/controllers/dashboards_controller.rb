@@ -58,9 +58,10 @@ class DashboardsController < ApplicationController
       (Date.today - 1.days)..Date.today.end_of_day, ids
     )
 
-    @happy_things_one_year_ago = HappyThing.where(
-      'DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date, ids
-    ).group_by(&:user)
+    # currently unused
+    # @happy_things_one_year_ago = HappyThing.where(
+    #   'DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date, ids
+    # ).group_by(&:user)
   end
 
   def with_current_user(friend_ids)
@@ -68,7 +69,7 @@ class DashboardsController < ApplicationController
   end
 
   def happy_things_by_period(period, friend_ids)
-    HappyThing.where(start_time: period, user_id: friend_ids).order(created_at: :desc).group_by(&:user)
+    HappyThing.where(start_time: period, user_id: friend_ids).order(start_time: :desc).group_by(&:user)
   end
 
   def set_happy_things_of_today
