@@ -71,12 +71,19 @@ class DashboardsController < ApplicationController
     HappyThing.where(start_time: period, user_id: user_ids).order(start_time: :desc).group_by(&:user)
   end
 
-  def set_happy_things_of_today
+  def set_happy_things_of_today # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     today = Date.today
     user_ids = set_user_ids
-    @happy_things_by_date = HappyThing.where(
+
+    happy_things_past = HappyThing.where(
       'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
       today.month, today.day, user_ids
     )
+
+    @happy_things_by_date = happy_things_past
+                            .group_by { |happy_thing| happy_thing.start_time.year }
+                            .reject { |year, _| year == today.year }
+                            .sort.reverse.to_h
+                            .transform_values { |year_happy_things| year_happy_things.group_by(&:user) }
   end
 end
