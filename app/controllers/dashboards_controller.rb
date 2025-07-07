@@ -64,7 +64,7 @@ class DashboardsController < ApplicationController
   end
 
   def set_user_ids
-    current_user.friends_and_friends_who_added_me_ids + [current_user.id]
+    [current_user.id] + current_user.friends_and_friends_who_added_me_ids
   end
 
   def happy_things_by_period(period, user_ids)
