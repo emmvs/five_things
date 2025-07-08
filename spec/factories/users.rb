@@ -17,13 +17,13 @@ FactoryBot.define do
   factory :oauth_auth_hash, class: 'OmniAuth::AuthHash' do
     initialize_with do
       OmniAuth::AuthHash.new({
-        provider: 'google_oauth2',
-        uid: '123456789',
-        info: {
-          name: 'Emma Who',
-          email: 'emmazing@gmail.com'
-        }
-      })
+                               provider: 'google_oauth2',
+                               uid: '123456789',
+                               info: {
+                                 name: 'Emma Who',
+                                 email: 'emmazing@gmail.com'
+                               }
+                             })
     end
   end
 end

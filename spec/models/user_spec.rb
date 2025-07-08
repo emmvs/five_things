@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
-  describe 'Validations' do # rubocop:disable Metrics/BlockLength
+  describe 'Validations' do
     it 'is valid with valid attributes' do
       user = build(:user)
       expect(user).to be_valid
@@ -25,7 +25,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
     end
 
     it 'enforces strong password rules only when updating the password' do
-      user = create(:user)  # Persisted record
+      user = create(:user) # Persisted record
       user.password = 'weak'
       user.password_confirmation = 'weak'
       expect(user).not_to be_valid
@@ -68,9 +68,9 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
 
     context 'when brand new user signs in with OAuth' do
       it 'creates new auto-confirmed user with parsed name' do
-        expect {
+        expect do
           User.from_omniauth(auth_hash)
-        }.to change(User, :count).by(1)
+        end.to change(User, :count).by(1)
 
         user = User.last
         expect(user.first_name).to eq('Emma')
@@ -131,9 +131,9 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
         create(:user,
                email: 'different@email.com')
 
-        expect {
+        expect do
           User.from_omniauth(auth_hash)
-        }.to change(User, :count).by(1)
+        end.to change(User, :count).by(1)
 
         expect(User.count).to eq(2)
         oauth_user = User.find_by(email: 'emmazing@gmail.com')
@@ -145,9 +145,9 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
       let(:bad_name_auth) { auth_hash.deep_merge(info: { name: 'E.' }) }
 
       it 'creates user with valid extracted name' do
-        expect {
+        expect do
           User.from_omniauth(bad_name_auth)
-        }.to change(User, :count).by(1)
+        end.to change(User, :count).by(1)
 
         user = User.last
         expect(user.first_name).to be_present

@@ -1,8 +1,10 @@
-class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  def google_oauth2
-    begin
+# frozen_string_literal: true
+
+module Users
+  class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+    def google_oauth2
       user = User.from_omniauth(auth)
-      
+
       if user.persisted?
         sign_out_all_scopes
         flash[:success] = t 'devise.omniauth_callbacks.success', kind: 'Google'
@@ -11,26 +13,26 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:alert] = 'Authentication failed. Please try again.'
         redirect_to new_user_session_path
       end
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "OAuth failed: #{e.message}"
       flash[:alert] = 'Authentication failed. Please try again.'
       redirect_to new_user_session_path
     end
-  end
 
-  protected
+    protected
 
-  def after_omniauth_failure_path_for(_scope)
-    new_user_session_path
-  end
+    def after_omniauth_failure_path_for(_scope)
+      new_user_session_path
+    end
 
-  def after_sign_in_path_for(resource_or_scope)
-    stored_location_for(resource_or_scope) || root_path
-  end
+    def after_sign_in_path_for(resource_or_scope)
+      stored_location_for(resource_or_scope) || root_path
+    end
 
-  private
+    private
 
-  def auth
-    @auth ||= request.env['omniauth.auth']
+    def auth
+      @auth ||= request.env['omniauth.auth']
+    end
   end
 end
