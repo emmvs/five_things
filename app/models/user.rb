@@ -139,23 +139,15 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def self.extract_first_name(name, email)
-    first_name_parsings = [
-      name&.split&.first,
-      name&.strip,
-      email&.split('@')&.first&.split('.')&.first&.capitalize
-    ]
+    first_name_candidates = generate_first_name_candidates(name, email)
 
-    first_name_parsings.each do |first_name_parsing|
-      temp_user = User.new(first_name: first_name_parsing)
+    first_name_candidates.each do |first_name_candidate|
+      temp_user = User.new(first_name: first_name_candidate)
       temp_user.validate
-      return first_name_parsing if temp_user.errors[:first_name].empty?
+      return first_name_candidate if temp_user.errors[:first_name].empty?
     end
 
     'User'
-  end
-
-  def self.generate_password_for_oauth
-    "Oauth1!#{SecureRandom.hex(4)}"
   end
 
   private
@@ -178,5 +170,17 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     streak
   end
 
-  private_class_method :generate_password_for_oauth
+  def self.generate_first_name_candidates(name, email)
+    [
+      name&.split&.first,
+      name&.strip,
+      email&.split('@')&.first&.split('.')&.first&.capitalize
+    ]
+  end
+
+  def self.generate_password_for_oauth
+    "Oauth1!#{SecureRandom.hex(4)}"
+  end
+
+  private_class_method :generate_password_for_oauth, :generate_first_name_candidates
 end
