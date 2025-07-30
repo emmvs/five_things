@@ -117,6 +117,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
       user = find_by(email: auth.info.email)
       if user
         user.assign_attributes(provider: auth.provider, uid: auth.uid)
+        user.confirm unless user.confirmed?
         user.save!(context: :oauth_linking)
       end
     end
@@ -133,9 +134,6 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
       user.skip_confirmation!
       user.save!
     end
-
-    # Confirm users who signed up manually but never confirmed their email
-    user.confirm unless user.confirmed?
 
     user
   end
