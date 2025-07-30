@@ -5,15 +5,10 @@
 # Table name: groups
 #
 #  id         :bigint           not null, primary key
-#  name       :string           not null
-#  user_id    :bigint           not null (group owner)
+#  name       :string
+#  user_id    :bigint           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#
-# Associations:
-#  belongs_to :user         (the creator/owner of the group)
-#  has_many   :group_memberships
-#  has_many   :friends, through: :group_memberships, source: :friend
 #
 class Group < ApplicationRecord
   belongs_to :user

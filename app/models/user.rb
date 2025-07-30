@@ -13,24 +13,25 @@
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  sign_in_count          :integer          default(0), not null
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string
-#  last_sign_in_ip        :string
-#  failed_attempts        :integer          default(0), null: false
-#  unlock_token           :string
-#  locked_at              :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  emoji                  :string
 #  email_opt_in           :boolean          default(FALSE)
 #  location_opt_in        :boolean          default(FALSE)
 #  username               :string
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string
+#  provider               :string
+#  uid                    :string
 #
-class User < ApplicationRecord
+class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable # TODO: Add :trackable, :lockable
+         :confirmable,
+         :omniauthable, omniauth_providers: [:google_oauth2]
+  # TODO: Add :trackable, :lockable
 
   scope :all_except, ->(user) { where.not(id: user.id) }
 
@@ -39,14 +40,19 @@ class User < ApplicationRecord
                          format: {
                            without: %r{http|https|www|<script.*?>|</script>}i,
                            message: I18n.t('errors.models.user.first_name.invalid')
-                         }
+                         },
+                         on: %i[create update oauth_linking]
 
   validates :password, presence: true,
                        length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
                        format: {
                          with: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}/,
                          message: I18n.t('errors.models.user.password.invalid')
-                       }
+                       },
+                       on: %i[create update]
+
+  validates :provider, presence: true, on: :oauth_linking
+  validates :uid, presence: true, on: :oauth_linking
 
   has_many :happy_things
   has_many :comments
@@ -101,6 +107,49 @@ class User < ApplicationRecord
     User.where(id: friends_and_friends_who_added_me_ids)
   end
 
+  def self.from_omniauth(auth) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    # Returning user signing in via OAuth
+    user = where(provider: auth.provider, uid: auth.uid).first
+
+    # Manual-signup user now using OAuth for the first time
+    # Match by email and attach provider/uid
+    if user.nil?
+      user = find_by(email: auth.info.email)
+      if user
+        user.assign_attributes(provider: auth.provider, uid: auth.uid)
+        user.confirm unless user.confirmed?
+        user.save!(context: :oauth_linking)
+      end
+    end
+
+    # Brand new user via OAuth — create account from auth hash
+    if user.nil?
+      user = new(
+        email: auth.info.email,
+        first_name: extract_first_name(auth.info.name, auth.info.email),
+        provider: auth.provider,
+        uid: auth.uid,
+        password: generate_password_for_oauth
+      )
+      user.skip_confirmation!
+      user.save!
+    end
+
+    user
+  end
+
+  def self.extract_first_name(name, email)
+    first_name_candidates = generate_first_name_candidates(name, email)
+
+    first_name_candidates.each do |first_name_candidate|
+      temp_user = User.new(first_name: first_name_candidate)
+      temp_user.validate
+      return first_name_candidate if temp_user.errors[:first_name].empty?
+    end
+
+    'User'
+  end
+
   private
 
   def happy_things_dates
@@ -120,4 +169,18 @@ class User < ApplicationRecord
     end
     streak
   end
+
+  def self.generate_first_name_candidates(name, email)
+    [
+      name&.split&.first,
+      name&.strip,
+      email&.split('@')&.first&.split('.')&.first&.capitalize
+    ]
+  end
+
+  def self.generate_password_for_oauth
+    "Oauth1!#{SecureRandom.hex(4)}"
+  end
+
+  private_class_method :generate_password_for_oauth, :generate_first_name_candidates
 end

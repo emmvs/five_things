@@ -33,6 +33,10 @@ gem 'sassc-rails' # Use SCSS for stylesheets
 # Devise for authentication
 gem 'devise', '~> 4.8'
 
+#OAauth Providers
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+
 # Pagination with kaminari
 gem 'kaminari'
 
@@ -68,6 +72,7 @@ end
 
 group :development do
   gem 'web-console' # Rails console for the browser
+  gem 'annotate' # Annotate models with schema
   # gem 'spring' # Speeds up development by keeping app running in the background
   # gem 'rack-mini-profiler' # Displays speed badge for performance profiling
 end
