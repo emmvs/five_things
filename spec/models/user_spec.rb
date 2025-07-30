@@ -67,7 +67,9 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
     let(:auth_hash) { build(:oauth_auth_hash) }
 
     context 'when brand new user signs in with OAuth' do
-      it 'creates new auto-confirmed user with parsed name' do
+      it 'creates new auto-confirmed user with parsed name and sends no confirmation email' do
+        ActionMailer::Base.deliveries.clear
+
         expect do
           User.from_omniauth(auth_hash)
         end.to change(User, :count).by(1)
@@ -76,6 +78,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
         expect(user.first_name).to eq('Emma')
         expect(user.confirmed?).to be true
         expect(user.provider).to eq('google_oauth2')
+        expect(ActionMailer::Base.deliveries.size).to eq(0)
       end
     end
 
