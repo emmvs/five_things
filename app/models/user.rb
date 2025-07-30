@@ -123,16 +123,18 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     # Brand new user via OAuth — create account from auth hash
     if user.nil?
-      user = create!(
+      user = new(
         email: auth.info.email,
         first_name: extract_first_name(auth.info.name, auth.info.email),
         provider: auth.provider,
         uid: auth.uid,
         password: generate_password_for_oauth
       )
+      user.skip_confirmation!
+      user.save!
     end
 
-    # All OAuth users are auto-confirmed to skip email verification
+    # Confirm users who signed up manually but never confirmed their email
     user.confirm unless user.confirmed?
 
     user
