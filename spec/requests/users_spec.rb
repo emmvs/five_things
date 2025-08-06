@@ -82,4 +82,13 @@ RSpec.describe 'Users', type: :request do # rubocop:disable Metrics/BlockLength
       expect(response.body).to include(I18n.t('errors.models.user.password.invalid'))
     end
   end
+
+  describe 'DELETE /destroy' do
+    it 'allows users to delete their account' do
+      delete user_registration_path
+      expect(response).to have_http_status(:success)
+      expect(response).to redirect_to(root_path)
+      expect(User.find_by(id: @user.id)).to be_nil
+    end
+  end
 end
