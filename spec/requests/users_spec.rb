@@ -86,7 +86,7 @@ RSpec.describe 'Users', type: :request do # rubocop:disable Metrics/BlockLength
   describe 'DELETE /destroy' do
     it 'allows users to delete their account' do
       delete user_registration_path
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:found)
       expect(response).to redirect_to(root_path)
       expect(User.find_by(id: @user.id)).to be_nil
     end

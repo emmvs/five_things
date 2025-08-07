@@ -22,7 +22,7 @@ RSpec.describe 'Account Deletion', type: :system do
     end
 
     expect(page).to have_current_path(root_path)
-    expect(page).to have_content('Bye! Your account was successfully cancelled. We hope to see you again soon.')
+    expect(page).to have_content('Bye! Your account has been successfully cancelled. We hope to see you again soon.')
     expect(User.find_by(id: user.id)).to be_nil
   end
 end
