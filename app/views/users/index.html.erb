@@ -54,23 +54,30 @@
   <% current_user.received_friend_requests.pending.each do |friendship| %>
     <% friend = friendship.user %>
 
-    <div class="card w-100 p-2 my-3">
-      <%= link_to user_path(friend), class: "text-decoration-none" do %>
-        <%= cl_image_tag friend.avatar.key,
-          style: "width: 50px; height: 100%;",
-          class: "pb-3",
-          alt: "Friend Avatar",
-          transformation: [
-            { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-            { radius: :max }
-          ] unless friend.avatar.key.nil? %>
-        <h4><%= friend.first_name %></h4>
-      <% end %>
+    <div class="card w-100 p-2 my-3 d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <%= link_to user_path(friend), class: "text-decoration-none d-inline-flex align-items-center" do %>
+          <%= cl_image_tag friend.avatar.key,
+                style: "width: 50px; height: 50px;",
+                class: "me-2 rounded-circle",
+                alt: "Friend Avatar",
+                transformation: [
+                  { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+                  { radius: :max }
+                ] unless friend.avatar.key.nil? %>
+          <h4 class="m-0"><%= friend.first_name %></h4>
+        <% end %>
+      </div>
 
-      <%= button_to "✅ Accept", friendship_path(friendship), method: :patch, class: "btn button--primary mt-2" %>
+      <div>
+        <%= button_to "✅ Accept",
+              friendship_path(friendship),
+              method: :patch,
+              data: { turbo: false },
+              class: "btn button--primary mt-2 position-relative" %>
+      </div>
     </div>
   <% end %>
-
 
   <!-- All Users -->
   <div class="cards-friends">

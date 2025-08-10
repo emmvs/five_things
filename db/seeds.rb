@@ -1,45 +1,36 @@
 # frozen_string_literal: true
 
+require 'faker'
 # Seed data for 5 Things App
 
-require 'faker'
-
-# Clean data
 if Rails.env.development?
+  puts 'Cleaning DB… 🧼'
   GroupMembership.destroy_all
   HappyThing.destroy_all
   Friendship.destroy_all
-  User.destroy_all
+  Group.destroy_all
   Category.destroy_all
-  puts "Let's clean this mess up 🧼"
+  User.destroy_all
 end
 
 EMOJIS = %w[🦊 🐝 🦙 🐳 🐼 🐧 🐨 🐰 🦄 🐯 🐥 🦩 🐺 🪐 🎈 🎨 🎵 🎮 📚 🍕 🍣 🍩].freeze
 
-# Create Users
-users = []
-users << User.create!(
-  first_name: 'Leababy',
-  last_name: 'Balkenhol',
-  email: 'lea@test.com',
-  emoji: '👻',
-  password: 'G1ggl3!Fluff',
-  confirmed_at: Time.current
-)
+# --- Users ---
+users = [
+  { first_name: 'Leababy', last_name: 'Balkenhol', email: 'lea@test.com', emoji: '🦙' },
+  { first_name: 'Emmsiboom', last_name: 'Rünzel', email: 'emma@test.com', emoji: '👻' },
+  { first_name: 'Bruno-no-no', last_name: 'Thormählen', email: 'bruno@test.com', emoji: '🤗' }
+].map do |attrs|
+  User.create!(
+    **attrs,
+    password: 'G1ggl3!Fluff',
+    confirmed_at: Time.current
+  )
+end
 
-users << User.create!(
-  first_name: 'Emmsiboom',
-  last_name: 'Rünzel',
-  email: 'emma@test.com',
-  emoji: EMOJIS.sample,
-  password: 'G1ggl3!Fluff',
-  confirmed_at: Time.current
-)
+puts "Created main users: #{users.map(&:first_name).join(', ')}"
 
-puts "Created #{users.first.first_name} 💁🏻‍♀️ & #{users.last.first_name} 🤷🏼‍♀️"
-
-# Create additional users
-more_users = %w[Joshy Nadieschka Hansibaby Juanfairy Nomnom Santimaus Florenke Mäx].map do |name|
+more_users = %w[Joshy Nadieschka Hansibaby Lisita Juanfairy Nomnom Santimaus Florenke Mäx].map do |name|
   User.create!(
     first_name: name,
     last_name: 'Testy',
@@ -50,75 +41,63 @@ more_users = %w[Joshy Nadieschka Hansibaby Juanfairy Nomnom Santimaus Florenke M
   )
 end
 
-puts "Created users: #{more_users.map(&:first_name).join(', ')} ✅"
+puts "Created extra users: #{more_users.map(&:first_name).join(', ')}"
 
-all_users = User.all
-
-# Helper to look up users by name
 def u(name)
   User.find_by(first_name: name)
 end
 
-# -- Accepted Friendships for Emma --
-Friendship.create!(user: u('Emmsiboom'), friend: u('Joshy'), accepted: true)
-Friendship.create!(user: u('Joshy'), friend: u('Emmsiboom'), accepted: true)
+# --- Friendships ---
+Friendship.create!([
+                     { user: u('Emmsiboom'), friend: u('Joshy'), accepted: true },
+                     { user: u('Joshy'), friend: u('Emmsiboom'), accepted: true },
+                     { user: u('Emmsiboom'), friend: u('Hansibaby'), accepted: true },
+                     { user: u('Hansibaby'), friend: u('Emmsiboom'), accepted: true },
+                     { user: u('Emmsiboom'), friend: u('Juanfairy'), accepted: true },
+                     { user: u('Juanfairy'), friend: u('Emmsiboom'), accepted: true },
+                     { user: u('Mäx'), friend: u('Emmsiboom'), accepted: false },
+                     { user: u('Santimaus'), friend: u('Emmsiboom'), accepted: false },
+                     { user: u('Emmsiboom'), friend: u('Florenke'), accepted: false },
+                     { user: u('Joshy'), friend: u('Hansibaby'), accepted: true },
+                     { user: u('Hansibaby'), friend: u('Joshy'), accepted: true },
+                     { user: u('Juanfairy'), friend: u('Santimaus'), accepted: true },
+                     { user: u('Santimaus'), friend: u('Juanfairy'), accepted: true },
+                     { user: u('Mäx'), friend: u('Joshy'), accepted: false },
+                     { user: u('Juanfairy'), friend: u('Mäx'), accepted: false }
+                   ])
 
-Friendship.create!(user: u('Emmsiboom'), friend: u('Hansibaby'), accepted: true)
-Friendship.create!(user: u('Hansibaby'), friend: u('Emmsiboom'), accepted: true)
+puts 'Friendships created 🤝'
 
-Friendship.create!(user: u('Emmsiboom'), friend: u('Juanfairy'), accepted: true)
-Friendship.create!(user: u('Juanfairy'), friend: u('Emmsiboom'), accepted: true)
-
-# -- Pending incoming requests to Emma --
-Friendship.create!(user: u('Mäx'), friend: u('Emmsiboom'), accepted: false)
-Friendship.create!(user: u('Santimaus'), friend: u('Emmsiboom'), accepted: false)
-
-# -- Emma sends a request to Florenke --
-Friendship.create!(user: u('Emmsiboom'), friend: u('Florenke'), accepted: false)
-
-# -- Other friendships --
-Friendship.create!(user: u('Joshy'), friend: u('Hansibaby'), accepted: true)
-Friendship.create!(user: u('Hansibaby'), friend: u('Joshy'), accepted: true)
-
-Friendship.create!(user: u('Juanfairy'), friend: u('Santimaus'), accepted: true)
-Friendship.create!(user: u('Santimaus'), friend: u('Juanfairy'), accepted: true)
-
-Friendship.create!(user: u('Mäx'), friend: u('Joshy'), accepted: false)
-Friendship.create!(user: u('Juanfairy'), friend: u('Mäx'), accepted: false)
-
-puts 'Friendships created 🤝 (some still pending...)'
-
-# Create Groups
+# --- Groups ---
 emma = u('Emmsiboom')
-lea  = u('Leababy')
+favorites = emma.groups.create!(name: 'Favorites')
+friends_group = emma.groups.create!(name: 'Friends')
 
-favorites = emma.groups.find_or_create_by!(name: 'Favorites')
-friends_group = emma.groups.find_or_create_by!(name: 'Friends')
-
-# Add Lea to Favorites
-favorites.group_memberships.create!(friend: lea)
-
-# Add a few users to the Friends group
+favorites.group_memberships.create!(friend: u('Leababy'))
 [u('Joshy'), u('Santimaus'), u('Nomnom')].each do |friend|
   friends_group.group_memberships.create!(friend:)
 end
 
-puts "Emma's groups created 🎉"
-puts "Favorites: #{favorites.friends.pluck(:first_name).join(', ')}"
-puts "Friends: #{friends_group.friends.pluck(:first_name).join(', ')}"
+puts 'Groups created 🎉'
 
-# Create Categories
-category_names = %w[General Family Friends Nature Fitness Celebrations Spiritual Hobby]
-categories = category_names.map { |name| Category.find_or_create_by!(name:) }
-puts "#{categories.size} Categories created! 👻"
+# --- Categories ---
+categories = %w[General Family Friends Nature Fitness Celebrations Spiritual Hobby].map do |name|
+  Category.create!(name:)
+end
 
-# Create 1–5 HappyThings per user for each of today, and same date 1–5 years ago
-all_users.each do |user|
+puts "#{categories.size} categories created!"
+
+# --- HappyThings ---
+User.all.each do |user|
+  total_for_user = 0
+
   (0..5).each do |year_offset|
     date = Time.current - year_offset.years
-    rand(1..3).times do
+    count = rand(1..3)
+
+    count.times do
       HappyThing.create!(
-        user:,
+        user: user,
         title: Faker::Hobby.activity,
         body: Faker::Lorem.paragraph(sentence_count: 2),
         start_time: date.change(hour: rand(8..22)),
@@ -132,8 +111,13 @@ all_users.each do |user|
         updated_at: date
       )
     end
+
+    # puts "  • #{user.first_name}: #{count} happy things for #{date.year}"
+    total_for_user += count
   end
+
+  puts "✅ Created #{total_for_user} happy things for #{user.first_name} in total."
 end
 
-puts 'HappyThings created for today and past 1–5 years 🎉'
+puts 'HappyThings created 🎉'
 puts 'Seeding complete ✅'
