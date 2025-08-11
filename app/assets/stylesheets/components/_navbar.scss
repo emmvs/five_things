@@ -70,14 +70,14 @@
   border-bottom-right-radius: 50px;
 }
 
-/* Mobile */
+/* Desktop */
 @media screen and (min-width: 768px) {
   .bottom-navbar {
     display: none !important;
   }
 }
 
-/* Desktop */
+/* Mobile */
 @media screen and (max-width: 767px) {
   .bottom-navbar {
     display: flex;
