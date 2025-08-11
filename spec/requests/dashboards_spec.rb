@@ -6,6 +6,7 @@ RSpec.describe 'Dashboards', type: :request do # rubocop:disable Metrics/BlockLe
   before do
     sign_in user
   end
+
   describe 'GET /' do # rubocop:disable Metrics/BlockLength
     it 'orders happy things by time of occurance over time of creation' do
       today_thing = create(:happy_thing,
