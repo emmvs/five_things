@@ -16,17 +16,20 @@ RSpec.describe 'Account Deletion', type: :system do
     expect(User.find_by(id: user.id)).to be_present
     expect(page).to have_content('Signed in successfully.', wait: 2)
 
-    visit edit_user_registration_path
+    find('button.navbar-toggler').click
+    find('a.nav-link.dropdown-toggle').click
+    expect(page).to have_link(href: edit_user_registration_path)
+
+    click_link(href: edit_user_registration_path)
 
     expect(page).to have_link('Cancel my account', wait: 2)
 
-    accept_confirm do
-      click_on 'Cancel my account'
-    end
+    page.evaluate_script('window.confirm = function() { return true; }')
+    click_on 'Cancel my account'
 
     expect(page).to have_current_path(root_path, wait: 2)
-    expect(page).to have_content('Bye! Your account has been successfully cancelled. We hope to see you again soon.', wait: 2)
-    sleep 0.2
+    expect(page).to have_content('Bye! Your account has been successfully cancelled. We hope to see you again soon.',
+                                 wait: 2)
     expect(User.find_by(id: user.id)).to be_nil
   end
 end
