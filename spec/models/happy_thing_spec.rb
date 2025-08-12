@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe HappyThing, type: :model do
   include ActiveJob::TestHelper
+  include ActiveSupport::Testing::TimeHelpers
 
   describe 'Validations' do
     it { should validate_presence_of(:title) }
@@ -37,7 +38,7 @@ RSpec.describe HappyThing, type: :model do
     end
   end
 
-  describe 'Callbacks' do
+  describe 'Callbacks' do # rubocop:disable Metrics/BlockLength
     let(:user) { create(:user) }
     before { ActionMailer::Base.deliveries.clear }
 
@@ -46,7 +47,7 @@ RSpec.describe HappyThing, type: :model do
       create(:friendship, user: friend, friend: user)
     end
 
-    context 'when a user adds 5 happy things in a day' do
+    context 'when a user adds 5 happy things in a day' do # rubocop:disable Metrics/BlockLength
       it 'sends an email to each of their friends that opted-in to receiving emails' do
         friends = create_list(:user, 3, email_opt_in: true)
 
@@ -99,25 +100,58 @@ RSpec.describe HappyThing, type: :model do
 
       it 'sends no email if user has no friends' do
         create_list(:happy_thing, 5, user:)
-  
+
         expect(ActionMailer::Base.deliveries).to be_empty
       end
-  
+
       it 'only sends one email if happy thing #5 is deleted and recreated' do
         friend = create(:user, email_opt_in: true)
         create_bi_directional_friendship(user, friend)
-      
+
         perform_enqueued_jobs do
           create_list(:happy_thing, 5, user:)
         end
-      
+
         user.happy_things.last.destroy
-      
+
         perform_enqueued_jobs do
           create(:happy_thing, user:)
         end
-      
+
         expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+
+      it 'allows daily email to be sent every day' do # rubocop:disable Metrics/BlockLength
+        friend = create(:user, email_opt_in: true)
+        create_bi_directional_friendship(user, friend)
+
+        today = Time.current
+        tomorrow = today + 1.day
+        yesterday = today - 1.day
+
+        travel_to today do
+          expect do
+            perform_enqueued_jobs do
+              create_list(:happy_thing, 5, user:)
+            end
+          end.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
+
+        travel_to tomorrow do
+          expect do
+            perform_enqueued_jobs do
+              create_list(:happy_thing, 5, user:)
+            end
+          end.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
+
+        travel_to yesterday do
+          expect do
+            perform_enqueued_jobs do
+              create_list(:happy_thing, 5, user:)
+            end
+          end.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
       end
     end
   end
