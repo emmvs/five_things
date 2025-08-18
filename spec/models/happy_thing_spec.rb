@@ -121,36 +121,27 @@ RSpec.describe HappyThing, type: :model do
         expect(ActionMailer::Base.deliveries.count).to eq(1)
       end
 
-      it 'allows daily email to be sent every day' do # rubocop:disable Metrics/BlockLength
-        friend = create(:user, email_opt_in: true)
-        create_bi_directional_friendship(user, friend)
-
+      it 'allows exactly one email to be sent per day' do # rubocop:disable Metrics/BlockLength
         today = Time.current
         tomorrow = today + 1.day
         yesterday = today - 1.day
 
-        travel_to today do
-          expect do
-            perform_enqueued_jobs do
-              create_list(:happy_thing, 5, user:)
-            end
-          end.to change(ActionMailer::Base.deliveries, :count).by(1)
-        end
+        user.update(last_daily_happy_email_sent_at: today - 5.day)
+        friend = create(:user, email_opt_in: true)
+        create_bi_directional_friendship(user, friend)
 
-        travel_to tomorrow do
-          expect do
-            perform_enqueued_jobs do
-              create_list(:happy_thing, 5, user:)
-            end
-          end.to change(ActionMailer::Base.deliveries, :count).by(1)
-        end
+        [today, tomorrow, yesterday].each do |date|
+          travel_to date do
+            expect(user.last_daily_happy_email_sent_at).not_to eq(date)
 
-        travel_to yesterday do
-          expect do
-            perform_enqueued_jobs do
-              create_list(:happy_thing, 5, user:)
-            end
-          end.to change(ActionMailer::Base.deliveries, :count).by(1)
+            expect do
+              perform_enqueued_jobs do
+                create_list(:happy_thing, 5, user:)
+              end
+            end.to change(ActionMailer::Base.deliveries, :count).by(1)
+
+            expect(user.last_daily_happy_email_sent_at).to eq(date)
+          end
         end
       end
     end
