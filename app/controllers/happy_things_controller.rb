@@ -23,14 +23,14 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def create
     @happy_thing = current_user_happy_things.new(happy_thing_params)
     save_and_respond(@happy_thing)
-    handle_visibility(@happy_thing) if @happy_thing.persisted?
+    @happy_thing.handle_visibility(happy_thing_params[:shared_with_ids]) if @happy_thing.persisted?
   end
 
   def update
     if @happy_thing.update(happy_thing_params)
       @happy_thing.happy_thing_user_shares.destroy_all
       @happy_thing.happy_thing_group_shares.destroy_all
-      handle_visibility(@happy_thing)
+      @happy_thing.handle_visibility(happy_thing_params[:shared_with_ids])
       redirect_to root_path, notice: 'Yay! 🎉 Happy Thing was updated 🥰'
     else
       render :edit, status: 422
@@ -115,21 +115,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: resource.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def handle_visibility(happy_thing)
-    shared_ids = params[:happy_thing][:shared_with_ids] || []
-    return if shared_ids.blank?
-
-    shared_ids.each do |entry|
-      type, id = entry.split('_')
-      case type
-      when 'group'
-        happy_thing.happy_thing_group_shares.create!(group_id: id)
-      when 'friend'
-        happy_thing.happy_thing_user_shares.create!(friend_id: id)
       end
     end
   end
