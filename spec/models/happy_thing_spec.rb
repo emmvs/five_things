@@ -143,16 +143,29 @@ RSpec.describe HappyThing, type: :model do
         expect do
           perform_enqueued_jobs do
             shared_selectively_happy_thing = create(:happy_thing, user:)
-            shared_selectively_happy_thing.handle_visibility(shared_with_ids: %w[favorites friend_three])
+            shared_selectively_happy_thing.handle_visibility(["group_#{favorites.id}", "friend_#{friend_three.id}"])
           end
         end.to change(ActionMailer::Base.deliveries, :count).by(3)
 
         delivered_emails = ActionMailer::Base.deliveries.map(&:to).flatten
 
-        expect(delivered_emails).to include(friend_one.email)
-        expect(delivered_emails).to include(friend_two.email)
-        expect(delivered_emails).to include(friend_three.email)
-        expect(delivered_emails).not_to include(friend_four.email)
+        expect(delivered_emails.select { |email| email == friend_one.email }.count).to eq(1)
+        expect(delivered_emails.select { |email| email == friend_two.email }.count).to eq(1)
+        expect(delivered_emails.select { |email| email == friend_three.email }.count).to eq(1)
+        expect(delivered_emails.select { |email| email == friend_four.email }.count).to eq(0)
+
+        expect do
+          perform_enqueued_jobs do
+            create(:happy_thing, user:)
+          end
+        end.to change(ActionMailer::Base.deliveries, :count).by(1)
+
+        delivered_emails = ActionMailer::Base.deliveries.map(&:to).flatten
+
+        expect(delivered_emails.select { |email| email == friend_one.email }.count).to eq(1)
+        expect(delivered_emails.select { |email| email == friend_two.email }.count).to eq(1)
+        expect(delivered_emails.select { |email| email == friend_three.email }.count).to eq(1)
+        expect(delivered_emails.select { |email| email == friend_four.email }.count).to eq(1)
       end
 
       it 'allows exactly one email to be sent per day' do
