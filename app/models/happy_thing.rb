@@ -37,6 +37,8 @@ class HappyThing < ApplicationRecord
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
   after_create :check_happy_things_count
 
+  scope :today_for_user, ->(user) { where(start_time: Time.zone.today.all_day, user:) }
+
   attr_accessor :shared_with_ids
 
   def self.geocoded_markers
