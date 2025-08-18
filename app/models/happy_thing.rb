@@ -51,6 +51,20 @@ class HappyThing < ApplicationRecord
     self.start_time ||= Time.zone.now
   end
 
+  def handle_visibility(shared_ids)
+    return if shared_ids.blank?
+
+    shared_ids.each do |entry|
+      type, id = entry.split('_')
+      case type
+      when 'group'
+        happy_thing_group_shares.create!(group_id: id)
+      when 'friend'
+        happy_thing_user_shares.create!(friend_id: id)
+      end
+    end
+  end
+
   private
 
   def set_default_category
