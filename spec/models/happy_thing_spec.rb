@@ -121,7 +121,41 @@ RSpec.describe HappyThing, type: :model do
         expect(ActionMailer::Base.deliveries.count).to eq(1)
       end
 
-      it 'allows exactly one email to be sent per day' do # rubocop:disable Metrics/BlockLength
+      it 'sends an email to only the friends who are able to see all 5 of them' do
+        friend_one = create(:user, email_opt_in: true)
+        friend_two = create(:user, email_opt_in: true)
+        friend_three = create(:user, email_opt_in: true)
+        friend_four = create(:user, email_opt_in: true)
+
+        create_bi_directional_friendship(user, friend_one)
+        create_bi_directional_friendship(user, friend_two)
+        create_bi_directional_friendship(user, friend_three)
+        create_bi_directional_friendship(user, friend_four)
+
+        favorites = create(:group, user:)
+        create(:group_membership, group: favorites, user: friend_one)
+        create(:group_membership, group: favorites, user: friend_two)
+
+        perform_enqueued_jobs do
+          create_list(:happy_thing, 4, user:)
+        end
+
+        expect do
+          perform_enqueued_jobs do
+            shared_selectively_happy_thing = create(:happy_thing, user:)
+            shared_selectively_happy_thing.handle_visibility(shared_with_ids: %w[favorites friend_three])
+          end
+        end.to change(ActionMailer::Base.deliveries, :count).by(3)
+
+        delivered_emails = ActionMailer::Base.deliveries.map(&:to).flatten
+
+        expect(delivered_emails).to include(friend_one.email)
+        expect(delivered_emails).to include(friend_two.email)
+        expect(delivered_emails).to include(friend_three.email)
+        expect(delivered_emails).not_to include(friend_four.email)
+      end
+
+      it 'allows exactly one email to be sent per day' do
         today = Time.current
         tomorrow = today + 1.day
         yesterday = today - 1.day
