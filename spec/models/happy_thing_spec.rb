@@ -121,6 +121,19 @@ RSpec.describe HappyThing, type: :model do
         expect(ActionMailer::Base.deliveries.count).to eq(1)
       end
 
+      it 'only sends one email if a happy thing is updated' do
+        friend = create(:user, email_opt_in: true)
+        create_bi_directional_friendship(user, friend)
+
+        perform_enqueued_jobs do
+          create_list(:happy_thing, 5, user:)
+        end
+
+        user.happy_things.last.update(title: 'New Title - New Email?!')
+
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+
       it 'sends an email to only the friends who are able to see all 5 of them' do
         friend_one = create(:user, email_opt_in: true)
         friend_two = create(:user, email_opt_in: true)
