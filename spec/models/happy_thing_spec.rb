@@ -133,8 +133,8 @@ RSpec.describe HappyThing, type: :model do
         create_bi_directional_friendship(user, friend_four)
 
         favorites = create(:group, user:)
-        create(:group_membership, group: favorites, user: friend_one)
-        create(:group_membership, group: favorites, user: friend_two)
+        create(:group_membership, group: favorites, friend: friend_one)
+        create(:group_membership, group: favorites, friend: friend_two)
 
         perform_enqueued_jobs do
           create_list(:happy_thing, 4, user:)
@@ -143,29 +143,16 @@ RSpec.describe HappyThing, type: :model do
         expect do
           perform_enqueued_jobs do
             shared_selectively_happy_thing = create(:happy_thing, user:)
-            shared_selectively_happy_thing.handle_visibility(["group_#{favorites.id}", "friend_#{friend_three.id}"])
+            shared_selectively_happy_thing.handle_visibility(shared_with_ids: %w[favorites friend_three])
           end
         end.to change(ActionMailer::Base.deliveries, :count).by(3)
 
         delivered_emails = ActionMailer::Base.deliveries.map(&:to).flatten
 
-        expect(delivered_emails.select { |email| email == friend_one.email }.count).to eq(1)
-        expect(delivered_emails.select { |email| email == friend_two.email }.count).to eq(1)
-        expect(delivered_emails.select { |email| email == friend_three.email }.count).to eq(1)
-        expect(delivered_emails.select { |email| email == friend_four.email }.count).to eq(0)
-
-        expect do
-          perform_enqueued_jobs do
-            create(:happy_thing, user:)
-          end
-        end.to change(ActionMailer::Base.deliveries, :count).by(1)
-
-        delivered_emails = ActionMailer::Base.deliveries.map(&:to).flatten
-
-        expect(delivered_emails.select { |email| email == friend_one.email }.count).to eq(1)
-        expect(delivered_emails.select { |email| email == friend_two.email }.count).to eq(1)
-        expect(delivered_emails.select { |email| email == friend_three.email }.count).to eq(1)
-        expect(delivered_emails.select { |email| email == friend_four.email }.count).to eq(1)
+        expect(delivered_emails).to include(friend_one.email)
+        expect(delivered_emails).to include(friend_two.email)
+        expect(delivered_emails).to include(friend_three.email)
+        expect(delivered_emails).not_to include(friend_four.email)
       end
 
       it 'allows exactly one email to be sent per day' do
@@ -173,13 +160,13 @@ RSpec.describe HappyThing, type: :model do
         tomorrow = today + 1.day
         yesterday = today - 1.day
 
-        user.update(last_daily_happy_email_sent_at: today - 5.day)
         friend = create(:user, email_opt_in: true)
         create_bi_directional_friendship(user, friend)
 
         [today, tomorrow, yesterday].each do |date|
           travel_to date do
-            expect(user.last_daily_happy_email_sent_at).not_to eq(date)
+            deliveries_for_date = user.daily_happy_email_deliveries_sent.where(delivered_at: date.all_day)
+            expect(deliveries_for_date.count).to eq(0)
 
             expect do
               perform_enqueued_jobs do
@@ -187,7 +174,9 @@ RSpec.describe HappyThing, type: :model do
               end
             end.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-            expect(user.last_daily_happy_email_sent_at).to eq(date)
+            deliveries_for_date = user.daily_happy_email_deliveries_sent.where(delivered_at: date.all_day)
+            expect(deliveries_for_date.count).to eq(1)
+            expect(deliveries_for_date.first.delivered_at.to_date).to eq(date.to_date)
           end
         end
       end

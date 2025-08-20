@@ -69,6 +69,10 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :received_happy_things, through: :happy_thing_user_shares, source: :happy_thing
   has_many :group_memberships, foreign_key: :friend_id, dependent: :destroy
   has_many :groups_as_member, through: :group_memberships, source: :group
+  has_many :daily_happy_email_deliveries_sent,
+           class_name: 'DailyHappyEmailDelivery', foreign_key: :user_id, dependent: :destroy
+  has_many :daily_happy_email_deliveries_received,
+           class_name: 'DailyHappyEmailDelivery', foreign_key: :recipient_id, dependent: :destroy
 
   # Friendships
   has_many :friendships, dependent: :destroy

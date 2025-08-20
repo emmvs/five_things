@@ -28,6 +28,7 @@ class HappyThing < ApplicationRecord
   has_many :shared_users, through: :happy_thing_user_shares, source: :friend
   has_many :happy_thing_group_shares, dependent: :destroy
   has_many :shared_groups, through: :happy_thing_group_shares, source: :group
+  has_many :group_memberships, through: :shared_groups, source: :group_memberships
   has_one_attached :photo
 
   validates :title, presence: true
@@ -35,9 +36,26 @@ class HappyThing < ApplicationRecord
   before_validation :set_default_category, on: :create
   after_validation :geocode, if: :will_save_change_to_place?
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
-  after_create :check_happy_things_count
+  after_create :send_happy_email_to_friends
+  # after_commit :send_happy_email_to_friends, on: :create
+  # after_commit :send_happy_email_to_friends, on: :update, if: :start_date_changed?
 
-  scope :today_for_user, ->(user) { where(start_time: Time.zone.today.all_day, user:) }
+  scope :today_for_user, lambda { |user|
+    where(start_time: Time.zone.today.all_day, user:)
+  }
+  # scope :shared_from_user_with_friend, lambda { |user, friend|
+  #   where(user:)
+  #     .left_joins(:happy_thing_user_shares, :group_memberships)
+  #     .where(
+  #       'happy_thing_user_shares.friend_id = ? OR group_memberships.friend_id = ?',
+  #       friend.id,
+  #       friend.id
+  #     )
+  # }
+  # confused since nil=public
+  # move all share scoping here ?!
+  # 
+
 
   attr_accessor :shared_with_ids
 
@@ -52,6 +70,7 @@ class HappyThing < ApplicationRecord
   end
 
   def handle_visibility(shared_ids)
+    p "hello handle_visibility #{shared_ids} 🐶"
     return if shared_ids.blank?
 
     shared_ids.each do |entry|
@@ -75,19 +94,26 @@ class HappyThing < ApplicationRecord
     start_time.present?
   end
 
-  def check_happy_things_count
-    today_count = user.happy_things.where(start_time: Time.zone.today.all_day).count
-    return unless today_count == 5
+  def friends_that_still_want_an_email
+    friends_who_got_an_email_today = DailyHappyEmailDelivery
+                                     .where(user:, delivered_at: Time.zone.today.all_day)
+                                     .pluck(:recipient_id)
 
-    return if user.daily_happy_email_sent
-
-    notify_friends_about_happy_things
-    user.update(daily_happy_email_sent: true)
+    user.friends_and_friends_who_added_me
+        .where(email_opt_in: true)
+        .where.not(id: friends_who_got_an_email_today)
   end
 
-  def notify_friends_about_happy_things
-    user.friends_and_friends_who_added_me.where(email_opt_in: true).each do |friend|
-      UserMailer.happy_things_notification(friend).deliver_later
+  def send_happy_email_to_friends
+    # puts '🤡🤡🤡🤡'
+    friends_that_still_want_an_email.each do |friend|
+      # p HappyThing.today_for_user(user).shared_from_user_with_friend(user, friend).count
+      # p HappyThing.today_for_user(user).count
+      # p HappyThing.shared_from_user_with_friend(user, friend).count
+      next unless HappyThing.today_for_user(user).count >= 5
+
+      puts '🍌 before mail mailer sends'
+      UserMailer.happy_things_notification(user, friend).deliver_later
     end
   end
 end

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_08_18_091829) do
+ActiveRecord::Schema[7.0].define(version: 2025_08_18_141434) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -51,14 +51,24 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_18_091829) do
     t.datetime 'updated_at', null: false
   end
 
-  create_table 'comments', force: :cascade do |t|
-    t.bigint 'user_id', null: false
-    t.bigint 'happy_thing_id', null: false
-    t.text 'content'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['happy_thing_id'], name: 'index_comments_on_happy_thing_id'
-    t.index ['user_id'], name: 'index_comments_on_user_id'
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "happy_thing_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["happy_thing_id"], name: "index_comments_on_happy_thing_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "daily_happy_email_deliveries", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "recipient_id", null: false
+    t.datetime "delivered_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipient_id"], name: "index_daily_happy_email_deliveries_on_recipient_id"
+    t.index ["user_id"], name: "index_daily_happy_email_deliveries_on_user_id"
   end
 
   create_table 'friendships', force: :cascade do |t|
@@ -145,25 +155,26 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_18_091829) do
     t.string "unconfirmed_email"
     t.string "provider"
     t.string "uid"
-    t.datetime "last_daily_happy_email_sent_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
-  add_foreign_key 'active_storage_variant_records', 'active_storage_blobs', column: 'blob_id'
-  add_foreign_key 'comments', 'happy_things'
-  add_foreign_key 'comments', 'users'
-  add_foreign_key 'friendships', 'users'
-  add_foreign_key 'friendships', 'users', column: 'friend_id'
-  add_foreign_key 'group_memberships', 'groups'
-  add_foreign_key 'group_memberships', 'users', column: 'friend_id'
-  add_foreign_key 'groups', 'users'
-  add_foreign_key 'happy_thing_group_shares', 'groups'
-  add_foreign_key 'happy_thing_group_shares', 'happy_things'
-  add_foreign_key 'happy_thing_user_shares', 'happy_things'
-  add_foreign_key 'happy_thing_user_shares', 'users', column: 'friend_id'
-  add_foreign_key 'happy_things', 'categories'
-  add_foreign_key 'happy_things', 'users'
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "happy_things"
+  add_foreign_key "comments", "users"
+  add_foreign_key "daily_happy_email_deliveries", "users"
+  add_foreign_key "daily_happy_email_deliveries", "users", column: "recipient_id"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "group_memberships", "groups"
+  add_foreign_key "group_memberships", "users", column: "friend_id"
+  add_foreign_key "groups", "users"
+  add_foreign_key "happy_thing_group_shares", "groups"
+  add_foreign_key "happy_thing_group_shares", "happy_things"
+  add_foreign_key "happy_thing_user_shares", "happy_things"
+  add_foreign_key "happy_thing_user_shares", "users", column: "friend_id"
+  add_foreign_key "happy_things", "categories"
+  add_foreign_key "happy_things", "users"
 end
