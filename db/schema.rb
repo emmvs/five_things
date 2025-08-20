@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_08_18_141434) do
+ActiveRecord::Schema[7.0].define(version: 2025_08_20_184036) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -117,21 +117,23 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_18_141434) do
     t.index ['happy_thing_id'], name: 'index_happy_thing_user_shares_on_happy_thing_id'
   end
 
-  create_table 'happy_things', force: :cascade do |t|
-    t.string 'title', null: false
-    t.text 'body'
-    t.integer 'status'
-    t.bigint 'user_id', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.datetime 'start_time'
-    t.string 'place'
-    t.float 'latitude'
-    t.float 'longitude'
-    t.bigint 'category_id'
-    t.boolean 'share_location'
-    t.index ['category_id'], name: 'index_happy_things_on_category_id'
-    t.index ['user_id'], name: 'index_happy_things_on_user_id'
+  create_table "happy_things", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "body"
+    t.integer "status"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "start_time"
+    t.string "place"
+    t.float "latitude"
+    t.float "longitude"
+    t.bigint "category_id"
+    t.boolean "share_location"
+    t.string "visibility", default: "public"
+    t.index ["category_id"], name: "index_happy_things_on_category_id"
+    t.index ["user_id"], name: "index_happy_things_on_user_id"
+    t.index ["visibility"], name: "index_happy_things_on_visibility"
   end
 
   create_table "users", force: :cascade do |t|
