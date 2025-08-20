@@ -26,6 +26,6 @@ module HappyThingsHelper
       user.groups.flat_map(&:friends).include?(f)
     end.map { |f| ["👤 #{f.first_name} #{f.last_name}", "friend_#{f.id}"] }
 
-    group_options + group_member_options + other_friends
+    group_options + group_member_options + other_friends + [['🥸 Only me', 'private']]
   end
 end
