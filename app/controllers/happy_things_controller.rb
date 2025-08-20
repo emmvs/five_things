@@ -30,15 +30,15 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def create
     @happy_thing = current_user_happy_things.new(happy_thing_params)
+    @happy_thing.handle_visibility_column(happy_thing_params[:shared_with_ids])
     save_and_respond(@happy_thing)
-    @happy_thing.handle_visibility(happy_thing_params[:shared_with_ids]) if @happy_thing.persisted?
   end
 
   def update
-    if @happy_thing.update(happy_thing_params)
-      @happy_thing.happy_thing_user_shares.destroy_all
-      @happy_thing.happy_thing_group_shares.destroy_all
-      @happy_thing.handle_visibility(happy_thing_params[:shared_with_ids])
+    @happy_thing.assign_attributes(happy_thing_params)
+    @happy_thing.handle_visibility_column(happy_thing_params[:shared_with_ids])
+    if @happy_thing.save
+      @happy_thing.handle_visibility_shares(happy_thing_params[:shared_with_ids])
       redirect_to root_path, notice: 'Yay! 🎉 Happy Thing was updated 🥰'
     else
       render :edit, status: 422
@@ -132,6 +132,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def save_and_respond(resource)
     respond_to do |format|
       if resource.save
+        resource.handle_visibility_shares(happy_thing_params[:shared_with_ids])
         format.html { redirect_to root_path, notice: 'Happy Thing was successfully created.' }
         format.json { render json: { status: :created, happy_thing: resource } }
       else

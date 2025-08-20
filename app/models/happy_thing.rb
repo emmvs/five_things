@@ -32,6 +32,7 @@ class HappyThing < ApplicationRecord
   has_one_attached :photo
 
   validates :title, presence: true
+  validates :visibility, inclusion: { in: %w[public private selective] }
 
   before_validation :set_default_category, on: :create
   after_validation :geocode, if: :will_save_change_to_place?
@@ -69,10 +70,16 @@ class HappyThing < ApplicationRecord
     self.start_time ||= Time.zone.now
   end
 
-  def handle_visibility(shared_ids)
-    p "hello handle_visibility #{shared_ids} 🐶"
-    return if shared_ids.blank?
+  def private_selected?(shared_ids)
+    shared_ids.include?('private')
+  end
 
+  def selective_selected?(shared_ids)
+    regex = /friend_\d+|group_\d+/
+    shared_ids.any? { |id| id.match?(regex) }
+  end
+
+  def create_shares_from_shared_ids(shared_ids)
     shared_ids.each do |entry|
       type, id = entry.split('_')
       case type
@@ -82,6 +89,28 @@ class HappyThing < ApplicationRecord
         happy_thing_user_shares.create!(friend_id: id)
       end
     end
+  end
+
+  def destroy_shares
+    happy_thing_user_shares.destroy_all
+    happy_thing_group_shares.destroy_all
+  end
+
+  def handle_visibility_shares(shared_ids)
+    return unless selective_selected?(shared_ids)
+
+    destroy_shares
+    create_shares_from_shared_ids(shared_ids)
+  end
+
+  def handle_visibility_column(shared_ids)
+    self.visibility = if selective_selected?(shared_ids)
+                        'selective'
+                      elsif private_selected?(shared_ids)
+                        'private'
+                      else
+                        'public'
+                      end
   end
 
   private

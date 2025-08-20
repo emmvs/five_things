@@ -156,7 +156,8 @@ RSpec.describe HappyThing, type: :model do
         expect do
           perform_enqueued_jobs do
             shared_selectively_happy_thing = create(:happy_thing, user:)
-            shared_selectively_happy_thing.handle_visibility(shared_with_ids: %w[favorites friend_three])
+            shared_selectively_happy_thing.handle_visibility_column(%w[favorites friend_three])
+            shared_selectively_happy_thing.handle_visibility_shares(%w[favorites friend_three])
           end
         end.to change(ActionMailer::Base.deliveries, :count).by(3)
 
