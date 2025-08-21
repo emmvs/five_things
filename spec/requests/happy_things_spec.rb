@@ -63,7 +63,8 @@ RSpec.describe 'HappyThings visibility', type: :request do
           happy_thing: {
             title: 'Shared with location',
             share_location: '1',
-            place: 'Berlin'
+            place: 'Berlin',
+            shared_with_ids: ['']
           }
         }
       end.to change(HappyThing, :count).by(1)
