@@ -134,7 +134,7 @@ RSpec.describe HappyThing, type: :model do
         expect(ActionMailer::Base.deliveries.count).to eq(1)
       end
 
-      it 'sends an email to only the friends who are able to see all 5 of them' do
+      it 'sends an email to only the friends who are able to see all 5 of them' do # rubocop:disable Metrics/BlockLength
         friend_one = create(:user, email_opt_in: true)
         friend_two = create(:user, email_opt_in: true)
         friend_three = create(:user, email_opt_in: true)
@@ -155,9 +155,14 @@ RSpec.describe HappyThing, type: :model do
 
         expect do
           perform_enqueued_jobs do
-            shared_selectively_happy_thing = create(:happy_thing, user:)
-            shared_selectively_happy_thing.handle_visibility_column(%w[favorites friend_three])
-            shared_selectively_happy_thing.handle_visibility_shares(%w[favorites friend_three])
+            shared_selectively_happy_thing = build(:happy_thing, user:)
+            shared_selectively_happy_thing.handle_visibility_column(["group_#{favorites.id}",
+                                                                     "friend_#{friend_three.id}"])
+            ActiveRecord::Base.transaction do
+              shared_selectively_happy_thing.save!
+              shared_selectively_happy_thing.handle_visibility_shares(["group_#{favorites.id}",
+                                                                       "friend_#{friend_three.id}"])
+            end
           end
         end.to change(ActionMailer::Base.deliveries, :count).by(3)
 

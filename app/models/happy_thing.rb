@@ -18,7 +18,7 @@
 #  category_id    :bigint
 #  share_location :boolean
 #
-class HappyThing < ApplicationRecord
+class HappyThing < ApplicationRecord # rubocop:disable Metrics/ClassLength
   geocoded_by :place
 
   belongs_to :user
@@ -37,26 +37,35 @@ class HappyThing < ApplicationRecord
   before_validation :set_default_category, on: :create
   after_validation :geocode, if: :will_save_change_to_place?
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
-  after_create :send_happy_email_to_friends
-  # after_commit :send_happy_email_to_friends, on: :create
-  # after_commit :send_happy_email_to_friends, on: :update, if: :start_date_changed?
+  after_commit :send_happy_email_to_friends, on: %i[create update]
 
   scope :today_for_user, lambda { |user|
+    return none unless user
+
     where(start_time: Time.zone.today.all_day, user:)
   }
-  # scope :shared_from_user_with_friend, lambda { |user, friend|
-  #   where(user:)
-  #     .left_joins(:happy_thing_user_shares, :group_memberships)
-  #     .where(
-  #       'happy_thing_user_shares.friend_id = ? OR group_memberships.friend_id = ?',
-  #       friend.id,
-  #       friend.id
-  #     )
-  # }
-  # confused since nil=public
-  # move all share scoping here ?!
-  # 
 
+  scope :visible_to_user, lambda { |user|
+    return none unless user
+
+    own_things = where(user:).pluck(:id)
+
+    direct_shares = joins(:happy_thing_user_shares)
+                    .where(happy_thing_user_shares: { friend_id: user.id })
+                    .pluck(:id)
+
+    group_shares = joins(:happy_thing_group_shares)
+                   .joins(shared_groups: :group_memberships)
+                   .where(group_memberships: { friend_id: user.id })
+                   .pluck(:id)
+
+    public_things_of_friends = where(user: user.friends_and_friends_who_added_me)
+                               .where(visibility: 'public')
+                               .pluck(:id)
+
+    ids = (own_things + direct_shares + group_shares + public_things_of_friends)
+    where(id: ids)
+  }
 
   attr_accessor :shared_with_ids
 
@@ -134,14 +143,11 @@ class HappyThing < ApplicationRecord
   end
 
   def send_happy_email_to_friends
-    # puts '🤡🤡🤡🤡'
-    friends_that_still_want_an_email.each do |friend|
-      # p HappyThing.today_for_user(user).shared_from_user_with_friend(user, friend).count
-      # p HappyThing.today_for_user(user).count
-      # p HappyThing.shared_from_user_with_friend(user, friend).count
-      next unless HappyThing.today_for_user(user).count >= 5
+    return unless start_time.to_date == Time.zone.today
 
-      puts '🍌 before mail mailer sends'
+    friends_that_still_want_an_email.each do |friend|
+      next unless HappyThing.today_for_user(user).visible_to_user(friend).count >= 5
+
       UserMailer.happy_things_notification(user, friend).deliver_later
     end
   end
