@@ -33,6 +33,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     @happy_thing.handle_visibility_column(happy_thing_params[:shared_with_ids])
     ActiveRecord::Base.transaction do
       save_and_respond(@happy_thing)
+      @happy_thing.handle_visibility_shares(happy_thing_params[:shared_with_ids])
     end
   end
 
@@ -134,7 +135,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def save_and_respond(resource)
     respond_to do |format|
       if resource.save
-        resource.handle_visibility_shares(happy_thing_params[:shared_with_ids])
         format.html { redirect_to root_path, notice: 'Happy Thing was successfully created.' }
         format.json { render json: { status: :created, happy_thing: resource } }
       else
