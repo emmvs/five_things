@@ -87,7 +87,9 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def setup_happy_things_for_view
-    @happy_things = HappyThing.where(user_id: user_ids, start_time: @date.all_day)
+    friend_ids = current_user.friends_and_friends_who_added_me_ids
+    @happy_things = HappyThing.visible_to_user(current_user)
+                              .where(user_id: friend_ids + [current_user.id], start_time: @date.all_day)
   end
 
   def old_happy_thing
@@ -125,7 +127,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   private
 
   def set_happy_thing
-    @happy_thing = HappyThing.where(user_id: user_ids).find(params[:id])
+    @happy_thing = HappyThing.visible_to_user(current_user).find(params[:id])
   end
 
   def set_own_happy_thing
