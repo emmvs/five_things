@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class UserMailer < ApplicationMailer
-  def happy_things_notification(user, recipient)
+  def happy_things_notification(_user, recipient)
     @recipient = recipient
     mail(to: @recipient.email, subject: 'Happy Things incoming!🎁')
-
-    DailyHappyEmailDelivery.create!(user:, recipient:, delivered_at: Time.zone.now)
   end
 
   def email_confirmation(user)

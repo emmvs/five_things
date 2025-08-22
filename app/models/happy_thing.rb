@@ -79,15 +79,6 @@ class HappyThing < ApplicationRecord # rubocop:disable Metrics/ClassLength
     self.start_time ||= Time.zone.now
   end
 
-  def private_selected?(shared_ids)
-    shared_ids.include?('private')
-  end
-
-  def selective_selected?(shared_ids)
-    regex = /friend_\d+|group_\d+/
-    shared_ids.any? { |id| id.match?(regex) }
-  end
-
   def create_shares_from_shared_ids(shared_ids)
     shared_ids.each do |entry|
       type, id = entry.split('_')
@@ -98,11 +89,6 @@ class HappyThing < ApplicationRecord # rubocop:disable Metrics/ClassLength
         happy_thing_user_shares.create!(friend_id: id)
       end
     end
-  end
-
-  def destroy_shares
-    happy_thing_user_shares.destroy_all
-    happy_thing_group_shares.destroy_all
   end
 
   def handle_visibility_shares(shared_ids)
@@ -124,12 +110,22 @@ class HappyThing < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   private
 
-  def set_default_category
-    self.category ||= Category.find_by(name: 'General')
+  def send_happy_email_to_friends
+    user.transaction do
+      user.lock!
+      return unless today?
+
+      friends_that_still_want_an_email.each do |friend|
+        next unless friend_can_see_five_happy_things?(friend)
+
+        DailyHappyEmailDelivery.create!(user:, recipient: friend, delivered_at: Time.zone.now)
+        UserMailer.happy_things_notification(user, friend).deliver_later
+      end
+    end
   end
 
-  def start_time_present?
-    start_time.present?
+  def today?
+    start_time.to_date == Time.zone.today
   end
 
   def friends_that_still_want_an_email
@@ -142,13 +138,29 @@ class HappyThing < ApplicationRecord # rubocop:disable Metrics/ClassLength
         .where.not(id: friends_who_got_an_email_today)
   end
 
-  def send_happy_email_to_friends
-    return unless start_time.to_date == Time.zone.today
+  def friend_can_see_five_happy_things?(friend)
+    HappyThing.today_for_user(user).visible_to_user(friend).count >= 5
+  end
 
-    friends_that_still_want_an_email.each do |friend|
-      next unless HappyThing.today_for_user(user).visible_to_user(friend).count >= 5
+  def set_default_category
+    self.category ||= Category.find_by(name: 'General')
+  end
 
-      UserMailer.happy_things_notification(user, friend).deliver_later
-    end
+  def start_time_present?
+    start_time.present?
+  end
+
+  def private_selected?(shared_ids)
+    shared_ids.include?('private')
+  end
+
+  def selective_selected?(shared_ids)
+    regex = /friend_\d+|group_\d+/
+    shared_ids.any? { |id| id.match?(regex) }
+  end
+
+  def destroy_shares
+    happy_thing_user_shares.destroy_all
+    happy_thing_group_shares.destroy_all
   end
 end
