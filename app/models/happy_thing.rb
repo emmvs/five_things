@@ -23,7 +23,6 @@ class HappyThing < ApplicationRecord
 
   belongs_to :user
   belongs_to :category
-  # has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :happy_thing_user_shares, dependent: :destroy
   has_many :shared_users, through: :happy_thing_user_shares, source: :friend
