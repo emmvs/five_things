@@ -9,7 +9,10 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def index
     @should_render_navbar = true
-    @happy_things = happy_things_of_friends.page(params[:page]).per(10)
+    @happy_things = HappyThing.visible_to_user(current_user)
+                              .order(start_time: :desc)
+                              .page(params[:page])
+                              .per(10)
   end
 
   def show
@@ -137,22 +140,5 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
         format.json { render json: @happy_thing.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def happy_things_of_friends # rubocop:disable Metrics/AbcSize
-    own = HappyThing.where(user_id: current_user.id)
-
-    shared_with_user = HappyThing.joins(:happy_thing_user_shares)
-                                 .where(happy_thing_user_shares: { friend_id: current_user.id })
-
-    shared_with_groups = HappyThing.joins(happy_thing_group_shares: { group: :group_memberships })
-                                   .where(group_memberships: { friend_id: current_user.id })
-
-    public_happy_things = HappyThing.left_joins(:happy_thing_user_shares, :happy_thing_group_shares)
-                                    .where(happy_thing_user_shares: { id: nil }, happy_thing_group_shares: { id: nil })
-
-    ids = (own.pluck(:id) + shared_with_user.pluck(:id) + shared_with_groups.pluck(:id) + public_happy_things.pluck(:id)).uniq # rubocop:disable Layout/LineLength
-
-    HappyThing.where(id: ids).order(start_time: :desc)
   end
 end
