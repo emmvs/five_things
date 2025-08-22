@@ -80,7 +80,6 @@ end
 group :test do
   gem 'capybara' # Capybara for integration testing
   gem 'selenium-webdriver' # WebDriver for browsers
-  # gem 'webdrivers' # Auto-updates webdrivers
 end
 
 # Optional gems for specific features
