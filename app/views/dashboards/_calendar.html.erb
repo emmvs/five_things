@@ -1,0 +1,17 @@
+<div class="d-flex justify-content-center align-items-center">
+  <div id="calendar" class="mb-2 my-3">
+    <%= month_calendar(events: @happy_things_of_you_and_friends, param_name: :date) do |date, happy_things_bubbles| %>
+      <div class="day d-flex justify-content-center align-items-center">
+        <% if happy_things_bubbles.any? %>
+          <% unique_users = happy_things_bubbles.map(&:user).uniq %>
+          <% unique_users.each do |user| %>
+            <div class="event-indicator"><%= user.emoji %></div>
+          <% end %>
+        <% end %>
+        <%= link_to happy_things_by_date_path(date: date.strftime('%Y-%m-%d')), class: 'calendar-day-link' do %>
+          <%= date.day %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
