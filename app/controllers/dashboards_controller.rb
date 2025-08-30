@@ -2,7 +2,6 @@
 
 # Controller for dashboard functionalities including fetching & displaying HappyThings
 class DashboardsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_happy_things
   before_action :set_happy_things_of_today, only: [:index]
 
