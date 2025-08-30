@@ -1,13 +1,28 @@
 <div class="d-flex justify-content-center align-items-center">
   <div id="calendar" class="mb-2 my-3">
     <%= month_calendar(events: @happy_things_of_you_and_friends, param_name: :date) do |date, happy_things_bubbles| %>
-      <div class="day d-flex justify-content-center align-items-center">
+      <% unique_users = happy_things_bubbles.map(&:user).uniq %>
+      <% unique_users_sorted = unique_users.sort_by { |user| @user_ids.index(user.id) } %>
+      <% number_of_emojis = unique_users.length %>
+      <div class="day d-flex justify-content-center align-items-center <%= 'has-many-emojis' if number_of_emojis > 4 %>">
         <% if happy_things_bubbles.any? %>
-          <% unique_users = happy_things_bubbles.map(&:user).uniq %>
-          <% unique_users_sorted = unique_users.sort_by { |user| @user_ids.index(user.id) } %>
-          <% unique_users_sorted.each do |user| %>
-            <div class="event-indicator"><%= user.emoji %></div>
-          <% end %>
+          <div 
+            class="emoji-grid"
+            style="
+                grid-template-columns: repeat(<%= calculate_grid_size(number_of_emojis) %>, 1fr);
+                grid-template-rows: repeat(<%= calculate_grid_size(number_of_emojis) %>, 1fr);
+            ">
+            <% unique_users_sorted.each_with_index do |user, index| %>
+              <div 
+                class="emoji" 
+                style="
+                    font-size: <%= calculate_emoji_size(number_of_emojis) %>em;
+                    transform: translate(<%= calculate_emoji_position(index + 1, number_of_emojis) %>);
+              ">
+                <%= user.emoji %>
+            </div>
+            <% end %>
+          </div>
         <% end %>
         <%= link_to happy_things_by_date_path(date: date.strftime('%Y-%m-%d')), class: 'calendar-day-link' do %>
           <%= date.day %>
