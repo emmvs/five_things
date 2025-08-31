@@ -4,6 +4,7 @@
 class ApplicationController < ActionController::Base
   before_action :set_should_render_navbar
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :authenticate_user!, unless: :public_controller?
 
   protected
 
@@ -16,5 +17,9 @@ class ApplicationController < ActionController::Base
 
   def set_should_render_navbar
     @should_render_navbar = false
+  end
+
+  def public_controller?
+    controller_name.in?(%w[pages])
   end
 end

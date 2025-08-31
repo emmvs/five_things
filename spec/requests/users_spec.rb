@@ -79,7 +79,7 @@ RSpec.describe 'Users', type: :request do # rubocop:disable Metrics/BlockLength
       patch user_registration_path, params: {
         user: { password: 'weak', password_confirmation: 'weak', current_password: '123456' }
       }
-      expect(response.body).to include(I18n.t('errors.models.user.password.invalid'))
+      expect(response.body).to include(I18n.t('errors.models.user.password.format'))
     end
   end
 end
