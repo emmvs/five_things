@@ -18,7 +18,12 @@ en:
       user:
         first_name:
           length: "must be between 3 and 30 characters long"
-          invalid: "cannot contain links or scripts"
+          format: "cannot contain links or scripts"
         password:
-          length: "must be between 12 and 30 characters long"
-          invalid: "must include at least one uppercase, one lowercase, one number, and one special character, and cannot contain spaces"
+          length: "must be between 8 and 30 characters long"
+          format: "must include at least one uppercase, one lowercase, one number, and one special character, and cannot contain spaces"
+        email:
+          presence: "must be present"
+          uniqueness: "must be unique"
+          format: "must be a valid email address"
+          length: "must be between 3 and 255 characters long"
