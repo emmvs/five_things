@@ -28,8 +28,7 @@
 #
 class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :confirmable,
+         :recoverable, :rememberable, :confirmable,
          :omniauthable, omniauth_providers: [:google_oauth2]
   # TODO: Add :trackable, :lockable
 
@@ -39,7 +38,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
                          length: { in: 3..30, message: I18n.t('errors.models.user.first_name.length') },
                          format: {
                            without: %r{http|https|www|<script.*?>|</script>}i,
-                           message: I18n.t('errors.models.user.first_name.invalid')
+                           message: I18n.t('errors.models.user.first_name.format')
                          },
                          on: %i[create update oauth_linking]
 
@@ -47,12 +46,20 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
                        length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
                        format: {
                          with: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}/,
-                         message: I18n.t('errors.models.user.password.invalid')
+                         message: I18n.t('errors.models.user.password.format')
                        },
-                       on: %i[create update]
+                       confirmation: true,
+                       if: :password_required?
+
+  validates :email, presence: true,
+                    uniqueness: { case_sensitive: false },
+                    format: { with: URI::MailTo::EMAIL_REGEXP },
+                    length: { within: 3..255 }
 
   validates :provider, presence: true, on: :oauth_linking
   validates :uid, presence: true, on: :oauth_linking
+
+  before_validation :normalize_email
 
   has_many :happy_things
   has_many :comments
@@ -180,6 +187,14 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def self.generate_password_for_oauth
     "Oauth1!#{SecureRandom.hex(4)}"
+  end
+
+  def normalize_email
+    self.email = email.to_s.downcase.strip
+  end
+
+  def password_required?
+    !persisted? || !password.nil?
   end
 
   private_class_method :generate_password_for_oauth, :generate_first_name_candidates
