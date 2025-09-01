@@ -30,6 +30,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def create
     @happy_thing = current_user_happy_things.new(happy_thing_params)
+    @happy_thing.calculate_and_set_start_time_with_timezone_offset(params[:timezone_offset])
     save_and_respond(@happy_thing)
     handle_visibility(@happy_thing) if @happy_thing.persisted?
   end
@@ -158,7 +159,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def happy_thing_params
     params.require(:happy_thing).permit(:title, :photo, :body, :status, :start_time, :place, :longitude, :latitude,
-                                        :category_id, :share_location, shared_with_ids: [])
+                                        :category_id, :share_location, :timezone_offset, shared_with_ids: [])
   end
 
   def create_happy_thing

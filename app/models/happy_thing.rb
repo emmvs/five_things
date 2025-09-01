@@ -49,6 +49,10 @@ class HappyThing < ApplicationRecord
     self.start_time ||= Time.zone.now
   end
 
+  def calculate_and_set_start_time_with_timezone_offset(js_offset_minutes)
+    self.start_time = Time.zone.now - js_offset_minutes.to_i.minutes
+  end
+
   private
 
   def set_default_category
