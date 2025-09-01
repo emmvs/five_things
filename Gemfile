@@ -4,7 +4,13 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Ruby version
-ruby '3.1.2'
+ruby '3.4.4'
+
+gem 'bigdecimal'
+gem 'csv'
+gem 'drb'
+gem 'mutex_m'
+gem 'observer'
 
 # Core Rails gems
 gem 'bootsnap', require: false # Reduces boot times through caching
@@ -54,11 +60,9 @@ gem 'geocoder'
 gem 'moonphases'
 gem 'ruby-openai'
 
-# Action Mailer
-gem 'letter_opener'
-
 # Testing suite
 group :development, :test do
+  gem 'letter_opener' # Preview emails in browser for testing
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails' # Load environment variables from .env
   gem 'factory_bot_rails' # Factory Bot for test data
