@@ -33,7 +33,7 @@ gem 'sassc-rails' # Use SCSS for stylesheets
 # Devise for authentication
 gem 'devise', '~> 4.8'
 
-#OAauth Providers
+# OAauth Providers
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 
@@ -71,8 +71,8 @@ group :development, :test do
 end
 
 group :development do
-  gem 'web-console' # Rails console for the browser
   gem 'annotate' # Annotate models with schema
+  gem 'web-console' # Rails console for the browser
   # gem 'spring' # Speeds up development by keeping app running in the background
   # gem 'rack-mini-profiler' # Displays speed badge for performance profiling
 end
@@ -80,7 +80,6 @@ end
 group :test do
   gem 'capybara' # Capybara for integration testing
   gem 'selenium-webdriver' # WebDriver for browsers
-  gem 'webdrivers' # Auto-updates webdrivers
 end
 
 # Optional gems for specific features

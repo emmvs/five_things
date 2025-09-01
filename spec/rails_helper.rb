@@ -75,4 +75,16 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ActiveJob::TestHelper
+
+  config.before(:each, type: :system) do
+    Capybara.register_driver :custom_selenium_chrome_headless do |app|
+      options = Selenium::WebDriver::Chrome::Options.new
+      options.add_argument('--headless')
+      options.add_argument('--window-size=767,1024')
+
+      Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
+    end
+
+    driven_by :custom_selenium_chrome_headless
+  end
 end
