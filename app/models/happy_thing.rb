@@ -50,6 +50,10 @@ class HappyThing < ApplicationRecord
     self.start_time ||= Time.zone.now
   end
 
+  def calculate_and_set_start_time_with_timezone_offset(js_offset_minutes)
+    self.start_time = Time.zone.now - js_offset_minutes.to_i.minutes
+  end
+
   def ai_title # rubocop:disable Metrics/MethodLength
     Rails.cache.fetch("#{cache_key_with_version}/content") do
       client = OpenAI::Client.new

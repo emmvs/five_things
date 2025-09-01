@@ -1,6 +1,6 @@
 <%= simple_form_for happy_thing, html: { 
   class: "happy_thing form mt-4 p-3", 
-  data: { controller: "user-location", user_location_target: "form" },
+  data: { controller: "user-location timezone", user_location_target: "form" },
   style: "display: flex; flex-direction: column; align-items: center;"
 } do |f| %>
   <% if happy_thing.errors.any? %>
@@ -51,6 +51,8 @@
       <%= f.input :place %>
     </div>
   <% end %>
+
+  <input type="hidden" name="timezone_offset" data-timezone-target="timezoneOffset">
 
   <%= f.submit class: "btn button--primary m-2", style: "max-width: 480px; width: 100%;" %>
 <% end %>
