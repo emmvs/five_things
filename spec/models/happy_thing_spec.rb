@@ -27,26 +27,25 @@ RSpec.describe HappyThing, type: :model do
   describe 'Methods' do
     it 'sets the start_time if not already present' do
       happy_thing = build(:happy_thing, start_time: nil)
-      happy_thing.add_date_time_to_happy_thing
+      happy_thing.add_start_time_to_happy_thing
       expect(happy_thing.start_time).to be_present
     end
 
     it 'does not change start_time if already present' do
       time = DateTime.now
       happy_thing = build(:happy_thing, start_time: time)
-      expect { happy_thing.add_date_time_to_happy_thing }.not_to change(happy_thing, :start_time)
+      expect { happy_thing.add_start_time_to_happy_thing }.not_to change(happy_thing, :start_time)
     end
 
     it 'sets start_time depending on users timezone' do
-      user = create(:user)
-      user_time = '2025-08-31 22:00:00'.in_time_zone('Eastern Time (US & Canada)')
-      travel_to user_time do
+      user = create(:user, timezone: 'Eastern Time (US & Canada)')
+      server_time = Time.zone.local(2025, 9, 1, 2, 0, 0)
+      travel_to server_time do
         happy_thing = create(:happy_thing, user:)
-        js_offset_minutes = (-user_time.utc_offset / 60).to_s
-        happy_thing.calculate_and_set_start_time_with_timezone_offset(js_offset_minutes)
+        happy_thing.start_time = happy_thing.calculate_start_time(user)
 
         expect(happy_thing.start_time.to_date).to eq(Date.new(2025, 8, 31))
-        expect(happy_thing.created_at.to_date).not_to eq(Date.new(2025, 8, 31))
+        expect(happy_thing.created_at.to_date).to eq(Date.new(2025, 9, 1))
       end
     end
   end
