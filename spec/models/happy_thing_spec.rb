@@ -42,7 +42,7 @@ RSpec.describe HappyThing, type: :model do
       server_time = Time.zone.local(2025, 9, 1, 2, 0, 0)
       travel_to server_time do
         happy_thing = create(:happy_thing, user:)
-        happy_thing.start_time = happy_thing.calculate_start_time(user)
+        happy_thing.calculate_and_set_start_time(user)
 
         expect(happy_thing.start_time.to_date).to eq(Date.new(2025, 8, 31))
         expect(happy_thing.created_at.to_date).to eq(Date.new(2025, 9, 1))

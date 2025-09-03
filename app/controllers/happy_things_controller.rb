@@ -30,7 +30,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def create
     @happy_thing = current_user_happy_things.new(happy_thing_params)
-    @happy_thing.start_time = @happy_thing.calculate_start_time(current_user)
+    @happy_thing.calculate_and_set_start_time(current_user)
     save_and_respond(@happy_thing)
     handle_visibility(@happy_thing) if @happy_thing.persisted?
   end

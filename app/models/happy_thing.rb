@@ -49,14 +49,14 @@ class HappyThing < ApplicationRecord
     self.start_time ||= Time.zone.now
   end
 
-  def calculate_start_time(user)
+  def calculate_and_set_start_time(user)
     server_time = Time.zone.now
     return server_time unless user.timezone.present?
 
     user_time = Time.zone.now.in_time_zone(user.timezone)
     timezone_offset = server_time.utc_offset - user_time.utc_offset
 
-    server_time - timezone_offset
+    self.start_time = server_time - timezone_offset
   end
 
   private
