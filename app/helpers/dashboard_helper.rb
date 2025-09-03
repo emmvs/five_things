@@ -2,22 +2,24 @@
 
 # Helpers for dashboards#index
 module DashboardHelper
-  def time_based_greeting
-    current_hour = Time.current.in_time_zone('Berlin').hour
+  def time_based_greeting(first_name, timezone = current_user.timezone || 'UTC') # rubocop:disable Metrics/MethodLength
+    current_hour = Time.current.in_time_zone(timezone).hour
 
-    if current_hour < 12
-      'Good Morning, '
+    if current_hour < 5
+      'Go to bed naughty!'
+    elsif current_hour < 12
+      "Good Morning, #{first_name}"
     elsif current_hour < 18
-      day_greetings.sample
+      "#{day_greetings.sample}, #{first_name}"
     elsif current_hour < 22
-      'Good Evening, '
+      "Good Evening, #{first_name}"
     else
-      'Good Night, '
+      "Good Night, #{first_name}"
     end
   end
 
-  def time_based_emoji
-    current_hour = Time.current.in_time_zone('Berlin').hour
+  def time_based_emoji(timezone = current_user.timezone || 'UTC')
+    current_hour = Time.current.in_time_zone(timezone).hour
     return moon_phase_emoji if current_hour >= 22 || current_hour < 6
 
     if current_hour < 12
