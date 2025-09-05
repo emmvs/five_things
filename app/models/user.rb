@@ -54,13 +54,12 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :provider, presence: true, on: :oauth_linking
   validates :uid, presence: true, on: :oauth_linking
 
-  has_many :happy_things
-  has_many :comments
-  has_many :likes
+  has_many :happy_things, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many :groups, dependent: :destroy
   has_many :happy_thing_user_shares, foreign_key: :friend_id, dependent: :destroy
   has_many :received_happy_things, through: :happy_thing_user_shares, source: :happy_thing
-  has_many :group_memberships, foreign_key: :friend_id
+  has_many :group_memberships, foreign_key: :friend_id, dependent: :destroy
   has_many :groups_as_member, through: :group_memberships, source: :group
   has_many :daily_happy_email_deliveries_sent,
            class_name: 'DailyHappyEmailDelivery', foreign_key: :user_id, dependent: :destroy
@@ -68,8 +67,8 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
            class_name: 'DailyHappyEmailDelivery', foreign_key: :recipient_id, dependent: :destroy
 
   # Friendships
-  has_many :friendships
-  has_many :received_friend_requests, class_name: 'Friendship', foreign_key: 'friend_id'
+  has_many :friendships, dependent: :destroy
+  has_many :received_friend_requests, class_name: 'Friendship', foreign_key: 'friend_id', dependent: :destroy
   has_many :friends, -> { where(friendships: { accepted: true }) }, through: :friendships, source: :friend
   has_many :friends_who_added_me, lambda {
                                     where(friendships: { accepted: true })
