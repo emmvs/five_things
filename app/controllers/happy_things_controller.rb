@@ -9,7 +9,10 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def index
     @should_render_navbar = true
-    @happy_things = happy_things_of_friends.page(params[:page]).per(10)
+    @happy_things = HappyThing.visible_to_user(current_user)
+                              .order(start_time: :desc)
+                              .page(params[:page])
+                              .per(10)
   end
 
   def show
@@ -22,15 +25,18 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def create
     @happy_thing = current_user_happy_things.new(happy_thing_params)
-    save_and_respond(@happy_thing)
-    handle_visibility(@happy_thing) if @happy_thing.persisted?
+    @happy_thing.handle_visibility_column(happy_thing_params[:shared_with_ids])
+    ActiveRecord::Base.transaction do
+      save_and_respond(@happy_thing)
+      @happy_thing.handle_visibility_shares(happy_thing_params[:shared_with_ids])
+    end
   end
 
   def update
-    if @happy_thing.update(happy_thing_params)
-      @happy_thing.happy_thing_user_shares.destroy_all
-      @happy_thing.happy_thing_group_shares.destroy_all
-      handle_visibility(@happy_thing)
+    @happy_thing.assign_attributes(happy_thing_params)
+    @happy_thing.handle_visibility_column(happy_thing_params[:shared_with_ids])
+    if @happy_thing.save
+      @happy_thing.handle_visibility_shares(happy_thing_params[:shared_with_ids])
       redirect_to root_path, notice: 'Yay! 🎉 Happy Thing was updated 🥰'
     else
       render :edit, status: 422
@@ -62,8 +68,9 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def setup_happy_things_for_view
-    friend_ids = current_user.friends.pluck(:id) + current_user.friends_who_added_me.pluck(:id)
-    @happy_things = HappyThing.where(user_id: friend_ids + [current_user.id], start_time: @date.all_day)
+    friend_ids = current_user.friends_and_friends_who_added_me_ids
+    @happy_things = HappyThing.visible_to_user(current_user)
+                              .where(user_id: friend_ids + [current_user.id], start_time: @date.all_day)
   end
 
   def old_happy_thing
@@ -101,10 +108,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   private
 
   def set_happy_thing
-    friend_ids = current_user.friends_and_friends_who_added_me_ids
-    user_ids = friend_ids + [current_user.id]
-
-    @happy_thing = HappyThing.where(user_id: user_ids).find(params[:id])
+    @happy_thing = HappyThing.visible_to_user(current_user).find(params[:id])
   end
 
   def save_and_respond(resource)
@@ -115,21 +119,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: resource.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def handle_visibility(happy_thing)
-    shared_ids = params[:happy_thing][:shared_with_ids] || []
-    return if shared_ids.blank?
-
-    shared_ids.each do |entry|
-      type, id = entry.split('_')
-      case type
-      when 'group'
-        happy_thing.happy_thing_group_shares.create!(group_id: id)
-      when 'friend'
-        happy_thing.happy_thing_user_shares.create!(friend_id: id)
       end
     end
   end
@@ -149,22 +138,5 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
         format.json { render json: @happy_thing.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def happy_things_of_friends # rubocop:disable Metrics/AbcSize
-    own = HappyThing.where(user_id: current_user.id)
-
-    shared_with_user = HappyThing.joins(:happy_thing_user_shares)
-                                 .where(happy_thing_user_shares: { friend_id: current_user.id })
-
-    shared_with_groups = HappyThing.joins(happy_thing_group_shares: { group: :group_memberships })
-                                   .where(group_memberships: { friend_id: current_user.id })
-
-    public_happy_things = HappyThing.left_joins(:happy_thing_user_shares, :happy_thing_group_shares)
-                                    .where(happy_thing_user_shares: { id: nil }, happy_thing_group_shares: { id: nil })
-
-    ids = (own.pluck(:id) + shared_with_user.pluck(:id) + shared_with_groups.pluck(:id) + public_happy_things.pluck(:id)).uniq # rubocop:disable Layout/LineLength
-
-    HappyThing.where(id: ids).order(start_time: :desc)
   end
 end
