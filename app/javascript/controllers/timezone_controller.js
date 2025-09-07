@@ -5,23 +5,29 @@ export default class extends Controller {
 
   connect() {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-    this.maybeUpdateTimezone(timezone)
+    const userId = this.userIdValue
+
+    if (userId && userId !== '0') {
+      this.maybeUpdateTimezone(timezone, userId)
+    }
   }
 
   onHappyThingFormSubmit() {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
     const userId = this.userIdValue
-    this.updateTimezone(timezone, userId)
+
+    if (userId && userId !== '0') {
+      this.updateTimezone(timezone, userId)
+    }
   }
 
-  maybeUpdateTimezone(timezone) {
+  maybeUpdateTimezone(timezone, userId) {
     const previous = localStorage.getItem('date')
     const today = new Date().toISOString()
     const twelveHoursPassed = this.hasTwelveHoursPassed(previous, today)
 
     if (twelveHoursPassed) {
       localStorage.setItem('date', today)
-      const userId = this.userIdValue
       this.updateTimezone(timezone, userId)
     }
   }
@@ -33,14 +39,18 @@ export default class extends Controller {
     return (new Date(today).getTime() > new Date(previous).getTime() + twelveHours)
   }
 
-  updateTimezone(timezone, userId) {
-    fetch(`/users/${userId}/update_timezone`, {
-      method: 'POST',
-      body: JSON.stringify({ timezone }),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-      }
-    })
+  async updateTimezone(timezone, userId) {
+    try {
+      await fetch(`/users/${userId}/update_timezone`, {
+        method: 'POST',
+        body: JSON.stringify({ timezone }),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        }
+      })
+    } catch (error) {
+      console.error('Failed to update timezone:', error)
+    }
   }
 }
