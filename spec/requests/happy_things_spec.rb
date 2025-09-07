@@ -65,7 +65,8 @@ RSpec.describe 'HappyThings visibility', type: :request do # rubocop:disable Met
             share_location: '1',
             latitude: 52.510885,
             longitude: 13.3989367,
-            place: 'Berlin'
+            place: 'Berlin',
+            shared_with_ids: ['']
           }
         }
       end.to change(HappyThing, :count).by(1)
