@@ -34,7 +34,7 @@ class HappyThing < ApplicationRecord
 
   before_validation :set_default_category, on: :create
   after_validation :geocode, if: :will_save_change_to_place?
-  before_create :add_date_time_to_happy_thing, unless: :start_time_present?
+  before_create :add_start_time_to_happy_thing, unless: :start_time_present?
   after_create :check_happy_things_count
 
   attr_accessor :shared_with_ids
@@ -45,8 +45,18 @@ class HappyThing < ApplicationRecord
     end
   end
 
-  def add_date_time_to_happy_thing
+  def add_start_time_to_happy_thing
     self.start_time ||= Time.zone.now
+  end
+
+  def calculate_and_set_start_time(user)
+    server_time = Time.zone.now
+    return server_time unless user.timezone.present?
+
+    user_time = Time.zone.now.in_time_zone(user.timezone)
+    timezone_offset = server_time.utc_offset - user_time.utc_offset
+
+    self.start_time = server_time - timezone_offset
   end
 
   def ai_title # rubocop:disable Metrics/MethodLength
