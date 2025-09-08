@@ -30,7 +30,6 @@
     padding: 1px;
     position: relative;
     height: 40px !important;
-    width: 40px !important;
     border-radius: $border-radius !important;
   }
 
@@ -38,6 +37,11 @@
     display: block;
     text-decoration: none;
     color: darken($soft-purple, 50%);
+  }
+
+  .day.has-many-emojis .calendar-day-link {
+    z-index: 1;
+    font-weight: calc(var(--bs-body-font-weight) * 1.1);
   }
 
   .calendar-day-link:hover {
@@ -65,11 +69,15 @@
     --bs-table-bg-type: none;
   }
 
-  .event-indicator {
+  .emoji-grid {
+    display: grid;
+    aspect-ratio: 1 / 1;
     position: absolute;
-    z-index: 1;
-    right: -5px;
-    top: -4px;
-    font-size: 1.1em;
+    pointer-events: none;
+  }
+
+  .emoji {
+    position: relative;
+    line-height: 1;
   }
 }
