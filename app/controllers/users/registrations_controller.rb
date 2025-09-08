@@ -5,7 +5,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if updating_sensitive_info?
       resource.update_with_password(user_params)
     else
-      resource.update_without_password(user_params)
+      resource.update_without_password(user_params.except(:current_password))
     end
   end
 
