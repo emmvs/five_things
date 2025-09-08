@@ -13,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :avatar, :emoji, :email, :password, :password_confirmation,
-                                 :email_opt_in, :location_opt_in)
+                                 :current_password, :email_opt_in, :location_opt_in)
   end
 
   def updating_sensitive_info?
