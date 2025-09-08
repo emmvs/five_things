@@ -72,7 +72,7 @@ RSpec.describe 'Users', type: :request do # rubocop:disable Metrics/BlockLength
   describe 'PATCH /update' do
     it 'allows existing users to keep their weak password' do
       patch user_registration_path, params: { user: { first_name: 'Updated Name' } }
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:redirect)
     end
 
     it 'enforces strong password rules only when updating the password' do
