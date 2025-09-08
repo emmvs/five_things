@@ -31,10 +31,11 @@ end
 puts "Created main users: #{users.map(&:first_name).join(', ')}"
 
 more_users = %w[Joshy Nadieschka Hansibaby Lisita Juanfairy Nomnom Santimaus Florenke Mäx].map do |name|
+  email_name = name.gsub('ä', 'ae').gsub('ö', 'oe').gsub('ü', 'ue')
   User.create!(
     first_name: name,
     last_name: 'Testy',
-    email: "#{name.downcase}@test.com",
+    email: "#{email_name.downcase}@test.com",
     emoji: EMOJIS.sample,
     password: 'G1ggl3!Fluff',
     confirmed_at: Time.current
