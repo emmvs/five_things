@@ -22,9 +22,5 @@
     <%= render partial: 'layouts/navbar' if @should_render_navbar  %>
     <%= yield %>
     <%= render partial: 'layouts/alerts'  %>
-
-    <footer>
-      <%= render partial: 'shared/bottom_navbar' if @should_render_navbar  %>
-    </footer>
   </body>
 </html>
