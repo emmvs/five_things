@@ -70,6 +70,10 @@
   border-bottom-right-radius: 50px;
 }
 
+.offcanvas {
+  width: 50vw !important;
+}
+
 /* Desktop */
 @media screen and (min-width: 768px) {
   .bottom-navbar {
