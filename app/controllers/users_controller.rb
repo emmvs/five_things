@@ -8,6 +8,10 @@ class UsersController < ApplicationController
     @users = fetch_users
   end
 
+  def friends
+    @friends = fetch_user
+  end
+
   def show
     @user = User.find(params[:id])
     @happy_count = happy_count(@user)
