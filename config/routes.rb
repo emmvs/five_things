@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[index show]
 
   get 'calendar', to: 'happy_things#calendar'
-  get 'friends', to: 'friends#index'
+  get 'friends', to: 'users#friends'
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,
