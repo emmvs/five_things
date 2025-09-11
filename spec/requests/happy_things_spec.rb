@@ -75,4 +75,13 @@ RSpec.describe 'HappyThings visibility', type: :request do
       expect(happy_thing.place).to eq('Berlin')
     end
   end
+
+  describe 'GET /calendar' do
+    it 'returns a success response' do
+      sign_in owner
+      get calendar_path
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Tue')
+    end
+  end
 end
