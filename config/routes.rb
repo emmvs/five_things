@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   get 'calendar', to: 'happy_things#calendar'
   get 'friends', to: 'users#friends'
-  get 'friends/happy_things', to: 'happy_things#recent_friends_happy_things'
+  get 'friends/happy_things', to: 'happy_things#recent_happy_things'
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,

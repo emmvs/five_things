@@ -105,6 +105,13 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     end
   end
 
+  def recent_happy_things
+    ids = [current_user.id] + current_user.friends_and_friends_who_added_me_ids
+    @happy_things_of_the_last_two_days = happy_things_by_period(
+      (Date.today - 1.days)..Date.today.end_of_day, ids
+    )
+  end
+
   private
 
   def set_happy_thing
@@ -173,5 +180,9 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     ids = (own.pluck(:id) + shared_with_user.pluck(:id) + shared_with_groups.pluck(:id) + public_happy_things.pluck(:id)).uniq # rubocop:disable Layout/LineLength
 
     HappyThing.where(id: ids).order(start_time: :desc)
+  end
+
+  def happy_things_by_period(period, friend_ids)
+    HappyThing.where(start_time: period, user_id: friend_ids).order(created_at: :desc).group_by(&:user)
   end
 end
