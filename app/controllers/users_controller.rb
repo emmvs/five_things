@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def friends
-    @friends = fetch_user
+    @friends = fetch_users
   end
 
   def show
