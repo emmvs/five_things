@@ -84,4 +84,13 @@ RSpec.describe 'HappyThings visibility', type: :request do
       expect(response.body).to include('Tue')
     end
   end
+
+  describe 'GET /friends/happy_things' do
+    it 'returns a success response' do
+      sign_in owner
+      get friends_happy_things_path
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('What made you happy')
+    end
+  end
 end
