@@ -60,6 +60,14 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
+  describe 'GET /friends' do
+    it 'returns http success' do
+      get friends_path
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('My Friends')
+    end
+  end
+
   describe 'GET /show' do
     it 'returns http success' do
       user = create(:user)
