@@ -103,4 +103,12 @@ RSpec.describe 'Users', type: :request do
       expect(response.body).to include('My Friends')
     end
   end
+
+  describe 'GET /profile' do
+    it 'returns http success' do
+      get profile_path
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('My Profile')
+    end
+  end
 end
