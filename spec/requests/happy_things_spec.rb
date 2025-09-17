@@ -102,4 +102,13 @@ RSpec.describe 'HappyThings visibility', type: :request do
       expect(response.body).to include('Add a Happy Thing from a past year')
     end
   end
+
+  describe 'GET /future_root' do
+    it 'returns a success response' do
+      sign_in owner
+      get future_root_path
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('What made you smile today?')
+    end
+  end
 end
