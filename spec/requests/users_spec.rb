@@ -75,7 +75,8 @@ RSpec.describe 'Users', type: :request do
     describe 'PATCH /update registration' do
       it 'allows existing users to keep their weak password' do
         patch user_registration_path, params: { user: { first_name: 'Updated Name' } }
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:redirect)
+        expect(@user.reload.first_name).to eq('Updated Name')
       end
 
       it 'enforces strong password rules only when updating the password' do
