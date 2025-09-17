@@ -12,6 +12,13 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     @happy_things = happy_things_of_friends.page(params[:page]).per(10)
   end
 
+  def future_root
+    @happy_thing = HappyThing.new
+    @happy_things_today = happy_things_by_period(
+      Date.today..Date.tomorrow, user_ids
+    )
+  end
+
   def show
     @marker = @happy_thing.geocoded? ? { lat: @happy_thing.latitude, lng: @happy_thing.longitude } : nil
   end
