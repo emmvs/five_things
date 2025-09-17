@@ -23,7 +23,7 @@ RSpec.describe 'Settings', type: :request do # rubocop:disable Metrics/BlockLeng
         patch settings_path, params: { user: { first_name: 'Friendly Ghost', emoji: '👻' } }
 
         expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to(settings_path)
+        expect(response).to redirect_to(root_path)
         expect(user.reload.first_name).to eq('Friendly Ghost')
         expect(user.reload.emoji).to eq('👻')
       end
