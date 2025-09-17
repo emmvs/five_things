@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get 'friends/happy_things', to: 'happy_things#recent_happy_things'
   get 'profile', to: 'users#profile'
   get 'through_the_years', to: 'happy_things#through_the_years'
+  get 'future_root', to: 'happy_things#future_root'
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,
