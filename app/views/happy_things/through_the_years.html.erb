@@ -1,0 +1,32 @@
+  <div class="m-2 mt-5 mx-2 my-3">
+    <h3 class="mb-3">Through the years...</h3>
+
+    <% current_year = Date.current.year %>
+
+    <div>
+      <% if @happy_things_of_the_past_years.any? %>
+        <% @happy_things_of_the_past_years.group_by { |ht| ht.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
+          <% next if year == current_year %>
+
+          <div class="p-2" style="border-radius: 0.375rem; background-color: <%= index.even? ? '#f8f9fa' : '#f1f3f5'; %>;">
+            <h3><%= year %></h3>
+            <% year_happy_things.group_by(&:user).each do |user, happy_things| %>
+              <div class="dash-box mb-4">
+                <h5><%= user.emoji %> <%= user.first_name %></h5>
+                <ol>
+                  <% happy_things.each do |happy_thing| %>
+                    <li>
+                      <%= link_to happy_thing.title, happy_things_by_date_path(date: happy_thing.start_time.strftime('%Y-%m-%d')), style: "text-decoration: none; color: inherit;" %>
+                    </li>
+                  <% end %>
+                </ol>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="opacity-50">No Happy Things found for today in past years.</p>
+        <%= link_to 'Add a Happy Thing from a past year', old_happy_thing_path, class: "btn button--primary" %>
+      <% end %>
+    </div>
+  </div>
