@@ -62,7 +62,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     @happy_things_of_the_past_years = HappyThing.where(
       'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
       today.month, today.day, user_ids
-    )
+    ).reject { |ht| ht.start_time.year == today.year }
   end
 
   def calendar
