@@ -9,6 +9,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def settings
+    @user = current_user
+  end
+
   private
 
   def user_params
