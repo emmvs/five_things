@@ -51,9 +51,11 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def through_the_years
-    @happy_things_one_year_ago = HappyThing.where(
-      'DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date, user_ids
-    ).group_by(&:user)
+    today = Date.today
+    @happy_things_of_the_past_years = HappyThing.where(
+      'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
+      today.month, today.day, user_ids
+    )
   end
 
   def calendar
