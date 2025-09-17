@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get 'settings', to: 'users/registrations#settings'
+    patch 'settings', to: 'users/registrations#update'
   end
   resources :users, only: %i[index show]
   get 'friends', to: 'users#friends'
