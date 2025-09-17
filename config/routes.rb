@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     #                         .user fetches the currently authenticated user
     root 'dashboards#index', as: :authenticated_root
   end
+  get 'future_root', to: 'happy_things#future_root'
 
   # If not authenticated, route to the home page
   root to: 'pages#home'
@@ -18,24 +19,21 @@ Rails.application.routes.draw do
              controllers: {
                omniauth_callbacks: 'users/omniauth_callbacks',
                registrations: 'users/registrations'
-             }
-  resources :users, only: %i[index show]
-
-  get 'calendar', to: 'happy_things#calendar'
-  get 'friends', to: 'users#friends'
-  get 'friends/happy_things', to: 'happy_things#recent_happy_things'
-  get 'profile', to: 'users#profile'
-  get 'through_the_years', to: 'happy_things#through_the_years'
-  get 'future_root', to: 'happy_things#future_root'
-  devise_scope :user do
+             } do
     get 'settings', to: 'users/registrations#settings'
   end
+  resources :users, only: %i[index show]
+  get 'friends', to: 'users#friends'
+  get 'profile', to: 'users#profile'
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,
                             constraints: { date: /\d{4}-\d{2}-\d{2}/ }
   get 'happy_things/old_happy_thing', to: 'happy_things#old_happy_thing', as: :old_happy_thing
   post 'happy_things/old_happy_thing', to: 'happy_things#create_old_happy_thing'
+  get 'calendar', to: 'happy_things#calendar'
+  get 'friends/happy_things', to: 'happy_things#recent_happy_things'
+  get 'through_the_years', to: 'happy_things#through_the_years'
 
   resources :happy_things do
     resources :comments, only: %i[create]
