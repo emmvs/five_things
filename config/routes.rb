@@ -27,7 +27,9 @@ Rails.application.routes.draw do
   get 'profile', to: 'users#profile'
   get 'through_the_years', to: 'happy_things#through_the_years'
   get 'future_root', to: 'happy_things#future_root'
-  get 'settings', to: 'users/registrations#settings'
+  devise_scope :user do
+    get 'settings', to: 'users/registrations#settings'
+  end
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,

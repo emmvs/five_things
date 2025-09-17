@@ -10,7 +10,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def settings
+    should_render_navbar
     @user = current_user
+    render 'devise/registrations/edit'
   end
 
   private
