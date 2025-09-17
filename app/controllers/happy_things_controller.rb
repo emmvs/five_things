@@ -127,8 +127,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   private
 
   def set_happy_thing
-    user_ids = user_ids(with_current_user: false)
-
     @happy_thing = HappyThing.where(user_id: user_ids).find(params[:id])
   end
 
