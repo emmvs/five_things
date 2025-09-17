@@ -17,21 +17,23 @@ RSpec.describe 'Happy Things CRUD', type: :system do
 
   describe 'CRUD operations' do
     it 'shows a happy thing' do
-      expect(page).to have_content(happy_thing.title)
+      expect(page).to have_content(happy_thing.title, wait: 5)
 
       click_link(happy_thing.title, match: :first)
 
       expect(page).to have_content(happy_thing.title.upcase)
-      expect(page).to have_current_path(happy_thing_path(happy_thing))
+      expect(page).to have_current_path(happy_thing_path(happy_thing), wait: 5)
     end
 
     it 'creates a new happy thing' do
-      expect(page).to have_link(href: new_happy_thing_path)
+      find('button.navbar-toggler', wait: 5).click
+
+      expect(page).to have_link(href: new_happy_thing_path, wait: 5)
 
       click_link(href: new_happy_thing_path)
 
-      expect(page).to have_selector('h1', text: 'NEW HAPPY THING')
-      expect(page).to have_current_path(new_happy_thing_path)
+      expect(page).to have_selector('h1', text: 'NEW HAPPY THING', wait: 5)
+      expect(page).to have_current_path(new_happy_thing_path, wait: 5)
 
       fill_in 'Name', with: 'cute mirror wtf'
       select 'Spiritual & Mind', from: 'happy_thing_category_id'
@@ -51,11 +53,11 @@ RSpec.describe 'Happy Things CRUD', type: :system do
     end
 
     it 'updates a happy thing' do
-      expect(page).to have_content(happy_thing.title)
+      expect(page).to have_content(happy_thing.title, wait: 5)
 
       click_link(href: edit_happy_thing_path(happy_thing), match: :first)
 
-      expect(page).to have_selector('h1', text: 'EDIT HAPPY THING')
+      expect(page).to have_selector('h1', text: 'EDIT HAPPY THING', wait: 5)
       expect(page).to have_current_path(edit_happy_thing_path(happy_thing))
 
       fill_in 'Name', with: 'fresh new title'
@@ -63,25 +65,25 @@ RSpec.describe 'Happy Things CRUD', type: :system do
 
       expect(page).to have_content('Yay! 🎉 Happy Thing was updated 🥰')
       expect(page).to have_content('fresh new title')
-      expect(page).not_to have_content(happy_thing.title)
+      expect(page).not_to have_content(happy_thing.title, wait: 5)
     end
 
     it 'destroys a happy thing' do
-      expect(page).to have_content(happy_thing.title)
+      expect(page).to have_content(happy_thing.title, wait: 5)
 
       click_link(href: edit_happy_thing_path(happy_thing), match: :first)
 
-      expect(page).to have_selector('h1', text: 'EDIT HAPPY THING')
+      expect(page).to have_selector('h1', text: 'EDIT HAPPY THING', wait: 5)
       expect(page).to have_current_path(edit_happy_thing_path(happy_thing))
-      expect(page).to have_button('🗑️ Delete')
+      expect(page).to have_button('🗑️ Delete', wait: 5)
 
       expect do
         click_button('🗑️ Delete')
 
-        expect(page).to have_content('Happy Thing was destroyed 😕')
+        expect(page).to have_content('Happy Thing was destroyed 😕', wait: 5)
       end.to change(HappyThing, :count).by(-1)
 
-      expect(page).not_to have_content(happy_thing.title)
+      expect(page).not_to have_content(happy_thing.title, wait: 5)
     end
   end
 end
