@@ -19,7 +19,9 @@ Rails.application.routes.draw do
              controllers: {
                omniauth_callbacks: 'users/omniauth_callbacks',
                registrations: 'users/registrations'
-             } do
+             }
+
+  devise_scope :user do
     get 'settings', to: 'users/registrations#settings'
   end
   resources :users, only: %i[index show]
