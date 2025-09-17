@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   # Users
   devise_for :users,
              controllers: {
-               omniauth_callbacks: 'users/omniauth_callbacks'
+               omniauth_callbacks: 'users/omniauth_callbacks',
+               registrations: 'users/registrations'
              }
   resources :users, only: %i[index show]
 
@@ -26,6 +27,7 @@ Rails.application.routes.draw do
   get 'profile', to: 'users#profile'
   get 'through_the_years', to: 'happy_things#through_the_years'
   get 'future_root', to: 'happy_things#future_root'
+  get 'settings', to: 'users/registrations#settings'
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,
