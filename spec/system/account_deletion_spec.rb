@@ -17,10 +17,9 @@ RSpec.describe 'Account Deletion', type: :system do
     expect(page).to have_content('Signed in successfully.', wait: 2)
 
     find('button.navbar-toggler').click
-    find('a.nav-link.dropdown-toggle').click
-    expect(page).to have_link(href: edit_user_registration_path)
+    expect(page).to have_link(href: settings_path)
 
-    click_link(href: edit_user_registration_path)
+    click_link(href: settings_path)
 
     expect(page).to have_link('Cancel my account', wait: 2)
 
