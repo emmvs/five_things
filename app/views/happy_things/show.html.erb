@@ -18,4 +18,5 @@
             (Rails.env.development? || Rails.env.test? ? 'FAKE_MAPBOX_API_KEY' : nil) %>">
     </div>
   <% end %>
+  <%= link_to "Edit", edit_happy_thing_path(@happy_thing), class: "btn button--primary float-end"%>
 </main>
