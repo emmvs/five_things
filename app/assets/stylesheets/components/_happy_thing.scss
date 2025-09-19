@@ -4,14 +4,15 @@
 .happy_thing {
   // Base
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: $space-s;
+  flex-direction: column;
+  line-height: 1.1;
+  color: $sexy_blue;
 
   background-color: $color-white;
   border-radius: $border-radius;
   box-shadow: $box-shadow;
-  margin-bottom: $space-m;
+  margin-top: $space-s;
+  margin-bottom: $space-s;
   padding: $space-xs;
 
   @include media(tabletAndUp) {
@@ -24,6 +25,32 @@
     align-self: flex-start;
     gap: $space-xs;
   }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.happy_thing_title {
+  align-self: flex-start;
+}
+
+.happy_thing_footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: $space-xs;
+  margin-top: $space-xs;
+  line-height: 1;
+}
+
+.happy_thing_photo_emoji {
+  opacity: 0.8;
+}
+
+.happy_thing_date {
+  font-size: $font-size-s;
+  color: $color-text-muted;
 }
 
 .pagination {
