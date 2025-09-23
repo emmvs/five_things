@@ -45,7 +45,7 @@ class DashboardsController < ApplicationController
     @user_ids = [current_user.id] + friend_ids
 
     @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids).order(created_at: :desc)
-    fetch_happy_things_by_time(friend_ids)
+    fetch_happy_things_by_time(@user_ids)
   end
 
   def fetch_happy_things_by_time(user_ids)
