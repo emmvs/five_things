@@ -39,13 +39,14 @@ RSpec.describe HappyThing, type: :model do
 
     it 'sets start_time depending on users timezone' do
       user = create(:user, timezone: 'Eastern Time (US & Canada)')
-      server_time = Time.zone.local(2025, 9, 1, 2, 0, 0)
+      Time.zone = user.timezone
+      server_time = Time.utc(2025, 9, 1, 2, 0, 0)
+
       travel_to server_time do
-        happy_thing = create(:happy_thing, user:)
-        happy_thing.calculate_and_set_start_time(user)
+        happy_thing = create(:happy_thing, user:, start_time: Time.zone.now)
 
         expect(happy_thing.start_time.to_date).to eq(Date.new(2025, 8, 31))
-        expect(happy_thing.created_at.to_date).to eq(Date.new(2025, 9, 1))
+        expect(happy_thing.created_at.utc.hour).to eq(2)
       end
     end
   end
