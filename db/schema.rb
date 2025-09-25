@@ -130,10 +130,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_01_152908) do
     t.float "longitude"
     t.bigint "category_id"
     t.boolean "share_location"
-    t.string "visibility", default: "public"
     t.index ["category_id"], name: "index_happy_things_on_category_id"
     t.index ["user_id"], name: "index_happy_things_on_user_id"
-    t.index ["visibility"], name: "index_happy_things_on_visibility"
   end
 
   create_table "users", force: :cascade do |t|
@@ -167,8 +165,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_01_152908) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "happy_things"
   add_foreign_key "comments", "users"
-  add_foreign_key "daily_happy_email_deliveries", "users"
-  add_foreign_key "daily_happy_email_deliveries", "users", column: "recipient_id"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "group_memberships", "groups"
