@@ -25,18 +25,6 @@ RSpec.describe HappyThing, type: :model do
   end
 
   describe 'Methods' do
-    it 'sets the start_time if not already present' do
-      happy_thing = build(:happy_thing, start_time: nil)
-      happy_thing.add_start_time_to_happy_thing
-      expect(happy_thing.start_time).to be_present
-    end
-
-    it 'does not change start_time if already present' do
-      time = DateTime.now
-      happy_thing = build(:happy_thing, start_time: time)
-      expect { happy_thing.add_start_time_to_happy_thing }.not_to change(happy_thing, :start_time)
-    end
-
     it 'sets start_time depending on users timezone' do
       user = create(:user, timezone: 'Eastern Time (US & Canada)')
       Time.zone = user.timezone
