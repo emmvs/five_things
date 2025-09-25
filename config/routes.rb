@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   get 'friends/happy_things', to: 'happy_things#recent_happy_things'
   get 'through_the_years', to: 'happy_things#through_the_years'
 
-  resources :happy_things do
+  resources :happy_things, except: %i[index] do
     resources :comments, only: %i[create]
     collection do
       get :analytics
