@@ -46,7 +46,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :password, presence: true,
                        length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
                        format: {
-                         with: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}/,
+                         with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}\z/,
                          message: I18n.t('errors.models.user.password.invalid')
                        },
                        on: %i[create update]

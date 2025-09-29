@@ -24,6 +24,9 @@ gem 'redis', '~> 4.0'
 gem 'redis-rails'
 # gem 'kredis'
 
+# Security
+gem 'brakeman'
+
 # Front-end
 gem 'autoprefixer-rails' # Parses CSS and adds vendor prefixes
 gem 'bootstrap', '~> 5.2' # Bootstrap for styling

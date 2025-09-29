@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
-  describe 'Validations' do
+  describe 'Validations' do # rubocop:disable Metrics/BlockLength
     it 'is valid with valid attributes' do
       user = build(:user)
       expect(user).to be_valid
@@ -29,6 +29,22 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
       user.password = 'weak'
       user.password_confirmation = 'weak'
       expect(user).not_to be_valid
+    end
+
+    it 'accepts a strong password' do
+      user = build(:user, password: 'Emmmaa1!aaaa')
+      expect(user).to be_valid
+    end
+
+    it 'rejects missing uppercase' do
+      user = build(:user, password: 'emmmaa1!aaaa')
+      expect(user).to be_invalid
+      expect(user.errors[:password]).to be_present
+    end
+
+    it 'rejects missing special char' do
+      user = build(:user, password: 'Emmmaa1aaaa')
+      expect(user).to be_invalid
     end
   end
 
