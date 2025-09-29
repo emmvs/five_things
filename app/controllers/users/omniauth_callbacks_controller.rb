@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Users
-  class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-    def google_oauth2
+  class OmniauthCallbacksController < Devise::OmniauthCallbacksController # rubocop:disable Style/Documentation
+    def google_oauth2 # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       user = User.from_omniauth(auth)
 
       if user.persisted?

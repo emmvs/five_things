@@ -169,7 +169,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     streak
   end
 
-  def self.generate_first_name_candidates(name, email)
+  def self.generate_first_name_candidates(name, email) # rubocop:disable Metrics/CyclomaticComplexity
     [
       name&.split&.first,
       name&.strip,

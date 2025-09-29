@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PoetryService < ApplicationService
+class PoetryService < ApplicationService # rubocop:disable Style/Documentation
   BASE_URL = ENV.fetch('POETRY_DB_URL', 'FAKE_POETRY_DB_URL')
 
   def call
@@ -42,7 +42,7 @@ class PoetryService < ApplicationService
     authors.sample if authors.is_a?(Array)
   end
 
-  def self.fake_poem
+  def self.fake_poem # rubocop:disable Metrics/MethodLength
     {
       title: 'Journey of the Magi',
       author: 'T.S. Eliot',

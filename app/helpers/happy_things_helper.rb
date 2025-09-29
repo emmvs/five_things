@@ -14,7 +14,7 @@ module HappyThingsHelper
     end
   end
 
-  def grouped_visibility_options(user)
+  def grouped_visibility_options(user) # rubocop:disable Metrics/AbcSize
     group_options = user.groups.map { |g| ["🌟 #{g.name}", "group_#{g.id}"] }
     group_member_options = user.groups.flat_map do |group|
       group.friends.map do |friend|
@@ -24,7 +24,7 @@ module HappyThingsHelper
 
     other_friends = user.all_friends.reject do |f|
       user.groups.flat_map(&:friends).include?(f)
-    end.map { |f| ["👤 #{f.first_name} #{f.last_name}", "friend_#{f.id}"] }
+    end.map { |f| ["👤 #{f.first_name} #{f.last_name}", "friend_#{f.id}"] } # rubocop:disable Style/MultilineBlockChain
 
     group_options + group_member_options + other_friends
   end

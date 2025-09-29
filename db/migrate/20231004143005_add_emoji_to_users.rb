@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddEmojiToUsers < ActiveRecord::Migration[7.0]
+class AddEmojiToUsers < ActiveRecord::Migration[7.0] # rubocop:disable Style/Documentation
   def change
     add_column :users, :emoji, :string
   end

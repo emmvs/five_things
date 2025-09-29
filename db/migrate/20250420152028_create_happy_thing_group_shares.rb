@@ -1,4 +1,6 @@
-class CreateHappyThingGroupShares < ActiveRecord::Migration[7.0]
+# frozen_string_literal: true
+
+class CreateHappyThingGroupShares < ActiveRecord::Migration[7.0] # rubocop:disable Style/Documentation
   def change
     create_table :happy_thing_group_shares do |t|
       t.references :happy_thing, null: false, foreign_key: true

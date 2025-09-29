@@ -8,11 +8,11 @@ RSpec.describe 'HappyThings visibility', type: :request do # rubocop:disable Met
   let(:groupie)   { create(:user, first_name: 'Groupie') }
   let(:stranger)  { create(:user, first_name: 'Stranger') }
 
-  let!(:friendship_1) { create(:friendship, user: owner, friend:, accepted: true) }
-  let!(:friendship_2) { create(:friendship, user: friend, friend: owner, accepted: true) }
+  let!(:friendship_one) { create(:friendship, user: owner, friend:, accepted: true) }
+  let!(:friendship_two) { create(:friendship, user: friend, friend: owner, accepted: true) }
 
-  let!(:friendship_3) { create(:friendship, user: owner, friend: groupie, accepted: true) }
-  let!(:friendship_4) { create(:friendship, user: groupie, friend: owner, accepted: true) }
+  let!(:friendship_three) { create(:friendship, user: owner, friend: groupie, accepted: true) }
+  let!(:friendship_four) { create(:friendship, user: groupie, friend: owner, accepted: true) }
 
   let!(:happy_thing_user_shared)  { create(:happy_thing, user: owner, title: 'Directly Shared') }
   let!(:happy_thing_group_shared) { create(:happy_thing, user: owner, title: 'Group Shared') }

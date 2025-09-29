@@ -3,7 +3,7 @@
 require 'httparty'
 require 'uri'
 
-class ApplicationService
+class ApplicationService # rubocop:disable Style/Documentation
   # Entry point for service objects
   def self.call(*args, &block)
     new(*args, &block).call

@@ -119,7 +119,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     end
   end
 
-  def handle_visibility(happy_thing)
+  def handle_visibility(happy_thing) # rubocop:disable Metrics/MethodLength
     shared_ids = params[:happy_thing][:shared_with_ids] || []
     return if shared_ids.blank?
 
