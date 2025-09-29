@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class QuoteService < ApplicationService # rubocop:disable Style/Documentation
+class QuoteService < ApplicationService
   API_URL = 'https://api.api-ninjas.com/v1/quotes'
 
   def initialize(category) # rubocop:disable Lint/MissingSuper

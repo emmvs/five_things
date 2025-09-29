@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
     end
 
     it 'is not valid with www. in the name' do
-      user = build(:user, first_name: 'www.pornhub.org')
+      user = build(:user, first_name: 'www.example.org')
       expect(user).not_to be_valid
     end
 
@@ -26,24 +26,28 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
 
     it 'enforces strong password rules only when updating the password' do
       user = create(:user) # Persisted record
-      user.password = 'weak'
-      user.password_confirmation = 'weak'
+      pw = 'weakpass'
+      user.password = pw
+      user.password_confirmation = pw
       expect(user).not_to be_valid
     end
 
     it 'accepts a strong password' do
-      user = build(:user, password: 'Emmmaa1!aaaa')
+      strong_password = "Aa1!#{SecureRandom.hex(6)}"
+      user = build(:user, password: strong_password, password_confirmation: strong_password)
       expect(user).to be_valid
     end
 
     it 'rejects missing uppercase' do
-      user = build(:user, password: 'emmmaa1!aaaa')
+      no_uppercase = "aa1!#{SecureRandom.hex(6)}"
+      user = build(:user, password: no_uppercase, password_confirmation: no_uppercase)
       expect(user).to be_invalid
       expect(user.errors[:password]).to be_present
     end
 
     it 'rejects missing special char' do
-      user = build(:user, password: 'Emmmaa1aaaa')
+      no_special = "Aa1#{SecureRandom.hex(6)}"
+      user = build(:user, password: no_special, password_confirmation: no_special)
       expect(user).to be_invalid
     end
   end

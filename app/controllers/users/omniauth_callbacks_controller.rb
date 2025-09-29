@@ -2,7 +2,7 @@
 
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-    def google_oauth2
+    def google_oauth2 # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       user = User.from_omniauth(auth)
 
       if user.persisted?

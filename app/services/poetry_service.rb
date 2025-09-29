@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PoetryService < ApplicationService # rubocop:disable Style/Documentation
+class PoetryService < ApplicationService
   BASE_URL = ENV.fetch('POETRY_DB_URL', 'FAKE_POETRY_DB_URL')
 
   def call
