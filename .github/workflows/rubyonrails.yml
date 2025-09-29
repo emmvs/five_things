@@ -69,4 +69,4 @@ jobs:
         run: bin/brakeman -q -w2
 
       - name: Lint Ruby files
-        run: bin/rubocop --parallel --except Style/Documentation --exclude 'bin/**/*' 'db/**/*' 'vendor/**/*'
+        run: bin/rubocop --parallel --force-exclusion --except Style/Documentation app lib config spec
