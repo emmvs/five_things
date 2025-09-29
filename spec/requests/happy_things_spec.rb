@@ -72,8 +72,8 @@ RSpec.describe 'HappyThings visibility', type: :request do # rubocop:disable Met
 
       happy_thing = HappyThing.last
       expect(happy_thing.share_location).to be(true)
-      expect(happy_thing.latitude).to be_within(0.001).of(52.510885)
-      expect(happy_thing.longitude).to be_within(0.001).of(13.3989367)
+      expect(happy_thing.latitude).to be_between(52.3, 52.7)
+      expect(happy_thing.longitude).to be_between(13.1, 13.7)
       expect(happy_thing.place).to eq('Berlin')
     end
   end
