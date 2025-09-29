@@ -4,7 +4,7 @@
 #
 # This workflow will install a prebuilt Ruby version, install dependencies, and
 # run tests and linters.
-name: "Ruby on Rails CI"
+name: "My 5 Things CI"
 on:
   push:
     branches: [ "main" ]
@@ -28,15 +28,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      # Add or replace dependency steps here
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@78c01b705fd9d5ad960d432d3a0cfa341d50e410 # v1.179.1
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
+          ruby-version: 3.4.4
+          check-latest: true
           bundler-cache: true
-      # Add or replace database setup steps here
+
+      - name: Wait for Postgres
+        run: |
+          for i in {1..60}; do
+            pg_isready -h localhost -p 5432 -U rails -d five_things_test && break
+            sleep 1
+          done
+
       - name: Set up database schema
         run: bin/rails db:schema:load
-      # Add or replace test runners here
+
       - name: Run tests
         run: bin/rake
 
@@ -45,13 +54,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@78c01b705fd9d5ad960d432d3a0cfa341d50e410 # v1.179.1
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
+          ruby-version: 3.4.4
+          check-latest: true
           bundler-cache: true
+
       - name: Generate binstubs
         run: bundle binstubs brakeman rubocop
+
       - name: Security audit application code
         run: bin/brakeman -q -w2
+
       - name: Lint Ruby files
         run: bin/rubocop --parallel
