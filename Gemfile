@@ -4,28 +4,22 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Ruby version
-ruby '3.1.2'
+ruby '3.4.4'
 
 # Core Rails gems
 gem 'bootsnap', require: false # Reduces boot times through caching
 gem 'httparty' # For API calls
-gem 'importmap-rails', '~> 1.2.3' # Importmap support for Rails (Version for Geocoder)
-# gem 'importmap-rails'
-gem 'jbuilder'
+gem 'importmap-rails', '~> 2.0'
+gem 'jbuilder', '~> 2.13'
 gem 'pg' # PostgreSQL as the database for Active Record
-gem 'puma', '~> 5.0' # Use Puma as the app server
-gem 'rails', '~> 7.0.6'
+gem 'puma', '~> 6.4'
+gem 'rails', '~> 8.0.3'
 gem 'sprockets-rails' # Asset pipeline
-gem 'stimulus-rails' # Hotwire's Stimulus framework for Rails
-gem 'turbo-rails' # Hotwire's Turbo library for Rails
+gem 'stimulus-rails', '~> 1.3'
+gem 'turbo-rails', '~> 2.0'
 
-# Redis and Kredis for caching & Action Cable
-gem 'redis', '~> 4.0'
-gem 'redis-rails'
-# gem 'kredis'
-
-# Security
-gem 'brakeman'
+# Redis for caching & Action Cable
+gem 'redis', '~> 5.0'
 
 # Front-end
 gem 'autoprefixer-rails' # Parses CSS and adds vendor prefixes
@@ -35,6 +29,9 @@ gem 'sassc-rails' # Use SCSS for stylesheets
 
 # Devise for authentication
 gem 'devise', '~> 4.8'
+
+gem 'csv', '~> 3.3'
+gem 'observer'
 
 # OAauth Providers
 gem 'omniauth-google-oauth2'
@@ -57,9 +54,6 @@ gem 'geocoder'
 gem 'moonphases'
 gem 'ruby-openai'
 
-# Action Mailer
-gem 'letter_opener'
-
 # Testing suite
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -75,9 +69,9 @@ end
 
 group :development do
   gem 'annotate' # Annotate models with schema
+  gem 'brakeman' # Static analysis security vulnerability scanner for Ruby on Rails applications
+  gem 'letter_opener' # Preview emails in the browser instead of sending them
   gem 'web-console' # Rails console for the browser
-  # gem 'spring' # Speeds up development by keeping app running in the background
-  # gem 'rack-mini-profiler' # Displays speed badge for performance profiling
 end
 
 group :test do

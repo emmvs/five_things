@@ -9,16 +9,19 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module FiveThings
-  class Application < Rails::Application
+  class Application < Rails::Application # rubocop:disable Style/Documentation
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 8.0
+
+    # Opt in early to Rails 8.1 behavior so deprecations shut up
+    config.active_support.to_time_preserves_timezone = :zone
 
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    # config.time_zone = "Berlin"
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end

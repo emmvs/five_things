@@ -5,7 +5,7 @@ class QuoteService < ApplicationService
 
   def initialize(category)
     @category = category
-    @api_key = ENV.fetch('API_NINJAS_KEY')
+    @api_key = ENV.fetch('API_NINJAS_KEY', 'FAKE_API_NINJAS_KEY')
   end
 
   def call
