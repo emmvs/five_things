@@ -6,6 +6,13 @@ de:
     labels:
       happy_thing:
         title: Name
+        shared_with: Wer soll das sehen?
+        photo: Foto hochladen
+        share_location: Meinen Standort für diesen glücklichen Moment speichern
+    prompts:
+      happy_thing:
+        category: Kategorie auswählen
+        shared_with: Alle Freunde, sofern nicht anders angegeben
 
   helpers:
     submit:
