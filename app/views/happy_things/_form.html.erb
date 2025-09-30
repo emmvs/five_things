@@ -12,29 +12,45 @@
   <% end %>
 
   <div style="width: 100%; max-width: 480px;">
-    <%= f.input :title, input_html: { autofocus: true } %>
+    <%= f.input :title, label: false, input_html: { autofocus: true } %>
   </div>
 
   <div style="width: 100%; max-width: 480px;">
-    <%= f.input :category_id, collection: Category.all, prompt: "Select a category" %>
+    <%= f.input :category_id, label: false, collection: Category.all, prompt: t('simple_form.prompts.happy_thing.category') %>
   </div>
 
-  <div style="width: 100%; max-width: 480px;">
-    <%= f.input :photo, as: :file, input_html: { class: 'custom-file-upload' } %>
+  <div style="width: 100%; max-width: 480px;" data-controller="image-preview">
+    <div class="image-upload">
+      <label for="happy_thing_photo" class="button-secondary">
+        <%= t('simple_form.labels.happy_thing.photo') %>
+      </label>
+      <%= f.input :photo, as: :file, 
+          input_html: { 
+            id: 'happy_thing_photo', 
+            style: 'display: none;', 
+            accept: 'image/*',
+            data: { 
+              image_preview_target: "input",
+              action: "change->image-preview#preview"
+            }
+          }, 
+          label: false %>
+      <img data-image-preview-target="preview" class="image-preview" />
+    </div>
   </div>
 
   <div style="width: 100%; max-width: 480px;">
     <%= f.hidden_field :latitude %>
     <%= f.hidden_field :longitude %>
     <%= f.hidden_field :place %>
-    <%= f.input :share_location, as: :boolean, label: 'Share my location',
+    <%= f.input :share_location, as: :boolean, label: t('simple_form.labels.happy_thing.share_location'),
                 input_html: { data: { action: "user-location#toggle" } } %>
   </div>
 
   <div style="width: 100%; max-width: 480px;">
     <%= f.input :shared_with_ids, as: :select,
                 collection: grouped_visibility_options(current_user),
-                label: "Who should see this?",
+                label: t('simple_form.labels.happy_thing.shared_with'),
                 input_html: {
                   multiple: true,
                   data: {
@@ -45,7 +61,7 @@
                     }.to_json
                   }
                 },
-                prompt: "Everyone (unless selected below)" %>
+                prompt: t('simple_form.prompts.happy_thing.shared_with') %>
   </div>
 
   <% if params[:action] == 'edit' %>
@@ -54,5 +70,7 @@
     </div>
   <% end %>
 
-  <%= f.submit class: "btn button--primary m-2", style: "max-width: 480px; width: 100%;" %>
+  <div style="width: 100%; max-width: 480px; margin-top: 0.5rem;">
+    <%= f.submit class: "btn button--primary", style: "width: 100%;" %>
+  </div>
 <% end %>

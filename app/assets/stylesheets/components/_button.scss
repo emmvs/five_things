@@ -88,17 +88,17 @@ $turquoise: #1abc9c;
 .button--primary {
   background-color: $soft-purple;
   color: $white !important;
-  background-image: linear-gradient(315deg, #c489d8 0%, #c489d8 74%);
+  background-image: linear-gradient(315deg, $primary-purple 0%, $primary-purple 74%);
   box-shadow: $box-shadow;
-  line-height: 42px;
+  line-height: $button-height;
   width: auto;
   padding: 0;
   border: none;
 }
 
 .button--primary:hover {
-  background-color: #c489d8;
-  background-image: linear-gradient(315deg, #c489d8 0%, #c489d8 74%);
+  background-color: $primary-purple;
+  background-image: linear-gradient(315deg, $primary-purple 0%, $primary-purple 74%);
 }
 
 .button--primary span {
@@ -168,4 +168,11 @@ $turquoise: #1abc9c;
 
 .button--primary span:hover:after {
   width: 100%;
+}
+
+.button-secondary {
+  @extend .btn;
+  color: $white !important;
+  background-color: lighten($primary-purple, 9%) !important;
+  box-shadow: $box-shadow;
 }
