@@ -18,7 +18,7 @@
         <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
       <% end %>
       <%= f.input :first_name,
-                  hint: "What's your first name?",
+                  hint: t('simple_form.hints.user.first_name'),
                   required: false,
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :last_name,

@@ -1,11 +1,7 @@
 <div class="container">
   <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary m-4" %>
 
-  <div class="header">
-    <h1>Edit happy thing</h1>
-  </div>
-
-  <%= render "form", happy_thing: @happy_thing %>
+  <%= render "form", happy_thing: @happy_thing, title: "Edit happy thing" %>
 
   <%= button_to "🗑️ Delete", happy_thing_path(@happy_thing), method: :delete, class: "btn btn--light" %>
 </div>
