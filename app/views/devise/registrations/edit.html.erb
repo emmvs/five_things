@@ -1,55 +1,97 @@
-<div class="container session-manager-container">
-  <h2 class="session-manager-header">Edit <%= resource_name.to_s.humanize %></h2>
+<div class="container" data-controller="image-preview">
+  <%= simple_form_for(resource, as: resource_name, 
+      url: registration_path(resource_name), 
+      html: { class: "happy_thing form mt-4 p-3", method: :put }) do |f| 
+  %>
 
-  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-    <%= f.error_notification %>
+    <div class="header" style="height: 3rem;">
+      <h1><%= t('simple_form.titles.user.edit_profile') %></h1>
+      <div style="height: 100%;">
+        <% if @user.avatar.attached? %>
+          <%= cl_image_tag @user.avatar.key,
+          class: "avatar-profile",
+          data: { image_preview_target: "old_avatar" },
+          transformation: [
+            { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+            { radius: :max }
+            ] %>
+        <% end %>
+        <img data-image-preview-target="preview" class="avatar-profile" style="display: none;" />
+      </div>
+    </div>
 
-    <div class="form-inputs container">
-      <%= cl_image_tag @user.avatar.key,
-      class: "pb-3",
-      height: 300, width: 300,
-      transformation: [
-        { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-        { radius: :max }
-        ] unless @user.avatar.key.nil? %>
-      <%= f.input :avatar, as: :file %>
+    <div class="form-group">
+      <%= f.error_notification %>
+    </div>
 
+    <div>
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+        <p><%= t('simple_form.labels.user.waiting_confirmation') %>: <%= resource.unconfirmed_email %></p>
       <% end %>
+
+      <div style="width: 100%; max-width: 480px;" class="mb-2">
+        <div class="image-upload">
+          <label for="user_avatar" class="button-secondary">
+            <%= t('simple_form.labels.user.avatar') %>
+          </label>
+          <%= f.input :avatar, as: :file, 
+              input_html: { 
+                id: 'user_avatar', 
+                style: 'display: none;', 
+                accept: 'image/*',
+                data: { 
+                  image_preview_target: "input",
+                  action: "change->image-preview#edit"
+                }
+              }, 
+              label: false %>
+        </div>
+      </div>
+
       <%= f.input :first_name,
-                  hint: t('simple_form.hints.user.first_name'),
+                  label: false,
                   required: false,
-                  input_html: { autocomplete: "new-password" } %>
-      <%= f.input :last_name,
-                  hint: "What's your first name?",
+                  placeholder: t('simple_form.placeholders.user.first_name') %>
+
+      <%= f.input :emoji,
+                  label: false,
                   required: false,
-                  input_html: { autocomplete: "new-password" } %>
-      <%= f.input :emoji %>
-      <%= f.input :email, required: true, autofocus: true %>
+                  placeholder: t('simple_form.placeholders.user.emoji') %>
+
+      <%= f.input :email, 
+                  label: false, 
+                  required: true, 
+                  placeholder: t('simple_form.placeholders.user.email') %>
+
       <%= f.input :email_opt_in, as: :boolean, required: false,
-                  label: 'I agree to receive emails about my happy things and other updates.' %>
+                  label: t('simple_form.labels.user.email_opt_in') %>
+
       <%= f.input :password,
-                  hint: "leave it blank if you don't want to change it",
+                  label: false,
                   required: false,
-                  input_html: { autocomplete: "new-password" } %>
+                  placeholder: t('simple_form.placeholders.user.password') %>
+
       <%= f.input :password_confirmation,
+                  label: false,
                   required: false,
-                  input_html: { autocomplete: "new-password" } %>
+                  placeholder: t('simple_form.placeholders.user.password_confirmation') %>
+
       <%= f.input :current_password,
-                  hint: "we need your current password to confirm your changes",
+                  label: false,
                   required: false,
+                  placeholder: t('simple_form.placeholders.user.current_password'), 
                   input_html: { autocomplete: "current-password" } %>
     </div>
 
-    <div class="form-actions">
-      <%= f.button :submit, "Update", data: { turbo: false } %>
+      <div class="button-div">
+        <div class="form-actions">
+          <%= f.button :submit, t('simple_form.labels.user.submit_changes'), class: "btn button--primary", data: { turbo: false } %>
+        </div>
+
+        <%= link_to t('simple_form.labels.user.delete_account'), registration_path(resource_name), 
+        data: { turbo_confirm: t('simple_form.labels.user.delete_account_confirm'), turbo_method: :delete },
+        class: "button-delete" %>
+      </div>
     </div>
   <% end %>
-
-  <h4>Cancel my account</h4>
-
-  <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { turbo_confirm: "Are you sure?", turbo_method: :delete } %></p>
-
-  <%= link_to "Back", :back %>
 </div>

@@ -3,7 +3,23 @@ en:
     placeholders:
       happy_thing:
         title: What made you smile today?
+        place: Place
+      user:
+        first_name: First name
+        emoji: Emoji
+        email: Email
+        password: New password
+        password_confirmation: Confirm new password
+        current_password: Current password to confirm changes
     labels:
+      user:
+        avatar: Change avatar
+        edit_profile: Edit profile
+        submit_changes: Submit changes
+        delete_account: Delete account
+        delete_account_confirm: Are you sure?
+        waiting_confirmation: Currently waiting confirmation for
+        email_opt_in: I want to receive emails about my friends' happy things!
       happy_thing:
         title: Name
         shared_with: Who should see this?
@@ -13,6 +29,9 @@ en:
       happy_thing:
         category: Select a category
         shared_with: All friends unless specified
+    titles:
+      user:
+        edit_profile: Edit profile
 
   helpers:
     submit:

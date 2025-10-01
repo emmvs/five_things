@@ -27,12 +27,39 @@
       // border-color: $color-primary;
     }
   }
+
+  .form-group {
+    width: 100%;
+    margin-bottom: $space-xs;
+    
+    .alert.alert-danger {
+      position: static;
+      margin-top: $space-m;
+    }
+  }
+
+  .image-upload .form-group {
+    width: auto;
+  } 
 }
 
 .form-control:focus {
   border-color: $primary-purple !important;
   box-shadow: 0 0 0 0.25rem rgba($primary-purple, 0.25) !important;
   outline: 0;
+}
+
+.form-control.is-valid,
+.form-control:valid {
+  border-color: #ced4da !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.form-control.is-valid:focus,
+.form-control:valid:focus {
+  border-color: $primary-purple !important;
+  box-shadow: 0 0 0 0.25rem rgba($primary-purple, 0.25) !important;
 }
 
 .form-select:focus {
