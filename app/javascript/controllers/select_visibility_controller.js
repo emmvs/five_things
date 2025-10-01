@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import TomSelect from "tom-select"
 
-// Connects to data-controller="select"
+// Connects to data-controller="select-visibility"
 export default class extends Controller {
   static values = { options: Object }
 
@@ -13,7 +13,7 @@ export default class extends Controller {
         }
       },
       create: true,
-      persist: false,
+      persist: false
     }
 
     const mergedOptions = {
