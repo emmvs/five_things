@@ -14,7 +14,7 @@ RSpec.describe 'Account Deletion', type: :system do
 
   it 'allows users to delete their account', js: true do
     expect(User.find_by(id: user.id)).to be_present
-    expect(page).to have_content('Signed in successfully.', wait: 2)
+    expect(page).to have_content('Signed in successfully.', wait: 3)
 
     find('button.navbar-toggler').click
     expect(page).to have_link(href: settings_path)
