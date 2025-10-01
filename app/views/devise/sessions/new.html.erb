@@ -1,26 +1,36 @@
-<div class="container p-5">
-  <div class="row justify-content-center"> <!-- Center the content -->
-    <!-- changed to col-sm-6 to make it smaller and centered -->
-    <div class="col-xs-12 col-sm-6">
-      <h2 class="session-manager-header">Welcome back, little human!</h2>
+<div class="container">
+  <div class="form-with-bonus-action-wrapper">
+    <%= simple_form_for(resource, as: resource_name, 
+        url: session_path(resource_name),
+        html: { class: "happy_thing form mt-4 p-3" }) do |f| %>
 
-      <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="form-inputs">
-          <%= f.input :email,
-                      required: false,
-                      autofocus: true,
-                      input_html: { autocomplete: "email" } %>
-          <%= f.input :password,
-                      required: false,
-                      input_html: { autocomplete: "current-password" } %>
-          <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-        </div>
+      <h1 class="session-manager-header"><%= t('simple_form.users.login.titles.welcome') %></h1>
 
-        <div class="form-actions d-flex justify-content-center mt-2">
-          <%= f.button :submit, "Log in", class: "btn button--primary w-100", style: "color: white !important;", data: { turbo: false } %>
-        </div>
-      <% end %>
-          <%= render "devise/shared/links" %>
+      <div class="form-group">
+        <% if alert %>
+          <div class="alert alert-danger"><%= alert %></div>
+        <% end %>
+      </div>
+
+      <div class="form-inputs w-100">
+        <%= f.input :email,
+                    label: false,
+                    placeholder: "Email", 
+                    autofocus: true,
+                    input_html: { autocomplete: "email" } %>
+        <%= f.input :password,
+                    label: false,
+                    placeholder: t('simple_form.users.login.placeholders.password'),
+                    input_html: { autocomplete: "current-password" } %>
+        <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+      </div>
+
+      <%= f.button :submit, "Log in", class: "btn button--primary w-100", data: { turbo: false } %>
+
+    <% end %>
+  
+    <div class="bonus-actions">
+      <%= render "devise/shared/links" %>
     </div>
   </div>
 </div>

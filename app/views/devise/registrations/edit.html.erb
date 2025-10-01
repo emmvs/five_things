@@ -1,21 +1,21 @@
 <div class="container" data-controller="image-preview">
   <%= simple_form_for(resource, as: resource_name, 
       url: registration_path(resource_name), 
-      html: { class: "happy_thing form mt-4 p-3", method: :put }) do |f| 
+      html: { class: "happy_thing form mt-4", method: :put }) do |f| 
   %>
 
     <div class="header" style="height: 3rem;">
-      <h1><%= t('simple_form.titles.user.edit_profile') %></h1>
+      <h1><%= t('simple_form.users.edit.titles.edit_profile') %></h1>
       <div style="height: 100%;">
-        <% if @user.avatar.attached? %>
-          <%= cl_image_tag @user.avatar.key,
-          class: "avatar-profile",
-          data: { image_preview_target: "old_avatar" },
-          transformation: [
-            { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-            { radius: :max }
-            ] %>
-        <% end %>
+        <div data-image-preview-target="old_avatar" class="avatar-profile" style="<%= 'display: none;' unless @user.avatar.attached? %>">
+          <% if @user.avatar.attached? %>
+            <%= cl_image_tag @user.avatar.key,
+            transformation: [
+              { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+              { radius: :max }
+              ] %>
+          <% end %>
+        </div>
         <img data-image-preview-target="preview" class="avatar-profile" style="display: none;" />
       </div>
     </div>
@@ -26,13 +26,13 @@
 
     <div>
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <p><%= t('simple_form.labels.user.waiting_confirmation') %>: <%= resource.unconfirmed_email %></p>
+        <p><%= t('simple_form.users.edit.labels.waiting_confirmation') %>: <%= resource.unconfirmed_email %></p>
       <% end %>
 
       <div style="width: 100%; max-width: 480px;" class="mb-2">
         <div class="image-upload">
           <label for="user_avatar" class="button-secondary">
-            <%= t('simple_form.labels.user.avatar') %>
+            <%= t('simple_form.users.edit.labels.avatar') %>
           </label>
           <%= f.input :avatar, as: :file, 
               input_html: { 
@@ -51,45 +51,45 @@
       <%= f.input :first_name,
                   label: false,
                   required: false,
-                  placeholder: t('simple_form.placeholders.user.first_name') %>
+                  placeholder: t('simple_form.users.edit.placeholders.first_name') %>
 
       <%= f.input :emoji,
                   label: false,
                   required: false,
-                  placeholder: t('simple_form.placeholders.user.emoji') %>
+                  placeholder: t('simple_form.users.edit.placeholders.emoji') %>
 
       <%= f.input :email, 
                   label: false, 
                   required: true, 
-                  placeholder: t('simple_form.placeholders.user.email') %>
+                  placeholder: t('simple_form.users.edit.placeholders.email') %>
 
       <%= f.input :email_opt_in, as: :boolean, required: false,
-                  label: t('simple_form.labels.user.email_opt_in') %>
+                  label: t('simple_form.users.edit.labels.email_opt_in') %>
 
       <%= f.input :password,
                   label: false,
                   required: false,
-                  placeholder: t('simple_form.placeholders.user.password') %>
+                  placeholder: t('simple_form.users.edit.placeholders.password') %>
 
       <%= f.input :password_confirmation,
                   label: false,
                   required: false,
-                  placeholder: t('simple_form.placeholders.user.password_confirmation') %>
+                  placeholder: t('simple_form.users.edit.placeholders.password_confirmation') %>
 
       <%= f.input :current_password,
                   label: false,
                   required: false,
-                  placeholder: t('simple_form.placeholders.user.current_password'), 
+                  placeholder: t('simple_form.users.edit.placeholders.current_password'), 
                   input_html: { autocomplete: "current-password" } %>
     </div>
 
       <div class="button-div">
         <div class="form-actions">
-          <%= f.button :submit, t('simple_form.labels.user.submit_changes'), class: "btn button--primary", data: { turbo: false } %>
+          <%= f.button :submit, t('simple_form.users.edit.labels.submit_changes'), class: "btn button--primary", data: { turbo: false } %>
         </div>
 
-        <%= link_to t('simple_form.labels.user.delete_account'), registration_path(resource_name), 
-        data: { turbo_confirm: t('simple_form.labels.user.delete_account_confirm'), turbo_method: :delete },
+        <%= link_to t('simple_form.users.edit.labels.delete_account'), registration_path(resource_name), 
+        data: { turbo_confirm: t('simple_form.users.edit.labels.delete_account_confirm'), turbo_method: :delete },
         class: "button-delete" %>
       </div>
     </div>

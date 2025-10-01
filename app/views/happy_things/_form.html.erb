@@ -11,14 +11,14 @@
     </div>
   <% end %>
 
-  <%= f.input :title, label: false, input_html: { autofocus: true } %>
+  <%= f.input :title, label: false, placeholder: t('simple_form.happy_things.new.placeholders.title'), input_html: { autofocus: true } %>
 
-  <%= f.input :category_id, label: false, collection: Category.all, prompt: t('simple_form.prompts.happy_thing.category') %>
+  <%= f.input :category_id, label: false, collection: Category.all, prompt: t('simple_form.happy_things.new.prompts.category') %>
 
   <div data-controller="image-preview">
     <div class="image-upload">
       <label for="happy_thing_photo" class="button-secondary">
-        <%= t('simple_form.labels.happy_thing.photo') %>
+        <%= t('simple_form.happy_things.new.labels.photo') %>
       </label>
       <%= f.input :photo, as: :file, 
           input_html: { 
@@ -39,14 +39,14 @@
     <%= f.hidden_field :latitude %>
     <%= f.hidden_field :longitude %>
     <%= f.hidden_field :place %>
-    <%= f.input :share_location, as: :boolean, label: t('simple_form.labels.happy_thing.share_location'),
+    <%= f.input :share_location, as: :boolean, label: t('simple_form.happy_things.new.labels.share_location'),
                 input_html: { data: { action: "user-location#toggle" } } %>
   </div>
 
   <div style="width: 100%; max-width: 480px;">
     <%= f.input :shared_with_ids, as: :select,
                 collection: grouped_visibility_options(current_user),
-                label: t('simple_form.labels.happy_thing.shared_with'),
+                label: t('simple_form.happy_things.new.labels.shared_with'),
                 input_html: {
                   multiple: true,
                   data: {
@@ -57,12 +57,12 @@
                     }.to_json
                   }
                 },
-                prompt: t('simple_form.prompts.happy_thing.shared_with') %>
+                prompt: t('simple_form.happy_things.new.prompts.shared_with') %>
   </div>
 
   <% if params[:action] == 'edit' %>
     <div style="width: 100%; max-width: 480px;">
-      <%= f.input :place, label: false, placeholder: t('simple_form.placeholders.happy_thing.place') %>
+      <%= f.input :place, label: false, placeholder: t('simple_form.happy_things.edit.placeholders.place') %>
     </div>
   <% end %>
 

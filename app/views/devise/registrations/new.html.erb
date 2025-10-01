@@ -1,37 +1,58 @@
-<div class="container p-5">
-  <h2 class="session-manager-header">Let's get you an Account!</h2>
+<div class="container">
+  <div class="form-with-bonus-action-wrapper">
+    <%= simple_form_for(resource, as: resource_name, 
+        url: registration_path(resource_name),
+        html: { class: "happy_thing form mt-4 p-3" }) do |f| %>
 
-  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= f.error_notification %>
+      <h1 class="session-manager-header">Let's get you an Account!</h1>
+      
+      <div class="form-group">
+          <%= f.error_notification %>
+      </div>
 
-    <div class="form-inputs">
-      <%= f.input :first_name %>
-      <%= f.input :last_name %>
-      <%= f.input :emoji %>
-      <%= f.input :email,
-                  required: true,
-                  autofocus: true,
-                  input_html: { autocomplete: "email" }%>
-      <%= f.input :password,
-                  required: true,
-                  hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                  input_html: { autocomplete: "new-password" } %>
-      <%= f.input :password_confirmation,
-                  required: true,
-                  input_html: { autocomplete: "new-password" } %>
-      <%= f.input :avatar, as: :file %>
+      <div class="form-inputs w-100">
+        <%= f.input :first_name,
+                    label: false,
+                    placeholder: "Name",
+                    required: true, 
+                    input_html: { autocomplete: "first-name" } %> 
+        <%= f.input :emoji,
+                    label: false,
+                    placeholder: "Emoji",
+                    required: true %>
+        <%= f.input :email,
+                    label: false,
+                    placeholder: "Email",
+                    required: true,
+                    autofocus: true,
+                    input_html: { autocomplete: "email" }%>
+        <%= f.input :password,
+                    label: false,
+                    placeholder: t('simple_form.users.new.placeholders.password'),
+                    required: true,
+                    hint: simple_format(t('simple_form.users.new.hints.password')),
+                    input_html: { autocomplete: "new-password" } %>
+        <%= f.input :password_confirmation,
+                    label: false,
+                    placeholder: t('simple_form.users.new.placeholders.password_confirmation'),
+                    required: true,
+                    input_html: { autocomplete: "new-password" } %>
+        <%= f.input :avatar, as: :file,
+                    label: t('simple_form.users.new.labels.avatar'),
+                    required: false %>
 
-      <!-- Consent checkboxes -->
-      <%= f.input :email_opt_in, as: :boolean, required: true,
-                  label: 'I agree to receive emails about my happy things and other updates.' %>
-      <%= f.input :location_opt_in, as: :boolean, required: true,
-                  label: 'I consent to the collection of my location data for creating HappyThings.' %>
+        <!-- Consent checkboxes -->
+        <%= f.input :email_opt_in, as: :boolean, required: false,
+                    label: t('simple_form.users.new.labels.email_opt_in') %>
+        <%= f.input :location_opt_in, as: :boolean, required: false,
+                    label: t('simple_form.users.new.labels.location_opt_in') %>
+      </div>
+
+      <%= f.button :submit, "Sign up", class: "btn button--primary w-100 border-0", data: { turbo: false } %>
+    <% end %>
+
+    <div class="bonus-actions">
+      <%= render "devise/shared/links" %>
     </div>
-
-    <div class="form-actions d-flex justify-content-center mt-2">
-      <%= f.button :submit, "Sign up", class: "btn btn-primary w-100 button--primary mb-2", data: { turbo: false } %>
-    </div>
-  <% end %>
-
-  <%= render "devise/shared/links" %>
+  </div>
 </div>

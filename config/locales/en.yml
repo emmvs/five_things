@@ -1,40 +1,65 @@
 en:
   simple_form:
-    placeholders:
-      happy_thing:
-        title: What made you smile today?
-        place: Place
-      user:
-        first_name: First name
-        emoji: Emoji
-        email: Email
-        password: New password
-        password_confirmation: Confirm new password
-        current_password: Current password to confirm changes
-    labels:
-      user:
-        avatar: Change avatar
-        edit_profile: Edit profile
-        submit_changes: Submit changes
-        delete_account: Delete account
-        delete_account_confirm: Are you sure?
-        waiting_confirmation: Currently waiting confirmation for
-        email_opt_in: I want to receive emails about my friends' happy things!
-      happy_thing:
-        title: Name
-        shared_with: Who should see this?
-        photo: Upload Photo
-        share_location: Save my location for this happy thing
-    prompts:
-      happy_thing:
-        category: Select a category
-        shared_with: All friends unless specified
-    titles:
-      user:
-        edit_profile: Edit profile
-      happy_thing:
-        edit: Edit happy thing
-        new: New happy thing
+    users:
+      edit:
+        placeholders:
+          first_name: First name
+          emoji: Emoji
+          email: Email
+          password: New password
+          password_confirmation: Confirm new password
+          current_password: Current password to confirm changes
+        labels:
+          avatar: Change avatar
+          edit_profile: Edit profile
+          submit_changes: Submit changes
+          delete_account: Delete account
+          delete_account_confirm: Are you sure?
+          waiting_confirmation: Currently waiting confirmation for
+          email_opt_in: I want to receive emails about my friends' happy things!
+        titles:
+          edit_profile: Edit profile
+      new:
+        placeholders:
+          password: Password
+          password_confirmation: Confirm password
+        labels:
+          avatar: Avatar
+          email_opt_in: I want to receive emails about my friends' happy things!
+          location_opt_in: I consent to the collection of my location data for creating HappyThings.
+        hints:
+          password: |
+            Password needs to:
+            • be at least 8 characters long
+            • contain one uppercase letter
+            • contain one lowercase letter
+            • contain one number
+            • contain one special character
+      login:
+        placeholders:
+          password: Password
+        titles:
+          welcome: Welcome back, little human!
+    happy_things:
+      new:
+        placeholders:
+          title: What made you smile today?
+          place: Place
+        prompts:
+          category: Select a category
+          shared_with: All friends unless specified
+        labels:
+          photo: Upload Photo
+          share_location: Save my location for this happy thing
+          shared_with: Who should see this?
+        titles:
+          form_title: New happy thing
+      edit:
+        placeholders:
+          place: Place
+        titles:
+          form_title: Edit happy thing
+
   helpers:
     submit:
       happy_thing:

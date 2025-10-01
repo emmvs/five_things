@@ -4,6 +4,7 @@
   gap: $space-xs;
   max-width: 480px;
   margin: 0 auto;
+  padding: $space-m;
 
   &__group {
     flex: 1;
@@ -35,6 +36,11 @@
     .alert.alert-danger {
       position: static;
       margin-top: $space-m;
+    }
+
+    small p {
+      margin-top: $space-xs;
+      margin-left: $space-xs;
     }
   }
 
@@ -112,4 +118,13 @@
 
 .ts-wrapper.multi .ts-control>div {
   margin: 1px 3px 1px 0 !important;
+}
+
+.form-with-bonus-action-wrapper {
+  max-width: 480px;
+  margin: 0 auto;
+  
+  .bonus-actions {
+    padding: $space-m;
+  }
 }
