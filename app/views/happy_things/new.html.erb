@@ -1,5 +1,5 @@
 <div class="container">
   <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary m-4" %>
 
-  <%= render "form", happy_thing: @happy_thing, title: "New happy thing" %>
+  <%= render "form", happy_thing: @happy_thing, title: t('simple_form.titles.happy_thing.new') %>
 </div>

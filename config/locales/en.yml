@@ -32,7 +32,9 @@ en:
     titles:
       user:
         edit_profile: Edit profile
-
+      happy_thing:
+        edit: Edit happy thing
+        new: New happy thing
   helpers:
     submit:
       happy_thing:
