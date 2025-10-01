@@ -11,9 +11,9 @@
     </div>
   <% end %>
 
-    <%= f.input :title, label: false, input_html: { autofocus: true } %>
+  <%= f.input :title, label: false, input_html: { autofocus: true } %>
 
-    <%= f.input :category_id, label: false, collection: Category.all, prompt: t('simple_form.prompts.happy_thing.category') %>
+  <%= f.input :category_id, label: false, collection: Category.all, prompt: t('simple_form.prompts.happy_thing.category') %>
 
   <div data-controller="image-preview">
     <div class="image-upload">

@@ -41,6 +41,15 @@ en:
         create: Create happy thing
         update: Update happy thing
 
+  mailers:
+    user_mailer:
+      happy_email:
+        greeting: "Hey %{name}! %{emoji}"
+        body_one: "One of your friends just added <strong>5 happy things</strong> today. That's a whole lot of happy stuff! 🥳"
+        body_two: "Want to see what made them smile? Head over to your dashboard and soak up the good vibes."
+        link_text: "View Dashboard"
+        signature: "Share the love 🫶🏻<br>— Your 5 Things Team"
+
   errors:
     models:
       user:
