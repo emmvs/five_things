@@ -35,10 +35,10 @@ RSpec.describe 'Happy Things CRUD', type: :system do
       expect(page).to have_selector('h1', text: 'NEW HAPPY THING', wait: 5)
       expect(page).to have_current_path(new_happy_thing_path, wait: 5)
 
-      fill_in 'Name', with: 'cute mirror wtf'
+      fill_in 'What made you smile today?', with: 'cute mirror wtf'
       select 'Spiritual & Mind', from: 'happy_thing_category_id'
-      attach_file 'happy_thing[photo]', Rails.root.join('spec/fixtures/test_image.jpg')
-      check 'Share my location'
+      attach_file 'happy_thing[photo]', Rails.root.join('spec/fixtures/test_image.jpg'), visible: false
+      check 'Save my location for this happy thing'
 
       expect do
         click_on 'Create happy thing'
@@ -60,7 +60,7 @@ RSpec.describe 'Happy Things CRUD', type: :system do
       expect(page).to have_selector('h1', text: 'EDIT HAPPY THING', wait: 5)
       expect(page).to have_current_path(edit_happy_thing_path(happy_thing))
 
-      fill_in 'Name', with: 'fresh new title'
+      fill_in 'What made you smile today?', with: 'fresh new title'
       click_button('Update happy thing')
 
       expect(page).to have_content('Yay! 🎉 Happy Thing was updated 🥰')
