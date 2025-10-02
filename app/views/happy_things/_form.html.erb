@@ -66,5 +66,14 @@
     </div>
   <% end %>
 
-  <%= f.submit class: "btn button--primary", style: "width: 100%;" %>
+  <% if params[:action] == 'edit' %>
+    <div class="button-pair">
+        <%= f.submit class: "btn button--primary", value: t('simple_form.happy_things.edit.submit.submit') %>
+        <%= button_to "🗑️ Delete", happy_thing_path(happy_thing), method: :delete, class: "button-delete", 
+            data: { turbo_confirm: t('simple_form.happy_things.edit.confirm_prompt.delete_confirm') } %>
+      </div>
+  <% else %>
+      <%= f.submit class: "btn button--primary", style: "width: 100%;", value: t('simple_form.happy_things.new.submit.submit') %>
+  <% end %>
+
 <% end %>

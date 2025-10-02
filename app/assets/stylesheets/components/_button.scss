@@ -185,11 +185,16 @@ $turquoise: #1abc9c;
   box-shadow: $box-shadow;
 }
 
-.button-div {
+.button-pair {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: $space-xs;
   width: 100%;
+  > * {
+    flex: 1;
+    max-width: 50%;
+  }   
 }
 
 .button-google {

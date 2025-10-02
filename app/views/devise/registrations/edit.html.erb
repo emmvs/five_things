@@ -83,13 +83,13 @@
                   input_html: { autocomplete: "current-password" } %>
     </div>
 
-      <div class="button-div">
+      <div class="button-pair">
         <div class="form-actions">
           <%= f.button :submit, t('simple_form.users.edit.labels.submit_changes'), class: "btn button--primary", data: { turbo: false } %>
         </div>
 
         <%= link_to t('simple_form.users.edit.labels.delete_account'), registration_path(resource_name), 
-        data: { turbo_confirm: t('simple_form.users.edit.labels.delete_account_confirm'), turbo_method: :delete },
+        data: { turbo_confirm: t('simple_form.users.edit.confirm_prompt.delete_confirm'), turbo_method: :delete },
         class: "button-delete" %>
       </div>
     </div>
