@@ -14,9 +14,10 @@ de:
           edit_profile: Profil bearbeiten
           submit_changes: Änderungen speichern
           delete_account: Account löschen
-          delete_account_confirm: Bist du sicher?
           waiting_confirmation: Warte derzeit auf Bestätigung für
           email_opt_in: Ich möchte E-Mails über die glücklichen Momente meiner Freunde erhalten!
+        confirm_prompt:
+          delete_confirm: Bist du sicher, dass du deinen Account löschen möchtest? (Das kann nicht rückgängig gemacht werden)
         titles:
           edit_profile: Profil bearbeiten
       new:
@@ -42,6 +43,8 @@ de:
           welcome: Willkommen zurück, kleiner Mensch!
     happy_things:
       new:
+        submit:
+          submit: Glücklichen Moment erstellen
         placeholders:
           title: Was hat dich heute zum Lächeln gebracht?
           place: Ort
@@ -55,16 +58,14 @@ de:
         titles:
           form_title: Neuer glücklicher Moment
       edit:
+        submit:
+          submit: Änderungen speichern
         placeholders:
           place: Ort
+        confirm_prompt:
+          delete_confirm: Bist du sicher, dass du diesen glücklichen Moment löschen möchtest?
         titles:
           form_title: Glücklichen Moment bearbeiten
-
-  helpers:
-    submit:
-      happy_thing:
-        create: Glücklichen Moment erstellen
-        update: Glücklichen Moment aktualisieren
 
   mailers:
     user_mailer:
