@@ -1,17 +1,35 @@
 <%= link_to happy_thing_path(happy_thing) do %>
-    <div class="happy_thing">
-        <div class="happy_thing_title">
-            <%= happy_thing.title %>
-        </div>
-        <div class="happy_thing_footer">
-            <div class="happy_thing_photo_emoji">
-                <% if happy_thing.photo.attached? %>
-                    <%= "📸" %>
-                <% end %>
+    <% if use_long_title_layout?(happy_thing) %>
+        <div class="happy_thing_for_long_title">
+            <div>
+                <%= happy_thing.title %>
             </div>
-            <div class="happy_thing_date">
-                <%= friendly_date(happy_thing.start_time) %>
+            <div class="happy_thing_metadata_bottom">
+                <div class="happy_thing_photo_emoji">
+                    <% if happy_thing.photo.attached? %>
+                        <%= "📸" %>
+                    <% end %>
+                </div>
+                <div class="happy_thing_date">
+                    <%= friendly_date(happy_thing.start_time) %>
+                </div>
             </div>
         </div>
-    </div>
+    <% else %>
+        <div class="happy_thing">
+            <div>
+                <%= happy_thing.title %>
+            </div>
+            <div class="happy_thing_metadata_right">
+                <div class="happy_thing_photo_emoji">
+                    <% if happy_thing.photo.attached? %>
+                        <%= "📸" %>
+                    <% end %>
+                </div>
+                <div class="happy_thing_date">
+                    <%= friendly_date(happy_thing.start_time) %>
+                </div> 
+            </div>
+        </div>
+    <% end %>
 <% end %>
