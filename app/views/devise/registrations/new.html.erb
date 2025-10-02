@@ -37,9 +37,26 @@
                     placeholder: t('simple_form.users.new.placeholders.password_confirmation'),
                     required: true,
                     input_html: { autocomplete: "new-password" } %>
-        <%= f.input :avatar, as: :file,
-                    label: t('simple_form.users.new.labels.avatar'),
-                    required: false %>
+          
+        <div data-controller="image-preview" class="mb-3">
+          <div class="image-upload">
+            <label for="user_avatar" class="button-secondary">
+              <%= t('simple_form.users.new.labels.avatar') %>
+            </label>
+            <%= f.input :photo, as: :file, 
+                input_html: { 
+                  id: 'user_avatar', 
+                  style: 'display: none;', 
+                  accept: 'image/*',
+                  data: { 
+                    image_preview_target: "input",
+                    action: "change->image-preview#preview"
+                  }
+                }, 
+                label: false %>
+            <img data-image-preview-target="preview" class="avatar-profile" style="height: 120% !important;" />
+          </div>
+        </div>
 
         <!-- Consent checkboxes -->
         <%= f.input :email_opt_in, as: :boolean, required: false,

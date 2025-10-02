@@ -15,7 +15,7 @@ en:
           submit_changes: Submit changes
           delete_account: Delete account
           waiting_confirmation: Currently waiting confirmation for
-          email_opt_in: I want to receive emails about my friends' happy things!
+          email_opt_in: I want to receive emails about my friends' HappyThings!
         confirm_prompt:
           delete_confirm: Are you sure you want to delete your account? (This cannot be undone)
         titles:
@@ -25,8 +25,8 @@ en:
           password: Password
           password_confirmation: Confirm password
         labels:
-          avatar: Avatar
-          email_opt_in: I want to receive emails about my friends' happy things!
+          avatar: Upload avatar
+          email_opt_in: I want to receive emails about my friends' HappyThings!
           location_opt_in: I consent to the collection of my location data for creating HappyThings.
         hints:
           password: |
