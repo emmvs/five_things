@@ -6,9 +6,7 @@
             </div>
             <div class="happy_thing_metadata_bottom">
                 <div class="happy_thing_photo_emoji">
-                    <% if happy_thing.photo.attached? %>
-                        <%= "📸" %>
-                    <% end %>
+                    <%= "📸" if happy_thing.photo.attached? %><%= "📝" if happy_thing.comments.any? %>
                 </div>
                 <div class="happy_thing_date">
                     <%= friendly_date(happy_thing.start_time) %>
@@ -20,11 +18,9 @@
             <div>
                 <%= happy_thing.title %>
             </div>
-            <div class="happy_thing_metadata_right">
+            <div class="happy_thing_metadata_right">    
                 <div class="happy_thing_photo_emoji">
-                    <% if happy_thing.photo.attached? %>
-                        <%= "📸" %>
-                    <% end %>
+                    <%= "📸" if happy_thing.photo.attached? %><%= "📝" if happy_thing.comments.any? %>
                 </div>
                 <div class="happy_thing_date">
                     <%= friendly_date(happy_thing.start_time) %>
