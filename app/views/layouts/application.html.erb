@@ -19,7 +19,7 @@
   </head>
 
   <body data-controller="notification service-worker" data-notification-target="notification">
-    <%= render partial: 'layouts/navbar' if @should_render_navbar  %>
+    <%= render partial: 'layouts/navbar' if render_navbar?  %>
     <%= yield %>
     <%= render partial: 'layouts/alerts'  %>
   </body>

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  before_action :disable_navbar, only: %i[new]
+
   def update_resource(resource, _params)
     if updating_sensitive_info?
       resource.update_with_password(user_params)
@@ -10,7 +12,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def settings
-    should_render_navbar
     @user = current_user
     render 'devise/registrations/edit'
   end

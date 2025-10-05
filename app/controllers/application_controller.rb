@@ -2,8 +2,9 @@
 
 # ApplicationController
 class ApplicationController < ActionController::Base
-  before_action :should_not_render_navbar
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_navbar_default
+  helper_method :render_navbar?
 
   protected
 
@@ -14,11 +15,15 @@ class ApplicationController < ActionController::Base
                                       keys: %i[first_name last_name avatar emoji email_opt_in location_opt_in])
   end
 
-  def should_not_render_navbar
-    @should_render_navbar = false
+  def set_navbar_default
+    @render_navbar = true
   end
 
-  def should_render_navbar
-    @should_render_navbar = true
+  def render_navbar?
+    @render_navbar
+  end
+
+  def disable_navbar
+    @render_navbar = false
   end
 end

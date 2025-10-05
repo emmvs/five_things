@@ -6,7 +6,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   include UserRelated
 
   before_action :set_happy_thing, only: %i[show edit update destroy]
-  before_action :should_render_navbar
 
   def future_root
     @happy_thing = HappyThing.new
@@ -121,10 +120,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   private
-
-  def should_render_navbar
-    @should_render_navbar = true
-  end
 
   def set_happy_thing
     @happy_thing = HappyThing.where(user_id: user_ids).find(params[:id])

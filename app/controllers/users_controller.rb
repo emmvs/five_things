@@ -5,8 +5,6 @@ class UsersController < ApplicationController
   helper FriendshipsHelper
   include WordAggregator
 
-  before_action :should_render_navbar, only: %i[index friends show profile]
-
   def index
     @users = fetch_users
   end
