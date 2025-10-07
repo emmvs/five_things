@@ -5,7 +5,8 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   include WordAggregator
   include UserRelated
 
-  before_action :set_happy_thing, only: %i[show edit update destroy]
+  before_action :set_happy_thing, only: %i[show]
+  before_action :set_own_happy_thing, only: %i[edit update destroy]
 
   # TODO: rename when this replaces current root path after transition
   def future_root
@@ -124,6 +125,10 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def set_happy_thing
     @happy_thing = HappyThing.where(user_id: user_ids).find(params[:id])
+  end
+
+  def set_own_happy_thing
+    @happy_thing = current_user.happy_things.find(params[:id])
   end
 
   def save_and_respond(resource)
