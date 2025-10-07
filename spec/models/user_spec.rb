@@ -38,14 +38,14 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
     end
 
     it 'rejects missing uppercase' do
-      no_uppercase = "aa1!#{SecureRandom.hex(6)}"
+      no_uppercase = "aa1!#{SecureRandom.hex(6)}" # pragma: allowlist secret
       user = build(:user, password: no_uppercase, password_confirmation: no_uppercase)
       expect(user).to be_invalid
       expect(user.errors[:password]).to be_present
     end
 
     it 'rejects missing special char' do
-      no_special = "Aa1#{SecureRandom.hex(6)}"
+      no_special = "Aa1#{SecureRandom.hex(6)}" # pragma: allowlist secret
       user = build(:user, password: no_special, password_confirmation: no_special)
       expect(user).to be_invalid
     end
