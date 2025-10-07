@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
                                       keys: %i[first_name last_name avatar emoji email_opt_in location_opt_in])
   end
 
+  private
+
   def set_navbar_default
     @render_navbar = true
   end
