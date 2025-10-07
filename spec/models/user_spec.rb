@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
     end
 
     it 'is not valid with www. in the name' do
-      user = build(:user, first_name: 'www.example.org')
+      user = build(:user, first_name: 'www.pornhub.org')
       expect(user).not_to be_valid
     end
 
@@ -26,9 +26,8 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
 
     it 'enforces strong password rules only when updating the password' do
       user = create(:user) # Persisted record
-      pw = 'weakpass'
-      user.password = pw
-      user.password_confirmation = pw
+      user.password = 'weak'
+      user.password_confirmation = 'weak'
       expect(user).not_to be_valid
     end
 

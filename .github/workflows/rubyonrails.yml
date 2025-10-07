@@ -1,18 +1,16 @@
-# This workflow uses actions that are not certified by GitHub.  They are
-# provided by a third-party and are governed by separate terms of service,
-# privacy policy, and support documentation.
-#
-# This workflow will install a prebuilt Ruby version, install dependencies, and
-# run tests and linters.
+# This workflow installs Ruby, sets up Postgres, runs tests, and lints code.
 name: "My 5 Things CI"
+
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+
 jobs:
   test:
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:11-alpine
@@ -22,9 +20,17 @@ jobs:
           POSTGRES_DB: five_things_test
           POSTGRES_USER: rails
           POSTGRES_PASSWORD: password
+        # Make the service report healthy only when ready
+        options: >-
+          --health-cmd="pg_isready -U rails -d five_things_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     env:
       RAILS_ENV: test
-      DATABASE_URL: "postgres://rails:password@localhost:5432/five_things_test"
+      DATABASE_URL: postgres://rails:password@localhost:5432/five_things_test
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,7 +40,12 @@ jobs:
         with:
           ruby-version: 3.4.4
           check-latest: true
-          bundler-cache: true
+          bundler-cache: true  # caches gems based on Gemfile.lock
+
+      - name: Install Postgres client (for pg_isready, psql)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
 
       - name: Wait for Postgres
         run: |
@@ -46,11 +57,12 @@ jobs:
       - name: Set up database schema
         run: bin/rails db:schema:load
 
-      - name: Run tests
+      - name: Run test suite
         run: bin/rake
 
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -65,8 +77,14 @@ jobs:
       - name: Generate binstubs
         run: bundle binstubs brakeman rubocop
 
-      - name: Security audit application code
+      - name: Security audit (Brakeman)
         run: bin/brakeman -q -w2
 
-      - name: Lint Ruby files
-        run: bin/rubocop --parallel --force-exclusion --except Style/Documentation app lib config services spec
+      - name: Lint Ruby (RuboCop)
+        run: >
+          bin/rubocop
+          --parallel
+          --force-exclusion
+          --format github
+          --except Style/Documentation
+          app lib config db spec Gemfile Rakefile
