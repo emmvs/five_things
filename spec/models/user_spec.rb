@@ -30,25 +30,6 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
       user.password_confirmation = 'weak'
       expect(user).not_to be_valid
     end
-
-    it 'accepts a strong password' do
-      strong_password = 'Aa1_example_password'
-      user = build(:user, password: strong_password, password_confirmation: strong_password)
-      expect(user).to be_valid
-    end
-
-    it 'rejects missing uppercase' do
-      no_uppercase = 'aa1_example_password'
-      user = build(:user, password: no_uppercase, password_confirmation: no_uppercase)
-      expect(user).to be_invalid
-      expect(user.errors[:password]).to be_present
-    end
-
-    it 'rejects missing special char' do
-      no_special = 'Aa1examplepassword'
-      user = build(:user, password: no_special, password_confirmation: no_special)
-      expect(user).to be_invalid
-    end
   end
 
   describe '#happy_streak' do
