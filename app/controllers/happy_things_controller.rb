@@ -7,6 +7,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   before_action :set_happy_thing, only: %i[show edit update destroy]
 
+  # TODO: rename when this replaces current root path after transition
   def future_root
     @happy_thing = HappyThing.new
     @happy_things_today = happy_things_by_period(
