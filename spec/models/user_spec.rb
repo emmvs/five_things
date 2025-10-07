@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
   describe 'Validations' do
     it 'is valid with valid attributes' do
       user = build(:user)
