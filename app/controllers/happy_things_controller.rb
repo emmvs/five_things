@@ -11,9 +11,13 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   # TODO: rename when this replaces current root path after transition
   def future_root
     @happy_thing = HappyThing.new
-    @happy_things_today = happy_things_by_period(
-      Date.today..Date.tomorrow, user_ids
-    )
+    range = Time.zone.today.all_day
+    @happy_things_today = happy_things_by_period(range, user_ids)
+  end
+
+  def recent_happy_things
+    range = Time.zone.yesterday.beginning_of_day..Time.zone.today.end_of_day
+    @happy_things_of_the_last_two_days = happy_things_by_period(range, user_ids)
   end
 
   def show
@@ -113,12 +117,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     else
       render :new, status: :unprocessable_entity
     end
-  end
-
-  def recent_happy_things
-    @happy_things_of_the_last_two_days = happy_things_by_period(
-      (Date.today - 1.days)..Date.today.end_of_day, user_ids
-    )
   end
 
   private
