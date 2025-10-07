@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateHappyThingUserShares < ActiveRecord::Migration[7.0] # rubocop:disable Style/Documentation
+class CreateHappyThingUserShares < ActiveRecord::Migration[7.0]
   def change
     create_table :happy_thing_user_shares do |t|
       t.references :happy_thing, null: false, foreign_key: true
