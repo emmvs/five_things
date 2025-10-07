@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
     end
 
     it 'accepts a strong password' do
-      strong_password = "Aa1!#{SecureRandom.hex(6)}"
+      strong_password = "Aa1!#{SecureRandom.hex(6)}" # pragma: allowlist secret
       user = build(:user, password: strong_password, password_confirmation: strong_password)
       expect(user).to be_valid
     end
