@@ -53,7 +53,6 @@ gem 'geocoder'
 # APIs & Special Gems
 gem 'moonphases'
 gem 'ostruct'
-gem 'ruby-openai'
 
 # Testing suite
 group :development, :test do

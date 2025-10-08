@@ -131,7 +131,6 @@ GEM
     drb (2.2.3)
     erb (5.0.2)
     erubi (1.13.1)
-    event_stream_parser (1.0.0)
     execjs (2.9.1)
     factory_bot (6.4.2)
       activesupport (>= 5.0.0)
@@ -144,8 +143,6 @@ GEM
       base64
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
-    faraday-multipart (1.0.4)
-      multipart-post (~> 2)
     faraday-net_http (3.0.2)
     ffi (1.16.3)
     font-awesome-rails (4.7.0.9)
@@ -215,7 +212,6 @@ GEM
       nokogiri
     msgpack (1.8.0)
     multi_xml (0.6.0)
-    multipart-post (2.3.0)
     net-imap (0.5.10)
       date
       net-protocol
@@ -375,10 +371,6 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.31.2)
       parser (>= 3.3.0.4)
-    ruby-openai (6.3.1)
-      event_stream_parser (>= 0.3.0, < 2.0.0)
-      faraday (>= 1)
-      faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.4.1)
@@ -485,7 +477,6 @@ DEPENDENCIES
   redis (~> 5.0)
   rspec-rails
   rubocop
-  ruby-openai
   sassc-rails
   selenium-webdriver
   shoulda-matchers
