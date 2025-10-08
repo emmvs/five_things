@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'HappyThings visibility', type: :request do # rubocop:disable Metrics/BlockLength
+RSpec.describe 'HappyThings visibility', type: :request do
   let(:owner)     { create(:user, first_name: 'Owner') }
   let(:friend)    { create(:user, first_name: 'Friend') }
   let(:groupie)   { create(:user, first_name: 'Groupie') }

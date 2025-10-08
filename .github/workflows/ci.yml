@@ -20,6 +20,7 @@ jobs:
           POSTGRES_DB: five_things_test
           POSTGRES_USER: rails
           POSTGRES_PASSWORD: password
+        # Make the service report healthy only when ready
         options: >-
           --health-cmd="pg_isready -U rails -d five_things_test"
           --health-interval=10s
@@ -39,7 +40,7 @@ jobs:
         with:
           ruby-version: 3.4.4
           check-latest: true
-          bundler-cache: true
+          bundler-cache: true # caches gems based on Gemfile.lock
 
       - name: Install Postgres client (for pg_isready, psql)
         run: |

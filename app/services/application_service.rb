@@ -5,7 +5,7 @@ require 'uri'
 
 class ApplicationService
   # Entry point for service objects
-  def self.call(*args, &block)
-    new(*args, &block).call
+  def self.call(*, &)
+    new(*, &).call
   end
 end

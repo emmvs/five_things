@@ -64,6 +64,8 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails' # RSpec for testing
   gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
   gem 'shoulda-matchers' # Additional matchers for RSpec
 end
 
@@ -78,8 +80,3 @@ group :test do
   gem 'capybara' # Capybara for integration testing
   gem 'selenium-webdriver' # WebDriver for browsers
 end
-
-# Optional gems for specific features
-# gem 'bcrypt', '~> 3.1.7' # Use Active Model has_secure_password
-# gem 'image_processing', '~> 1.2' # Use Active Storage variants for image processing
-# gem 'tzinfo-data', platforms: %i[ mingw mswin x64_mingw jruby ] # Timezone data

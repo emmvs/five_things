@@ -2,7 +2,7 @@
 
 require 'active_support/core_ext/integer/time'
 
-Rails.application.configure do # rubocop:disable Metrics/BlockLength
+Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -59,7 +59,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
-  config.cache_store = :redis_cache_store, { url: ENV['REDISCLOUD_URL'] }
+  config.cache_store = :redis_cache_store, { url: ENV.fetch('REDISCLOUD_URL', nil) }
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
@@ -70,8 +70,8 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
     address: 'smtp.gmail.com',
     port: 587,
     domain: 'happythings.com',
-    user_name: ENV['GMAIL_USERNAME'],
-    password: ENV['GMAIL_PASSWORD'],
+    user_name: ENV.fetch('GMAIL_USERNAME', nil),
+    password: ENV.fetch('GMAIL_PASSWORD', nil),
     authentication: 'plain',
     enable_starttls_auto: true
   }
@@ -90,7 +90,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.active_support.report_deprecations = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"

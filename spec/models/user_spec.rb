@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
-  describe 'Validations' do # rubocop:disable Metrics/BlockLength
+RSpec.describe User, type: :model do
+  describe 'Validations' do
     it 'is valid with valid attributes' do
       user = build(:user)
       expect(user).to be_valid
@@ -82,7 +82,7 @@ RSpec.describe User, type: :model do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  describe '.from_omniauth' do # rubocop:disable Metrics/BlockLength
+  describe '.from_omniauth' do
     let(:auth_hash) { build(:oauth_auth_hash) }
 
     context 'when brand new user signs in with OAuth' do

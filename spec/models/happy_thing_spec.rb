@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe HappyThing, type: :model do # rubocop:disable Metrics/BlockLength
+RSpec.describe HappyThing, type: :model do
   include ActiveJob::TestHelper
 
   describe 'Validations' do

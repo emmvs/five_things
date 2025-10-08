@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Happy Things CRUD', type: :system do # rubocop:disable Metrics/BlockLength
+RSpec.describe 'Happy Things CRUD', type: :system do
   let(:user) { create(:user) }
   let!(:category) { create(:category, name: 'General') }
   let!(:category2) { create(:category, name: 'Spiritual & Mind') }
@@ -15,7 +15,7 @@ RSpec.describe 'Happy Things CRUD', type: :system do # rubocop:disable Metrics/B
     click_button 'Log in'
   end
 
-  describe 'CRUD operations' do # rubocop:disable Metrics/BlockLength
+  describe 'CRUD operations' do
     it 'shows a happy thing' do
       expect(page).to have_content(happy_thing.title)
 

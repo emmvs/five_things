@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Users', type: :request do # rubocop:disable Metrics/BlockLength
+RSpec.describe 'Users', type: :request do
   before do
     @user = create(:user)
     @user.update_column(:encrypted_password, Devise::Encryptor.digest(User, '123456')) # Bypass validation
@@ -17,8 +17,8 @@ RSpec.describe 'Users', type: :request do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  describe 'User sign up and email confirmation flow' do # rubocop:disable Metrics/BlockLength
-    it 'allows a user to sign up, confirm their email, and log in' do # rubocop:disable Metrics/BlockLength
+  describe 'User sign up and email confirmation flow' do
+    it 'allows a user to sign up, confirm their email, and log in' do
       sign_out @user
       ActionMailer::Base.deliveries.clear
 
