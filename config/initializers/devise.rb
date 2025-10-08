@@ -311,9 +311,9 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   config.omniauth :google_oauth2,
-                  ENV['GOOGLE_OAUTH_CLIENT_ID'] ||
-                  (Rails.env.development? ? 'dummy-id' : raise('Missing GOOGLE_OAUTH_CLIENT_ID')),
-                  ENV['GOOGLE_OAUTH_CLIENT_SECRET'] ||
-                  (Rails.env.development? ? 'dummy-secret' : raise('Missing GOOGLE_OAUTH_CLIENT_SECRET')),
-                  scope: 'email,profile'
+                  ENV['GOOGLE_OAUTH_CLIENT_ID'], # rubocop:disable Style/FetchEnvVar
+                  ENV['GOOGLE_OAUTH_CLIENT_SECRET'], # rubocop:disable Style/FetchEnvVar
+                  {
+                    scope: 'email,profile'
+                  }
 end

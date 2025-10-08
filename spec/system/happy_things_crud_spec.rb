@@ -34,7 +34,6 @@ RSpec.describe 'Happy Things CRUD', type: :system do
       expect(page).to have_current_path(new_happy_thing_path)
 
       fill_in 'Name', with: 'cute mirror wtf'
-
       select 'Spiritual & Mind', from: 'happy_thing_category_id'
       attach_file 'happy_thing[photo]', Rails.root.join('spec/fixtures/test_image.jpg')
       check 'Share my location'
