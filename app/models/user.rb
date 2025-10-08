@@ -27,6 +27,14 @@
 #  uid                    :string
 #
 class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
+  PASSWORD_REGEX = /\A
+    (?=.*[a-z])       # at least one lowercase letter
+    (?=.*[A-Z])       # at least one uppercase letter
+    (?=.*\d)          # at least one digit
+    (?=.*[^A-Za-z0-9])# at least one special character
+    .{8,30}           # between 8 and 30 characters
+  \z/x
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable,
@@ -45,7 +53,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :password, presence: true,
                        length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
                        format: {
-                         with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}\z/,
+                         with: PASSWORD_REGEX,
                          message: I18n.t('errors.models.user.password.invalid')
                        },
                        on: %i[create update]
