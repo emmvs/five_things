@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PoetryService < ApplicationService
-  BASE_URL = ENV.fetch('POETRY_DB_URL', 'FAKE_POETRY_DB_URL')
+  BASE_URL = ENV.fetch('POETRY_DB_URL', 'https://poetrydb.org/')
 
   def call
     fetch_real_poem || fetch_fake_poem

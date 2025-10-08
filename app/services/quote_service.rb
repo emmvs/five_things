@@ -5,7 +5,8 @@ class QuoteService < ApplicationService
 
   def initialize(category) # rubocop:disable Lint/MissingSuper
     @category = category
-    @api_key = ENV.fetch('API_NINJAS_KEY', 'FAKE_API_NINJAS_KEY')
+    @api_key = ENV['API_NINJAS_KEY'] ||
+               (defined?(Rails) && (Rails.env.development? || Rails.env.test?) ? 'FAKE_API_NINJAS_KEY' : nil)
   end
 
   def call

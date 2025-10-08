@@ -14,7 +14,8 @@
           data-controller="map"
           data-map-lat-value="<%= @marker[:lat] %>"
           data-map-lng-value="<%= @marker[:lng] %>"
-          data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+          data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'].presence ||
+            (Rails.env.development? || Rails.env.test? ? 'FAKE_MAPBOX_API_KEY' : nil) %>">
     </div>
   <% end %>
 </main>

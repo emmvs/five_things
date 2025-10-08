@@ -13,14 +13,13 @@ jobs:
 
     services:
       postgres:
-        image: postgres:11-alpine
+        image: postgres:16-alpine
         ports:
           - "5432:5432"
         env:
           POSTGRES_DB: five_things_test
           POSTGRES_USER: rails
           POSTGRES_PASSWORD: password
-        # Make the service report healthy only when ready
         options: >-
           --health-cmd="pg_isready -U rails -d five_things_test"
           --health-interval=10s
@@ -40,11 +39,11 @@ jobs:
         with:
           ruby-version: 3.4.4
           check-latest: true
-          bundler-cache: true  # caches gems based on Gemfile.lock
+          bundler-cache: true
 
       - name: Install Postgres client (for pg_isready, psql)
         run: |
-          sudo apt-get update
+          sudo apt-get update -y
           sudo apt-get install -y postgresql-client
 
       - name: Wait for Postgres
