@@ -36,6 +36,11 @@
   flex-direction: column !important;
 }
 
+.happy_thing_title {
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
 .happy_thing_metadata_bottom {
   display: flex;
   justify-content: flex-end;

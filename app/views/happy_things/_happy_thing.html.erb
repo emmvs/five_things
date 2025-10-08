@@ -1,7 +1,7 @@
 <%= link_to happy_thing_path(happy_thing) do %>
     <% if use_long_title_layout?(happy_thing) %>
         <div class="happy_thing_for_long_title">
-            <div>
+            <div class="happy_thing_title">
                 <%= happy_thing.title %>
             </div>
             <div class="happy_thing_metadata_bottom">
@@ -15,7 +15,7 @@
         </div>
     <% else %>
         <div class="happy_thing">
-            <div>
+            <div class="happy_thing_title">
                 <%= happy_thing.title %>
             </div>
             <div class="happy_thing_metadata_right">    
