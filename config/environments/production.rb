@@ -59,7 +59,9 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
-  config.cache_store = :redis_cache_store, { url: ENV.fetch('REDISCLOUD_URL', nil) }
+  config.cache_store = :redis_cache_store, {
+    url: ENV.fetch('REDISCLOUD_URL')
+  }
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
@@ -70,8 +72,8 @@ Rails.application.configure do
     address: 'smtp.gmail.com',
     port: 587,
     domain: 'happythings.com',
-    user_name: ENV.fetch('GMAIL_USERNAME', nil),
-    password: ENV.fetch('GMAIL_PASSWORD', nil),
+    user_name: ENV.fetch('GMAIL_USERNAME'),
+    password: ENV.fetch('GMAIL_PASSWORD'),
     authentication: 'plain',
     enable_starttls_auto: true
   }
