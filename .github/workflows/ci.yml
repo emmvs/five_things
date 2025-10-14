@@ -57,6 +57,15 @@ jobs:
       - name: Set up database schema
         run: bin/rails db:schema:load
 
+      - name: Check for focused specs
+        run: |
+          echo "Checking for focused specs..."
+          if grep -REn --include '*_spec.rb' '(^|\s)(fit|fdescribe|fcontext)\b|:focus\b' spec/; then
+            echo "🚫 Focused specs found! Remove 'fit', 'fdescribe', 'fcontext', or ':focus'."
+            exit 1
+          fi
+          echo "✅ No focused specs."
+
       - name: Run test suite
         run: bin/rake
 

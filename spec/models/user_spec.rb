@@ -37,7 +37,7 @@ RSpec.describe User, type: :model do
       expect(user).to be_valid
     end
 
-    it 'rejects missing uppercase' do
+    fit 'rejects missing uppercase' do
       no_uppercase = "aa1!#{SecureRandom.hex(6)}"
       user = build(:user, password: no_uppercase, password_confirmation: no_uppercase)
       expect(user).to be_invalid
