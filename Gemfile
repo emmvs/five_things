@@ -18,6 +18,10 @@ gem 'sprockets-rails' # Asset pipeline
 gem 'stimulus-rails', '~> 1.3'
 gem 'turbo-rails', '~> 2.0'
 
+# Core Ruby / Standard Library Extensions
+gem 'csv', '~> 3.3'
+gem 'observer'
+
 # Redis for caching & Action Cable
 gem 'redis', '~> 5.0'
 
@@ -29,9 +33,6 @@ gem 'sassc-rails' # Use SCSS for stylesheets
 
 # Devise for authentication
 gem 'devise', '~> 4.8'
-
-gem 'csv', '~> 3.3'
-gem 'observer'
 
 # OAauth Providers
 gem 'omniauth-google-oauth2'
