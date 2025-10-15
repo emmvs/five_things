@@ -39,7 +39,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.4.4
-          check-latest: true
           bundler-cache: true # caches gems based on Gemfile.lock
 
       - name: Install Postgres client (for pg_isready, psql)
@@ -80,7 +79,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.4.4
-          check-latest: true
           bundler-cache: true
 
       - name: Generate binstubs
