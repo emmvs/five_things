@@ -50,7 +50,7 @@ RSpec.describe 'Happy Things CRUD', type: :system do
       expect(created_happy_thing.photo.attached?).to be(true)
     end
 
-    it 'updates a happy thing' do
+    fit 'updates a happy thing' do
       expect(page).to have_content(happy_thing.title)
 
       click_link(href: edit_happy_thing_path(happy_thing), match: :first)
@@ -66,7 +66,7 @@ RSpec.describe 'Happy Things CRUD', type: :system do
       expect(page).not_to have_content(happy_thing.title)
     end
 
-    it 'destroys a happy thing' do
+    fit 'destroys a happy thing' do
       expect(page).to have_content(happy_thing.title)
 
       click_link(href: edit_happy_thing_path(happy_thing), match: :first)
