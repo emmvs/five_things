@@ -71,6 +71,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
                                   }, through: :received_friend_requests, source: :user
 
   has_one_attached :avatar
+  has_one :user_config, dependent: :destroy
 
   def self.search(query)
     where('first_name ILIKE :query OR last_name ILIKE :query OR username ILIKE :query OR email ILIKE :query',
