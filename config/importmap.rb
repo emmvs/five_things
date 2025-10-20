@@ -15,6 +15,6 @@ pin 'process', to: 'https://ga.jspm.io/npm:@jspm/core@2.0.1/nodelibs/browser/pro
 pin 'chart.js', to: 'https://ga.jspm.io/npm:chart.js@4.4.2/dist/chart.js'
 # pin "chart.js", to: "https://cdn.jsdelivr.net/npm/chart.js"
 pin '@kurkle/color', to: 'https://ga.jspm.io/npm:@kurkle/color@0.3.2/dist/color.esm.js'
-pin "tom-select", to: "https://ga.jspm.io/npm:tom-select@2.4.3/dist/esm/tom-select.complete.js"
-pin "@orchidjs/sifter", to: "https://ga.jspm.io/npm:@orchidjs/sifter@1.1.0/dist/esm/sifter.js"
-pin "@orchidjs/unicode-variants", to: "https://ga.jspm.io/npm:@orchidjs/unicode-variants@1.1.2/dist/esm/index.js"
+pin 'tom-select', to: 'https://ga.jspm.io/npm:tom-select@2.4.3/dist/esm/tom-select.complete.js'
+pin '@orchidjs/sifter', to: 'https://ga.jspm.io/npm:@orchidjs/sifter@1.1.0/dist/esm/sifter.js'
+pin '@orchidjs/unicode-variants', to: 'https://ga.jspm.io/npm:@orchidjs/unicode-variants@1.1.2/dist/esm/index.js'

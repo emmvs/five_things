@@ -4,25 +4,26 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Ruby version
-ruby '3.1.2'
+ruby '3.4.4'
 
 # Core Rails gems
 gem 'bootsnap', require: false # Reduces boot times through caching
 gem 'httparty' # For API calls
-gem 'importmap-rails', '~> 1.2.3' # Importmap support for Rails (Version for Geocoder)
-# gem 'importmap-rails'
-gem 'jbuilder'
+gem 'importmap-rails', '~> 2.0'
+gem 'jbuilder', '~> 2.13'
 gem 'pg' # PostgreSQL as the database for Active Record
-gem 'puma', '~> 5.0' # Use Puma as the app server
-gem 'rails', '~> 7.0.6'
+gem 'puma', '~> 6.4'
+gem 'rails', '~> 8.0.3'
 gem 'sprockets-rails' # Asset pipeline
-gem 'stimulus-rails' # Hotwire's Stimulus framework for Rails
-gem 'turbo-rails' # Hotwire's Turbo library for Rails
+gem 'stimulus-rails', '~> 1.3'
+gem 'turbo-rails', '~> 2.0'
 
-# Redis and Kredis for caching & Action Cable
-gem 'redis', '~> 4.0'
-gem 'redis-rails'
-# gem 'kredis'
+# Core Ruby / Standard Library Extensions
+gem 'csv', '~> 3.3'
+gem 'observer'
+
+# Redis for caching & Action Cable
+gem 'redis', '~> 5.0'
 
 # Front-end
 gem 'autoprefixer-rails' # Parses CSS and adds vendor prefixes
@@ -52,10 +53,7 @@ gem 'geocoder'
 
 # APIs & Special Gems
 gem 'moonphases'
-gem 'ruby-openai'
-
-# Action Mailer
-gem 'letter_opener'
+gem 'ostruct'
 
 # Testing suite
 group :development, :test do
@@ -67,22 +65,19 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails' # RSpec for testing
   gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
   gem 'shoulda-matchers' # Additional matchers for RSpec
 end
 
 group :development do
   gem 'annotate' # Annotate models with schema
+  gem 'brakeman' # Static analysis security vulnerability scanner for Ruby on Rails applications
+  gem 'letter_opener' # Preview emails in the browser instead of sending them
   gem 'web-console' # Rails console for the browser
-  # gem 'spring' # Speeds up development by keeping app running in the background
-  # gem 'rack-mini-profiler' # Displays speed badge for performance profiling
 end
 
 group :test do
   gem 'capybara' # Capybara for integration testing
   gem 'selenium-webdriver' # WebDriver for browsers
 end
-
-# Optional gems for specific features
-# gem 'bcrypt', '~> 3.1.7' # Use Active Model has_secure_password
-# gem 'image_processing', '~> 1.2' # Use Active Storage variants for image processing
-# gem 'tzinfo-data', platforms: %i[ mingw mswin x64_mingw jruby ] # Timezone data

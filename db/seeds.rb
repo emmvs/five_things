@@ -97,7 +97,7 @@ User.all.each do |user|
 
     count.times do
       HappyThing.create!(
-        user: user,
+        user:,
         title: Faker::Hobby.activity,
         body: Faker::Lorem.paragraph(sentence_count: 2),
         start_time: date.change(hour: rand(8..22)),

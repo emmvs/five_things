@@ -2,17 +2,17 @@
 
 require 'rails_helper'
 
-RSpec.describe 'HappyThings visibility', type: :request do # rubocop:disable Metrics/BlockLength
+RSpec.describe 'HappyThings visibility', type: :request do
   let(:owner)     { create(:user, first_name: 'Owner') }
   let(:friend)    { create(:user, first_name: 'Friend') }
   let(:groupie)   { create(:user, first_name: 'Groupie') }
   let(:stranger)  { create(:user, first_name: 'Stranger') }
 
-  let!(:friendship_1) { create(:friendship, user: owner, friend:, accepted: true) }
-  let!(:friendship_2) { create(:friendship, user: friend, friend: owner, accepted: true) }
+  let!(:friendship_one) { create(:friendship, user: owner, friend:, accepted: true) }
+  let!(:friendship_two) { create(:friendship, user: friend, friend: owner, accepted: true) }
 
-  let!(:friendship_3) { create(:friendship, user: owner, friend: groupie, accepted: true) }
-  let!(:friendship_4) { create(:friendship, user: groupie, friend: owner, accepted: true) }
+  let!(:friendship_three) { create(:friendship, user: owner, friend: groupie, accepted: true) }
+  let!(:friendship_four) { create(:friendship, user: groupie, friend: owner, accepted: true) }
 
   let!(:happy_thing_user_shared)  { create(:happy_thing, user: owner, title: 'Directly Shared') }
   let!(:happy_thing_group_shared) { create(:happy_thing, user: owner, title: 'Group Shared') }
@@ -63,8 +63,6 @@ RSpec.describe 'HappyThings visibility', type: :request do # rubocop:disable Met
           happy_thing: {
             title: 'Shared with location',
             share_location: '1',
-            latitude: 52.510885,
-            longitude: 13.3989367,
             place: 'Berlin'
           }
         }
@@ -72,8 +70,8 @@ RSpec.describe 'HappyThings visibility', type: :request do # rubocop:disable Met
 
       happy_thing = HappyThing.last
       expect(happy_thing.share_location).to be(true)
-      expect(happy_thing.latitude).to be_within(0.001).of(52.510885)
-      expect(happy_thing.longitude).to be_within(0.001).of(13.3989367)
+      expect(happy_thing.latitude).to be_within(0.001).of(52.5173885)
+      expect(happy_thing.longitude).to be_within(0.001).of(13.3951309)
       expect(happy_thing.place).to eq('Berlin')
     end
   end

@@ -1,0 +1,97 @@
+# This workflow installs Ruby, sets up Postgres, runs tests, and lints code.
+name: "My 5 Things CI"
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: five_things_test
+          POSTGRES_USER: rails
+          POSTGRES_PASSWORD: password
+        # Make the service report healthy only when ready
+        options: >-
+          --health-cmd="pg_isready -U rails -d five_things_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://rails:password@localhost:5432/five_things_test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.4
+          bundler-cache: true # caches gems based on Gemfile.lock
+
+      - name: Install Postgres client (for pg_isready, psql)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y postgresql-client
+
+      - name: Wait for Postgres
+        run: |
+          for i in {1..60}; do
+            pg_isready -h localhost -p 5432 -U rails -d five_things_test && break
+            sleep 1
+          done
+
+      - name: Set up database schema
+        run: bin/rails db:schema:load
+
+      - name: Check for focused specs
+        run: |
+          echo "Checking for focused specs..."
+          if grep -REn --include '*_spec.rb' '(^|\s)(fit|fdescribe|fcontext)\b|:focus\b' spec/; then
+            echo "🚫 Focused specs found! Remove 'fit', 'fdescribe', 'fcontext', or ':focus'"
+            exit 1
+          fi
+          echo "✅ No focused specs"
+
+      - name: Run test suite
+        run: bin/rake
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.4
+          bundler-cache: true
+
+      - name: Generate binstubs
+        run: bundle binstubs brakeman rubocop
+
+      - name: Security audit (Brakeman)
+        run: bin/brakeman -q -w2
+
+      - name: Lint Ruby (RuboCop)
+        run: >
+          bin/rubocop
+          --parallel
+          --force-exclusion
+          --format github
+          --except Style/Documentation
+          app lib config db spec Gemfile Rakefile

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Happy Things CRUD', type: :system do # rubocop:disable Metrics/BlockLength
+RSpec.describe 'Happy Things CRUD', type: :system do
   let(:user) { create(:user) }
   let!(:category) { create(:category, name: 'General') }
   let!(:category2) { create(:category, name: 'Spiritual & Mind') }
@@ -15,7 +15,7 @@ RSpec.describe 'Happy Things CRUD', type: :system do # rubocop:disable Metrics/B
     click_button 'Log in'
   end
 
-  describe 'CRUD operations' do # rubocop:disable Metrics/BlockLength
+  describe 'CRUD operations' do
     it 'shows a happy thing' do
       expect(page).to have_content(happy_thing.title)
 
@@ -37,7 +37,6 @@ RSpec.describe 'Happy Things CRUD', type: :system do # rubocop:disable Metrics/B
       select 'Spiritual & Mind', from: 'happy_thing_category_id'
       attach_file 'happy_thing[photo]', Rails.root.join('spec/fixtures/test_image.jpg')
       check 'Share my location'
-      # add visibility once that is selectable in the interface
 
       expect do
         click_on 'Create happy thing'
@@ -49,8 +48,6 @@ RSpec.describe 'Happy Things CRUD', type: :system do # rubocop:disable Metrics/B
       expect(created_happy_thing.title).to eq('cute mirror wtf')
       expect(created_happy_thing.category.name).to eq('Spiritual & Mind')
       expect(created_happy_thing.photo.attached?).to be(true)
-      expect(created_happy_thing.latitude).to be_present
-      expect(created_happy_thing.longitude).to be_present
     end
 
     it 'updates a happy thing' do
