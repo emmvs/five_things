@@ -38,7 +38,7 @@ RSpec.describe HappyThing, type: :model do
     end
   end
 
-  describe 'Callbacks' do # rubocop:disable Metrics/BlockLength
+  describe 'Callbacks' do
     let(:user) { create(:user) }
     before { ActionMailer::Base.deliveries.clear }
 
@@ -47,7 +47,7 @@ RSpec.describe HappyThing, type: :model do
       create(:friendship, user: friend, friend: user)
     end
 
-    context 'when a user adds 5 happy things in a day' do # rubocop:disable Metrics/BlockLength
+    context 'when a user adds 5 happy things in a day' do
       it 'sends an email to each of their friends that opted-in to receiving emails' do
         friends = create_list(:user, 3, email_opt_in: true)
 
@@ -134,7 +134,7 @@ RSpec.describe HappyThing, type: :model do
         expect(ActionMailer::Base.deliveries.count).to eq(1)
       end
 
-      it 'sends an email to only the friends who are able to see all 5 of them' do # rubocop:disable Metrics/BlockLength
+      it 'sends an email to only the friends who are able to see all 5 of them' do
         friend_one = create(:user, email_opt_in: true)
         friend_two = create(:user, email_opt_in: true)
         friend_three = create(:user, email_opt_in: true)

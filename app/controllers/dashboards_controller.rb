@@ -50,7 +50,7 @@ class DashboardsController < ApplicationController
     fetch_happy_things_by_time(friend_ids)
   end
 
-  def fetch_happy_things_by_time(friend_ids)
+  def fetch_happy_things_by_time(friend_ids) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     ids = with_current_user(friend_ids)
     @happy_things_today = happy_things_by_period(
       Date.today..Date.tomorrow, ids
@@ -81,7 +81,7 @@ class DashboardsController < ApplicationController
   def set_happy_things_of_today
     today = Date.today
     friend_ids = with_current_user(current_user.friends_and_friends_who_added_me_ids)
-    @happy_things_by_date = 
+    @happy_things_by_date =
       HappyThing
       .visible_to_user(current_user)
       .where(

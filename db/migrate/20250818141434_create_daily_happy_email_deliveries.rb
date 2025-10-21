@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDailyHappyEmailDeliveries < ActiveRecord::Migration[7.0]
   def change
     create_table :daily_happy_email_deliveries do |t|
