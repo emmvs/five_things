@@ -61,7 +61,7 @@ RSpec.describe 'Happy Things CRUD', type: :system do
       expect(page).to have_current_path(edit_happy_thing_path(happy_thing))
 
       fill_in 'What made you smile today?', with: 'fresh new title'
-      click_button('Update happy thing')
+      click_button('Submit Changes')
 
       expect(page).to have_content('Yay! 🎉 Happy Thing was updated 🥰')
       expect(page).to have_content('fresh new title')
