@@ -1,8 +1,11 @@
-<div class="loading-screen" data-controller="loading" >
+<div class="loading-screen" data-controller="loading " >
   <%= image_tag "five.png", class: "logo", alt: "Five Things Logo" %>
 </div>
 
-<div class="container mt-1">
+<div class="container mt-1" data-controller="install-prompt">
+  <div>
+    <%= render 'install_prompt' %>
+  </div>
   <div class="dash-box mx-2 my-3">
     <h1><%= time_based_greeting %> <%= current_user ? current_user.first_name : "Sunshine" %> <%= time_based_emoji %></h1>
     <div class="my-3">
