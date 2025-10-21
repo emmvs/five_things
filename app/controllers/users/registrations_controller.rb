@@ -1,29 +1,31 @@
 # frozen_string_literal: true
 
-class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :disable_navbar, only: %i[new]
+module Users
+  class RegistrationsController < Devise::RegistrationsController
+    before_action :disable_navbar, only: %i[new]
 
-  def update_resource(resource, _params)
-    if updating_sensitive_info?
-      resource.update_with_password(user_params)
-    else
-      resource.update_without_password(user_params.except(:current_password))
+    def update_resource(resource, _params)
+      if updating_sensitive_info?
+        resource.update_with_password(user_params)
+      else
+        resource.update_without_password(user_params.except(:current_password))
+      end
     end
-  end
 
-  def settings
-    @user = current_user
-    render 'devise/registrations/edit'
-  end
+    def settings
+      @user = current_user
+      render 'devise/registrations/edit'
+    end
 
-  private
+    private
 
-  def user_params
-    params.require(:user).permit(:first_name, :last_name, :avatar, :emoji, :email, :password, :password_confirmation,
-                                 :current_password, :email_opt_in, :location_opt_in)
-  end
+    def user_params
+      params.require(:user).permit(:first_name, :last_name, :avatar, :emoji, :email, :password, :password_confirmation,
+                                   :current_password, :email_opt_in, :location_opt_in)
+    end
 
-  def updating_sensitive_info?
-    user_params[:password].present?
+    def updating_sensitive_info?
+      user_params[:password].present?
+    end
   end
 end

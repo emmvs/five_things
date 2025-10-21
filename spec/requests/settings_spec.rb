@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Settings', type: :request do # rubocop:disable Metrics/BlockLength
+RSpec.describe 'Settings', type: :request do
   let(:user) { create(:user) }
 
   before do

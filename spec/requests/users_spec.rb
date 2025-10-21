@@ -27,7 +27,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe 'authentication' do # rubocop:disable Metrics/BlockLength
+  describe 'authentication' do
     describe 'POST /login' do
       it 'allows old users with weak passwords to log in' do
         post user_session_path, params: { user: { email: @user.email, password: '123456' } }
@@ -36,10 +36,10 @@ RSpec.describe 'Users', type: :request do
       end
     end
 
-  describe 'User sign up and email confirmation flow' do
-    it 'allows a user to sign up, confirm their email, and log in' do
-      sign_out @user
-      ActionMailer::Base.deliveries.clear
+    describe 'User sign up and email confirmation flow' do
+      it 'allows a user to sign up, confirm their email, and log in' do
+        sign_out @user
+        ActionMailer::Base.deliveries.clear
 
         post user_registration_path, params: {
           user: {
