@@ -78,7 +78,9 @@ RSpec.describe 'Happy Things CRUD', type: :system do
       expect(page).to have_button('🗑️ Delete', wait: 5)
 
       expect do
-        click_button('🗑️ Delete')
+        accept_confirm do
+          click_button('🗑️ Delete')
+        end
 
         expect(page).to have_content('Happy Thing was destroyed 😕', wait: 5)
       end.to change(HappyThing, :count).by(-1)
