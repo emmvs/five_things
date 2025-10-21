@@ -5,7 +5,6 @@ class FriendshipsController < ApplicationController
   before_action :set_friendship, only: %i[update destroy]
 
   def index
-    @should_render_navbar = true
     @users = User.all_except(current_user)
     @friendships = current_user.friendships
   end

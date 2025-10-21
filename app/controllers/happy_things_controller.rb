@@ -5,11 +5,19 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   include WordAggregator
   include UserRelated
 
-  before_action :set_happy_thing, only: %i[show edit update destroy]
+  before_action :set_happy_thing, only: %i[show]
+  before_action :set_own_happy_thing, only: %i[edit update destroy]
 
-  def index
-    @should_render_navbar = true
-    @happy_things = happy_things_of_friends.page(params[:page]).per(10)
+  # TODO: rename when this replaces current root path after transition
+  def future_root
+    @happy_thing = HappyThing.new
+    range = Time.zone.today.all_day
+    @happy_things_today = happy_things_by_period(range, user_ids)
+  end
+
+  def recent_happy_things
+    range = Time.zone.yesterday.beginning_of_day..Time.zone.today.end_of_day
+    @happy_things_of_the_last_two_days = happy_things_by_period(range, user_ids)
   end
 
   def show
@@ -50,6 +58,20 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     @markers = current_user.happy_things.geocoded.map { |ht| { lat: ht.latitude, lng: ht.longitude } }
   end
 
+  def through_the_years
+    today = Date.today
+    @happy_things_of_the_past_years = HappyThing.where(
+      'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
+      today.month, today.day, user_ids
+    ).reject { |ht| ht.start_time.year == today.year }
+  end
+
+  def calendar
+    @user_ids = user_ids
+
+    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids).order(created_at: :desc)
+  end
+
   def show_by_date
     @comment = Comment.new
     @date = begin
@@ -62,8 +84,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def setup_happy_things_for_view
-    friend_ids = current_user.friends.pluck(:id) + current_user.friends_who_added_me.pluck(:id)
-    @happy_things = HappyThing.where(user_id: friend_ids + [current_user.id], start_time: @date.all_day)
+    @happy_things = HappyThing.where(user_id: user_ids, start_time: @date.all_day)
   end
 
   def old_happy_thing
@@ -101,10 +122,11 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   private
 
   def set_happy_thing
-    friend_ids = current_user.friends_and_friends_who_added_me_ids
-    user_ids = friend_ids + [current_user.id]
-
     @happy_thing = HappyThing.where(user_id: user_ids).find(params[:id])
+  end
+
+  def set_own_happy_thing
+    @happy_thing = current_user.happy_things.find(params[:id])
   end
 
   def save_and_respond(resource)
@@ -151,20 +173,15 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     end
   end
 
-  def happy_things_of_friends # rubocop:disable Metrics/AbcSize
-    own = HappyThing.where(user_id: current_user.id)
+  def happy_things_by_period(period, friend_ids)
+    HappyThing.where(start_time: period, user_id: friend_ids).order(created_at: :desc).group_by(&:user)
+  end
 
-    shared_with_user = HappyThing.joins(:happy_thing_user_shares)
-                                 .where(happy_thing_user_shares: { friend_id: current_user.id })
-
-    shared_with_groups = HappyThing.joins(happy_thing_group_shares: { group: :group_memberships })
-                                   .where(group_memberships: { friend_id: current_user.id })
-
-    public_happy_things = HappyThing.left_joins(:happy_thing_user_shares, :happy_thing_group_shares)
-                                    .where(happy_thing_user_shares: { id: nil }, happy_thing_group_shares: { id: nil })
-
-    ids = (own.pluck(:id) + shared_with_user.pluck(:id) + shared_with_groups.pluck(:id) + public_happy_things.pluck(:id)).uniq # rubocop:disable Layout/LineLength
-
-    HappyThing.where(id: ids).order(start_time: :desc)
+  def user_ids(with_current_user: true)
+    if with_current_user
+      [current_user.id] + current_user.friends_and_friends_who_added_me_ids
+    else
+      current_user.friends_and_friends_who_added_me_ids
+    end
   end
 end

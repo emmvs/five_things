@@ -56,7 +56,8 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
                          with: PASSWORD_REGEX,
                          message: I18n.t('errors.models.user.password.invalid')
                        },
-                       on: %i[create update]
+                       confirmation: true,
+                       if: :password_required?
 
   validates :provider, presence: true, on: :oauth_linking
   validates :uid, presence: true, on: :oauth_linking
@@ -186,6 +187,10 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def self.generate_password_for_oauth
     "Oauth1!#{SecureRandom.hex(4)}"
+  end
+
+  def password_required?
+    !persisted? || !password.nil?
   end
 
   private_class_method :generate_password_for_oauth, :generate_first_name_candidates

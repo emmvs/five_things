@@ -3,9 +3,14 @@
 # UsersController for Users Page & Friend's profile
 class UsersController < ApplicationController
   helper FriendshipsHelper
+  include WordAggregator
 
   def index
     @users = fetch_users
+  end
+
+  def friends
+    @friends = fetch_users
   end
 
   def show
@@ -14,6 +19,14 @@ class UsersController < ApplicationController
     @words_for_wordcloud = words_for_wordcloud(@user)
     @visited_places_count = visited_places_count(@user)
     @markers = markers(@user)
+  end
+
+  def profile
+    fetch_happy_count
+    fetch_words_for_wordcloud
+    fetch_visited_places
+    fetch_label_count
+    @markers = current_user.happy_things.geocoded.map { |ht| { lat: ht.latitude, lng: ht.longitude } }
   end
 
   private
@@ -42,5 +55,24 @@ class UsersController < ApplicationController
     user.happy_things.geocoded.map do |ht|
       { lat: ht.latitude, lng: ht.longitude }
     end
+  end
+
+  def fetch_happy_count
+    @happy_count = HappyThing.where(user: current_user).size
+  end
+
+  def fetch_words_for_wordcloud
+    @words_for_wordcloud = WordAggregator.aggregated_words(current_user, 40, period: :year)
+    @words_for_wordcloud_month = WordAggregator.aggregated_words(current_user, 40, period: :month)
+  end
+
+  def fetch_visited_places
+    @visited_places_count = @visited_places_count = HappyThing.where(user_id: current_user.id).distinct.count(:place)
+  end
+
+  def fetch_label_count
+    return @label_counts = @happy_things.group(:category).count if @happy_things.present?
+
+    @label_counts = {}
   end
 end

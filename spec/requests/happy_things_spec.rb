@@ -75,4 +75,40 @@ RSpec.describe 'HappyThings visibility', type: :request do
       expect(happy_thing.place).to eq('Berlin')
     end
   end
+
+  describe 'GET /calendar' do
+    it 'returns a success response' do
+      sign_in owner
+      get calendar_path
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Tue')
+    end
+  end
+
+  describe 'GET /friends/happy_things' do
+    it 'returns a success response' do
+      sign_in owner
+      get friends_happy_things_path
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('What made you happy')
+    end
+  end
+
+  describe 'GET /through_the_years' do
+    it 'returns a success response' do
+      sign_in owner
+      get through_the_years_path
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Add a Happy Thing from a past year')
+    end
+  end
+
+  describe 'GET /future_root' do
+    it 'returns a success response' do
+      sign_in owner
+      get future_root_path
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('What made you smile today?')
+    end
+  end
 end
