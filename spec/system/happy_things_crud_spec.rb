@@ -75,11 +75,11 @@ RSpec.describe 'Happy Things CRUD', type: :system do
 
       expect(page).to have_selector('h1', text: 'EDIT HAPPY THING', wait: 5)
       expect(page).to have_current_path(edit_happy_thing_path(happy_thing))
-      expect(page).to have_button('🗑️ Delete', wait: 5)
+      expect(page).to have_link('🗑️ Delete', wait: 5)
 
       expect do
         accept_confirm do
-          click_button('🗑️ Delete')
+          click_link('🗑️ Delete')
         end
 
         expect(page).to have_content('Happy Thing was destroyed 😕', wait: 5)
