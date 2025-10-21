@@ -3,9 +3,11 @@
 require 'httparty'
 require 'uri'
 
+# rubocop:disable Style/ArgumentsForwarding
 class ApplicationService
   # Entry point for service objects
-  def self.call(*, &)
-    new(*, &).call
+  def self.call(*args, &)
+    new(*args, &).call
   end
 end
+# rubocop:enable Style/ArgumentsForwarding
