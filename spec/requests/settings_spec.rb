@@ -13,7 +13,7 @@ RSpec.describe 'Settings', type: :request do
       get settings_path
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Edit User')
+      expect(response.body).to include('Edit profile')
     end
   end
 
@@ -36,7 +36,7 @@ RSpec.describe 'Settings', type: :request do
                                                current_password: 'wrong password' } }
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('Edit User')
+        expect(response.body).to include('Edit profile')
         expect(response.body).to include('Current password is invalid')
       end
     end
