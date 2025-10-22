@@ -14,17 +14,17 @@ RSpec.describe 'Account Deletion', type: :system do
 
   it 'allows users to delete their account', js: true do
     expect(User.find_by(id: user.id)).to be_present
-    expect(page).to have_content('Signed in successfully.', wait: 2)
+    expect(page).to have_content('Signed in successfully.', wait: 3)
 
     find('button.navbar-toggler').click
     expect(page).to have_link(href: settings_path)
 
     click_link(href: settings_path)
 
-    expect(page).to have_link('Cancel my account', wait: 2)
+    expect(page).to have_link('Delete account', wait: 2)
 
     page.evaluate_script('window.confirm = function() { return true; }')
-    click_on 'Cancel my account'
+    click_on 'Delete account'
 
     expect(page).to have_current_path(root_path, wait: 2)
     expect(page).to have_content('Bye! Your account has been successfully cancelled. We hope to see you again soon.',

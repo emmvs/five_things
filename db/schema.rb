@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_06_18_210827) do
+ActiveRecord::Schema[7.0].define(version: 2025_09_01_152908) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -51,14 +51,24 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_18_210827) do
     t.datetime 'updated_at', null: false
   end
 
-  create_table 'comments', force: :cascade do |t|
-    t.bigint 'user_id', null: false
-    t.bigint 'happy_thing_id', null: false
-    t.text 'content'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['happy_thing_id'], name: 'index_comments_on_happy_thing_id'
-    t.index ['user_id'], name: 'index_comments_on_user_id'
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "happy_thing_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["happy_thing_id"], name: "index_comments_on_happy_thing_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "daily_happy_email_deliveries", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "recipient_id", null: false
+    t.datetime "delivered_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipient_id"], name: "index_daily_happy_email_deliveries_on_recipient_id"
+    t.index ["user_id"], name: "index_daily_happy_email_deliveries_on_user_id"
   end
 
   create_table 'friendships', force: :cascade do |t|
@@ -107,62 +117,67 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_18_210827) do
     t.index ['happy_thing_id'], name: 'index_happy_thing_user_shares_on_happy_thing_id'
   end
 
-  create_table 'happy_things', force: :cascade do |t|
-    t.string 'title', null: false
-    t.text 'body'
-    t.integer 'status'
-    t.bigint 'user_id', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.datetime 'start_time'
-    t.string 'place'
-    t.float 'latitude'
-    t.float 'longitude'
-    t.bigint 'category_id'
-    t.boolean 'share_location'
-    t.index ['category_id'], name: 'index_happy_things_on_category_id'
-    t.index ['user_id'], name: 'index_happy_things_on_user_id'
+  create_table "happy_things", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "body"
+    t.integer "status"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "start_time"
+    t.string "place"
+    t.float "latitude"
+    t.float "longitude"
+    t.bigint "category_id"
+    t.boolean "share_location"
+    t.string "visibility", default: "public"
+    t.index ["category_id"], name: "index_happy_things_on_category_id"
+    t.index ["user_id"], name: "index_happy_things_on_user_id"
+    t.index ["visibility"], name: "index_happy_things_on_visibility"
   end
 
-  create_table 'users', force: :cascade do |t|
-    t.string 'first_name'
-    t.string 'last_name'
-    t.string 'email', default: '', null: false
-    t.string 'encrypted_password', default: '', null: false
-    t.string 'reset_password_token'
-    t.datetime 'reset_password_sent_at'
-    t.datetime 'remember_created_at'
-    t.integer 'sign_in_count', default: 0, null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.string 'emoji'
-    t.boolean 'email_opt_in', default: false
-    t.boolean 'location_opt_in', default: false
-    t.string 'username'
-    t.string 'confirmation_token'
-    t.datetime 'confirmed_at'
-    t.datetime 'confirmation_sent_at'
-    t.string 'unconfirmed_email'
-    t.string 'provider'
-    t.string 'uid'
-    t.index ['confirmation_token'], name: 'index_users_on_confirmation_token', unique: true
-    t.index ['email'], name: 'index_users_on_email', unique: true
-    t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "emoji"
+    t.boolean "email_opt_in", default: false
+    t.boolean "location_opt_in", default: false
+    t.string "username"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.string "provider"
+    t.string "uid"
+    t.string "timezone", default: "UTC"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
-  add_foreign_key 'active_storage_variant_records', 'active_storage_blobs', column: 'blob_id'
-  add_foreign_key 'comments', 'happy_things'
-  add_foreign_key 'comments', 'users'
-  add_foreign_key 'friendships', 'users'
-  add_foreign_key 'friendships', 'users', column: 'friend_id'
-  add_foreign_key 'group_memberships', 'groups'
-  add_foreign_key 'group_memberships', 'users', column: 'friend_id'
-  add_foreign_key 'groups', 'users'
-  add_foreign_key 'happy_thing_group_shares', 'groups'
-  add_foreign_key 'happy_thing_group_shares', 'happy_things'
-  add_foreign_key 'happy_thing_user_shares', 'happy_things'
-  add_foreign_key 'happy_thing_user_shares', 'users', column: 'friend_id'
-  add_foreign_key 'happy_things', 'categories'
-  add_foreign_key 'happy_things', 'users'
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "happy_things"
+  add_foreign_key "comments", "users"
+  add_foreign_key "daily_happy_email_deliveries", "users"
+  add_foreign_key "daily_happy_email_deliveries", "users", column: "recipient_id"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "group_memberships", "groups"
+  add_foreign_key "group_memberships", "users", column: "friend_id"
+  add_foreign_key "groups", "users"
+  add_foreign_key "happy_thing_group_shares", "groups"
+  add_foreign_key "happy_thing_group_shares", "happy_things"
+  add_foreign_key "happy_thing_user_shares", "happy_things"
+  add_foreign_key "happy_thing_user_shares", "users", column: "friend_id"
+  add_foreign_key "happy_things", "categories"
+  add_foreign_key "happy_things", "users"
 end

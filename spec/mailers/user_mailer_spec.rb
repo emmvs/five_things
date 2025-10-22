@@ -5,14 +5,15 @@ require 'rails_helper'
 RSpec.describe UserMailer, type: :mailer do
   describe '#happy_things_notification' do
     let(:user) { create(:user, email: 'test@example.com') }
-    let(:mail) { described_class.happy_things_notification(user) }
+    let(:recipient) { create(:user, email: 'recipient@example.com') }
+    let(:mail) { described_class.happy_things_notification(user, recipient) }
 
     it 'renders the subject' do
       expect(mail.subject).to eq('Happy Things incoming!🎁')
     end
 
     it 'sends to the correct user' do
-      expect(mail.to).to eq([user.email])
+      expect(mail.to).to eq([recipient.email])
     end
 
     it 'renders the sender email' do
@@ -20,7 +21,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'includes user’s name or relevant info in body' do
-      expect(mail.body.encoded).to include(user.first_name)
+      expect(mail.body.encoded).to include(recipient.first_name)
     end
   end
 

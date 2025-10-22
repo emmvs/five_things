@@ -37,8 +37,7 @@
   <!-- Section: HappyThings List -->
   <div data-controller="insert-in-list">
     <div class="div dash-box p-4 mx-2 my-3">
-      <h3>What made you happy today?</h3>
-      <%= render 'happy_things/form', happy_thing: @happy_thing %>
+      <%= render 'happy_things/form', title: "What made you happy today?", happy_thing: @happy_thing %>
     </div>
 
     <div id="happy_things" class="m-2 mt-5"

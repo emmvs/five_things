@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import TomSelect from "tom-select"
 
-// Connects to data-controller="select"
+// Connects to data-controller="select-visibility"
 export default class extends Controller {
   static values = { options: Object }
 
@@ -13,14 +13,7 @@ export default class extends Controller {
         }
       },
       create: true,
-      persist: false,
-      onDelete: (values) => {
-        return confirm(
-          values.length > 1
-            ? `Are you sure you want to remove these ${values.length} items?`
-            : `Are you sure you want to remove "${values[0]}"?`
-        );
-      }
+      persist: false
     }
 
     const mergedOptions = {

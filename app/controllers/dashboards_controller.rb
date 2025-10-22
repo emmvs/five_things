@@ -44,11 +44,13 @@ class DashboardsController < ApplicationController
     friend_ids = current_user.friends_and_friends_who_added_me_ids
     @user_ids = [current_user.id] + friend_ids
 
-    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids).order(created_at: :desc)
+    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids)
+                                                 .visible_to_user(current_user)
+                                                 .order(created_at: :desc)
     fetch_happy_things_by_time(friend_ids)
   end
 
-  def fetch_happy_things_by_time(friend_ids)
+  def fetch_happy_things_by_time(friend_ids) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     ids = with_current_user(friend_ids)
     @happy_things_today = happy_things_by_period(
       Date.today..Date.tomorrow, ids
@@ -58,9 +60,11 @@ class DashboardsController < ApplicationController
       (Date.today - 1.days)..Date.today.end_of_day, ids
     )
 
-    @happy_things_one_year_ago = HappyThing.where(
-      'DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date, ids
-    ).group_by(&:user)
+    @happy_things_one_year_ago = HappyThing.visible_to_user(current_user)
+                                           .where(
+                                             'DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date, ids
+                                           )
+                                           .group_by(&:user)
   end
 
   def with_current_user(friend_ids)
@@ -68,15 +72,21 @@ class DashboardsController < ApplicationController
   end
 
   def happy_things_by_period(period, friend_ids)
-    HappyThing.where(start_time: period, user_id: friend_ids).order(created_at: :desc).group_by(&:user)
+    HappyThing.visible_to_user(current_user)
+              .where(start_time: period, user_id: friend_ids)
+              .order(created_at: :desc)
+              .group_by(&:user)
   end
 
   def set_happy_things_of_today
     today = Date.today
     friend_ids = with_current_user(current_user.friends_and_friends_who_added_me_ids)
-    @happy_things_by_date = HappyThing.where(
-      'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
-      today.month, today.day, friend_ids
-    )
+    @happy_things_by_date =
+      HappyThing
+      .visible_to_user(current_user)
+      .where(
+        'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
+        today.month, today.day, friend_ids
+      )
   end
 end

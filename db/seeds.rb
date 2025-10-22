@@ -17,9 +17,9 @@ EMOJIS = %w[🦊 🐝 🦙 🐳 🐼 🐧 🐨 🐰 🦄 🐯 🐥 🦩 🐺 �
 
 # --- Users ---
 users = [
-  { first_name: 'Leababy', last_name: 'Balkenhol', email: 'lea@test.com', emoji: '🦙' },
-  { first_name: 'Emmsiboom', last_name: 'Rünzel', email: 'emma@test.com', emoji: '👻' },
-  { first_name: 'Bruno-no-no', last_name: 'Thormählen', email: 'bruno@test.com', emoji: '🤗' }
+  { first_name: 'Leababy', last_name: 'Balkenhol', email: 'lea@test.com', emoji: '🦙', email_opt_in: true },
+  { first_name: 'Emmsiboom', last_name: 'Rünzel', email: 'emma@test.com', emoji: '👻', email_opt_in: true },
+  { first_name: 'Bruno-no-no', last_name: 'Thormählen', email: 'bruno@test.com', emoji: '🤗', email_opt_in: true }
 ].map do |attrs|
   User.create!(
     **attrs,
@@ -37,7 +37,8 @@ more_users = %w[Joshy Nadieschka Hansibaby Lisita Juanfairy Nomnom Santimaus Flo
     email: "#{name.downcase}@test.com",
     emoji: EMOJIS.sample,
     password: 'G1ggl3!Fluff',
-    confirmed_at: Time.current
+    confirmed_at: Time.current,
+    email_opt_in: true
   )
 end
 

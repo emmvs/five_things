@@ -1,17 +1,80 @@
 de:
   simple_form:
-    placeholders:
-      happy_thing:
-        title: Was hat dich heute zum Lächeln gebracht?
-    labels:
-      happy_thing:
-        title: Name
+    users:
+      edit:
+        placeholders:
+          first_name: Vorname
+          emoji: Emoji
+          email: E-Mail
+          password: Neues Passwort
+          password_confirmation: Neues Passwort bestätigen
+          current_password: Aktuelles Passwort zur Bestätigung der Änderungen
+        labels:
+          avatar: Avatar ändern
+          edit_profile: Profil bearbeiten
+          submit_changes: Änderungen speichern
+          delete_account: Account löschen
+          waiting_confirmation: Warte derzeit auf Bestätigung für
+          email_opt_in: Ich möchte E-Mails über die glücklichen Momente meiner Freunde erhalten!
+        confirm_prompt:
+          delete_confirm: Bist du sicher, dass du deinen Account löschen möchtest? (Das kann nicht rückgängig gemacht werden)
+        titles:
+          edit_profile: Profil bearbeiten
+      new:
+        placeholders:
+          password: Passwort
+          password_confirmation: Passwort bestätigen
+        labels:
+          avatar: Avatar
+          email_opt_in: Ich möchte E-Mails über die glücklichen Momente meiner Freunde erhalten!
+          location_opt_in: Ich stimme der Erfassung meiner Standortdaten zum Erstellen von glücklichen Momenten zu.
+        hints:
+          password: |
+            Das Passwort muss:
+            • mindestens 8 Zeichen lang sein
+            • einen Großbuchstaben enthalten
+            • einen Kleinbuchstaben enthalten
+            • eine Zahl enthalten
+            • ein Sonderzeichen enthalten
+      login:
+        placeholders:
+          password: Passwort
+        titles:
+          welcome: Willkommen zurück, kleiner Mensch!
+    happy_things:
+      new:
+        submit:
+          submit: Glücklichen Moment erstellen
+        placeholders:
+          title: Was hat dich heute zum Lächeln gebracht?
+          place: Ort
+        prompts:
+          category: Kategorie auswählen
+          shared_with: Alle Freunde, sofern nicht anders angegeben
+        labels:
+          photo: Foto hochladen
+          share_location: Meinen Standort für diesen glücklichen Moment speichern
+          shared_with: Wer soll das sehen?
+        titles:
+          form_title: Neuer glücklicher Moment
+      edit:
+        submit:
+          submit: Änderungen speichern
+        placeholders:
+          place: Ort
+        confirm_prompt:
+          delete_confirm: Bist du sicher, dass du diesen glücklichen Moment löschen möchtest?
+        titles:
+          form_title: Glücklichen Moment bearbeiten
 
-  helpers:
-    submit:
-      happy_thing:
-        create: Glücklichen Moment erstellen
-        update: Glücklichen Moment aktualisieren
+  mailers:
+    user_mailer:
+      happy_email:
+        greeting: "Hey %{name}! %{emoji}"
+        body_one: "Einer deiner Freunde hat heute gerade <strong>5 glückliche Momente</strong> hinzugefügt. Das ist eine ganze Menge Glück! 🥳"
+        body_two: "Möchtest du sehen, was sie zum Lächeln gebracht hat? Schau auf deinem Dashboard vorbei und genieße die guten Vibes."
+        link_text: "Dashboard ansehen"
+        signature: "Teile die Liebe 🫶🏻<br>— Dein 5 Things Team"
 
   errors:
     models:
