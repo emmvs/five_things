@@ -63,16 +63,21 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def through_the_years
     today = Date.today
-    @happy_things_of_the_past_years = HappyThing.where(
-      'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
-      today.month, today.day, user_ids
-    ).reject { |ht| ht.start_time.year == today.year }
+    @happy_things_of_the_past_years =
+      HappyThing.visible_to_user(current_user)
+                .where(
+                  'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
+                  today.month, today.day, user_ids
+                )
+                .reject { |ht| ht.start_time.year == today.year }
   end
 
   def calendar
     @user_ids = user_ids
 
-    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids).order(created_at: :desc)
+    @happy_things_of_you_and_friends = HappyThing.visible_to_user(current_user)
+                                                 .where(user_id: @user_ids)
+                                                 .order(created_at: :desc)
   end
 
   def show_by_date
@@ -127,11 +132,14 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   private
 
   def set_happy_thing
-    @happy_thing = HappyThing.visible_to_user(current_user).find(params[:id])
+    @happy_thing = HappyThing.visible_to_user(current_user)
+                             .find(params[:id])
   end
 
   def set_own_happy_thing
-    @happy_thing = current_user.happy_things.find(params[:id])
+    @happy_thing = current_user.happy_things
+                               .visible_to_user(current_user)
+                               .find(params[:id])
   end
 
   def save_and_respond(resource)
@@ -164,7 +172,8 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def happy_things_by_period(period, friend_ids)
-    HappyThing.where(start_time: period, user_id: friend_ids)
+    HappyThing.visible_to_user(current_user)
+              .where(start_time: period, user_id: friend_ids)
               .order(created_at: :desc)
               .group_by(&:user)
   end
