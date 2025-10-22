@@ -140,7 +140,8 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
         first_name: extract_first_name(auth.info.name, auth.info.email),
         provider: auth.provider,
         uid: auth.uid,
-        password: generate_password_for_oauth
+        password: generate_password_for_oauth,
+        email_opt_in: true
       )
       user.skip_confirmation!
       user.save!
