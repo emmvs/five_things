@@ -138,7 +138,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def set_own_happy_thing
     @happy_thing = current_user.happy_things
-                               .visible_to_user(current_user)
                                .find(params[:id])
   end
 
