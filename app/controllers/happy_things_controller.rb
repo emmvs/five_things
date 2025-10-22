@@ -12,7 +12,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def future_root
     @happy_thing = HappyThing.new
     range = Time.zone.today.all_day
-    @happy_things_today = happy_things_by_period(range, user_ids)
+    @happy_things_today = happy_things_by_period(range, [current_user.id])
   end
 
   def recent_happy_things
@@ -164,7 +164,9 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def happy_things_by_period(period, friend_ids)
-    HappyThing.where(start_time: period, user_id: friend_ids).order(created_at: :desc).group_by(&:user)
+    HappyThing.where(start_time: period, user_id: friend_ids)
+              .order(created_at: :desc)
+              .group_by(&:user)
   end
 
   def user_ids(with_current_user: true)
