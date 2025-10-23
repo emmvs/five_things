@@ -203,9 +203,5 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     !persisted? || !password.nil?
   end
 
-  def password_required?
-    !persisted? || !password.nil?
-  end
-
   private_class_method :generate_password_for_oauth, :generate_first_name_candidates
 end
