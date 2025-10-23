@@ -17,6 +17,5 @@ else
   echo ""
   echo "📱 Open this URL on your phone to test!"
   echo ""
-  echo "💡 Tip: The URL will change each time you restart ngrok."
-  echo "    (Unless you have a paid ngrok account with a reserved domain)"
+  echo "💡 PS: The URL will change each time you restart ngrok."
 fi
