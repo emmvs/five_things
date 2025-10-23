@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+# Get the ngrok public URL
+echo "Fetching your ngrok URL..."
+echo ""
+
+# Query the ngrok API for the public URL
+URL=$(curl -s http://localhost:4040/api/tunnels | grep -o '"public_url":"https://[^"]*' | grep -o 'https://[^"]*' | head -1)
+
+if [ -z "$URL" ]; then
+  echo "❌ Could not find ngrok URL."
+  echo "Make sure ngrok is running (start with: bin/dev)"
+else
+  echo "✅ Your ngrok URL is:"
+  echo ""
+  echo "   $URL"
+  echo ""
+  echo "📱 Open this URL on your phone to test!"
+  echo ""
+  echo "💡 Tip: The URL will change each time you restart ngrok."
+  echo "    (Unless you have a paid ngrok account with a reserved domain)"
+fi

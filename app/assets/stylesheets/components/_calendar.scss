@@ -1,7 +1,8 @@
 .simple-calendar {
   border-radius: $border-radius;
   overflow: hidden;
-  width: 350px !important;
+  width: 100% !important;
+  max-width: 350px;
 
 
   .calendar-heading {
