@@ -60,10 +60,17 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def through_the_years
     today = Date.today
-    @happy_things_of_the_past_years = HappyThing.where(
+
+    happy_things_past = HappyThing.where(
       'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
       today.month, today.day, user_ids
-    ).reject { |ht| ht.start_time.year == today.year }
+    )
+
+    @happy_things_of_the_past_years = happy_things_past
+                                      .group_by { |happy_thing| happy_thing.start_time.year }
+                                      .reject { |year, _| year == today.year }
+                                      .sort.reverse.to_h
+                                      .transform_values { |year_happy_things| year_happy_things.group_by(&:user) }
   end
 
   def calendar
