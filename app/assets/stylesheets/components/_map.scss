@@ -5,14 +5,13 @@
  margin: 5px auto;
  padding: 10px; /* Example padding, adjust using $space-xs if needed */
 
- /* Default to smaller size - responsive on mobile */
- width: 100% !important;
- max-width: 340px;
+ /* Default to smaller size */
+ width: 340px !important;
  height: 300px;
 
  /* Larger devices */
  @media (min-width: 768px) {
-   max-width: 100%;
+   width: 100% !important;
    height: 90vh;
  }
 }

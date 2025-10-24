@@ -17,5 +17,5 @@ else
   echo ""
   echo "📱 Open this URL on your phone to test!"
   echo ""
-  echo "💡 PS: The URL will change each time you restart ngrok."
+  echo "✉️ PS: The URL will change each time you restart ngrok."
 fi
