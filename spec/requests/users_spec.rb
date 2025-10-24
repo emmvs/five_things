@@ -26,10 +26,11 @@ RSpec.describe 'Users', type: :request do
 
       it 'shows the profile of a friend' do
         friend = create(:user)
-        @current_user.friends << friend
+        create(:friendship, user: @current_user, friend:)
+        create(:friendship, user: friend, friend: @current_user)
         get "/users/#{friend.id}"
         expect(response).to have_http_status(:success)
-      end
+      end 
     end
   end
 
