@@ -18,7 +18,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   </head>
 
-  <body data-controller="notification service-worker" data-notification-target="notification">
+  <body 
+    data-controller="notification service-worker timezone" 
+    data-notification-target="notification"
+    data-timezone-user-id-value="<%= current_user&.id || '0' %>" 
+  >
+
     <%= render partial: 'layouts/navbar' if render_navbar?  %>
     <%= yield %>
     <%= render partial: 'layouts/alerts'  %>

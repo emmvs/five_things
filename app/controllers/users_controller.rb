@@ -21,6 +21,14 @@ class UsersController < ApplicationController
     @markers = markers(@user)
   end
 
+  def update_timezone
+    if current_user.update_column(:timezone, params[:timezone])
+      render json: { status: 'success' }
+    else
+      render json: { status: 'error updating timezone' }, status: :unprocessable_entity
+    end
+  end
+
   def profile
     fetch_happy_count
     fetch_words_for_wordcloud
