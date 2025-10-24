@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe 'Dashboards', type: :request do # rubocop:disable Metrics/BlockLength
+RSpec.describe 'Dashboards', type: :request do
   let(:user) { create(:user) }
 
   before do
     sign_in user
   end
 
-  describe 'GET /' do # rubocop:disable Metrics/BlockLength
+  describe 'GET /' do
     it 'orders happy things by time of occurrence over time of creation' do
       today_thing = create(:happy_thing,
                            title: 'Today thing',
