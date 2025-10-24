@@ -30,8 +30,6 @@ class ApplicationController < ActionController::Base
     @render_navbar = false
   end
 
-  private
-
   def set_timezone
     Time.zone = current_user.timezone if current_user
   end
