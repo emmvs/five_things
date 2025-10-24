@@ -5,12 +5,11 @@
 
     <div>
       <% if @happy_things_of_the_past_years.any? %>
-        <% @happy_things_of_the_past_years.group_by { |ht| ht.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
-          <% next if year == current_year %>
+        <% @happy_things_of_the_past_years.each_with_index do |(year, year_happy_things), index| %>
 
           <div class="p-2" style="border-radius: 0.375rem; background-color: <%= index.even? ? '#f8f9fa' : '#f1f3f5'; %>;">
             <h3><%= year %></h3>
-            <% year_happy_things.group_by(&:user).each do |user, happy_things| %>
+            <% year_happy_things.each do |user, happy_things| %>
               <div class="dash-box mb-4">
                 <h5><%= user.emoji %> <%= user.first_name %></h5>
                 <ol>
