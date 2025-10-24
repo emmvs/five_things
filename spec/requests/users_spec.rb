@@ -30,7 +30,7 @@ RSpec.describe 'Users', type: :request do
         create(:friendship, user: friend, friend: @current_user)
         get "/users/#{friend.id}"
         expect(response).to have_http_status(:success)
-      end 
+      end
     end
   end
 
