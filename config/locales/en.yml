@@ -22,3 +22,19 @@ en:
         password:
           length: "must be between 12 and 30 characters long"
           invalid: "must include at least one uppercase, one lowercase, one number, and one special character, and cannot contain spaces"
+
+  friendships:
+    created: "Friend request sent. 👻"
+    create_failed: "Unable to send friend request. 🤔"
+    accepted: "Friend request accepted. 🫱🏻‍🫲🏾"
+    accept_failed: "Unable to accept friend request. 🙈"
+    destroyed: "Friendship removed. 😭"
+
+  friends:
+    page_title: "Add or Search Friends"
+    search_placeholder: "Search for names, usernames, or emails"
+    my_friends: "My Friends"
+    pending_sent: "Pending Requests You Sent"
+    pending_received: "Friend Requests You Received"
+    users: "Users"
+    no_results: "No users found matching"

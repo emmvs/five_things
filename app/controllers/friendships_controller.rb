@@ -12,25 +12,25 @@ class FriendshipsController < ApplicationController
   def create
     @friendship = current_user.friendships.build(friend_id: params[:friend_id])
     flash[:notice] = if @friendship.save
-                       'Friend request sent. 👻'
+                       t('friendships.created')
                      else
-                       'Unable to send friend request. 🤔'
+                       t('friendships.create_failed')
                      end
     redirect_to users_path
   end
 
   def update
     flash[:notice] = if @friendship.update(accepted: true)
-                       'Friend request accepted. 🫱🏻‍🫲🏾'
+                       t('friendships.accepted')
                      else
-                       'Unable to accept friend request. 🙈'
+                       t('friendships.accept_failed')
                      end
     redirect_to users_path
   end
 
   def destroy
     @friendship.destroy
-    flash[:notice] = 'Friendship removed. 😭'
+    flash[:notice] = t('friendships.destroyed')
     redirect_to friends_path
   end
 

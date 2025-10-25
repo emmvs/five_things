@@ -1,21 +1,22 @@
-<div class="container mb-3">
-  <h2 class="mt-2">Add or Search Friends</h2>
+<div class="container my-4">
+  <h2><%= t('friends.page_title') %></h2>
 
   <!-- Search Form -->
-  <%= form_with(url: friends_path, method: :get, local: true, class: 'form-inline mb-3') do %>
-    <div class="form-group d-flex align-items-center" style="min-height: 90px;">
-      <%= text_field_tag :query, params[:query],
-        placeholder: "Search for names, usernames, or emails",
-        class: "form-control w-100 mr-2",
-        style: "height: 50px;" %>
-      <%= submit_tag "🔍", class: "btn button--primary", style: "width: 50px; height: 50px; padding: 0; font-size: 1.25rem;" %>
+  <%= form_with url: friends_path, method: :get, local: true, class: "mb-4" do |form| %>
+    <div class="input-group">
+      <%= form.text_field :query, 
+                          class: "form-control", 
+                          placeholder: t('friends.search_placeholder'), 
+                          value: params[:query] %>
+      <%= form.submit "Search", class: "btn btn-primary" %>
     </div>
   <% end %>
 
-  <!-- Current User's Friendlist -->
-  <% friends_list = params[:query].present? ? current_user.all_friends.select { |f| f.first_name.downcase.include?(params[:query].downcase) || f.last_name.downcase.include?(params[:query].downcase) || f.email.downcase.include?(params[:query].downcase) || (f.username.present? && f.username.downcase.include?(params[:query].downcase)) } : current_user.all_friends %>
+    <!-- Current User's Friendlist -->
+  <% friends_list = params[:query].present? ? @friends.select { |user| user.first_name&.downcase&.include?(params[:query].downcase) || user.last_name&.downcase&.include?(params[:query].downcase) || user.username&.downcase&.include?(params[:query].downcase) || user.email&.downcase&.include?(params[:query].downcase) } : @friends %>
   <% if friends_list.any? %>
-    <h2 class="mt-3">My Friends</h2>
+    <h2 class="mt-4"><%= t('friends.my_friends') %></h2>
+
     <% friends_list.each do |friend| %>
       <%= link_to user_path(friend), class: "text-decoration-none" do %>
         <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center gap-3" style="min-height: 90px;">
@@ -40,10 +41,11 @@
     <% end %>
   <% end %>
 
-  <!-- Outgoing Pending Requests -->
-  <% pending_sent = params[:query].present? ? current_user.friendships.pending.select { |fs| fs.friend.first_name.downcase.include?(params[:query].downcase) || fs.friend.last_name.downcase.include?(params[:query].downcase) || fs.friend.email.downcase.include?(params[:query].downcase) || (fs.friend.username.present? && fs.friend.username.downcase.include?(params[:query].downcase)) } : current_user.friendships.pending %>
-  <% if pending_sent.any? %>
-    <h2 class="mt-3">Pending Requests You Sent</h2>
+    <!-- Outgoing Pending Requests -->
+  <% pending_requests = params[:query].present? ? @pending_requests.select { |user| user.first_name&.downcase&.include?(params[:query].downcase) || user.last_name&.downcase&.include?(params[:query].downcase) || user.username&.downcase&.include?(params[:query].downcase) || user.email&.downcase&.include?(params[:query].downcase) } : @pending_requests %>
+  <% if pending_requests.any? %>
+    <h2 class="mt-4"><%= t('friends.pending_sent') %></h2>
+
   <% pending_sent.each do |friendship| %>
     <% friend = friendship.friend %>
     <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center justify-content-between" style="min-height: 90px;">
@@ -71,9 +73,9 @@
   <% end %>
 
   <!-- Incoming Pending Requests -->
-  <% pending_received = params[:query].present? ? current_user.received_friend_requests.pending.select { |fs| fs.user.first_name.downcase.include?(params[:query].downcase) || fs.user.last_name.downcase.include?(params[:query].downcase) || fs.user.email.downcase.include?(params[:query].downcase) || (fs.user.username.present? && fs.user.username.downcase.include?(params[:query].downcase)) } : current_user.received_friend_requests.pending %>
-  <% if pending_received.any? %>
-    <h2 class="mt-3">Friend Requests You Received</h2>
+  <% friend_requests = params[:query].present? ? @friend_requests.select { |user| user.first_name&.downcase&.include?(params[:query].downcase) || user.last_name&.downcase&.include?(params[:query].downcase) || user.username&.downcase&.include?(params[:query].downcase) || user.email&.downcase&.include?(params[:query].downcase) } : @friend_requests %>
+  <% if friend_requests.any? %>
+    <h2 class="mt-4"><%= t('friends.pending_received') %></h2>
   <% pending_received.each do |friendship| %>
     <% friend = friendship.user %>
     <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center justify-content-between" style="min-height: 90px;">
@@ -109,7 +111,7 @@
   <div class="cards-friends">
     <% filtered_users = @friends.select { |user| can_add_as_friend?(current_user, user) && user != current_user && !current_user.friends.include?(user) } %>
     <% if filtered_users.any? %>
-      <h2 class="mt-3">Users</h2>
+      <h2 class="mt-3"><%= t('friends.users') %></h2>
       <% filtered_users.each do |user| %>
         <% direct_friendship = current_user.friendships.find { |f| f.friend_id == user.id } %>
         <% inverse_friendship = user.friendships.find { |f| f.user_id == current_user.id } %>
@@ -149,10 +151,11 @@
     <% end %>
   </div>
 
-  <!-- No Results Message -->
-  <% if params[:query].present? && friends_list.empty? && pending_sent.empty? && pending_received.empty? && filtered_users.empty? %>
-    <div class="text-center mt-5">
-      <p class="text-muted">No users found matching "<strong><%= params[:query] %></strong>"</p>
-    </div>
+    <!-- No Results Message -->
+  <% if params[:query].present? && friends_list.empty? && pending_requests.empty? && friend_requests.empty? && filtered_users.empty? %>
+    <p class="text-muted text-center mt-4">
+      <%= t('friends.no_results') %> "<strong><%= params[:query] %></strong>"
+    </p>
   <% end %>
+
 </div>
