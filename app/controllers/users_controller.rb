@@ -10,7 +10,10 @@ class UsersController < ApplicationController
   end
 
   def friends
-    @friends = fetch_users
+    @friends = current_user.all_friends
+    @pending_requests = current_user.friendships.pending.map(&:friend)
+    @friend_requests = current_user.received_friend_requests.pending.map(&:user)
+    @users = fetch_users
   end
 
   def show

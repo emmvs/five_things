@@ -2,13 +2,13 @@
   <h2><%= t('friends.page_title') %></h2>
 
   <!-- Search Form -->
-  <%= form_with url: friends_path, method: :get, local: true, class: "mb-4" do |form| %>
-    <div class="input-group">
-      <%= form.text_field :query, 
-                          class: "form-control", 
-                          placeholder: t('friends.search_placeholder'), 
-                          value: params[:query] %>
-      <%= form.submit "Search", class: "btn btn-primary" %>
+  <%= form_with(url: friends_path, method: :get, local: true, class: 'form-inline mb-3') do %>
+    <div class="form-group d-flex align-items-center">
+      <%= text_field_tag :query, params[:query],
+        placeholder: t('friends.search_placeholder'),
+        class: "form-control w-100 mr-2",
+        style: "height: 50px;" %>
+      <%= submit_tag "🔍", class: "btn button--primary", style: "width: 50px; height: 50px; padding: 0; font-size: 1.25rem;" %>
     </div>
   <% end %>
 
@@ -46,8 +46,7 @@
   <% if pending_requests.any? %>
     <h2 class="mt-4"><%= t('friends.pending_sent') %></h2>
 
-  <% pending_sent.each do |friendship| %>
-    <% friend = friendship.friend %>
+  <% pending_requests.each do |friend| %>
     <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center justify-content-between" style="min-height: 90px;">
       <%= link_to user_path(friend), class: "text-decoration-none d-flex align-items-center gap-3" do %>
         <% if friend.emoji.present? %>
@@ -67,6 +66,7 @@
         <% end %>
         <h4 class="m-0"><%= friend.first_name %></h4>
       <% end %>
+      <% friendship = current_user.friendships.find_by(friend_id: friend.id) %>
       <%= button_to "X", friendship_path(friendship), method: :delete, class: "btn button--primary", style: "width: 50px; height: 50px; padding: 0; font-size: 1.25rem;" %>
     </div>
   <% end %>
@@ -76,8 +76,7 @@
   <% friend_requests = params[:query].present? ? @friend_requests.select { |user| user.first_name&.downcase&.include?(params[:query].downcase) || user.last_name&.downcase&.include?(params[:query].downcase) || user.username&.downcase&.include?(params[:query].downcase) || user.email&.downcase&.include?(params[:query].downcase) } : @friend_requests %>
   <% if friend_requests.any? %>
     <h2 class="mt-4"><%= t('friends.pending_received') %></h2>
-  <% pending_received.each do |friendship| %>
-    <% friend = friendship.user %>
+  <% friend_requests.each do |friend| %>
     <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center justify-content-between" style="min-height: 90px;">
       <%= link_to user_path(friend), class: "text-decoration-none d-flex align-items-center gap-3" do %>
         <% if friend.emoji.present? %>
@@ -97,6 +96,7 @@
         <% end %>
         <h4 class="m-0"><%= friend.first_name %></h4>
       <% end %>
+      <% friendship = current_user.received_friend_requests.find_by(user_id: friend.id) %>
       <%= button_to "✓",
             friendship_path(friendship),
             method: :patch,

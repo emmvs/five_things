@@ -10,13 +10,6 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'CRUD operations' do
-    describe 'GET /index' do
-      it 'returns http success' do
-        get '/friends'
-        expect(response).to have_http_status(:success)
-      end
-    end
-
     describe 'GET /show' do
       it 'returns http success' do
         user = create(:user)
@@ -101,7 +94,7 @@ RSpec.describe 'Users', type: :request do
     it 'returns http success' do
       get friends_path
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Add or Search Friends')
+      expect(response.body).to include(I18n.t('friends.page_title'))
     end
   end
 
