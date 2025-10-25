@@ -55,7 +55,10 @@ RSpec.describe 'Happy Things CRUD', type: :system do
     it 'updates a happy thing' do
       expect(page).to have_content(happy_thing.title, wait: 5)
 
-      click_link(href: edit_happy_thing_path(happy_thing), match: :first)
+      click_link(href: happy_thing_path(happy_thing), match: :first)
+
+      expect(page).to have_link(href: edit_happy_thing_path(happy_thing))
+      click_link(href: edit_happy_thing_path(happy_thing))
 
       expect(page).to have_selector('h1', text: 'EDIT HAPPY THING', wait: 5)
       expect(page).to have_current_path(edit_happy_thing_path(happy_thing))
@@ -71,7 +74,10 @@ RSpec.describe 'Happy Things CRUD', type: :system do
     it 'destroys a happy thing' do
       expect(page).to have_content(happy_thing.title, wait: 5)
 
-      click_link(href: edit_happy_thing_path(happy_thing), match: :first)
+      click_link(href: happy_thing_path(happy_thing), match: :first)
+
+      expect(page).to have_link(href: edit_happy_thing_path(happy_thing))
+      click_link(href: edit_happy_thing_path(happy_thing))
 
       expect(page).to have_selector('h1', text: 'EDIT HAPPY THING', wait: 5)
       expect(page).to have_current_path(edit_happy_thing_path(happy_thing))

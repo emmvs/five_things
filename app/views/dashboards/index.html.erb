@@ -24,7 +24,7 @@
   <div class="dash-box mx-2 my-3">
     <h3>What made you happy</h3>
     <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
-      <h5><%= user.emoji %> <%= user.first_name %></h5>
+      <h5 class="mt-3"><%= user.emoji %> <%= user.first_name %></h5>
       <% happy_things.each do |happy_thing| %>
         <%= render 'happy_things/happy_thing', happy_thing: happy_thing %>
       <% end %>
