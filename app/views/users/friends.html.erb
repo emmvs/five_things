@@ -1,121 +1,158 @@
-<div class="container my-3">
-  <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary mb-3" %>
+<div class="container mb-3">
   <h2 class="mt-2">Add or Search Friends</h2>
 
   <!-- Search Form -->
-  <%= form_with(url: users_path, method: :get, local: true, class: 'form-inline mb-3') do %>
-    <div class="form-group d-flex align-items-center">
+  <%= form_with(url: friends_path, method: :get, local: true, class: 'form-inline mb-3') do %>
+    <div class="form-group d-flex align-items-center" style="min-height: 90px;">
       <%= text_field_tag :query, params[:query],
         placeholder: "Search for names, usernames, or emails",
-        class: "form-control w-100 mr-2" %>
-      <%= submit_tag "🔍", class: "btn button--primary" %>
+        class: "form-control w-100 mr-2",
+        style: "height: 50px;" %>
+      <%= submit_tag "🔍", class: "btn button--primary", style: "width: 50px; height: 50px; padding: 0; font-size: 1.25rem;" %>
     </div>
   <% end %>
 
   <!-- Current User's Friendlist -->
-  <h2 class="mt-3">My Friends</h2>
-  <% current_user.all_friends.each do |friend| %>
-    <%= link_to user_path(friend), class: "text-decoration-none" do %>
-      <div class="card w-100 p-2 my-3">
-        <%= cl_image_tag friend.avatar.key,
-          class: "w-100 h-100 pb-3",
-          alt: "Friend Avatar",
-          transformation: [
-            { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-            { radius: :max }
-          ] unless friend.avatar.key.nil? %>
-        <h4><%= friend.first_name %></h4>
-      </div>
+  <% friends_list = params[:query].present? ? current_user.all_friends.select { |f| f.first_name.downcase.include?(params[:query].downcase) || f.last_name.downcase.include?(params[:query].downcase) || f.email.downcase.include?(params[:query].downcase) || (f.username.present? && f.username.downcase.include?(params[:query].downcase)) } : current_user.all_friends %>
+  <% if friends_list.any? %>
+    <h2 class="mt-3">My Friends</h2>
+    <% friends_list.each do |friend| %>
+      <%= link_to user_path(friend), class: "text-decoration-none" do %>
+        <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center gap-3" style="min-height: 90px;">
+          <% if friend.emoji.present? %>
+            <div class="d-flex align-items-center justify-content-center"
+                 style="width: 60px; height: 60px; flex-shrink: 0; font-size: 2.5rem;">
+              <%= friend.emoji %>
+            </div>
+          <% elsif friend.avatar.key.present? %>
+            <%= cl_image_tag friend.avatar.key,
+              class: "rounded-circle",
+              style: "width: 60px; height: 60px; object-fit: cover; flex-shrink: 0;",
+              alt: "Friend Avatar",
+              transformation: [
+                { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+                { radius: :max }
+              ] %>
+          <% end %>
+          <h4 class="m-0"><%= friend.first_name %></h4>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 
   <!-- Outgoing Pending Requests -->
-  <h2 class="mt-3">Pending Requests You Sent</h2>
-  <% current_user.friendships.pending.each do |friendship| %>
+  <% pending_sent = params[:query].present? ? current_user.friendships.pending.select { |fs| fs.friend.first_name.downcase.include?(params[:query].downcase) || fs.friend.last_name.downcase.include?(params[:query].downcase) || fs.friend.email.downcase.include?(params[:query].downcase) || (fs.friend.username.present? && fs.friend.username.downcase.include?(params[:query].downcase)) } : current_user.friendships.pending %>
+  <% if pending_sent.any? %>
+    <h2 class="mt-3">Pending Requests You Sent</h2>
+  <% pending_sent.each do |friendship| %>
     <% friend = friendship.friend %>
-    <%= link_to user_path(friend), class: "text-decoration-none"  do %>
-      <div class="card w-100 p-2 my-3">
-        <%= cl_image_tag friend.avatar.key,
-          style: "width: 50px; height: 100%;",
-          class: "pb-3",
-          alt: "Friend Avatar",
-          transformation: [
-            { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-            { radius: :max }
-          ] unless friend.avatar.key.nil? %>
-        <h4><%= friend.first_name %></h4>
-        <%= button_to "⤬ Cancel", friendship_path(friendship), method: :delete, class: "btn button--primary" %>
-      </div>
-    <% end %>
+    <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center justify-content-between" style="min-height: 90px;">
+      <%= link_to user_path(friend), class: "text-decoration-none d-flex align-items-center gap-3" do %>
+        <% if friend.emoji.present? %>
+          <div class="d-flex align-items-center justify-content-center"
+               style="width: 60px; height: 60px; flex-shrink: 0; font-size: 2.5rem;">
+            <%= friend.emoji %>
+          </div>
+        <% elsif friend.avatar.key.present? %>
+          <%= cl_image_tag friend.avatar.key,
+            class: "rounded-circle",
+            style: "width: 60px; height: 60px; object-fit: cover; flex-shrink: 0;",
+            alt: "Friend Avatar",
+            transformation: [
+              { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+              { radius: :max }
+            ] %>
+        <% end %>
+        <h4 class="m-0"><%= friend.first_name %></h4>
+      <% end %>
+      <%= button_to "X", friendship_path(friendship), method: :delete, class: "btn button--primary", style: "width: 50px; height: 50px; padding: 0; font-size: 1.25rem;" %>
+    </div>
+  <% end %>
   <% end %>
 
   <!-- Incoming Pending Requests -->
-  <h2 class="mt-3">Friend Requests You Received</h2>
-  <% current_user.received_friend_requests.pending.each do |friendship| %>
+  <% pending_received = params[:query].present? ? current_user.received_friend_requests.pending.select { |fs| fs.user.first_name.downcase.include?(params[:query].downcase) || fs.user.last_name.downcase.include?(params[:query].downcase) || fs.user.email.downcase.include?(params[:query].downcase) || (fs.user.username.present? && fs.user.username.downcase.include?(params[:query].downcase)) } : current_user.received_friend_requests.pending %>
+  <% if pending_received.any? %>
+    <h2 class="mt-3">Friend Requests You Received</h2>
+  <% pending_received.each do |friendship| %>
     <% friend = friendship.user %>
-
-    <div class="card w-100 p-2 my-3 d-flex align-items-center justify-content-between">
-      <div class="d-flex align-items-center gap-3">
-        <%= link_to user_path(friend), class: "text-decoration-none d-inline-flex align-items-center" do %>
+    <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center justify-content-between" style="min-height: 90px;">
+      <%= link_to user_path(friend), class: "text-decoration-none d-flex align-items-center gap-3" do %>
+        <% if friend.emoji.present? %>
+          <div class="d-flex align-items-center justify-content-center"
+               style="width: 60px; height: 60px; flex-shrink: 0; font-size: 2.5rem;">
+            <%= friend.emoji %>
+          </div>
+        <% elsif friend.avatar.key.present? %>
           <%= cl_image_tag friend.avatar.key,
-                style: "width: 50px; height: 50px;",
-                class: "me-2 rounded-circle",
-                alt: "Friend Avatar",
-                transformation: [
-                  { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-                  { radius: :max }
-                ] unless friend.avatar.key.nil? %>
-          <h4 class="m-0"><%= friend.first_name %></h4>
+            class: "rounded-circle",
+            style: "width: 60px; height: 60px; object-fit: cover; flex-shrink: 0;",
+            alt: "Friend Avatar",
+            transformation: [
+              { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+              { radius: :max }
+            ] %>
         <% end %>
-      </div>
-
-      <div>
-        <%= button_to "✅ Accept",
-              friendship_path(friendship),
-              method: :patch,
-              data: { turbo: false },
-              class: "btn button--primary mt-2 position-relative" %>
-      </div>
+        <h4 class="m-0"><%= friend.first_name %></h4>
+      <% end %>
+      <%= button_to "✓",
+            friendship_path(friendship),
+            method: :patch,
+            data: { turbo: false },
+            class: "btn button--primary",
+            style: "width: 50px; height: 50px; padding: 0; font-size: 1.25rem;" %>
     </div>
+  <% end %>
   <% end %>
 
   <!-- All Users -->
   <div class="cards-friends">
-    <h2 class="mt-3">Users</h2>
-    <% @friends.each do |friend| %>
-      <% next unless can_add_as_friend?(current_user, friend) %>
-      <% next if friend == current_user || current_user.friends.include?(friend) %>
+    <% filtered_users = @friends.select { |user| can_add_as_friend?(current_user, user) && user != current_user && !current_user.friends.include?(user) } %>
+    <% if filtered_users.any? %>
+      <h2 class="mt-3">Users</h2>
+      <% filtered_users.each do |user| %>
+        <% direct_friendship = current_user.friendships.find { |f| f.friend_id == user.id } %>
+        <% inverse_friendship = user.friendships.find { |f| f.user_id == current_user.id } %>
 
-      <% direct_friendship = current_user.friendships.find { |f| f.friend_id == friend.id } %>
-      <% inverse_friendship = friend.friendships.find { |f| f.user_id == current_user.id } %>
+        <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center justify-content-between" style="min-height: 90px;">
+          <div class="d-flex align-items-center gap-3">
+            <% if user.emoji.present? %>
+              <div class="d-flex align-items-center justify-content-center"
+                   style="width: 60px; height: 60px; flex-shrink: 0; font-size: 2.5rem;">
+                <%= user.emoji %>
+              </div>
+            <% elsif user.avatar.key.present? %>
+              <%= cl_image_tag user.avatar.key,
+                class: "rounded-circle",
+                style: "width: 60px; height: 60px; object-fit: cover; flex-shrink: 0;",
+                alt: "User Avatar",
+                transformation: [
+                  { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+                  { radius: :max }
+                ] %>
+            <% end %>
+            <h4 class="m-0"><%= user.first_name %></h4>
+          </div>
+          
+          <div class="flex-shrink-0">
+            <% if direct_friendship && !direct_friendship.accepted %>
+            <%= button_to "X", friendship_path(direct_friendship), method: :delete, class: "btn button--primary", style: "width: 50px; height: 50px; padding: 0; font-size: 1.25rem;" %>
+            <% elsif inverse_friendship && !inverse_friendship.accepted %>
+            <%= button_to "✓", friendship_path(inverse_friendship), method: :patch, class: "btn button--primary", style: "width: 50px; height: 50px; padding: 0; font-size: 1.25rem;" %>
+            <% elsif !direct_friendship && !inverse_friendship %>
+            <%= button_to "+", friendships_path(friend_id: user.id), method: :post, class: "btn button--primary", style: "width: 50px; height: 50px; padding: 0; font-size: 1.25rem;" %>
+            <% end %>
+          </div>
+        </div>
 
-      <div class="card w-100 p-2 my-3 d-flex flex-row justify-content-between" >
-        <div class="flex-item">
-          <%= cl_image_tag friend.avatar.key,
-          style: "width: 50px; height: 100%;",
-          class: "pb-3 d-flex",
-          alt: "User Avatar",
-          transformation: [
-          { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-          { radius: :max }
-          ] unless friend.avatar.key.nil? %>
-        </div>
-        
-        <div class="flex-item">
-          <h4 style="margin: 0;"><%= friend.first_name %></h4>
-        </div>
-        
-        <div class="flex-item">
-          <% if direct_friendship && !direct_friendship.accepted %>
-          <%= button_to "Cancel Request", friendship_path(direct_friendship), method: :delete, class: "btn button--primary" %>
-          <% elsif inverse_friendship && !inverse_friendship.accepted %>
-          <%= button_to "Accept Request", friendship_path(inverse_friendship), method: :patch, class: "btn button--primary" %>
-          <% elsif !direct_friendship && !inverse_friendship %>
-          <%= button_to "➕", friendships_path(friend_id: friend.id), method: :post, class: "btn button--primary" %>
-          <% end %>
-        </div>
-      </div>
-
+      <% end %>
     <% end %>
   </div>
+
+  <!-- No Results Message -->
+  <% if params[:query].present? && friends_list.empty? && pending_sent.empty? && pending_received.empty? && filtered_users.empty? %>
+    <div class="text-center mt-5">
+      <p class="text-muted">No users found matching "<strong><%= params[:query] %></strong>"</p>
+    </div>
+  <% end %>
 </div>

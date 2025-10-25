@@ -30,8 +30,8 @@ class FriendshipsController < ApplicationController
 
   def destroy
     @friendship.destroy
-    flash[:notice] = 'Friendship removed. 😭'
-    redirect_to users_path
+    flash[:notice] = 'Friendship removed. 😭'
+    redirect_to friends_path
   end
 
   private
@@ -41,7 +41,7 @@ class FriendshipsController < ApplicationController
   # which could otherwise happen via ID guessing (e.g. /friendships/42)
   def set_friendship
     @friendship = Friendship.where(id: params[:id])
-                            .where('user_id = ? OR friend_id = ?', current_user.id, current_user.id)
+                            .where('user_id = :user_id OR friend_id = :user_id', user_id: current_user.id)
                             .first
   end
 end

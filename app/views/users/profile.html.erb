@@ -1,25 +1,29 @@
 <div class="container analytics my-3">
-  <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary mb-3" %>
-    <h1 class="title">My Profile</h1>
-
-      <div class="d-flex justify-content-center mt-3">
-        <%= cl_image_tag current_user.avatar.key,
-        style: "border-radius: 50%; width: 200px; height: 100%;",
-        class: "pb-3",
-        alt: "User Avatar",
-        transformation: [
-          { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-          { radius: :max }
-          ] unless current_user.avatar.key.nil? %>
+      <!-- Section: Profile Info & Emoji-->
+      <div class="dash-box p-4 mx-2 mt-3 text-center">
+        <h1><%= current_user.first_name %></h1>
       </div>
 
-      <!-- Section: Profile Info -->
-      <div class="dash-box p-4 mx-2 my-3">
-        <h2><%= current_user.emoji %> <%= current_user.first_name %></h2>
+      <div class="d-flex justify-content-center mt-3">
+        <% if current_user.emoji.present? %>
+          <div class="d-flex align-items-center justify-content-center pb-3" 
+               style="font-size: 8rem;">
+            <%= current_user.emoji %>
+          </div>
+        <% elsif current_user.avatar.key.present? %>
+          <%= cl_image_tag current_user.avatar.key,
+          style: "border-radius: 50%; width: 200px; height: 100%;",
+          class: "pb-3",
+          alt: "User Avatar",
+          transformation: [
+            { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+            { radius: :max }
+            ] %>
+        <% end %>
       </div>
 
       <!-- Section: Happy Count -->
-      <div class="dash-box p-4 mx-2 my-3">
+      <div class="dash-box p-4 mx-2 mb-3">
         <h2>Happy Count</h2>
         <div class="happy-count d-flex justify-content-center">
           <%= @happy_count %>
@@ -33,7 +37,8 @@
         <% if @words_for_wordcloud.present? %>
         <div class="word-cloud">
           <% @words_for_wordcloud.each do |word, frequency| %>
-          <%= content_tag :span, word.capitalize, style: "font-size: #{5 + frequency * 2}px;" %>
+          <% size = [[0.5 + frequency * 0.2, 0.75].max, 2.5].min %>
+          <%= content_tag :span, word.capitalize, style: "font-size: #{size}rem;" %>
           <% end %>
         </div>
         <% else %>
