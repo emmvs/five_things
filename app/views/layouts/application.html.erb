@@ -20,13 +20,9 @@
 
   <body data-controller="notification service-worker" data-notification-target="notification">
     <div class="app-container">
-      <%= render partial: 'layouts/navbar' if @should_render_navbar  %>
+      <%= render partial: 'layouts/navbar' if @render_navbar  %>
       <%= yield %>
       <%= render partial: 'layouts/alerts'  %>
-
-      <footer>
-        <%= render partial: 'shared/bottom_navbar' if @should_render_navbar  %>
-      </footer>
     </div>
   </body>
 </html>
