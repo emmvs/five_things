@@ -12,8 +12,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 Ensure that you have the following installed on your local machine:
 
-* [Ruby](https://www.ruby-lang.org/en/documentation/installation/) - 3.1.2
-* [Rails](https://guides.rubyonrails.org/v5.0/getting_started.html) - 7.0.6
+* [Ruby](https://www.ruby-lang.org/en/documentation/installation/) - 3.4.4
+* [Rails](https://guides.rubyonrails.org/v5.0/getting_started.html) - 8.0.3
 * PostgreSQL
 
 ### Installation
@@ -61,6 +61,36 @@ brew services start postgresql
 rspec # run all tests
 rspec spec/requests/users_spec.rb # run a specific test
 ```
+
+### Development Server
+
+**Option 1: Using Foreman (recommended for production-like environment)**
+
+Start both Rails server and ngrok simultaneously:
+
+```bash
+bin/dev
+```
+
+This will start:
+- Rails server on `http://localhost:3000`
+- ngrok tunnel (URL will be shown in the logs)
+
+**Option 2: Manual setup (recommended for debugging with binding.pry)**
+
+Start Rails server and ngrok separately:
+
+**Terminal 1 - Rails Server:**
+```bash
+rails s
+```
+
+**Terminal 2 - ngrok (for mobile testing):**
+```bash
+ngrok http 3000
+```
+
+The ngrok URL will be displayed in Terminal 2 under "Forwarding" (e.g., `https://abc123.ngrok-free.app`). Use this URL to test the app on your mobile device.
 
 ### Services
 
