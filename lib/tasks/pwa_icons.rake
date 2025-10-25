@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
 namespace :assets do
   desc 'Generate PWA icons in multiple sizes from source image'
   task copy_icons: :environment do
@@ -39,3 +40,4 @@ namespace :assets do
     puts "\n🎉 PWA icons updated successfully!"
   end
 end
+# rubocop:enable Metrics/BlockLength

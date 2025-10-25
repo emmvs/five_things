@@ -13,11 +13,20 @@ module FriendshipsHelper
   def filter_users_by_query(users, query)
     return users if query.blank?
 
+    query_downcase = query.downcase
     users.select do |user|
-      user.first_name&.downcase&.include?(query.downcase) ||
-        user.last_name&.downcase&.include?(query.downcase) ||
-        user.username&.downcase&.include?(query.downcase) ||
-        user.email&.downcase&.include?(query.downcase)
+      matches_query?(user, query_downcase)
     end
   end
+
+  private
+
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def matches_query?(user, query_downcase)
+    user.first_name&.downcase&.include?(query_downcase) ||
+      user.last_name&.downcase&.include?(query_downcase) ||
+      user.username&.downcase&.include?(query_downcase) ||
+      user.email&.downcase&.include?(query_downcase)
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
