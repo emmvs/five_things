@@ -12,7 +12,7 @@ RSpec.describe 'Users', type: :request do
   describe 'CRUD operations' do
     describe 'GET /index' do
       it 'returns http success' do
-        get '/users'
+        get '/friends'
         expect(response).to have_http_status(:success)
       end
     end
@@ -101,7 +101,7 @@ RSpec.describe 'Users', type: :request do
     it 'returns http success' do
       get friends_path
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('My Friends')
+      expect(response.body).to include('Add or Search Friends')
     end
   end
 
@@ -109,7 +109,8 @@ RSpec.describe 'Users', type: :request do
     it 'returns http success' do
       get profile_path
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('My Profile')
+      expect(response.body).to include('Happy Count')
+      expect(response.body).to include(@user.first_name)
     end
   end
 end
