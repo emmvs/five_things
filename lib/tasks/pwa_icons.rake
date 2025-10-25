@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
 namespace :assets do
-  desc 'Copy PWA icons to public folder'
+  desc 'Generate PWA icons in multiple sizes from source image'
   task copy_icons: :environment do
     require 'fileutils'
+    require 'mini_magick'
 
-    # NOTE: This task copies the source image as-is without resizing.
-    # Ensure your source image (app/assets/images/five.png) is at least 512x512px
-    # for best quality across all icon sizes.
-    # For production, consider using ImageMagick or similar to generate properly sized icons.
     source = Rails.root.join('app/assets/images/five.png')
 
     # Warn if source file doesn't exist
@@ -18,16 +15,25 @@ namespace :assets do
       exit 1
     end
 
-    destinations = [
-      Rails.root.join('public/apple-touch-icon.png'), # 180x180 (iOS)
-      Rails.root.join('public/apple-touch-icon-precomposed.png'), # 180x180 (iOS)
-      Rails.root.join('public/icon-192.png'),                  # 192x192 (Android)
-      Rails.root.join('public/icon-512.png')                   # 512x512 (Android)
+    # Check source image dimensions
+    image = MiniMagick::Image.open(source)
+    if image.width < 512 || image.height < 512
+      puts "⚠️  Warning: Source image is #{image.width}x#{image.height}. Recommended minimum is 512x512px"
+    end
+
+    # Define icon sizes: [destination_path, size]
+    icons = [
+      [Rails.root.join('public/apple-touch-icon.png'), 180],
+      [Rails.root.join('public/apple-touch-icon-precomposed.png'), 180],
+      [Rails.root.join('public/icon-192.png'), 192],
+      [Rails.root.join('public/icon-512.png'), 512]
     ]
 
-    destinations.each do |dest|
-      FileUtils.cp(source, dest)
-      puts "✅ Copied #{source.basename} to #{dest.basename}"
+    icons.each do |dest, size|
+      resized_image = MiniMagick::Image.open(source)
+      resized_image.resize "#{size}x#{size}"
+      resized_image.write(dest)
+      puts "✅ Generated #{dest.basename} (#{size}x#{size})"
     end
 
     puts "\n🎉 PWA icons updated successfully!"
