@@ -13,7 +13,7 @@
   <% end %>
 
     <!-- Current User's Friendlist -->
-  <% friends_list = params[:query].present? ? @friends.select { |user| user.first_name&.downcase&.include?(params[:query].downcase) || user.last_name&.downcase&.include?(params[:query].downcase) || user.username&.downcase&.include?(params[:query].downcase) || user.email&.downcase&.include?(params[:query].downcase) } : @friends %>
+  <% friends_list = filter_users_by_query(@friends, params[:query]) %>
   <% if friends_list.any? %>
     <h2 class="mt-4"><%= t('friends.my_friends') %></h2>
 
@@ -42,7 +42,7 @@
   <% end %>
 
     <!-- Outgoing Pending Requests -->
-  <% pending_requests = params[:query].present? ? @pending_requests.select { |user| user.first_name&.downcase&.include?(params[:query].downcase) || user.last_name&.downcase&.include?(params[:query].downcase) || user.username&.downcase&.include?(params[:query].downcase) || user.email&.downcase&.include?(params[:query].downcase) } : @pending_requests %>
+  <% pending_requests = filter_users_by_query(@pending_requests, params[:query]) %>
   <% if pending_requests.any? %>
     <h2 class="mt-4"><%= t('friends.pending_sent') %></h2>
 
@@ -73,7 +73,7 @@
   <% end %>
 
   <!-- Incoming Pending Requests -->
-  <% friend_requests = params[:query].present? ? @friend_requests.select { |user| user.first_name&.downcase&.include?(params[:query].downcase) || user.last_name&.downcase&.include?(params[:query].downcase) || user.username&.downcase&.include?(params[:query].downcase) || user.email&.downcase&.include?(params[:query].downcase) } : @friend_requests %>
+  <% friend_requests = filter_users_by_query(@friend_requests, params[:query]) %>
   <% if friend_requests.any? %>
     <h2 class="mt-4"><%= t('friends.pending_received') %></h2>
   <% friend_requests.each do |friend| %>

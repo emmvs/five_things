@@ -9,4 +9,15 @@ module FriendshipsHelper
 
     !(sent_request || received_request)
   end
+
+  def filter_users_by_query(users, query)
+    return users if query.blank?
+
+    users.select do |user|
+      user.first_name&.downcase&.include?(query.downcase) ||
+        user.last_name&.downcase&.include?(query.downcase) ||
+        user.username&.downcase&.include?(query.downcase) ||
+        user.email&.downcase&.include?(query.downcase)
+    end
+  end
 end
