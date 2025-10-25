@@ -22,3 +22,19 @@ de:
         password:
           length: "muss zwischen 12 und 30 Zeichen lang sein"
           invalid: "muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten und darf keine Leerzeichen enthalten"
+
+  friendships:
+    created: "Freundschaftsanfrage gesendet. 👻"
+    create_failed: "Freundschaftsanfrage konnte nicht gesendet werden. 🤔"
+    accepted: "Freundschaftsanfrage akzeptiert. 🫱🏻‍🫲🏾"
+    accept_failed: "Freundschaftsanfrage konnte nicht akzeptiert werden. 🙈"
+    destroyed: "Freundschaft entfernt. 😭"
+
+  friends:
+    page_title: "Freundinnen hinzufügen oder suchen"
+    search_placeholder: "Nach Namen, Benutzernamen oder E-Mails suchen"
+    my_friends: "Meine Freundinnen"
+    pending_sent: "Gesendete Anfragen"
+    pending_received: "Empfangene Freundschaftsanfragen"
+    users: "Benutzerinnen"
+    no_results: "Keine Benutzerinnen gefunden für"

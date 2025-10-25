@@ -1,24 +1,28 @@
 <div class="container analytics my-3">
-  <%= link_to sanitize("&larr;"), users_path, class: "btn button--primary mb-3" %>
-    <h1 class="title"><%= @user.first_name %>'s Profile</h1>
-
-    <div class="d-flex justify-content-center mt-3">
-      <%= cl_image_tag @user.avatar.key,
-      style: "border-radius: 50%; width: 200px; height: 100%;",
-      class: "pb-3",
-      alt: "User Avatar",
-      transformation: [
-        { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-        { radius: :max }
-        ] unless @user.avatar.key.nil? %>
+    <div class="dash-box p-4 mx-2 mb-3 text-center">
+      <h1><%= @user.first_name %></h1>
     </div>
 
-    <div class="dash-box p-4 mx-2 my-3">
-      <h2><%= @user.emoji %> <%= @user.first_name %></h2>
+    <div class="d-flex justify-content-center mt-3">
+      <% if @user.emoji.present? %>
+        <div class="d-flex align-items-center justify-content-center pb-3" 
+             style="font-size: 8rem;">
+          <%= @user.emoji %>
+        </div>
+      <% elsif @user.avatar.key.present? %>
+        <%= cl_image_tag @user.avatar.key,
+        style: "border-radius: 50%; width: 200px; height: 100%;",
+        class: "pb-3",
+        alt: "User Avatar",
+        transformation: [
+          { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+          { radius: :max }
+          ] %>
+      <% end %>
     </div>
 
     <!-- Section: Happy Count -->
-    <div class="dash-box p-4 mx-2 my-3">
+    <div class="dash-box p-4 mx-2 mb-3">
       <h2>Happy Count</h2>
         <div class="happy-count d-flex justify-content-center">
           <%= @happy_count %>
@@ -48,16 +52,27 @@
 
     <!-- Mapbox Map -->
     <% if @markers %>
-      <div class="rounded-map" style="width: 100%; height: 600px;"
-        data-controller="map"
-        data-map-markers-value="<%= @markers.to_json %>"
-        data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'].presence ||
-          (Rails.env.development? || Rails.env.test? ? 'FAKE_MAPBOX_API_KEY' : nil) %>">
+      <div class="mx-2 my-3">
+        <div class="rounded-map"
+          data-controller="map"
+          data-map-markers-value="<%= @markers.to_json %>"
+          data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'].presence ||
+            (Rails.env.development? || Rails.env.test? ? 'FAKE_MAPBOX_API_KEY' : nil) %>">
+        </div>
       </div>
     <% end %>
 
     <% if @user == current_user %>
       <%= link_to "Edit Profile", edit_user_registration_path, class: "mb-5 btn nav-link bottom-icons" %>
       <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn shadow mt-5" %>
+    <% else %>
+      <% friendship = current_user.friendships.accepted.find_by(friend_id: @user.id) || current_user.received_friend_requests.accepted.find_by(user_id: @user.id) %>
+      <% if friendship.present? %>
+        <div class="mt-5 mx-2 d-flex justify-content-end">
+          <%= button_to "Remove Friend", friendship_path(friendship), method: :delete, 
+              class: "btn shadow", 
+              data: { confirm: "Are you sure you want to remove #{@user.first_name} as a friend?" } %>
+        </div>
+      <% end %>
     <% end %>
 </div>
