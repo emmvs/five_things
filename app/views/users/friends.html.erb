@@ -20,21 +20,10 @@
     <% friends_list.each do |friend| %>
       <%= link_to user_path(friend), class: "text-decoration-none" do %>
         <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center gap-3" style="min-height: 90px;">
-          <% if friend.emoji.present? %>
-            <div class="d-flex align-items-center justify-content-center"
-                 style="width: 60px; height: 60px; flex-shrink: 0; font-size: 2.5rem;">
-              <%= friend.emoji %>
-            </div>
-          <% elsif friend.avatar.key.present? %>
-            <%= cl_image_tag friend.avatar.key,
-              class: "rounded-circle",
-              style: "width: 60px; height: 60px; object-fit: cover; flex-shrink: 0;",
-              alt: "Friend Avatar",
-              transformation: [
-                { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-                { radius: :max }
-              ] %>
-          <% end %>
+          <div class="d-flex align-items-center justify-content-center"
+                style="width: 60px; height: 60px; flex-shrink: 0; font-size: 2.5rem;">
+            <%= friend.emoji %>
+          </div>
           <h4 class="m-0"><%= friend.first_name %></h4>
         </div>
       <% end %>
