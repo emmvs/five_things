@@ -12,9 +12,40 @@ These instructions will get you a copy of the project up and running on your loc
 
 Ensure that you have the following installed on your local machine:
 
-* [Ruby](https://www.ruby-lang.org/en/documentation/installation/) - 3.1.2
-* [Rails](https://guides.rubyonrails.org/v5.0/getting_started.html) - 7.0.6
+* [Ruby](https://www.ruby-lang.org/en/documentation/installation/) - 3.4.4
+* [Rails](https://guides.rubyonrails.org/v5.0/getting_started.html) - 8.0.3
 * PostgreSQL
+* (Optional) [Ngrok](https://ngrok.com/) - For mobile testing
+
+### PWA Features
+
+The app is a Progressive Web App (PWA) with:
+- ✅ **Offline Support** - Works without internet connection
+- ✅ **Install to Home Screen** - Install on iOS, Android, and Desktop
+- ✅ **Network Status Detection** - Shows when you're offline/online
+- ✅ **Auto-Updates** - Prompts when new version is available
+- ✅ **Responsive Design** - Optimized for mobile and desktop
+
+See [docs/PWA_OFFLINE.md](docs/PWA_OFFLINE.md) for detailed documentation.
+
+### Testing on Mobile Devices
+
+**Option 1: Using ngrok (with Procfile.dev)**
+```bash
+bin/dev  # Starts Rails server + ngrok automatically
+```
+
+**Option 2: Manual ngrok + debugging**
+```bash
+# Terminal 1
+rails s
+
+# Terminal 2
+ngrok http 3000
+```
+Then visit the ngrok HTTPS URL on your mobile device.
+
+Note: PWA features require HTTPS, which ngrok provides automatically.
 
 ### Installation
 

@@ -164,17 +164,23 @@ Devise.setup do |config|
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
-  # config.remember_for = 2.weeks
+  # Extended to 1 year for PWA support (users accessing from home screen)
+  config.remember_for = 1.year
 
   # Invalidates all the remember me tokens when the user signs out.
   config.expire_all_remember_me_on_sign_out = true
 
   # If true, extends the user's remember period when remembered via cookie.
-  # config.extend_remember_period = false
+  # This keeps users logged in as long as they use the app regularly
+  config.extend_remember_period = true
 
   # Options to be passed to the created cookie. For instance, you can set
   # secure: true in order to force SSL only cookies.
-  # config.rememberable_options = {}
+  # PWA-friendly cookie settings
+  config.rememberable_options = {
+    secure: Rails.env.production?, # HTTPS only in production
+    same_site: :lax                # Works with PWA standalone mode
+  }
 
   # ==> Configuration for :validatable
   # Range for password length.

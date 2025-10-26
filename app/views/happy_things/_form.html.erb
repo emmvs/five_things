@@ -1,6 +1,11 @@
 <%= simple_form_for happy_thing, html: { 
   class: "happy_thing form mt-4 p-3", 
-  data: { controller: "user-location", user_location_target: "form" },
+  data: { 
+    controller: "user-location", 
+    user_location_target: "form",
+    offline_form_target: "form",
+    action: "submit->offline-form#submit"
+  },
   style: "display: flex; flex-direction: column; align-items: center;"
 } do |f| %>
   <% if happy_thing.errors.any? %>
