@@ -1,4 +1,4 @@
-<div class="container p-5">
+<div class="container p-5" data-controller="pwa-detector">
   <div class="row justify-content-center"> <!-- Center the content -->
     <!-- changed to col-sm-6 to make it smaller and centered -->
     <div class="col-xs-12 col-sm-6">
@@ -13,7 +13,11 @@
           <%= f.input :password,
                       required: false,
                       input_html: { autocomplete: "current-password" } %>
-          <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+          <%= f.input :remember_me, 
+                      as: :boolean, 
+                      input_html: { checked: true },
+                      wrapper_html: { class: 'mb-3' },
+                      label: 'Keep me logged in' if devise_mapping.rememberable? %>
         </div>
 
         <div class="form-actions d-flex justify-content-center mt-2">

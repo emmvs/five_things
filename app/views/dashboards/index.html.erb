@@ -35,7 +35,7 @@
   <%= render 'calendar' %>
 
   <!-- Section: HappyThings List -->
-  <div data-controller="insert-in-list">
+  <div data-controller="insert-in-list offline-form">
     <div class="div dash-box p-4 mx-2 my-3">
       <h3>What made you happy today?</h3>
       <%= render 'happy_things/form', happy_thing: @happy_thing %>
@@ -43,10 +43,11 @@
 
     <div id="happy_things" class="m-2 mt-5"
       data-notification-target="happyThings"
-      data-insert-in-list-target="items">
+      data-insert-in-list-target="items"
+      data-offline-form-target="container">
       <h3 class="mb-3">Your Happy Things of today</h3>
       <% @happy_things_today.each do |user, happy_things| %>
-        <h3><%= user.emoji %> <%= user.first_name %></h3>
+        <h3><%= user.emoji %> <%= user.first_name %></h3>
         <% happy_things.each do |happy_thing| %>
           <%= render "happy_things/happy_thing", user: user, happy_thing: happy_thing %>
         <% end %>

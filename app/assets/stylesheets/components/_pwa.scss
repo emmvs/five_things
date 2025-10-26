@@ -1,0 +1,35 @@
+// PWA Toast Animations
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+// PWA Toast styling (matches app alerts)
+.pwa-toast {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 100;
+  color: $soft-purple;
+  background-color: $white;
+  padding: 10px;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
