@@ -101,7 +101,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def fetch_visited_places
-    @visited_places_count = @visited_places_count = HappyThing.where(user_id: current_user.id).distinct.count(:place)
+    @visited_places_count = HappyThing.where(user_id: current_user.id).distinct.count(:place)
   end
 
   def fetch_label_count

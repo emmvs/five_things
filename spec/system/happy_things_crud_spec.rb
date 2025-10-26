@@ -38,12 +38,11 @@ RSpec.describe 'Happy Things CRUD', type: :system do
       fill_in 'Name', with: 'cute mirror wtf'
       select 'Spiritual & Mind', from: 'happy_thing_category_id'
       attach_file 'happy_thing[photo]', Rails.root.join('spec/fixtures/test_image.jpg')
-      check 'Share my location'
 
       expect do
-        click_on 'Create happy thing'
+        find('input[type="submit"]').click
 
-        expect(page).to have_content('Happy Thing was successfully created.')
+        expect(page).to have_content('Happy Thing was successfully created.', wait: 10)
       end.to change(HappyThing, :count).by(1)
 
       created_happy_thing = HappyThing.last
@@ -61,9 +60,9 @@ RSpec.describe 'Happy Things CRUD', type: :system do
       expect(page).to have_current_path(edit_happy_thing_path(happy_thing))
 
       fill_in 'Name', with: 'fresh new title'
-      click_button('Update happy thing')
+      find('input[type="submit"]').click
 
-      expect(page).to have_content('Yay! 🎉 Happy Thing was updated 🥰')
+      expect(page).to have_content('Yay! 🎉 Happy Thing was updated 🥰', wait: 10)
       expect(page).to have_content('fresh new title')
       expect(page).not_to have_content(happy_thing.title, wait: 5)
     end

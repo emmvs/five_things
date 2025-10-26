@@ -16,7 +16,7 @@ class FriendshipsController < ApplicationController
                      else
                        t('friendships.create_failed')
                      end
-    redirect_to users_path
+    redirect_to friends_path
   end
 
   def update
@@ -25,7 +25,7 @@ class FriendshipsController < ApplicationController
                      else
                        t('friendships.accept_failed')
                      end
-    redirect_to users_path
+    redirect_to friends_path
   end
 
   def destroy

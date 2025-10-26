@@ -85,7 +85,7 @@
         <% end %>
         <h4 class="m-0"><%= friend.first_name %></h4>
       <% end %>
-      <% friendship = current_user.received_friend_requests.find_by(user_id: friend.id) %>
+      <% friendship = Friendship.find_by(user_id: friend.id, friend_id: current_user.id) %>
       <%= button_to "✓",
             friendship_path(friendship),
             method: :patch,
@@ -98,7 +98,7 @@
 
   <!-- All Users -->
   <div class="cards-friends">
-    <% filtered_users = @friends.select { |user| can_add_as_friend?(current_user, user) && user != current_user && !current_user.friends.include?(user) } %>
+    <% filtered_users = filter_users_by_query(@users, params[:query]).select { |user| can_add_as_friend?(current_user, user) } %>
     <% if filtered_users.any? %>
       <h2 class="mt-3"><%= t('friends.users') %></h2>
       <% filtered_users.each do |user| %>
