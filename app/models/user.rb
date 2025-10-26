@@ -87,8 +87,8 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   # Aliases for backward compatibility
-  alias_method :friends_and_friends_who_added_me_ids, :friend_ids
-  alias_method :all_friends, :friends
+  alias friends_and_friends_who_added_me_ids friend_ids
+  alias all_friends friends
 
   def happy_streak
     return 0 if happy_things.empty?

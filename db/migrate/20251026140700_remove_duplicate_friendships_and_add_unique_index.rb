@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveDuplicateFriendshipsAndAddUniqueIndex < ActiveRecord::Migration[8.0]
   def up
     # Remove bidirectional duplicates - keep only one direction per friendship
@@ -11,8 +13,8 @@ class RemoveDuplicateFriendshipsAndAddUniqueIndex < ActiveRecord::Migration[8.0]
         WHERE f1.id < f2.id
       )
     SQL
-    
-    # Note: Unique index already exists in schema
+
+    # NOTE: Unique index already exists in schema
     # index_friendships_on_user_id_and_friend_id is already present
   end
 

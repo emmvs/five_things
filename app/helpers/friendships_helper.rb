@@ -14,11 +14,9 @@ module FriendshipsHelper
 
   private
 
-  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def matches_query?(user, query_downcase)
     [user.first_name, user.last_name, user.username, user.email]
       .compact
       .any? { |field| field.downcase.include?(query_downcase) }
   end
-  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
