@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   def profile
     fetch_happy_count
     fetch_words_for_wordcloud
-    fetch_visited_places
+    fetch_visited_places_count
     fetch_label_count
     @markers = fetch_markers_for_map
   end
@@ -79,7 +79,7 @@ class UsersController < ApplicationController
     @words_for_wordcloud_month = WordAggregator.aggregated_words(current_user, 40, period: :month)
   end
 
-  def fetch_visited_places
+  def fetch_visited_places_count
     @visited_places_count = current_user.happy_things.distinct.count(:place)
   end
 
