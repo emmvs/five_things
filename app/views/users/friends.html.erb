@@ -31,11 +31,11 @@
   <% end %>
 
     <!-- Outgoing Pending Requests -->
-  <% pending_requests = filter_users_by_query(@pending_requests, params[:query]) %>
-  <% if pending_requests.any? %>
+  <% outgoing_friend_requests = filter_users_by_query(@outgoing_friend_requests, params[:query]) %>
+  <% if outgoing_friend_requests.any? %>
     <h2 class="mt-4"><%= t('friends.pending_sent') %></h2>
 
-  <% pending_requests.each do |friend| %>
+  <% outgoing_friend_requests.each do |friend| %>
     <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center justify-content-between" style="min-height: 90px;">
       <%= link_to user_path(friend), class: "text-decoration-none d-flex align-items-center gap-3" do %>
         <% if friend.emoji.present? %>
@@ -62,10 +62,10 @@
   <% end %>
 
   <!-- Incoming Pending Requests -->
-  <% friend_requests = filter_users_by_query(@friend_requests, params[:query]) %>
-  <% if friend_requests.any? %>
+  <% incoming_friend_requests = filter_users_by_query(@incoming_friend_requests, params[:query]) %>
+  <% if incoming_friend_requests.any? %>
     <h2 class="mt-4"><%= t('friends.pending_received') %></h2>
-  <% friend_requests.each do |friend| %>
+  <% incoming_friend_requests.each do |friend| %>
     <div class="card w-100 p-3 my-3 d-flex flex-row align-items-center justify-content-between" style="min-height: 90px;">
       <%= link_to user_path(friend), class: "text-decoration-none d-flex align-items-center gap-3" do %>
         <% if friend.emoji.present? %>
@@ -141,7 +141,7 @@
   </div>
 
     <!-- No Results Message -->
-  <% if params[:query].present? && friends_list.empty? && pending_requests.empty? && friend_requests.empty? && filtered_users.empty? %>
+  <% if params[:query].present? && friends_list.empty? && outgoing_friend_requests.empty? && incoming_friend_requests.empty? && filtered_users.empty? %>
     <p class="text-muted text-center mt-4">
       <%= t('friends.no_results') %> "<strong><%= params[:query] %></strong>"
     </p>

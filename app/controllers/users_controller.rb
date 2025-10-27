@@ -13,8 +13,8 @@ class UsersController < ApplicationController
 
   def friends
     @friends = current_user.friends
-    @pending_requests = current_user.pending_friends
-    @friend_requests = fetch_incoming_friend_requests
+    @outgoing_friend_requests = current_user.pending_friends
+    @incoming_friend_requests = fetch_incoming_friend_requests
     @users = fetch_users
   end
 
