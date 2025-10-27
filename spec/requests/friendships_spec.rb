@@ -14,8 +14,8 @@ RSpec.describe 'Friendships', type: :request do
     it 'creates a new friendship' do
       expect do
         post friendships_path, params: { friend_id: friend.id }
-      end.to change(Friendship, :count).by(2) # Bidirectional: creates 2 records
-      expect(response).to have_http_status(:redirect) # or :success
+      end.to change(Friendship, :count).by(2)
+      expect(response).to have_http_status(:redirect)
     end
   end
 
@@ -24,9 +24,10 @@ RSpec.describe 'Friendships', type: :request do
 
     it 'updates the friendship' do
       put friendship_path(friendship), params: { friendship: { accepted: true } }
+
       expect(response).to have_http_status(:redirect)
       expect(friendship.reload.accepted).to eq(true)
-      # Check that inverse was also updated
+
       inverse = Friendship.find_by(user_id: friend.id, friend_id: user.id)
       expect(inverse.accepted).to eq(true)
     end
