@@ -73,7 +73,7 @@ class HappyThing < ApplicationRecord
   end
 
   def geocoding_enabled?
-    return false if Rails.env.development? && ENV['GEOCODER_API_KEY'].blank?
+    return false if Rails.env.test? || ENV['GEOCODER_API_KEY'].blank?
 
     true
   end
