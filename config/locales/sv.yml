@@ -33,7 +33,9 @@ sv:
   friends:
     page_title: "Lägg till eller sök vänner"
     search_placeholder: "Sök efter namn, användarnamn eller e-post"
-    my_friends: "Mina vänner"
+    my_friends:
+      one: "Min vän"
+      other: "Mina vänner"
     pending_sent: "Skickade förfrågningar"
     pending_received: "Mottagna vänförfrågningar"
     users: "Användare"

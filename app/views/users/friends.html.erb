@@ -15,7 +15,7 @@
     <!-- Current User's Friendlist -->
   <% friends_list = filter_users_by_query(@friends, params[:query]) %>
   <% if friends_list.any? %>
-    <h2 class="mt-4"><%= t('friends.my_friends') %></h2>
+    <h2 class="mt-4"><%= t('friends.my_friends', count: friends_list.count) %></h2>
 
     <% friends_list.each do |friend| %>
       <%= link_to user_path(friend), class: "text-decoration-none" do %>
