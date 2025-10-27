@@ -18,7 +18,7 @@
 #  category_id    :bigint
 #  share_location :boolean
 #
-class HappyThing < ApplicationRecord
+class HappyThing < ApplicationRecord # rubocop:disable Metrics/ClassLength
   geocoded_by :place
 
   belongs_to :user
@@ -28,14 +28,44 @@ class HappyThing < ApplicationRecord
   has_many :shared_users, through: :happy_thing_user_shares, source: :friend
   has_many :happy_thing_group_shares, dependent: :destroy
   has_many :shared_groups, through: :happy_thing_group_shares, source: :group
+  has_many :group_memberships, through: :shared_groups, source: :group_memberships
   has_one_attached :photo
 
   validates :title, presence: true
+  validates :visibility, inclusion: { in: %w[public private selective] }
 
   before_validation :set_default_category, on: :create
   after_validation :geocode, if: :will_save_change_to_place?
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
-  after_create :check_happy_things_count
+  after_commit :send_happy_email_to_friends, on: %i[create update]
+
+  scope :today_for_user, lambda { |user|
+    return none unless user
+
+    where(start_time: Time.zone.today.all_day, user:)
+  }
+
+  scope :visible_to_user, lambda { |user|
+    return none unless user
+
+    own_things = where(user:).pluck(:id)
+
+    direct_shares = joins(:happy_thing_user_shares)
+                    .where(happy_thing_user_shares: { friend_id: user.id })
+                    .pluck(:id)
+
+    group_shares = joins(:happy_thing_group_shares)
+                   .joins(shared_groups: :group_memberships)
+                   .where(group_memberships: { friend_id: user.id })
+                   .pluck(:id)
+
+    public_things_of_friends = where(user: user.friends_and_friends_who_added_me)
+                               .where(visibility: 'public')
+                               .pluck(:id)
+
+    ids = (own_things + direct_shares + group_shares + public_things_of_friends)
+    where(id: ids)
+  }
 
   attr_accessor :shared_with_ids
 
@@ -49,7 +79,68 @@ class HappyThing < ApplicationRecord
     self.start_time ||= Time.zone.now
   end
 
+  def create_shares_from_shared_ids(shared_ids)
+    shared_ids.each do |entry|
+      type, id = entry.split('_')
+      case type
+      when 'group'
+        happy_thing_group_shares.create!(group_id: id)
+      when 'friend'
+        happy_thing_user_shares.create!(friend_id: id)
+      end
+    end
+  end
+
+  def handle_visibility_shares(shared_ids)
+    return unless selective_selected?(shared_ids)
+
+    destroy_shares
+    create_shares_from_shared_ids(shared_ids)
+  end
+
+  def handle_visibility_column(shared_ids)
+    self.visibility = if selective_selected?(shared_ids)
+                        'selective'
+                      elsif private_selected?(shared_ids)
+                        'private'
+                      else
+                        'public'
+                      end
+  end
+
   private
+
+  def send_happy_email_to_friends
+    user.transaction do
+      user.lock!
+      return unless today?
+
+      friends_that_still_want_an_email.each do |friend|
+        next unless friend_can_see_five_happy_things?(friend)
+
+        DailyHappyEmailDelivery.create!(user:, recipient: friend, delivered_at: Time.zone.now)
+        UserMailer.happy_things_notification(user, friend).deliver_later
+      end
+    end
+  end
+
+  def today?
+    start_time.to_date == Time.zone.today
+  end
+
+  def friends_that_still_want_an_email
+    friends_who_got_an_email_today = DailyHappyEmailDelivery
+                                     .where(user:, delivered_at: Time.zone.today.all_day)
+                                     .pluck(:recipient_id)
+
+    user.friends_and_friends_who_added_me
+        .where(email_opt_in: true)
+        .where.not(id: friends_who_got_an_email_today)
+  end
+
+  def friend_can_see_five_happy_things?(friend)
+    HappyThing.today_for_user(user).visible_to_user(friend).count >= 5
+  end
 
   def set_default_category
     self.category ||= Category.find_by(name: 'General')
@@ -59,16 +150,17 @@ class HappyThing < ApplicationRecord
     start_time.present?
   end
 
-  def check_happy_things_count
-    today_count = user.happy_things.where(start_time: Time.zone.today.all_day).count
-    return unless today_count == 5
-
-    notify_friends_about_happy_things
+  def private_selected?(shared_ids)
+    shared_ids.include?('private')
   end
 
-  def notify_friends_about_happy_things
-    user.friends_and_friends_who_added_me.each do |friend|
-      UserMailer.happy_things_notification(friend).deliver_later
-    end
+  def selective_selected?(shared_ids)
+    regex = /friend_\d+|group_\d+/
+    shared_ids.any? { |id| id.match?(regex) }
+  end
+
+  def destroy_shares
+    happy_thing_user_shares.destroy_all
+    happy_thing_group_shares.destroy_all
   end
 end

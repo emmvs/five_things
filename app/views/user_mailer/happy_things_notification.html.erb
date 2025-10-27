@@ -1,24 +1,25 @@
 <div style="font-family: sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto;">
   <h1 style="font-size: 24px; color: #2C3E50;">
-    Hey <%= @user.first_name.presence || 'there' %>! <%= @user.emoji.presence || '☀️' %>
+    <%= t('mailers.user_mailer.happy_email.greeting', 
+          name: @recipient.first_name.presence || 'there', 
+          emoji: @recipient.emoji.presence || '☀️') %>
   </h1>
 
   <p style="font-size: 16px;">
-    One of your friends just added <strong>5 happy things</strong> today. That’s a whole lot of happy stuff! 🥳
+    <%= t('mailers.user_mailer.happy_email.body_one').html_safe %>
   </p>
 
   <p style="font-size: 16px;">
-    Want to see what made them smile? Head over to your dashboard and soak up the good vibes.
+    <%= t('mailers.user_mailer.happy_email.body_two') %>
   </p>
 
   <p>
     <a href="<%= root_url %>" style="display: inline-block; padding: 10px 20px; background-color:#95B7FE; color: white; text-decoration: none; border-radius: 5px;">
-      View Dashboard
+      <%= t('mailers.user_mailer.happy_email.link_text') %>
     </a>
   </p>
 
   <p style="font-size: 14px; color: #888;">
-    Share the love 🫶🏻<br>
-    — Your 5 Things Team
+    <%= t('mailers.user_mailer.happy_email.signature').html_safe %>
   </p>
 </div>

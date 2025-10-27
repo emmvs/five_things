@@ -12,7 +12,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def future_root
     @happy_thing = HappyThing.new
     range = Time.zone.today.all_day
-    @happy_things_today = happy_things_by_period(range, user_ids)
+    @happy_things_today = happy_things_by_period(range, [current_user.id])
   end
 
   def recent_happy_things
@@ -30,15 +30,18 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def create
     @happy_thing = current_user_happy_things.new(happy_thing_params)
-    save_and_respond(@happy_thing)
-    handle_visibility(@happy_thing) if @happy_thing.persisted?
+    @happy_thing.handle_visibility_column(happy_thing_params[:shared_with_ids])
+    ActiveRecord::Base.transaction do
+      save_and_respond(@happy_thing)
+      @happy_thing.handle_visibility_shares(happy_thing_params[:shared_with_ids])
+    end
   end
 
   def update
-    if @happy_thing.update(happy_thing_params)
-      @happy_thing.happy_thing_user_shares.destroy_all
-      @happy_thing.happy_thing_group_shares.destroy_all
-      handle_visibility(@happy_thing)
+    @happy_thing.assign_attributes(happy_thing_params)
+    @happy_thing.handle_visibility_column(happy_thing_params[:shared_with_ids])
+    if @happy_thing.save
+      @happy_thing.handle_visibility_shares(happy_thing_params[:shared_with_ids])
       redirect_to root_path, notice: 'Yay! 🎉 Happy Thing was updated 🥰'
     else
       render :edit, status: 422
@@ -60,16 +63,21 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def through_the_years
     today = Date.today
-    @happy_things_of_the_past_years = HappyThing.where(
-      'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
-      today.month, today.day, user_ids
-    ).reject { |ht| ht.start_time.year == today.year }
+    @happy_things_of_the_past_years =
+      HappyThing.visible_to_user(current_user)
+                .where(
+                  'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
+                  today.month, today.day, user_ids
+                )
+                .reject { |ht| ht.start_time.year == today.year }
   end
 
   def calendar
     @user_ids = user_ids
 
-    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids).order(created_at: :desc)
+    @happy_things_of_you_and_friends = HappyThing.visible_to_user(current_user)
+                                                 .where(user_id: @user_ids)
+                                                 .order(created_at: :desc)
   end
 
   def show_by_date
@@ -84,7 +92,9 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def setup_happy_things_for_view
-    @happy_things = HappyThing.where(user_id: user_ids, start_time: @date.all_day)
+    friend_ids = current_user.friends_and_friends_who_added_me_ids
+    @happy_things = HappyThing.visible_to_user(current_user)
+                              .where(user_id: friend_ids + [current_user.id], start_time: @date.all_day)
   end
 
   def old_happy_thing
@@ -122,11 +132,13 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   private
 
   def set_happy_thing
-    @happy_thing = HappyThing.where(user_id: user_ids).find(params[:id])
+    @happy_thing = HappyThing.visible_to_user(current_user)
+                             .find(params[:id])
   end
 
   def set_own_happy_thing
-    @happy_thing = current_user.happy_things.find(params[:id])
+    @happy_thing = current_user.happy_things
+                               .find(params[:id])
   end
 
   def save_and_respond(resource)
@@ -137,21 +149,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: resource.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def handle_visibility(happy_thing) # rubocop:disable Metrics/MethodLength
-    shared_ids = params[:happy_thing][:shared_with_ids] || []
-    return if shared_ids.blank?
-
-    shared_ids.each do |entry|
-      type, id = entry.split('_')
-      case type
-      when 'group'
-        happy_thing.happy_thing_group_shares.create!(group_id: id)
-      when 'friend'
-        happy_thing.happy_thing_user_shares.create!(friend_id: id)
       end
     end
   end
@@ -174,7 +171,10 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def happy_things_by_period(period, friend_ids)
-    HappyThing.where(start_time: period, user_id: friend_ids).order(created_at: :desc).group_by(&:user)
+    HappyThing.visible_to_user(current_user)
+              .where(start_time: period, user_id: friend_ids)
+              .order(created_at: :desc)
+              .group_by(&:user)
   end
 
   def user_ids(with_current_user: true)

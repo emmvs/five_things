@@ -1,0 +1,18 @@
+input[type="file"] {
+    display: none;
+}
+
+.image-upload {
+    display: flex;
+    flex-direction: row;
+    gap: $space-xs;
+    align-items: flex-start;
+    height: 38px;
+}
+
+.image-preview {
+    height: 100%;
+    max-width: 50%;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+}

@@ -1,17 +1,85 @@
 en:
   simple_form:
-    placeholders:
-      happy_thing:
-        title: What made you smile today?
-    labels:
-      happy_thing:
-        title: Name
+    users:
+      edit:
+        placeholders:
+          first_name: First name
+          emoji: Emoji
+          email: Email
+          password: New password
+          password_confirmation: Confirm new password
+          current_password: Current password to confirm changes
+        labels:
+          avatar: Change avatar
+          edit_profile: Edit profile
+          submit_changes: Submit changes
+          delete_account: Delete account
+          waiting_confirmation: Currently waiting confirmation for
+          email_opt_in: I want to receive emails about my friends' HappyThings!
+        confirm_prompt:
+          delete_confirm: Are you sure you want to delete your account? (This cannot be undone)
+        titles:
+          edit_profile: Edit profile
+      new:
+        placeholders:
+          password: Password
+          password_confirmation: Confirm password
+        labels:
+          avatar: Upload avatar
+          email_opt_in: I want to receive emails about my friends' HappyThings!
+          location_opt_in: I consent to the collection of my location data for creating HappyThings.
+        hints:
+          password: |
+            Password needs to:
+            • be at least 8 characters long
+            • contain one uppercase letter
+            • contain one lowercase letter
+            • contain one number
+            • contain one special character
+      login:
+        placeholders:
+          password: Password
+        titles:
+          welcome: Welcome back, little human!
+    happy_things:
+      old_happy_thing:
+        titles:
+          form_title: Add an old Happy Thing
+        labels:
+          start_time: Date of the Happy Thing
+      new:
+        submit:
+          submit: Create happy thing
+        placeholders:
+          title: What made you smile today?
+          place: Place
+        prompts:
+          category: Select a category
+          shared_with: All friends unless specified
+        labels:
+          photo: Upload Photo
+          share_location: Save my location for this happy thing
+          shared_with: Who should see this?
+        titles:
+          form_title: New happy thing
+      edit:
+        submit:
+          submit: Submit Changes
+        placeholders:
+          place: Place
+        confirm_prompt:
+          delete_confirm: Are you sure you want to delete this happy thing?
+        titles:
+          form_title: Edit happy thing
 
-  helpers:
-    submit:
-      happy_thing:
-        create: Create happy thing
-        update: Update happy thing
+  mailers:
+    user_mailer:
+      happy_email:
+        greeting: "Hey %{name}! %{emoji}"
+        body_one: "One of your friends just added <strong>5 happy things</strong> today. That's a whole lot of happy stuff! 🥳"
+        body_two: "Want to see what made them smile? Head over to your dashboard and soak up the good vibes."
+        link_text: "View Dashboard"
+        signature: "Share the love 🫶🏻<br>— Your 5 Things Team"
 
   errors:
     models:

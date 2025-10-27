@@ -7,7 +7,8 @@
   gap: $space-s;
   justify-content: space-between;
   margin-top: $space-m;
-  margin-bottom: $space-l;
+  margin-bottom: $space-m;
+  width: 100%;
 
   @include media(tabletAndUp) {
     margin-bottom: $space-xl;

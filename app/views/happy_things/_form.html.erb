@@ -1,56 +1,86 @@
 <%= simple_form_for happy_thing, html: { 
-  class: "happy_thing form mt-4 p-3", 
-  data: { controller: "user-location", user_location_target: "form" },
-  style: "display: flex; flex-direction: column; align-items: center;"
+  class: "form mt-4 p-3", 
+  data: { controller: "user-location", user_location_target: "form" }
 } do |f| %>
+  <div class="header">
+    <h1><%= title %></h1>
+  </div>
   <% if happy_thing.errors.any? %>
     <div class="error-message" style="max-width: 480px; width: 100%;">
       <%= happy_thing.errors.full_messages.to_sentence.capitalize %>
     </div>
   <% end %>
 
-  <div style="width: 100%; max-width: 480px;">
-    <%= f.input :title, input_html: { autofocus: true } %>
+  <%= f.input :title, label: false, placeholder: t('simple_form.happy_things.new.placeholders.title'), input_html: { autofocus: true } %>
+
+  <%= f.input :category_id, label: false, collection: Category.all, prompt: t('simple_form.happy_things.new.prompts.category') %>
+
+  <div data-controller="image-preview">
+    <div class="image-upload">
+      <label for="happy_thing_photo" class="button-secondary">
+        <%= t('simple_form.happy_things.new.labels.photo') %>
+      </label>
+      <%= f.input :photo, as: :file, 
+          input_html: { 
+            id: 'happy_thing_photo', 
+            style: 'display: none;', 
+            accept: 'image/*',
+            data: { 
+              image_preview_target: "input",
+              action: "change->image-preview#preview"
+            }
+          }, 
+          label: false %>
+      <img data-image-preview-target="preview" class="image-preview" />
+    </div>
   </div>
 
-  <div style="width: 100%; max-width: 480px;">
-    <%= f.input :category_id, collection: Category.all, prompt: "Select a category" %>
-  </div>
-
-  <div style="width: 100%; max-width: 480px;">
-    <%= f.input :photo, as: :file, input_html: { class: 'custom-file-upload' } %>
-  </div>
-
-  <div style="width: 100%; max-width: 480px;">
+  <div>
     <%= f.hidden_field :latitude %>
     <%= f.hidden_field :longitude %>
     <%= f.hidden_field :place %>
-    <%= f.input :share_location, as: :boolean, label: 'Share my location',
+    <%= f.input :share_location, as: :boolean, label: t('simple_form.happy_things.new.labels.share_location'),
                 input_html: { data: { action: "user-location#toggle" } } %>
   </div>
 
   <div style="width: 100%; max-width: 480px;">
     <%= f.input :shared_with_ids, as: :select,
                 collection: grouped_visibility_options(current_user),
-                label: "Who should see this?",
+                label: t('simple_form.happy_things.new.labels.shared_with'),
                 input_html: {
                   multiple: true,
                   data: {
-                    controller: "select",
-                    select_options_value: {
+                    controller: "select-visibility",
+                    select_visibility_options_value: {
                       create: true,
                       persist: false
                     }.to_json
                   }
                 },
-                prompt: "Everyone (unless selected below)" %>
+                prompt: t('simple_form.happy_things.new.prompts.shared_with') %>
   </div>
+
+  <% if params[:action] == 'old_happy_thing' %>
+    <%= f.input :start_time,
+          label: t('simple_form.happy_things.old_happy_thing.labels.start_time'),
+          as: :string,
+          input_html: { data: { controller: "datepicker" } } %>
+  <% end %>
 
   <% if params[:action] == 'edit' %>
     <div style="width: 100%; max-width: 480px;">
-      <%= f.input :place %>
+      <%= f.input :place, label: false, placeholder: t('simple_form.happy_things.edit.placeholders.place') %>
     </div>
   <% end %>
 
-  <%= f.submit class: "btn button--primary m-2", style: "max-width: 480px; width: 100%;" %>
+  <% if params[:action] == 'edit' %>
+    <div class="button-pair">
+        <%= f.submit class: "btn button--primary", value: t('simple_form.happy_things.edit.submit.submit') %>
+        <%= link_to "🗑️ Delete", happy_thing_path(happy_thing), method: :delete, class: "button-delete", 
+            data: { turbo_method: :delete, turbo_confirm: t('simple_form.happy_things.edit.confirm_prompt.delete_confirm') } %>
+      </div>
+  <% else %>
+      <%= f.submit class: "btn button--primary", style: "width: 100%;", value: t('simple_form.happy_things.new.submit.submit') %>
+  <% end %>
+
 <% end %>
