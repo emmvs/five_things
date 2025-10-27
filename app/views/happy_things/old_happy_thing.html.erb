@@ -1,15 +1,5 @@
 <div class="container my-3">
   <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary" %>
 
-  <div class="header">
-    <h1>Add an old happy thing</h1>
-  </div>
-
-  <%= simple_form_for @old_happy_thing, url: happy_things_old_happy_thing_path do |f| %>
-    <%= f.input :title, label: 'Title' %>
-    <%= f.input :start_time,
-            as: :string,
-            input_html: { data: { controller: "datepicker" } } %>
-    <%= f.button :submit, 'Save', class: 'btn button--primary mt-3' %>
-  <% end %>
+  <%= render "form", happy_thing: @old_happy_thing, title: t('simple_form.happy_things.old_happy_thing.titles.form_title') %>
 </div>

@@ -42,6 +42,11 @@ en:
         titles:
           welcome: Welcome back, little human!
     happy_things:
+      old_happy_thing:
+        titles:
+          form_title: Add an old Happy Thing
+        labels:
+          start_time: Date of the Happy Thing
       new:
         submit:
           submit: Create happy thing

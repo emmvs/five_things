@@ -60,6 +60,13 @@
                 prompt: t('simple_form.happy_things.new.prompts.shared_with') %>
   </div>
 
+  <% if params[:action] == 'old_happy_thing' %>
+    <%= f.input :start_time,
+          label: t('simple_form.happy_things.old_happy_thing.labels.start_time'),
+          as: :string,
+          input_html: { data: { controller: "datepicker" } } %>
+  <% end %>
+
   <% if params[:action] == 'edit' %>
     <div style="width: 100%; max-width: 480px;">
       <%= f.input :place, label: false, placeholder: t('simple_form.happy_things.edit.placeholders.place') %>

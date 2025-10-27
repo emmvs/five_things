@@ -42,6 +42,11 @@ de:
         titles:
           welcome: Willkommen zurück, kleiner Mensch!
     happy_things:
+      old_happy_thing:
+        titles:
+          form_title: Einen alten glücklichen Moment hinzufügen
+        labels:
+          start_time: Datum des Moments
       new:
         submit:
           submit: Glücklichen Moment erstellen
