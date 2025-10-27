@@ -78,6 +78,7 @@ Rails.application.configure do
   # Allows any ngrok subdomain for development
   config.hosts << 'localhost'
   config.hosts << /[a-z0-9-]+\.ngrok-free\.app/
+  config.hosts << /[a-z0-9-]+\.ngrok-free\.dev/
   config.hosts << /[a-z0-9-]+\.ngrok\.io/
 
   # Use an explicit host for mailer URLs.

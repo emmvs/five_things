@@ -90,7 +90,7 @@ rails s
 ngrok http 3000
 ```
 
-The ngrok URL will be displayed in Terminal 2 under "Forwarding" (e.g., `https://abc123.ngrok-free.app`). Use this URL to test the app on your mobile device.
+The ngrok URL will be displayed in Terminal 2 under "Forwarding" (e.g., `https://abc123.ngrok-free.app`, `https://abc123.ngrok-free.dev`, or `https://abc123.ngrok.io`). Use this URL to test the app on your mobile device. Ngrok URLs may end in `.app`, `.dev`, or `.io` depending on your ngrok account. The app is configured to accept all formats. 🙌🏻
 
 ### Services
 
