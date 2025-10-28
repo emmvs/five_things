@@ -22,3 +22,9 @@ en:
         password:
           length: "must be between 12 and 30 characters long"
           invalid: "must include at least one uppercase, one lowercase, one number, and one special character, and cannot contain spaces"
+
+  install_prompt:
+    title: Install Five Things
+    actions:
+      skip: Skip
+      install: Install

@@ -1,8 +1,22 @@
-<div class="install-prompt-backdrop" data-install-prompt-target="backdrop"></div>
-<div class="install-prompt-modal" data-install-prompt-target="installPrompt">
-  <h1>test modal</h1>
-  <div class="install-prompt-actions">
-    <button class="btn btn-secondary" data-action="click->install-prompt#dismiss">Skip</button>
-    <button class="btn btn-primary" data-action="click->install-prompt#install">Install</button>
+<div data-controller="install-prompt">
+  <div class="install-prompt-backdrop" data-install-prompt-target="backdrop"></div>
+
+  <div class="install-prompt-modal" data-install-prompt-target="installPromptModal">
+
+    <h1><%= t('install_prompt.title') %> 🖐️</h1>
+
+    <div class="install-prompt-content">
+
+      <%= render 'install_prompt_variants/ios_safari' %>
+      <%= render 'install_prompt_variants/android_chrome_and_edge' %>
+      <%= render 'install_prompt_variants/desktop_chrome_and_edge' %>
+
+    </div>
+
+    <div class="install-prompt-actions">
+      <button class="btn btn-secondary" data-action="click->install-prompt#dismiss"><%= t('install_prompt.actions.skip') %></button>
+      <button class="btn btn-primary" data-action="click->install-prompt#install"><%= t('install_prompt.actions.install') %></button>
+    </div>
+
   </div>
 </div>

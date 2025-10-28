@@ -11,6 +11,7 @@ class DashboardsController < ApplicationController
     @random_poem = fetch_random_poem
     @random_quote = fetch_random_quote
     @happy_thing = HappyThing.new
+    @render_install_prompt = !current_user.user_config&.install_prompt_shown || false
   end
 
   private
