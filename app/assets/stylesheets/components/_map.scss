@@ -1,17 +1,7 @@
 .rounded-map {
- border-radius: 15px; /* Or use a SASS variable $border-radius if it's defined in your environment */
- box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Example shadow, adjust as needed */
+ border-radius: $border-radius;
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
  overflow: hidden;
- margin: 5px auto;
- padding: 10px; /* Example padding, adjust using $space-xs if needed */
-
- /* Default to smaller size */
- width: 340px !important;
- height: 300px;
-
- /* Larger devices */
- @media (min-width: 768px) {
-   width: 100% !important;
-   height: 90vh;
- }
+ width: 100%;
+ height: 600px;
 }

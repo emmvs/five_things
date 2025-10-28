@@ -133,9 +133,8 @@ RSpec.describe User, type: :model do
 
     context 'when unconfirmed manual user tries OAuth' do
       it 'links OAuth and auto-confirms existing account' do
-        existing_user = create(:user,
-                               email: auth_hash.info.email,
-                               confirmed_at: nil)
+        existing_user = create(:user, email: auth_hash.info.email)
+        existing_user.update_column(:confirmed_at, nil)
 
         user = User.from_omniauth(auth_hash)
         existing_user.reload
