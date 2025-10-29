@@ -87,8 +87,6 @@ export default class extends Controller {
     }
 
     setModalContent() {
-        // this[`${this.platform}Target`].style.display = "block"
-
         if (this.platform === 'androidChromeEdge') {
             if (this.capturedNativePrompt !== null) {
                 this.showInstallButton();
@@ -112,6 +110,19 @@ export default class extends Controller {
 
     updateInstallPromptShown() {
         console.log('#updateInstallPromptShown')
+
+        fetch('/user_configs', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ 
+                user_config: { 
+                    install_prompt_shown: true 
+                } 
+            })
+        })
     }
 
     showTarget(target) {
