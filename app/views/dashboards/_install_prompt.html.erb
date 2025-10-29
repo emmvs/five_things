@@ -1,5 +1,6 @@
 <div data-controller="install-prompt">
-  <div class="install-prompt-backdrop" data-install-prompt-target="backdrop"></div>
+  <div class="install-prompt-backdrop" data-install-prompt-target="backdrop">
+  </div>
 
   <div class="install-prompt-modal" data-install-prompt-target="installPromptModal">
 
@@ -7,16 +8,34 @@
 
     <div class="install-prompt-content">
 
-      <%= render 'install_prompt_variants/ios_safari' %>
-      <%= render 'install_prompt_variants/android_chrome_and_edge' %>
-      <%= render 'install_prompt_variants/desktop_chrome_and_edge' %>
+      <div data-install-prompt-target="iosSafari" style="display: none;">
+        <%= render 'dashboards/install_prompt_variants/ios_safari' %>
+      </div>
+      <div data-install-prompt-target="androidChromeEdge" style="display: none;">
+        <%= render 'dashboards/install_prompt_variants/android_chrome_and_edge' %>
+      </div>
+      <div data-install-prompt-target="desktopChromeEdge" style="display: none;">
+        <%= render 'dashboards/install_prompt_variants/desktop_chrome_and_edge' %>
+      </div>
+      <div data-install-prompt-target="fallbackPlatform" style="display: none;">
+        <%= render 'dashboards/install_prompt_variants/fallback' %>
+      </div>
 
     </div>
 
     <div class="install-prompt-actions">
-      <button class="btn btn-secondary" data-action="click->install-prompt#dismiss"><%= t('install_prompt.actions.skip') %></button>
-      <button class="btn btn-primary" data-action="click->install-prompt#install"><%= t('install_prompt.actions.install') %></button>
+      <button class="btn btn-secondary" 
+              data-action="click->install-prompt#dismiss">
+        <%= t('install_prompt.actions.skip') %>
+      </button>
+      <button class="btn btn-primary" 
+              data-install-prompt-target="installButton" 
+              data-action="click->install-prompt#install"
+              style="display: none;">
+        <%= t('install_prompt.actions.install') %>
+      </button>
     </div>
 
   </div>
+
 </div>

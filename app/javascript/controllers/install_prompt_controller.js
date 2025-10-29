@@ -1,48 +1,125 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ["installPromptModal", "backdrop"]
+    static targets = [
+        "installPromptModal", "backdrop", "installButton",
+        "iosSafari", "androidChromeEdge", "desktopChromeEdge", "fallbackPlatform",
+        "native", "fallback"
+    ]
 
     connect() {
         console.log('Install prompt controller connected')
-        if (!this.isInstalled()) {
-            this.showModal()
+        console.log(navigator.userAgent)
+        
+        if (this.isInstalled()) return;
+ 
+        this.platform = this.detectPlatform();   
+
+        this.capturedNativePrompt = null;
+        if (this.platform === 'androidChromeEdge' || this.platform === 'desktopChromeEdge') {
+            this.captureBeforeInstallPrompt();
         }
+        
+        this.showModal();
+        this.updateInstallPromptShown();
     }
 
     dismiss() {
-        console.log('Dismissing install prompt')
         this.hideModal()
     }
 
     install() {
-        console.log('Install  clicked')
+        console.log('#install')
+
+        if (this.capturedNativePrompt) {
+            this.capturedNativePrompt.prompt();
+        }
+
         this.hideModal()
     }
 
+    showInstallButton() {
+        this.showTarget('installButton')
+    }
+
     isInstalled() {
+        return (window.matchMedia('(display-mode: standalone)').matches)
     }
 
     detectPlatform() {
+        const userAgent = navigator.userAgent;
+
+        if (userAgent.match(/(iPod|iPhone|iPad)/) && 
+            userAgent.match(/AppleWebKit/) &&
+            !userAgent.match(/CriOS/)) {
+            return 'iosSafari';
+        }
+
+        if (userAgent.match(/Android/) &&
+            userAgent.match(/Chrome|Edg/)) {
+            return 'androidChromeEdge';
+        }
+
+        if (!userAgent.match(/Mobile/) &&
+            userAgent.match(/Chrome|Edg/)) {
+            return 'desktopChromeEdge';
+        }
+
+        return 'fallback';
     }
 
     captureBeforeInstallPrompt() {
+        window.addEventListener("beforeinstallprompt", (e) => {
+            e.preventDefault();
+            this.capturedNativePrompt = e;
+          });
     }
 
     hideModal() {
-        this.backdropTarget.style.display = "none"
-        this.installPromptModalTarget.style.display = "none"
+        this.hideTarget('backdrop')
+        this.hideTarget('installPromptModal')
     }
 
     showModal() {
-        this.backdropTarget.style.display = "block"
-        this.installPromptModalTarget.style.display = "block"
+        this.showTarget('backdrop')
+        this.showTarget('installPromptModal')
+        this.setModalContent();
     }
 
-    updateModalContent() {
+    setModalContent() {
+        // this[`${this.platform}Target`].style.display = "block"
+
+        if (this.platform === 'androidChromeEdge') {
+            if (this.capturedNativePrompt !== null) {
+                this.showInstallButton();
+                this.showTarget('native')
+            } else {
+                this.showTarget('fallback')
+            }
+        } else if (this.platform === 'desktopChromeEdge') {
+            if (this.capturedNativePrompt !== null) {
+                this.showInstallButton();
+                this.showTarget('native')
+            } else {
+                this.showTarget('fallback')
+            }
+        } else if (this.platform === 'iosSafari') {
+            this.showTarget('iosSafari')
+        } else {
+            this.showTarget('fallbackPlatform')
+        }
     }
 
     updateInstallPromptShown() {
+        console.log('#updateInstallPromptShown')
+    }
+
+    showTarget(target) {
+        this[`${target}Target`].style.display = "block"
+    }
+
+    hideTarget(target) {
+        this[`${target}Target`].style.display = "none"
     }
 }
 
