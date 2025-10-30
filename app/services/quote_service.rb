@@ -3,9 +3,10 @@
 class QuoteService < ApplicationService
   API_URL = 'https://api.api-ninjas.com/v1/quotes'
 
-  def initialize(category)
+  def initialize(category) # rubocop:disable Lint/MissingSuper
     @category = category
-    @api_key = ENV.fetch('API_NINJAS_KEY')
+    @api_key = ENV['API_NINJAS_KEY'] ||
+               (defined?(Rails) && (Rails.env.development? || Rails.env.test?) ? 'FAKE_API_NINJAS_KEY' : nil)
   end
 
   def call
@@ -28,8 +29,8 @@ class QuoteService < ApplicationService
   def fetch_fake_quote
     fake_quotes = [
       'Happiness is not something ready-made. It comes from your own actions. - Dalai Lama',
-      'The only thing that will make you happy is being happy with who you are, and not who people think you are. - Goldie Hawn',
-      'Happiness is a butterfly, which when pursued, is always beyond your grasp, but which, if you will sit down quietly, may alight upon you. - Nathaniel Hawthorne'
+      'The only thing that will make you happy is being happy with who you are, and not who people think you are. - Goldie Hawn', # rubocop:disable Layout/LineLength
+      'Happiness is a butterfly, which when pursued, is always beyond your grasp, but which, if you will sit down quietly, may alight upon you. - Nathaniel Hawthorne' # rubocop:disable Layout/LineLength
     ]
     fake_quotes.sample
   end

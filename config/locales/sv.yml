@@ -1,0 +1,42 @@
+sv:
+  simple_form:
+    placeholders:
+      happy_thing:
+        title: Vad fick dig att le idag?
+    labels:
+      happy_thing:
+        title: Namn
+
+  helpers:
+    submit:
+      happy_thing:
+        create: Skapa glad sak
+        update: Uppdatera glad sak
+
+  errors:
+    models:
+      user:
+        first_name:
+          length: "måste vara mellan 3 och 30 tecken lång"
+          invalid: "kan inte innehålla länkar eller skript"
+        password:
+          length: "måste vara mellan 12 och 30 tecken lång"
+          invalid: "måste innehålla minst en stor bokstav, en liten bokstav, en siffra och ett specialtecken, och kan inte innehålla mellanslag"
+
+  friendships:
+    created: "Vänförfrågan skickad. 👻"
+    create_failed: "Kunde inte skicka vänförfrågan. 🤔"
+    accepted: "Vänförfrågan accepterad. 🫱🏻‍🫲🏾"
+    accept_failed: "Kunde inte acceptera vänförfrågan. 🙈"
+    destroyed: "Vänskap borttagen. 😭"
+
+  friends:
+    page_title: "Lägg till eller sök vänner"
+    search_placeholder: "Sök efter namn, användarnamn eller e-post"
+    my_friends:
+      one: "Min vän"
+      other: "Mina vänner"
+    pending_sent: "Skickade förfrågningar"
+    pending_received: "Mottagna vänförfrågningar"
+    users: "Användare"
+    no_results: "Inga användare hittades för"

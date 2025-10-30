@@ -33,7 +33,7 @@ class HappyThing < ApplicationRecord
   validates :title, presence: true
 
   before_validation :set_default_category, on: :create
-  after_validation :geocode, if: :will_save_change_to_place?
+  after_validation :geocode, if: -> { will_save_change_to_place? && !Rails.env.test? && geocoding_enabled? }
   before_create :add_date_time_to_happy_thing, unless: :start_time_present?
   after_create :check_happy_things_count
 
@@ -47,22 +47,6 @@ class HappyThing < ApplicationRecord
 
   def add_date_time_to_happy_thing
     self.start_time ||= Time.zone.now
-  end
-
-  def ai_title # rubocop:disable Metrics/MethodLength
-    Rails.cache.fetch("#{cache_key_with_version}/content") do
-      client = OpenAI::Client.new
-      chaptgpt_response = client.chat(
-        parameters: {
-          model: 'gpt-4',
-          messages: [{
-            role: 'user',
-            content: "Give me a simple thing to do that would make someone happy who is suffering from depression. Give me only the title, without any of your own weird metaphors or answers like 'Here is a simple happy thing.' Please ensure that the things are unique and suitable for intelligent people who need their brains stimulated by good things. It should fit into a text like so: 'Something to make you happy is\n todo.'"
-          }]
-        }
-      )
-      @ai_happy_thing = chaptgpt_response['choices'][0]['message']['content']
-    end
   end
 
   private
@@ -83,8 +67,14 @@ class HappyThing < ApplicationRecord
   end
 
   def notify_friends_about_happy_things
-    user.friends_and_friends_who_added_me.each do |friend|
+    user.all_friends.each do |friend|
       UserMailer.happy_things_notification(friend).deliver_later
     end
+  end
+
+  def geocoding_enabled?
+    return false if Rails.env.test? || ENV['GEOCODER_API_KEY'].blank?
+
+    true
   end
 end

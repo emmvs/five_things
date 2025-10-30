@@ -1,0 +1,26 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.4
+  Exclude:
+    - 'bin/**/*'
+    - 'db/schema.rb'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - '.github/**/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/**/*'
+    - 'db/schema.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/NumericLiterals:
+  Exclude:
+    - 'db/schema.rb'
+
+Layout/LineLength:
+  Max: 120

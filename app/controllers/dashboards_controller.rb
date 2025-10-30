@@ -7,7 +7,6 @@ class DashboardsController < ApplicationController
   before_action :set_happy_things_of_today, only: [:index]
 
   def index
-    @should_render_navbar = true
     @random_poem = fetch_random_poem
     @random_quote = fetch_random_quote
     @happy_thing = HappyThing.new

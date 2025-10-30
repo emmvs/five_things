@@ -50,18 +50,13 @@ end
 # --- Friendships ---
 Friendship.create!([
                      { user: u('Emmsiboom'), friend: u('Joshy'), accepted: true },
-                     { user: u('Joshy'), friend: u('Emmsiboom'), accepted: true },
                      { user: u('Emmsiboom'), friend: u('Hansibaby'), accepted: true },
-                     { user: u('Hansibaby'), friend: u('Emmsiboom'), accepted: true },
                      { user: u('Emmsiboom'), friend: u('Juanfairy'), accepted: true },
-                     { user: u('Juanfairy'), friend: u('Emmsiboom'), accepted: true },
                      { user: u('Mäx'), friend: u('Emmsiboom'), accepted: false },
                      { user: u('Santimaus'), friend: u('Emmsiboom'), accepted: false },
                      { user: u('Emmsiboom'), friend: u('Florenke'), accepted: false },
                      { user: u('Joshy'), friend: u('Hansibaby'), accepted: true },
-                     { user: u('Hansibaby'), friend: u('Joshy'), accepted: true },
                      { user: u('Juanfairy'), friend: u('Santimaus'), accepted: true },
-                     { user: u('Santimaus'), friend: u('Juanfairy'), accepted: true },
                      { user: u('Mäx'), friend: u('Joshy'), accepted: false },
                      { user: u('Juanfairy'), friend: u('Mäx'), accepted: false }
                    ])
@@ -97,7 +92,7 @@ User.all.each do |user|
 
     count.times do
       HappyThing.create!(
-        user: user,
+        user:,
         title: Faker::Hobby.activity,
         body: Faker::Lorem.paragraph(sentence_count: 2),
         start_time: date.change(hour: rand(8..22)),

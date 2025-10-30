@@ -27,11 +27,18 @@
 #  uid                    :string
 #
 class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
+  PASSWORD_REGEX = /\A
+    (?=.*[a-z])       # at least one lowercase letter
+    (?=.*[A-Z])       # at least one uppercase letter
+    (?=.*\d)          # at least one digit
+    (?=.*[^A-Za-z0-9])# at least one special character
+    .{8,30}           # between 8 and 30 characters
+  \z/x
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable,
          :omniauthable, omniauth_providers: [:google_oauth2]
-  # TODO: Add :trackable, :lockable
 
   scope :all_except, ->(user) { where.not(id: user.id) }
 
@@ -46,10 +53,11 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :password, presence: true,
                        length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
                        format: {
-                         with: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}/,
+                         with: PASSWORD_REGEX,
                          message: I18n.t('errors.models.user.password.invalid')
                        },
-                       on: %i[create update]
+                       confirmation: true,
+                       if: :password_required?
 
   validates :provider, presence: true, on: :oauth_linking
   validates :uid, presence: true, on: :oauth_linking
@@ -62,13 +70,10 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :group_memberships, foreign_key: :friend_id, dependent: :destroy
   has_many :groups_as_member, through: :group_memberships, source: :group
 
-  # Friendships
+  # Friendships - Bidirectional: each friendship exists as two records
   has_many :friendships, dependent: :destroy
-  has_many :received_friend_requests, class_name: 'Friendship', foreign_key: 'friend_id', dependent: :destroy
   has_many :friends, -> { where(friendships: { accepted: true }) }, through: :friendships, source: :friend
-  has_many :friends_who_added_me, lambda {
-                                    where(friendships: { accepted: true })
-                                  }, through: :received_friend_requests, source: :user
+  has_many :pending_friends, -> { where(friendships: { accepted: false }) }, through: :friendships, source: :friend
 
   has_one_attached :avatar
 
@@ -81,21 +86,13 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
           query: "%#{query}%")
   end
 
-  def friends_and_friends_who_added_me_ids
-    friends.pluck(:id) + friends_who_added_me.pluck(:id)
+  def friend_ids
+    friends.pluck(:id)
   end
 
-  def all_friends
-    friends + friends_who_added_me
-  end
-
-  def accepted_friends
-    friendships.where(status: :accepted)
-  end
-
-  def pending_friends
-    friendships.pending + received_friend_requests.pending
-  end
+  # Aliases for backward compatibility
+  alias friends_and_friends_who_added_me_ids friend_ids
+  alias all_friends friends
 
   def happy_streak
     return 0 if happy_things.empty?
@@ -104,10 +101,6 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     return 0 if dates.empty?
 
     calculate_streak(dates)
-  end
-
-  def friends_and_friends_who_added_me
-    User.where(id: friends_and_friends_who_added_me_ids)
   end
 
   def self.from_omniauth(auth) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
@@ -177,7 +170,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     streak
   end
 
-  def self.generate_first_name_candidates(name, email)
+  def self.generate_first_name_candidates(name, email) # rubocop:disable Metrics/CyclomaticComplexity
     [
       name&.split&.first,
       name&.strip,
@@ -187,6 +180,10 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def self.generate_password_for_oauth
     "Oauth1!#{SecureRandom.hex(4)}"
+  end
+
+  def password_required?
+    !persisted? || !password.nil?
   end
 
   private_class_method :generate_password_for_oauth, :generate_first_name_candidates
