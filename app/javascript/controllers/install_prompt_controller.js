@@ -4,7 +4,7 @@ export default class extends Controller {
     static targets = [
         "installPromptModal", "backdrop", "installButton",
         "iosSafari", "androidChromeEdge", "desktopChromeEdge", "fallbackPlatform",
-        "native", "fallback"
+        "androidChromeEdgeNative", "androidChromeEdgeFallback", "desktopChromeEdgeNative", "desktopChromeEdgeFallback"
     ]
 
     connect() {
@@ -69,10 +69,12 @@ export default class extends Controller {
     }
 
     captureBeforeInstallPrompt() {
+        console.log('Setting up beforeinstallprompt listener')
         window.addEventListener("beforeinstallprompt", (e) => {
+            console.log('beforeinstallprompt event fired!')
             e.preventDefault();
             this.capturedNativePrompt = e;
-          });
+        });
     }
 
     hideModal() {
@@ -88,18 +90,27 @@ export default class extends Controller {
 
     setModalContent() {
         if (this.platform === 'androidChromeEdge') {
+            console.log('androidChromeEdge1')
             if (this.capturedNativePrompt !== null) {
                 this.showInstallButton();
-                this.showTarget('native')
+                this.showTarget('androidChromeEdge')
+                this.showTarget('androidChromeEdgeNative')
+                console.log('androidChromeEdge2')
             } else {
-                this.showTarget('fallback')
+                console.log('androidChromeEdge FALLBACK')
+                this.showTarget('androidChromeEdge')
+                this.showTarget('androidChromeEdgeFallback')
             }
         } else if (this.platform === 'desktopChromeEdge') {
+            console.log('desktopChromeEdge1')
             if (this.capturedNativePrompt !== null) {
                 this.showInstallButton();
-                this.showTarget('native')
+                this.showTarget('desktopChromeEdge')
+                this.showTarget('desktopChromeEdgeNative')
             } else {
-                this.showTarget('fallback')
+                console.log('desktopChromeEdge FALLBACK')
+                this.showTarget('desktopChromeEdge')
+                this.showTarget('desktopChromeEdgeFallback')
             }
         } else if (this.platform === 'iosSafari') {
             this.showTarget('iosSafari')
@@ -126,6 +137,7 @@ export default class extends Controller {
     }
 
     showTarget(target) {
+        console.log('showTarget called for:', target, 'exists:', this[`${target}Target`] !== undefined)
         this[`${target}Target`].style.display = "block"
     }
 
