@@ -71,7 +71,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'annotate' # Annotate models with schema
+  gem 'annotaterb' # Annotate models with schema (Rails 8 compatible fork)
   gem 'brakeman' # Static analysis security vulnerability scanner for Ruby on Rails applications
   gem 'letter_opener' # Preview emails in the browser instead of sending them
   gem 'web-console' # Rails console for the browser
