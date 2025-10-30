@@ -22,6 +22,11 @@
   padding: $space-m;
   border-radius: $border-radius;
   box-shadow: $box-shadow;
+
+  ol {
+    padding-left: 0;
+    list-style-position: inside;
+  }
 }
 
 .install-prompt-actions {

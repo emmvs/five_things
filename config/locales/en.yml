@@ -24,7 +24,7 @@ en:
           invalid: "must include at least one uppercase, one lowercase, one number, and one special character, and cannot contain spaces"
 
   install_prompt:
-    title: Install Five Things
+    title: Install 5 Things
     actions:
       skip: Skip
       install: Install
