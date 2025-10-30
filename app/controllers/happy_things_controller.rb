@@ -22,6 +22,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def show
     @marker = @happy_thing.geocoded? ? { lat: @happy_thing.latitude, lng: @happy_thing.longitude } : nil
+    @comment = Comment.new
   end
 
   def new
@@ -73,7 +74,6 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def show_by_date
-    @comment = Comment.new
     @date = begin
       Date.parse(params[:date])
     rescue ArgumentError
