@@ -2,7 +2,7 @@
 
 class UserConfigsController < ApplicationController
   def update
-    @user_config = current_user.user_config
+    @user_config = current_user.user_config || current_user.create_user_config
 
     if @user_config.update(user_config_params)
       head :ok

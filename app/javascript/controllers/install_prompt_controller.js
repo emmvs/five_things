@@ -111,7 +111,7 @@ export default class extends Controller {
     updateInstallPromptShown() {
         console.log('#updateInstallPromptShown')
 
-        fetch('/user_configs', {
+        fetch('/user_configs/update', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
