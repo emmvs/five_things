@@ -81,3 +81,5 @@ group :test do
   gem 'capybara' # Capybara for integration testing
   gem 'selenium-webdriver' # WebDriver for browsers
 end
+
+gem "mini_magick", "~> 5.3"

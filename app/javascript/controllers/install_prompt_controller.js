@@ -10,6 +10,7 @@ export default class extends Controller {
     connect() {
         console.log('Install prompt controller connected')
         console.log(navigator.userAgent)
+        console.log('SERVICE WORKER ?!', navigator.serviceWorker.controller)
         
         if (this.isInstalled()) return;
  
@@ -71,7 +72,7 @@ export default class extends Controller {
     captureBeforeInstallPrompt() {
         console.log('Setting up beforeinstallprompt listener')
         window.addEventListener("beforeinstallprompt", (e) => {
-            console.log('beforeinstallprompt event fired!')
+            console.log('beforeinstallprompt CAPTURED WOOOOOOOOOOO 🥳🥳🥳🥳🥳🥳🥳')
             e.preventDefault();
             this.capturedNativePrompt = e;
         });
