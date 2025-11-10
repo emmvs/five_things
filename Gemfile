@@ -82,4 +82,4 @@ group :test do
   gem 'selenium-webdriver' # WebDriver for browsers
 end
 
-gem "mini_magick", "~> 5.3"
+gem 'mini_magick', '~> 5.3'

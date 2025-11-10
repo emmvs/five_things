@@ -32,7 +32,9 @@ namespace :assets do
 
     icons.each do |dest, size|
       resized_image = MiniMagick::Image.open(source)
-      resized_image.resize "#{size}x#{size}"
+      resized_image.resize "#{size}x#{size}^"
+      resized_image.gravity 'center'
+      resized_image.extent "#{size}x#{size}"
       resized_image.write(dest)
       puts "✅ Generated #{dest.basename} (#{size}x#{size})"
     end
