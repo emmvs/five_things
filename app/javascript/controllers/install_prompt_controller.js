@@ -23,6 +23,10 @@ export default class extends Controller {
         this.updateInstallPromptShown();
     }
 
+    disconnect() {
+        window.removeEventListener('beforeinstallprompt', this.nativePromptReadyHandler);
+    }
+
     nativePromptReadyHandler = () => {
         this.capturedNativePrompt = window.capturedNativePrompt;
         this.setModalContent();
