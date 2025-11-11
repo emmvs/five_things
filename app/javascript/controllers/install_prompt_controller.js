@@ -135,7 +135,9 @@ export default class extends Controller {
                     install_prompt_shown: true 
                 } 
             })
-        })
+        }).catch(error => {
+            console.error('Error updating install_prompt_shown:', error);
+        });
     }
 
     showTarget(target) {
