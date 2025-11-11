@@ -16,14 +16,17 @@ export default class extends Controller {
  
         this.platform = this.detectPlatform();   
 
-        this.capturedNativePrompt = null;
-        if (this.platform === 'androidChromeEdge' || this.platform === 'desktopChromeEdge') {
-            this.captureBeforeInstallPrompt();
-        }
+        this.capturedNativePrompt = window.capturedNativePrompt;
+        window.addEventListener('beforeinstallprompt', this.nativePromptReadyHandler);
         
         this.showModal();
         this.updateInstallPromptShown();
     }
+
+    nativePromptReadyHandler = () => {
+        this.capturedNativePrompt = window.capturedNativePrompt;
+        this.setModalContent();
+    };
 
     dismiss() {
         this.hideModal()
@@ -69,15 +72,6 @@ export default class extends Controller {
         return 'fallback';
     }
 
-    captureBeforeInstallPrompt() {
-        console.log('Setting up beforeinstallprompt listener')
-        window.addEventListener("beforeinstallprompt", (e) => {
-            console.log('beforeinstallprompt CAPTURED WOOOOOOOOOOO 🥳🥳🥳🥳🥳🥳🥳')
-            e.preventDefault();
-            this.capturedNativePrompt = e;
-        });
-    }
-
     hideModal() {
         this.hideTarget('backdrop')
         this.hideTarget('installPromptModal')
@@ -90,6 +84,8 @@ export default class extends Controller {
     }
 
     setModalContent() {
+        this.hideAllVariants();
+        
         if (this.platform === 'androidChromeEdge') {
             console.log('androidChromeEdge1')
             if (this.capturedNativePrompt !== null) {
@@ -110,6 +106,7 @@ export default class extends Controller {
                 this.showTarget('desktopChromeEdgeNative')
             } else {
                 console.log('desktopChromeEdge FALLBACK')
+                console.log('capturedNativePrompt', this.capturedNativePrompt)
                 this.showTarget('desktopChromeEdge')
                 this.showTarget('desktopChromeEdgeFallback')
             }
@@ -144,6 +141,17 @@ export default class extends Controller {
 
     hideTarget(target) {
         this[`${target}Target`].style.display = "none"
+    }
+
+    hideAllVariants() {
+        this.hideTarget('androidChromeEdge');
+        this.hideTarget('androidChromeEdgeNative');
+        this.hideTarget('androidChromeEdgeFallback');
+        this.hideTarget('desktopChromeEdge');
+        this.hideTarget('desktopChromeEdgeNative');
+        this.hideTarget('desktopChromeEdgeFallback');
+        this.hideTarget('iosSafari');
+        this.hideTarget('fallbackPlatform');
     }
 }
 
