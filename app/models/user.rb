@@ -75,6 +75,9 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :friends, -> { where(friendships: { accepted: true }) }, through: :friendships, source: :friend
   has_many :pending_friends, -> { where(friendships: { accepted: false }) }, through: :friendships, source: :friend
 
+  # Inverse friendships (where this user is the friend, not the owner)
+  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: :friend_id, dependent: :destroy
+
   has_one_attached :avatar
 
   def self.search(query)

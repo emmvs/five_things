@@ -3,6 +3,7 @@
 module Users
   class RegistrationsController < Devise::RegistrationsController
     before_action :disable_navbar, only: %i[new]
+    skip_before_action :require_no_authentication, only: [:cancel]
 
     def update_resource(resource, _params)
       if updating_sensitive_info?
@@ -16,6 +17,8 @@ module Users
       @user = current_user
       render 'devise/registrations/edit'
     end
+
+    def cancel; end
 
     private
 

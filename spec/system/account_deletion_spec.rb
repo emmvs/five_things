@@ -21,14 +21,17 @@ RSpec.describe 'Account Deletion', type: :system do
 
     click_link(href: settings_path)
 
-    expect(page).to have_link('Cancel my account', wait: 2)
+    expect(page).to have_link(I18n.t('account.delete.unhappy_button'), wait: 2)
+
+    click_link I18n.t('account.delete.unhappy_button')
+
+    expect(page).to have_content(I18n.t('account.delete.page_title'), wait: 2)
 
     page.evaluate_script('window.confirm = function() { return true; }')
-    click_on 'Cancel my account'
+    click_on I18n.t('account.delete.delete_button')
 
     expect(page).to have_current_path(root_path, wait: 2)
-    expect(page).to have_content('Bye! Your account has been successfully cancelled. We hope to see you again soon.',
-                                 wait: 2)
+    expect(page).to have_content(I18n.t('devise.registrations.destroyed'), wait: 2)
     expect(User.find_by(id: user.id)).to be_nil
   end
 end

@@ -68,6 +68,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_26_140700) do
     t.index ["user_id"], name: "index_daily_happy_email_deliveries_on_user_id"
   end
 
+  create_table "data_access_logs", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "accessed_model"
+    t.integer "accessed_id"
+    t.string "action"
+    t.string "ip_address"
+    t.text "user_agent"
+    t.jsonb "metadata", default: {}
+    t.datetime "accessed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["accessed_at"], name: "index_data_access_logs_on_accessed_at"
+    t.index ["accessed_model", "accessed_id"], name: "index_data_access_logs_on_accessed_model_and_accessed_id"
+    t.index ["user_id"], name: "index_data_access_logs_on_user_id"
+  end
+
   create_table "friendships", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "friend_id"
