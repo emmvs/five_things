@@ -56,4 +56,8 @@ Rails.application.routes.draw do
   resources :dashboards, as: :dashboard do
     # get :retrieve_poem, on: :collection
   end
+
+  # Legal pages
+  get 'privacy', to: 'legal#privacy'
+  get 'terms', to: 'legal#terms'
 end
