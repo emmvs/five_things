@@ -1,0 +1,71 @@
+<div class="container py-4 px-3">
+  <h2 class="mb-4">Oura Ring Integration 💍</h2>
+  
+  <% if current_user.oura_access_token.present? %>
+    <div class="alert alert-success mt-4 p-4">
+      <h4 class="mb-3">✓ Connected to Oura Ring</h4>
+      <% oura_service = OuraService.new(current_user) %>
+      <% if oura_service.connected? %>
+        <% latest_sleep = oura_service.latest_sleep_score %>
+        <% if latest_sleep %>
+          <div class="mb-3">
+            <strong class="d-block mb-2">Latest sleep score:</strong> 
+            <span class="badge bg-<%= latest_sleep >= 85 ? 'success' : latest_sleep >= 70 ? 'warning' : 'danger' %>" style="font-size: 1.5rem; padding: 0.75rem 1rem;">
+              <%= latest_sleep %>/100
+            </span>
+          </div>
+        <% end %>
+        
+        <% sleep_trend = oura_service.sleep_trend %>
+        <% if sleep_trend %>
+          <div class="mb-3">
+            <strong class="d-block mb-2">7-day average:</strong> 
+            <span class="badge bg-secondary me-2" style="font-size: 1.25rem; padding: 0.5rem 0.75rem;"><%= sleep_trend[:average] %>/100</span>
+            <span class="badge <%= sleep_trend[:trend] == 'improving' ? 'bg-success' : sleep_trend[:trend] == 'declining' ? 'bg-warning' : 'bg-info' %>" style="font-size: 1rem; padding: 0.5rem 0.75rem;">
+              <%= sleep_trend[:trend].titleize %>
+            </span>
+          </div>
+          <p class="mb-0 text-muted">
+            Range: <%= sleep_trend[:min] %> - <%= sleep_trend[:max] %>
+          </p>
+        <% end %>
+      <% else %>
+        <p class="text-warning mb-0">⚠️ Token expired - please reconnect below</p>
+      <% end %>
+      
+      <hr class="my-4">
+      
+      <%= link_to "Disconnect Oura", oura_connection_path, 
+          data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to disconnect your Oura Ring?" },
+          class: "btn btn-outline-danger btn-lg w-100 py-3" %>
+    </div>
+  <% else %>
+    <div class="card mt-4">
+      <div class="card-body p-4">
+        <h4 class="card-title mb-4">Why connect your Oura Ring?</h4>
+        <ul class="mt-3 mb-4" style="line-height: 2;">
+          <li class="mb-2">Track how your sleep quality correlates with your happy moments</li>
+          <li class="mb-2">See activity levels alongside your daily happiness entries</li>
+          <li class="mb-2">Get insights into patterns between rest and well-being</li>
+          <li class="mb-2">Private and secure - your data stays with you</li>
+        </ul>
+        
+        <h5 class="mt-5 mb-3">What data we access:</h5>
+        <ul class="mb-4" style="line-height: 2;">
+          <li class="mb-2"><strong>Daily Sleep:</strong> Sleep scores and quality metrics</li>
+          <li class="mb-2"><strong>Daily Activity:</strong> Movement and activity levels</li>
+          <li class="mb-2"><strong>Heart Rate:</strong> Heart rate trends</li>
+          <li class="mb-2"><strong>Workouts:</strong> Exercise sessions</li>
+        </ul>
+        
+        <div class="alert alert-info mt-4 p-4">
+          <strong>Privacy Note:</strong> We only access data you explicitly authorize. You can disconnect at any time, and we'll delete all Oura data from our servers.
+        </div>
+        
+        <%= link_to "Connect Your Oura Ring", authorize_oura_connection_path, 
+            data: { turbo: false },
+            class: "btn btn-primary btn-lg w-100 py-3 mt-4" %>
+      </div>
+    </div>
+  <% end %>
+</div>

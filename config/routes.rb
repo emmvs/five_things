@@ -26,9 +26,17 @@ Rails.application.routes.draw do
     get 'settings', to: 'users/registrations#settings'
     patch 'settings', to: 'users/registrations#update'
   end
+
   resources :users, only: %i[index show]
+
   get 'friends', to: 'users#friends'
   get 'profile', to: 'users#profile'
+
+  resource :oura_connection, only: [:destroy] do
+    get :connect
+    get :authorize
+    get :callback
+  end
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,
@@ -56,4 +64,8 @@ Rails.application.routes.draw do
   resources :dashboards, as: :dashboard do
     # get :retrieve_poem, on: :collection
   end
+
+  # Legal pages
+  get 'privacy', to: 'legal#privacy'
+  get 'terms', to: 'legal#terms'
 end

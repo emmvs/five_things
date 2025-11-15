@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_26_140700) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_15_092516) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -154,8 +154,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_26_140700) do
     t.string "unconfirmed_email"
     t.string "provider"
     t.string "uid"
+    t.string "oura_access_token"
+    t.string "oura_refresh_token"
+    t.datetime "oura_token_expires_at"
+    t.string "oura_user_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["oura_user_id"], name: "index_users_on_oura_user_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

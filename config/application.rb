@@ -23,5 +23,8 @@ module FiveThings
     #
     # config.time_zone = "Berlin"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Add custom directories to autoload paths
+    config.autoload_paths += %W[#{config.root}/app/clients]
   end
 end
