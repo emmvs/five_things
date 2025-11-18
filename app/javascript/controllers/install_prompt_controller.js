@@ -8,10 +8,6 @@ export default class extends Controller {
     ]
 
     connect() {
-        console.log('Install prompt controller connected')
-        console.log(navigator.userAgent)
-        console.log('SERVICE WORKER ?!', navigator.serviceWorker.controller)
-        
         if (this.isInstalled()) return;
  
         this.platform = this.detectPlatform();   
@@ -37,8 +33,6 @@ export default class extends Controller {
     }
 
     install() {
-        console.log('#install')
-
         if (this.capturedNativePrompt) {
             this.capturedNativePrompt.prompt();
         }
@@ -91,26 +85,20 @@ export default class extends Controller {
         this.hideAllVariants();
         
         if (this.platform === 'androidChromeEdge') {
-            console.log('androidChromeEdge1')
             if (this.capturedNativePrompt !== null) {
                 this.showInstallButton();
                 this.showTarget('androidChromeEdge')
                 this.showTarget('androidChromeEdgeNative')
-                console.log('androidChromeEdge2')
             } else {
-                console.log('androidChromeEdge FALLBACK')
                 this.showTarget('androidChromeEdge')
                 this.showTarget('androidChromeEdgeFallback')
             }
         } else if (this.platform === 'desktopChromeEdge') {
-            console.log('desktopChromeEdge1')
             if (this.capturedNativePrompt !== null) {
                 this.showInstallButton();
                 this.showTarget('desktopChromeEdge')
                 this.showTarget('desktopChromeEdgeNative')
             } else {
-                console.log('desktopChromeEdge FALLBACK')
-                console.log('capturedNativePrompt', this.capturedNativePrompt)
                 this.showTarget('desktopChromeEdge')
                 this.showTarget('desktopChromeEdgeFallback')
             }
@@ -122,8 +110,6 @@ export default class extends Controller {
     }
 
     updateInstallPromptShown() {
-        console.log('#updateInstallPromptShown')
-
         fetch('/user_configs/update', {
             method: 'PATCH',
             headers: {
@@ -141,7 +127,6 @@ export default class extends Controller {
     }
 
     showTarget(target) {
-        console.log('showTarget called for:', target, 'exists:', this[`${target}Target`] !== undefined)
         this[`${target}Target`].style.display = "block"
     }
 

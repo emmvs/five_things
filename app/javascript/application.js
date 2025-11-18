@@ -11,7 +11,6 @@ import "@popperjs/core"
 
 window.capturedNativePrompt = null;
 window.addEventListener('beforeinstallprompt', (e) => {
-  console.log('beforeinstallprompt CAPTURED WOOOOOOOOOOO 🥳🥳🥳🥳🥳🥳🥳');
   e.preventDefault();
   window.capturedNativePrompt = e;
 });
