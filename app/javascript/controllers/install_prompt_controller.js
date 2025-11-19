@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
     static targets = [
-        "installPromptModal", "backdrop", "installButton",
+        "installPromptModal", "backdrop", "installButton", "actionsContainer", "dismissButton",
         "iosSafari", "androidChromeEdge", "desktopChromeEdge", "fallbackPlatform",
         "androidChromeEdgeNative", "androidChromeEdgeFallback", "desktopChromeEdgeNative", "desktopChromeEdgeFallback"
     ]
@@ -56,6 +56,8 @@ export default class extends Controller {
 
     showInstallButton() {
         this.showTarget('installButton')
+        this.actionsContainerTarget.classList.add('button-pair')
+        this.dismissButtonTarget.textContent = this.dismissButtonTarget.dataset.skipText
     }
 
     isInstalled() {
@@ -98,6 +100,8 @@ export default class extends Controller {
 
     setModalContent() {
         this.hideAllVariants();
+        this.actionsContainerTarget.classList.remove('button-pair');
+        this.dismissButtonTarget.textContent = this.dismissButtonTarget.dataset.notedText;
         
         if (this.platform === 'androidChromeEdge') {
             if (this.capturedNativePrompt !== null) {

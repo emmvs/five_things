@@ -23,12 +23,15 @@
 
     </div>
 
-    <div class="install-prompt-actions">
-      <button class="btn btn-secondary" 
+    <div class="install-prompt-actions" data-install-prompt-target="actionsContainer">
+      <button class="button-delete" 
+              data-install-prompt-target="dismissButton"
+              data-skip-text="<%= t('install_prompt.actions.skip') %>"
+              data-noted-text="<%= t('install_prompt.actions.noted') %>"
               data-action="click->install-prompt#dismiss">
-        <%= t('install_prompt.actions.skip') %>
+        <%= t('install_prompt.actions.noted') %>
       </button>
-      <button class="btn btn-primary" 
+      <button class="btn button--primary" 
               data-install-prompt-target="installButton" 
               data-action="click->install-prompt#install"
               style="display: none;">

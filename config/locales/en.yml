@@ -45,6 +45,7 @@ en:
     title: Install 5 Things
     actions:
       skip: Skip
+      noted: Noted
       install: Install
     variants:
       ios_safari:

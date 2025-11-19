@@ -88,17 +88,17 @@ $turquoise: #1abc9c;
 .button--primary {
   background-color: $soft-purple;
   color: $white !important;
-  background-image: linear-gradient(315deg, #c489d8 0%, #c489d8 74%);
+  background-image: linear-gradient(315deg, $primary-purple 0%, $primary-purple 74%);
   box-shadow: $box-shadow;
-  line-height: 42px;
+  line-height: $button-height;
   width: auto;
   padding: 0;
   border: none;
 }
 
 .button--primary:hover {
-  background-color: #c489d8;
-  background-image: linear-gradient(315deg, #c489d8 0%, #c489d8 74%);
+  background-color: $primary-purple;
+  background-image: linear-gradient(315deg, $primary-purple 0%, $primary-purple 74%);
 }
 
 .button--primary span {
@@ -168,4 +168,58 @@ $turquoise: #1abc9c;
 
 .button--primary span:hover:after {
   width: 100%;
+}
+
+.button-secondary {
+  @extend .btn;
+  color: $white !important;
+  background-color: lighten($primary-purple, 9%) !important;
+  box-shadow: $box-shadow;
+}
+
+.button-delete {
+  @extend .btn;
+  color: $black !important;
+  background-color: $white !important;
+  border: 1px solid $black !important;
+  box-shadow: $box-shadow;
+}
+
+.button-pair {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space-xs;
+  width: 100%;
+  > * {
+    flex: 1;
+    max-width: 50%;
+  }   
+}
+
+.button-google {
+  @extend .btn;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 1px solid $black !important;
+  position: relative;
+  box-shadow: $box-shadow;
+  
+  span {
+    text-align: center;
+  }
+
+  img {
+    height: 70%;
+    position: absolute;
+    left: 8px;
+  }
+}
+
+.button-basic-text {
+  color: $color-text-body;
+  text-decoration-thickness: 1px;
 }
