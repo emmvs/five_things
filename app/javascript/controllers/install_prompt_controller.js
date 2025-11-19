@@ -11,11 +11,21 @@ export default class extends Controller {
         if (this.isInstalled()) return;
  
         this.platform = this.detectPlatform();   
+        this.modalShown = false;
 
         this.capturedNativePrompt = window.capturedNativePrompt;
         window.addEventListener('beforeinstallprompt', this.nativePromptReadyHandler);
         
-        this.showModal();
+        if (this.capturedNativePrompt) {
+            this.showModal();
+        } else {
+            setTimeout(() => {
+                if (!this.modalShown) {
+                    this.showModal();
+                }
+            }, 1000);
+        }
+        
         this.updateInstallPromptShown();
     }
 
@@ -25,7 +35,11 @@ export default class extends Controller {
 
     nativePromptReadyHandler = () => {
         this.capturedNativePrompt = window.capturedNativePrompt;
-        this.setModalContent();
+        if (!this.modalShown) {
+            this.showModal();
+        } else {
+            this.setModalContent();
+        }
     };
 
     dismiss() {
@@ -79,6 +93,7 @@ export default class extends Controller {
         this.showTarget('backdrop')
         this.showTarget('installPromptModal')
         this.setModalContent();
+        this.modalShown = true;
     }
 
     setModalContent() {
