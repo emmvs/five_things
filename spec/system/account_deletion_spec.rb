@@ -10,6 +10,7 @@ RSpec.describe 'Account Deletion', type: :system do
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     click_button 'Log in'
+    dismiss_install_prompt_if_present
   end
 
   it 'allows users to delete their account', js: true do
