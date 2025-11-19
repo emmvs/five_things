@@ -1,11 +1,11 @@
 <div data-install-prompt-target="desktopChromeEdgeNative" style="display: none;">
-    <p>Click <span class="text-emphasized">Install</span> below to get the app on your desktop</p>
+    <p><%= t('install_prompt.variants.desktop_chrome_edge.native_prefix') %> <span class="text-emphasized"><%= t('install_prompt.variants.desktop_chrome_edge.native_emphasized') %></span> <%= t('install_prompt.variants.desktop_chrome_edge.native_suffix') %></p>
 </div>
 <div data-install-prompt-target="desktopChromeEdgeFallback" style="display: none;">
-    <p>Look for 
+    <p><%= t('install_prompt.variants.desktop_chrome_edge.fallback.prefix') %> 
         <span class="text-emphasized">
             <%= image_tag "icons/install-android-desktop-icon.svg", class: "inline-icon", alt: "Install icon" %>
         </span>
-        in the URL bar of your browser to add the app to your desktop
+        <%= t('install_prompt.variants.desktop_chrome_edge.fallback.suffix') %>
     </p>
 </div>
