@@ -40,3 +40,32 @@ de:
     pending_received: "Empfangene Freundschaftsanfragen"
     users: "Nutzer*innen"
     no_results: "Keine Nutzer*innen gefunden für"
+
+  install_prompt:
+    title: 5 Things installieren
+    actions:
+      skip: Überspringen
+      install: Installieren
+    variants:
+      ios_safari:
+        step_1: Tippe
+        step_2_prefix: Tippe
+        step_2_emphasized: Zum Home-Bildschirm hinzufügen
+      android_chrome_edge:
+        native_prefix: Tippe
+        native_emphasized: Installieren
+        native_suffix: unten, um zur Startseite hinzuzufügen
+        fallback:
+          step_1: Tippe
+          step_2_prefix: Tippe
+          step_2_emphasized_1: App installieren
+          step_2_or: oder
+          step_2_emphasized_2: Zum Home-Bildschirm hinzufügen
+      desktop_chrome_edge:
+        native_prefix: Klick
+        native_emphasized: Installieren
+        native_suffix: unten, um die App auf deinem Desktop zu installieren
+        fallback:
+          prefix: Suche nach
+          suffix: in der Adressleiste deines Browsers, um die App zu deinem Desktop hinzuzufügen
+      fallback: Wenn du die App installieren möchtest, schau im Browser-Menü nach!
