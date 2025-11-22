@@ -85,30 +85,65 @@ puts "#{categories.size} categories created!"
 # --- HappyThings ---
 User.all.each do |user|
   total_for_user = 0
+  today = Date.current
 
-  (0..5).each do |year_offset|
-    date = Time.current - year_offset.years
-    count = rand(1..3)
+  # Create 1-3 happy things for today
+  rand(1..3).times do
+    HappyThing.create!(
+      user:,
+      title: Faker::Hobby.activity,
+      body: Faker::Lorem.paragraph(sentence_count: 2),
+      start_time: Time.current.change(hour: rand(8..22)),
+      place: Faker::Address.city,
+      latitude: Faker::Address.latitude,
+      longitude: Faker::Address.longitude,
+      share_location: [true, false].sample,
+      status: [0, 1, 2].sample,
+      category: categories.sample
+    )
+    total_for_user += 1
+  end
 
-    count.times do
+  # Create 1-3 happy things for exactly 1 year ago (same month/day)
+  one_year_ago = today - 1.year
+  rand(1..3).times do
+    HappyThing.create!(
+      user:,
+      title: Faker::Hobby.activity,
+      body: Faker::Lorem.paragraph(sentence_count: 2),
+      start_time: one_year_ago.to_time.change(hour: rand(8..22)),
+      place: Faker::Address.city,
+      latitude: Faker::Address.latitude,
+      longitude: Faker::Address.longitude,
+      share_location: [true, false].sample,
+      status: [0, 1, 2].sample,
+      category: categories.sample,
+      created_at: one_year_ago,
+      updated_at: one_year_ago
+    )
+    total_for_user += 1
+  end
+
+  # Create 1-3 happy things for 1-5 years ago (same month/day)
+  (2..5).each do |years_ago|
+    years_ago_date = today - years_ago.years
+    rand(1..3).times do
       HappyThing.create!(
         user:,
         title: Faker::Hobby.activity,
         body: Faker::Lorem.paragraph(sentence_count: 2),
-        start_time: date.change(hour: rand(8..22)),
+        start_time: years_ago_date.to_time.change(hour: rand(8..22)),
         place: Faker::Address.city,
         latitude: Faker::Address.latitude,
         longitude: Faker::Address.longitude,
         share_location: [true, false].sample,
         status: [0, 1, 2].sample,
         category: categories.sample,
-        created_at: date,
-        updated_at: date
+        created_at: years_ago_date,
+        updated_at: years_ago_date
       )
+      total_for_user += 1
     end
-
-    # puts "  • #{user.first_name}: #{count} happy things for #{date.year}"
-    total_for_user += count
   end
 
   puts "✅ Created #{total_for_user} happy things for #{user.first_name} in total."
