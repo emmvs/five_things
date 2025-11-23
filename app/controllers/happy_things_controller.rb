@@ -7,12 +7,21 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   before_action :set_happy_thing, only: %i[show]
   before_action :set_own_happy_thing, only: %i[edit update destroy]
+  before_action :disable_navbar_for_guests, only: %i[future_root]
 
   # TODO: rename when this replaces current root path after transition
   def future_root
     @happy_thing = HappyThing.new
-    range = Time.zone.today.all_day
-    @happy_things_today = happy_things_by_period(range, user_ids)
+
+    if current_user
+      range = Time.zone.today.all_day
+      @happy_things_today = happy_things_by_period(range, user_ids)
+    else
+      @happy_things_today = {}
+      @guest_happy_thing = session[:guest_onboarding]&.dig('happy_thing')
+      @guest_emoji = session[:guest_onboarding]&.dig('emoji')
+      @guest_name = session[:guest_onboarding]&.dig('name')
+    end
   end
 
   def recent_happy_things
@@ -183,5 +192,9 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     else
       current_user.friends_and_friends_who_added_me_ids
     end
+  end
+
+  def disable_navbar_for_guests
+    disable_navbar unless current_user
   end
 end

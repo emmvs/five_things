@@ -98,7 +98,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     calculate_streak(dates)
   end
 
-  def self.from_omniauth(auth) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+  def self.from_omniauth(auth, session = {}) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     # Returning user signing in via OAuth
     user = where(provider: auth.provider, uid: auth.uid).first
 

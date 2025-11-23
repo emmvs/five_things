@@ -29,22 +29,24 @@
                 input_html: { data: { action: "user-location#toggle" } } %>
   </div>
 
-  <div style="width: 100%; max-width: 480px;">
-    <%= f.input :shared_with_ids, as: :select,
-                collection: grouped_visibility_options(current_user),
-                label: "Who should see this?",
-                input_html: {
-                  multiple: true,
-                  data: {
-                    controller: "select",
-                    select_options_value: {
-                      create: true,
-                      persist: false
-                    }.to_json
-                  }
-                },
-                prompt: "Everyone (unless selected below)" %>
-  </div>
+  <% if current_user %>
+    <div style="width: 100%; max-width: 480px;">
+      <%= f.input :shared_with_ids, as: :select,
+                  collection: grouped_visibility_options(current_user),
+                  label: "Who should see this?",
+                  input_html: {
+                    multiple: true,
+                    data: {
+                      controller: "select",
+                      select_options_value: {
+                        create: true,
+                        persist: false
+                      }.to_json
+                    }
+                  },
+                  prompt: "Everyone (unless selected below)" %>
+    </div>
+  <% end %>
 
   <% if params[:action] == 'edit' %>
     <div style="width: 100%; max-width: 480px;">

@@ -1,24 +1,67 @@
-<div class="container mt-1" data-controller="insert-in-list">
-  <div class="dash-box mx-2 my-3">
-    <h1><%= time_based_greeting %> <%= current_user ? current_user.first_name : "Sunshine" %> <%= time_based_emoji %></h1>
-    <div class="my-3">
-      <h3>Current Happy Streak</h3>
-      <p><%= pluralize(current_user.happy_streak, 'day') %></p>
-    </div>
+<style>
+  .future-root-container {
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in forwards;
+  }
 
-    <h3>What made you happy today?</h3>
-    <%= render 'happy_things/form', happy_thing: @happy_thing %>
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+<div class="container mt-1 future-root-container" data-controller="insert-in-list">
+  <div class="dash-box mx-2 my-3">
+    <h1><%= time_based_greeting %> <%= current_user ? current_user.name : (session[:guest_onboarding]&.dig('name') || "Sunshine") %> <%= time_based_emoji %></h1>
+    <% if current_user %>
+      <div class="my-3">
+        <h3>Current Happy Streak</h3>
+        <p><%= pluralize(current_user.happy_streak, 'day') %></p>
+      </div>
+    <% end %>
 
     <div id="happy_things" class="m-2 mt-5"
       data-notification-target="happyThings"
       data-insert-in-list-target="items">
-      <h3 class="mb-3">Your Happy Things of today</h3>
-      <% @happy_things_today.each do |user, happy_things| %>
-        <h3><%= user.emoji %> <%= user.first_name %></h3>
-        <% happy_things.each do |happy_thing| %>
-          <%= render "happy_things/happy_thing", user: user, happy_thing: happy_thing %>
+      <% if current_user %>
+        <h3 class="mb-3">Your Happy Things of today</h3>
+        <% @happy_things_today.each do |user, happy_things| %>
+          <h3><%= user.emoji %> <%= user.name %></h3>
+          <% happy_things.each do |happy_thing| %>
+            <%= render "happy_things/happy_thing", user: user, happy_thing: happy_thing %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <% if @guest_happy_thing %>
+          <h3 class="mb-3">Your Happy Things</h3>
+          <div class="happy-thing-card p-3 mb-3">
+            <div class="d-flex align-items-center">
+              <span class="emoji-large me-3"><%= @guest_emoji %></span>
+              <div>
+                <p class="mb-0"><%= @guest_happy_thing %></p>
+                <small class="text-muted">Just now</small>
+              </div>
+            </div>
+          </div>
         <% end %>
       <% end %>
     </div>
+
+    <% if current_user %>
+      <h3>What made you happy today?</h3>
+      <%= render 'happy_things/form', happy_thing: @happy_thing %>
+    <% else %>
+      <% if @guest_happy_thing %>
+        <div class="text-center mt-4">
+          <h3 class="mb-3">Want to add more happy things?</h3>
+          <p><strong>Create your account to save your happy things and track your streak!</strong></p>
+          <%= link_to "Create your account", new_user_registration_path, class: "btn button--primary mt-2" %>
+        </div>
+      <% else %>
+        <h3>What made you happy today?</h3>
+        <%= render 'happy_things/form', happy_thing: @happy_thing %>
+      <% end %>
+    <% end %>
   </div>
 </div>

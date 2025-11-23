@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   # If not authenticated, route to the home page
   root to: 'pages#home'
 
+  # Onboarding
+  get 'onboarding', to: 'onboarding#new'
+  post 'onboarding/create_guest_session', to: 'onboarding#create_guest_session'
+
   # Users
   devise_for :users,
              controllers: {
