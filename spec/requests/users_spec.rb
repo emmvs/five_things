@@ -20,7 +20,6 @@ RSpec.describe 'Users', type: :request do
       it 'shows the profile of a friend' do
         friend = create(:user)
         create(:friendship, user: @current_user, friend:)
-        create(:friendship, user: friend, friend: @current_user)
         get "/users/#{friend.id}"
         expect(response).to have_http_status(:success)
       end
@@ -110,7 +109,7 @@ RSpec.describe 'Users', type: :request do
       get profile_path
       expect(response).to have_http_status(:success)
       expect(response.body).to include('Happy Count')
-      expect(response.body).to include(@user.first_name)
+      expect(response.body).to include(@current_user.first_name)
     end
   end
 end
