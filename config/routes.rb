@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   get 'friends', to: 'users#friends'
   get 'profile', to: 'users#profile'
 
-  resources :user_configs, only: %i[update]
+  resource :user_config, only: %i[update]
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,

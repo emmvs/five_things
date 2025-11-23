@@ -129,7 +129,7 @@ export default class extends Controller {
     }
 
     updateInstallPromptShown() {
-        fetch('/user_configs/update', {
+        fetch('/user_config/update', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
