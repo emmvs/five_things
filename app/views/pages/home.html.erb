@@ -1,14 +1,15 @@
 <div class="homepage-container">
-  <div class="logo-home">
-      <%= image_tag "five.png", alt: "Five Things Logo" %>
-  </div>
+  <div class="homepage-content">
 
-  <div class="slogan">
-    <h2>What made you happy today?</h2>
-  </div>
+    <div class="logo-home">
+        <%= image_tag "five.png", alt: "Five Things Logo" %>
+    </div>
 
-  <div class="actions">
-    <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary text-light" %>
-    <%= link_to "Log In", new_user_session_path, class: "btn btn-secondary text-dark" %>
+    <h1 class="homepage-title">What made you happy today?</h1>
+    
+    <div class="homepage-actions">
+      <%= link_to "Sign Up", onboarding_path, class: "button--primary" %>
+      <%= link_to "Log In", new_user_session_path, class: "button--secondary" %>
+    </div>
   </div>
 </div>
