@@ -51,6 +51,17 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'User Config' do
+    it 'creates user_config automatically when user is created' do
+      expect do
+        create(:user)
+      end.to change(UserConfig, :count).by(1)
+
+      user = User.last
+      expect(user.user_config).to be_present
+    end
+  end
+
   describe '#happy_streak' do
     let(:user) { create(:user) }
 
