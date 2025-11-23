@@ -1,7 +1,7 @@
-// import { Controller } from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus"
 
 // // Connects to data-controller="notification"
-// export default class extends Controller {
+export default class extends Controller {
 //   static targets = ["notification", "newHappyThingform", "happyThings"]
 
 //   connect() {
@@ -82,6 +82,6 @@
 //       // If the Service Worker registration does not support showNotification,
 //       // fall back to using the Notification constructor to display the notification.
 //       new Notification(title, payload);
-//     }
+    // }
 //   }
-// }
+}
