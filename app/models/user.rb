@@ -76,13 +76,10 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :group_memberships, foreign_key: :friend_id, dependent: :destroy
   has_many :groups_as_member, through: :group_memberships, source: :group
 
-  # Friendships
+  # Friendships - Bidirectional: each friendship exists as two records
   has_many :friendships, dependent: :destroy
-  has_many :received_friend_requests, class_name: 'Friendship', foreign_key: 'friend_id', dependent: :destroy
   has_many :friends, -> { where(friendships: { accepted: true }) }, through: :friendships, source: :friend
-  has_many :friends_who_added_me, lambda {
-                                    where(friendships: { accepted: true })
-                                  }, through: :received_friend_requests, source: :user
+  has_many :pending_friends, -> { where(friendships: { accepted: false }) }, through: :friendships, source: :friend
 
   has_one_attached :avatar
 
@@ -91,21 +88,13 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
           query: "%#{query}%")
   end
 
-  def friends_and_friends_who_added_me_ids
-    friends.pluck(:id) + friends_who_added_me.pluck(:id)
+  def friend_ids
+    friends.pluck(:id)
   end
 
-  def all_friends
-    friends + friends_who_added_me
-  end
-
-  def accepted_friends
-    friendships.where(status: :accepted)
-  end
-
-  def pending_friends
-    friendships.pending + received_friend_requests.pending
-  end
+  # Aliases for backward compatibility
+  alias friends_and_friends_who_added_me_ids friend_ids
+  alias all_friends friends
 
   def happy_streak
     return 0 if happy_things.empty?
@@ -114,10 +103,6 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     return 0 if dates.empty?
 
     calculate_streak(dates)
-  end
-
-  def friends_and_friends_who_added_me
-    User.where(id: friends_and_friends_who_added_me_ids)
   end
 
   def self.from_omniauth(auth) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength

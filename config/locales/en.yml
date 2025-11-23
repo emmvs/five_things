@@ -27,3 +27,20 @@ en:
           uniqueness: "must be unique"
           format: "must be a valid email address"
           length: "must be between 3 and 255 characters long"
+  friendships:
+    created: "Friend request sent. 👻"
+    create_failed: "Unable to send friend request. 🤔"
+    accepted: "Friend request accepted. 🫱🏻‍🫲🏾"
+    accept_failed: "Unable to accept friend request. 🙈"
+    destroyed: "Friendship removed. 😭"
+
+  friends:
+    page_title: "Add or Search Friends"
+    search_placeholder: "Search for names, usernames, or emails"
+    my_friends:
+      one: "My Friend"
+      other: "My Friends"
+    pending_sent: "Pending Requests You Sent"
+    pending_received: "Friend Requests You Received"
+    users: "Users"
+    no_results: "No users found matching"
