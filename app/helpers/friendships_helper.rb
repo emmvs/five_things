@@ -15,7 +15,7 @@ module FriendshipsHelper
   private
 
   def matches_query?(user, query_downcase)
-    [user.first_name, user.last_name, user.username, user.email]
+    [user.name, user.username, user.email]
       .compact
       .any? { |field| field.downcase.include?(query_downcase) }
   end

@@ -20,12 +20,16 @@ module Users
     private
 
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :avatar, :emoji, :email, :password, :password_confirmation,
+      params.require(:user).permit(:name, :avatar, :emoji, :email, :password, :password_confirmation,
                                    :current_password, :email_opt_in, :location_opt_in)
     end
 
     def updating_sensitive_info?
       user_params[:password].present?
+    end
+
+    def after_sign_up_path_for(_resource)
+      future_root_path
     end
   end
 end

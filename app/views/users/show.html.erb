@@ -1,6 +1,6 @@
 <div class="container analytics my-3">
     <div class="dash-box p-4 mx-2 mb-3 text-center">
-      <h1><%= @user.first_name %></h1>
+      <h1><%= @user.name %></h1>
     </div>
 
     <div class="d-flex justify-content-center mt-3">
@@ -71,7 +71,7 @@
         <div class="mt-5 mx-2 d-flex justify-content-end">
           <%= button_to "Remove Friend", friendship_path(friendship), method: :delete, 
               class: "btn shadow", 
-              data: { confirm: "Are you sure you want to remove #{@user.first_name} as a friend?" } %>
+              data: { confirm: "Are you sure you want to remove #{@user.name} as a friend?" } %>
         </div>
       <% end %>
     <% end %>

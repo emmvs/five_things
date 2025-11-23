@@ -10,17 +10,17 @@ RSpec.describe User, type: :model do
     end
 
     it 'is not valid with links in the name' do
-      user = build(:user, first_name: 'http://Emma')
+      user = build(:user, name: 'http://Emma')
       expect(user).not_to be_valid
     end
 
     it 'is not valid with www. in the name' do
-      user = build(:user, first_name: 'www.pornhub.org')
+      user = build(:user, name: 'www.pornhub.org')
       expect(user).not_to be_valid
     end
 
     it 'is not valid with https in the name' do
-      user = build(:user, first_name: 'https://Emma')
+      user = build(:user, name: 'https://Emma')
       expect(user).not_to be_valid
     end
 
@@ -94,7 +94,7 @@ RSpec.describe User, type: :model do
         end.to change(User, :count).by(1)
 
         user = User.last
-        expect(user.first_name).to eq('Emma')
+        expect(user.name).to eq('Emma')
         expect(user.confirmed?).to be true
         expect(user.provider).to eq('google_oauth2')
         expect(ActionMailer::Base.deliveries.size).to eq(0)
@@ -171,31 +171,31 @@ RSpec.describe User, type: :model do
         end.to change(User, :count).by(1)
 
         user = User.last
-        expect(user.first_name).to be_present
-        expect(user.first_name).not_to eq('E.')
-        expect(user.first_name).to eq('Emmazing')
+        expect(user.name).to be_present
+        expect(user.name).not_to eq('E.')
+        expect(user.name).to eq('Emmazing')
       end
     end
   end
 
-  describe '.extract_first_name' do
+  describe '.extract_name' do
     it 'returns first word if valid' do
-      expect(User.extract_first_name('Emma Who', 'emmazing@gmail.com')).to eq('Emma')
+      expect(User.extract_name('Emma Who', 'emmazing@gmail.com')).to eq('Emma')
     end
 
     it 'returns full name if first word is too short' do
-      expect(User.extract_first_name('I love rspec 🥳', 'email@gmail.com')).to eq('I love rspec 🥳')
-      expect(User.extract_first_name('A. B. B. A.', 'email@gmail.com')).to eq('A. B. B. A.')
+      expect(User.extract_name('I love rspec 🥳', 'email@gmail.com')).to eq('I love rspec 🥳')
+      expect(User.extract_name('A. B. B. A.', 'email@gmail.com')).to eq('A. B. B. A.')
     end
 
     it 'returns first word of email if name isn\'t usable' do
-      expect(User.extract_first_name('www.<script>.com', 'bob.virtuous@gmail.com')).to eq('Bob')
-      expect(User.extract_first_name('', 'bob.virtuous@gmail.com')).to eq('Bob')
-      expect(User.extract_first_name(('Wayyyyyyyytoolong' * 99).to_s, 'bob.long@gmail.com')).to eq('Bob')
+      expect(User.extract_name('www.<script>.com', 'bob.virtuous@gmail.com')).to eq('Bob')
+      expect(User.extract_name('', 'bob.virtuous@gmail.com')).to eq('Bob')
+      expect(User.extract_name(('Wayyyyyyyytoolong' * 99).to_s, 'bob.long@gmail.com')).to eq('Bob')
     end
 
     it 'returns "User" if name and email aren\'t usable' do
-      expect(User.extract_first_name(nil, nil)).to eq('User')
+      expect(User.extract_name(nil, nil)).to eq('User')
     end
   end
 end

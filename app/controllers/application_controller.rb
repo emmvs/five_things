@@ -10,9 +10,9 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up,
-                                      keys: %i[first_name last_name avatar emoji email_opt_in location_opt_in])
+                                      keys: %i[name avatar emoji email_opt_in location_opt_in])
     devise_parameter_sanitizer.permit(:account_update,
-                                      keys: %i[first_name last_name avatar emoji email_opt_in location_opt_in])
+                                      keys: %i[name avatar emoji email_opt_in location_opt_in])
   end
 
   private

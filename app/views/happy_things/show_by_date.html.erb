@@ -6,7 +6,7 @@
     <ul>
       <% @happy_things.group_by(&:user).each do |user, happy_things| %>
         <li class="list-unstyled mt-3">
-          <h2><%= user.emoji %> <%= user.first_name %></h2>
+          <h2><%= user.emoji %> <%= user.name %></h2>
           <ol>
             <% happy_things.each do |happy_thing| %>
               <li class="mb-4">
@@ -21,7 +21,7 @@
                       <h5>Comments:</h5>
                       <% happy_thing.comments.each do |comment| %>
                         <div class="comment mb-2">
-                          <p><strong><%= comment.user.first_name %>:</strong> <%= comment.content %></p>
+                          <p><strong><%= comment.user.name %>:</strong> <%= comment.content %></p>
                         </div>
                       <% end %>
                     </div>
