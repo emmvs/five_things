@@ -4,6 +4,7 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'db/schema.rb'
+    - 'db/migrate/**/*'
     - 'node_modules/**/*'
     - 'vendor/**/*'
     - 'tmp/**/*'

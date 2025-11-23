@@ -14,13 +14,9 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     @happy_thing = HappyThing.new
 
     if current_user
-      range = Time.zone.today.all_day
-      @happy_things_today = happy_things_by_period(range, user_ids)
+      load_authenticated_user_data
     else
-      @happy_things_today = {}
-      @guest_happy_thing = session[:guest_onboarding]&.dig('happy_thing')
-      @guest_emoji = session[:guest_onboarding]&.dig('emoji')
-      @guest_name = session[:guest_onboarding]&.dig('name')
+      load_guest_data
     end
   end
 
@@ -196,5 +192,17 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def disable_navbar_for_guests
     disable_navbar unless current_user
+  end
+
+  def load_authenticated_user_data
+    range = Time.zone.today.all_day
+    @happy_things_today = happy_things_by_period(range, user_ids)
+  end
+
+  def load_guest_data
+    @happy_things_today = {}
+    @guest_happy_thing = session[:guest_onboarding]&.dig('happy_thing')
+    @guest_emoji = session[:guest_onboarding]&.dig('emoji')
+    @guest_name = session[:guest_onboarding]&.dig('name')
   end
 end
