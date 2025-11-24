@@ -12,31 +12,22 @@ export default class extends Controller {
     }
   }
 
-  onHappyThingFormSubmit() {
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-    const userId = this.userIdValue
-
-    if (userId && userId !== '0') {
-      this.updateTimezone(timezone, userId)
-    }
-  }
-
   maybeUpdateTimezone(timezone, userId) {
     const previous = localStorage.getItem('date')
     const today = new Date().toISOString()
-    const twelveHoursPassed = this.hasTwelveHoursPassed(previous, today)
+    const sixHoursPassed = this.hasSixHoursPassed(previous, today)
 
-    if (twelveHoursPassed) {
+    if (sixHoursPassed) {
       localStorage.setItem('date', today)
       this.updateTimezone(timezone, userId)
     }
   }
 
-  hasTwelveHoursPassed(previous, today) {
+  hasSixHoursPassed(previous, today) {
     if (!previous) return true
     
-    const twelveHours = 12 * 60 * 60 * 1000
-    return (new Date(today).getTime() > new Date(previous).getTime() + twelveHours)
+    const sixHours = 6 * 60 * 60 * 1000
+    return (new Date(today).getTime() > new Date(previous).getTime() + sixHours)
   }
 
   async updateTimezone(timezone, userId) {
