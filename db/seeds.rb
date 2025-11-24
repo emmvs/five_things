@@ -31,10 +31,11 @@ end
 puts "Created main users: #{users.map(&:first_name).join(', ')}"
 
 more_users = %w[Joshy Nadieschka Hansibaby Lisita Juanfairy Nomnom Santimaus Florenke Mäx].map do |name|
+  email_name = name.gsub('ä', 'ae').gsub('ö', 'oe').gsub('ü', 'ue')
   User.create!(
     first_name: name,
     last_name: 'Testy',
-    email: "#{name.downcase}@test.com",
+    email: "#{email_name.downcase}@test.com",
     emoji: EMOJIS.sample,
     password: 'G1ggl3!Fluff',
     confirmed_at: Time.current
@@ -50,18 +51,13 @@ end
 # --- Friendships ---
 Friendship.create!([
                      { user: u('Emmsiboom'), friend: u('Joshy'), accepted: true },
-                     { user: u('Joshy'), friend: u('Emmsiboom'), accepted: true },
                      { user: u('Emmsiboom'), friend: u('Hansibaby'), accepted: true },
-                     { user: u('Hansibaby'), friend: u('Emmsiboom'), accepted: true },
                      { user: u('Emmsiboom'), friend: u('Juanfairy'), accepted: true },
-                     { user: u('Juanfairy'), friend: u('Emmsiboom'), accepted: true },
                      { user: u('Mäx'), friend: u('Emmsiboom'), accepted: false },
                      { user: u('Santimaus'), friend: u('Emmsiboom'), accepted: false },
                      { user: u('Emmsiboom'), friend: u('Florenke'), accepted: false },
                      { user: u('Joshy'), friend: u('Hansibaby'), accepted: true },
-                     { user: u('Hansibaby'), friend: u('Joshy'), accepted: true },
                      { user: u('Juanfairy'), friend: u('Santimaus'), accepted: true },
-                     { user: u('Santimaus'), friend: u('Juanfairy'), accepted: true },
                      { user: u('Mäx'), friend: u('Joshy'), accepted: false },
                      { user: u('Juanfairy'), friend: u('Mäx'), accepted: false }
                    ])

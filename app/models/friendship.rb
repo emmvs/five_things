@@ -20,4 +20,38 @@ class Friendship < ApplicationRecord
   scope :pending, -> { where(accepted: false) }
 
   validates :accepted, inclusion: { in: [true, false] }
+
+  after_create :create_inverse_friendship
+  after_update :update_inverse_friendship, if: :saved_change_to_accepted?
+  after_destroy :destroy_inverse_friendship
+
+  private
+
+  def create_inverse_friendship
+    return if inverse_friendship_exists?
+
+    self.class.create!(
+      user_id: friend_id,
+      friend_id: user_id,
+      accepted:
+    )
+  end
+
+  def update_inverse_friendship
+    inverse = find_inverse_friendship
+    inverse&.update(accepted:)
+  end
+
+  def destroy_inverse_friendship
+    inverse = find_inverse_friendship
+    inverse&.destroy
+  end
+
+  def find_inverse_friendship
+    self.class.find_by(user_id: friend_id, friend_id: user_id)
+  end
+
+  def inverse_friendship_exists?
+    self.class.exists?(user_id: friend_id, friend_id: user_id)
+  end
 end

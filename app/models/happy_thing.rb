@@ -34,7 +34,7 @@ class HappyThing < ApplicationRecord
   validates :start_time, presence: true
 
   before_validation :set_default_category, on: :create
-  after_validation :geocode, if: :will_save_change_to_place?
+  after_validation :geocode, if: -> { will_save_change_to_place? && !Rails.env.test? && geocoding_enabled? }
   after_create :check_happy_things_count
 
   attr_accessor :shared_with_ids
@@ -73,8 +73,14 @@ class HappyThing < ApplicationRecord
   end
 
   def notify_friends_about_happy_things
-    user.friends_and_friends_who_added_me.each do |friend|
+    user.all_friends.each do |friend|
       UserMailer.happy_things_notification(friend).deliver_later
     end
+  end
+
+  def geocoding_enabled?
+    return false if Rails.env.test? || ENV['GEOCODER_API_KEY'].blank?
+
+    true
   end
 end

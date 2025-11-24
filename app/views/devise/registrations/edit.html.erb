@@ -18,24 +18,24 @@
         <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
       <% end %>
       <%= f.input :first_name,
-                  hint: "What's your first name?",
+                  placeholder: "What's your first name?",
                   required: false,
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :last_name,
-                  hint: "What's your first name?",
+                  placeholder: "What's your last name?",
                   required: false,
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :emoji %>
-      <%= f.input :email, required: true, autofocus: true %>
+      <%= f.input :email, required: false, autofocus: true %>
       <%= f.input :password,
-                  hint: "leave it blank if you don't want to change it",
+                  label: "New password",
                   required: false,
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :password_confirmation,
                   required: false,
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :current_password,
-                  hint: "we need your current password to confirm your changes",
+                  placeholder: "to confirm your changes",
                   required: false,
                   input_html: { autocomplete: "current-password" } %>
     </div>

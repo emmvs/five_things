@@ -45,9 +45,9 @@ RSpec.describe HappyThing, type: :model do
         user = create(:user)
         friends = create_list(:user, 3)
 
+        # With bidirectional friendships, creating one friendship creates both records
         friends.each do |friend|
-          create(:friendship, user:, friend:)
-          create(:friendship, user: friend, friend: user)
+          create(:friendship, user:, friend:, accepted: true)
         end
 
         perform_enqueued_jobs do
@@ -71,9 +71,9 @@ RSpec.describe HappyThing, type: :model do
       friends = create_list(:user, 3)
       non_friend = create(:user)
 
+      # With bidirectional friendships, creating one friendship creates both records
       friends.each do |friend|
-        create(:friendship, user:, friend:)
-        create(:friendship, user: friend, friend: user)
+        create(:friendship, user:, friend:, accepted: true)
       end
 
       create_list(:happy_thing, 4, user:)

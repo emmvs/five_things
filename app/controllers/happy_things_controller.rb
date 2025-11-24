@@ -54,7 +54,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def analytics
     fetch_happy_count
     fetch_words_for_wordcloud
-    fetch_visited_places
+    fetch_visited_places_count
     fetch_label_count
     @markers = current_user.happy_things.geocoded.map { |ht| { lat: ht.latitude, lng: ht.longitude } }
   end
@@ -101,8 +101,8 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     @words_for_wordcloud_month = WordAggregator.aggregated_words(current_user, 40, period: :month)
   end
 
-  def fetch_visited_places
-    @visited_places_count = @visited_places_count = HappyThing.where(user_id: current_user.id).distinct.count(:place)
+  def fetch_visited_places_count
+    @visited_places_count = current_user.happy_things.distinct.count(:place)
   end
 
   def fetch_label_count
