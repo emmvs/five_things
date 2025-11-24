@@ -20,10 +20,14 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @happy_count = happy_count(user)
-    @words_for_wordcloud = words_for_wordcloud(user)
-    @visited_places_count = visited_places_count(user)
-    @markers = markers(user)
+    if user_is_friend?(@user)
+      @happy_count = happy_count(@user)
+      @words_for_wordcloud = words_for_wordcloud(@user)
+      @visited_places_count = visited_places_count(@user)
+      @markers = markers(@user)
+    else
+      redirect_to root_path, notice: 'You are not friends with this user 😭'
+    end
   end
 
   def profile
@@ -68,6 +72,12 @@ class UsersController < ApplicationController
     user.happy_things.geocoded.map do |ht|
       { lat: ht.latitude, lng: ht.longitude }
     end
+  end
+
+  def user_is_friend?(user)
+    return true if current_user == user
+
+    current_user.friends.include?(user)
   end
 
   def fetch_happy_count
