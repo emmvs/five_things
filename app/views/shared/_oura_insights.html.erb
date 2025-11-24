@@ -1,0 +1,43 @@
+<% if current_user.oura_access_token.present? %>
+  <% oura_service = OuraService.new(current_user) %>
+  <% if oura_service.connected? %>
+    <% sleep_data = oura_service.daily_sleep(start_date: Date.yesterday, end_date: Date.today) %>
+    <% latest_sleep = sleep_data.dig('data', 0) if sleep_data && sleep_data['data'].present? %>
+    
+    <% activity_data = oura_service.daily_activity(start_date: Date.today, end_date: Date.today) %>
+    <% latest_activity = activity_data.dig('data', 0) if activity_data && activity_data['data'].present? %>
+    
+    <% workouts = oura_service.workouts(start_date: Date.today, end_date: Date.today) %>
+    <% todays_workouts = workouts.dig('data') if workouts && workouts['data'].present? %>
+
+    <% if latest_sleep || latest_activity || todays_workouts&.any? %>
+      <div class="dash-box mx-2 my-3">
+        <% if latest_sleep %>
+          <% sleep_score = latest_sleep['score'] %>
+          <% if sleep_score %>
+            <% if sleep_score >= 85 %>
+              <h3>You had a great night's sleep! 🌙✨</h3>
+              <p>Your body is well-rested and ready for an amazing day. What made you happy today?</p>
+            <% elsif sleep_score >= 70 %>
+              <h3>You slept well! 😴</h3>
+              <p>A good night's rest sets you up for a good day.</p>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% if latest_activity %>
+          <% activity_score = latest_activity['score'] %>
+          <% if activity_score && activity_score >= 85 %>
+            <h3>Great activity today! 🏃‍♀️</h3>
+            <p>You've been moving! Keep up the energy.</p>
+          <% end %>
+        <% end %>
+
+        <% if todays_workouts&.any? %>
+          <h3>Well done on your workout! 💪</h3>
+          <p>Taking care of your body is something to celebrate.</p>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

@@ -45,9 +45,27 @@
     </div>
   <% end %>
 
-  <h4>Cancel my account</h4>
+  <hr class="my-5">
 
-  <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { turbo_confirm: "Are you sure?", turbo_method: :delete } %></p>
+  <h3 class="mb-4">Integrations</h3>
+  <p class="mb-4">Connect third-party devices to enrich your happiness tracking.</p>
 
-  <%= link_to "Back", :back %>
+  <% if @user.oura_access_token.present? %>
+    <div class="alert alert-success p-3 mb-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <strong>✓ Oura Ring Connected 💍</strong>
+        </div>
+        <%= link_to "Manage", connect_oura_connection_path, class: "btn btn-sm btn-outline-secondary" %>
+      </div>
+    </div>
+  <% else %>
+    <%= link_to "Do you have an Oura Ring? 💍", connect_oura_connection_path, class: "btn btn-outline-primary btn-lg w-100 mb-5 py-3" %>
+  <% end %>
+
+  <h4 class="mb-3">Account Management</h4>
+
+  <p class="mb-4">Manage your account settings and data.</p>
+  
+  <%= link_to t('account.delete.unhappy_button'), cancel_user_registration_path, class: "btn btn-outline-danger btn-lg w-100 py-3 mb-4" %>
 </div>
