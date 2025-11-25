@@ -83,4 +83,9 @@ Rails.application.configure do
 
   # Use an explicit host for mailer URLs.
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+
+  # Skip authentication in development
+  config.to_prepare do
+    DeviseController.skip_before_action :authenticate_user!, raise: false
+  end
 end

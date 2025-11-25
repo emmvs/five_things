@@ -10,7 +10,7 @@
           <ol>
             <% happy_things.each do |happy_thing| %>
               <li class="mb-4">
-                <strong><%= happy_thing.title.sub(/\S/, &:upcase) %></strong>
+                <strong><%= link_to happy_thing.title.sub(/\S/, &:upcase), happy_thing_path(happy_thing), style: "text-decoration: none; color: inherit;" %></strong>
                 <%= cl_image_tag happy_thing.photo.key, class: "rounded mt-3", height: 200, width: 200, crop: :fill, gravity: :auto if happy_thing.photo.attached? %>
 
                 <!-- Comments Section -->
