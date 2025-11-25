@@ -3,6 +3,7 @@
 # ApplicationController
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_timezone
   before_action :authenticate_user!, unless: :public_controller?
   before_action :set_navbar_default
   helper_method :render_navbar?
@@ -28,6 +29,10 @@ class ApplicationController < ActionController::Base
 
   def disable_navbar
     @render_navbar = false
+  end
+
+  def set_timezone
+    Time.zone = current_user.timezone if current_user
   end
 
   def public_controller?

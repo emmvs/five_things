@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe HappyThing, type: :model do
   include ActiveJob::TestHelper
+  include ActiveSupport::Testing::TimeHelpers
 
   describe 'Validations' do
     it { should validate_presence_of(:title) }
@@ -24,16 +25,17 @@ RSpec.describe HappyThing, type: :model do
   end
 
   describe 'Methods' do
-    it 'sets the start_time if not already present' do
-      happy_thing = build(:happy_thing, start_time: nil)
-      happy_thing.add_date_time_to_happy_thing
-      expect(happy_thing.start_time).to be_present
-    end
+    it 'sets start_time depending on users timezone' do
+      user = create(:user, timezone: 'Eastern Time (US & Canada)')
+      Time.zone = user.timezone
+      server_time = Time.utc(2025, 9, 1, 2, 0, 0)
 
-    it 'does not change start_time if already present' do
-      time = DateTime.now
-      happy_thing = build(:happy_thing, start_time: time)
-      expect { happy_thing.add_date_time_to_happy_thing }.not_to change(happy_thing, :start_time)
+      travel_to server_time do
+        happy_thing = create(:happy_thing, user:, start_time: Time.zone.now)
+
+        expect(happy_thing.start_time.to_date).to eq(Date.new(2025, 8, 31))
+        expect(happy_thing.created_at.utc.hour).to eq(2)
+      end
     end
   end
 
