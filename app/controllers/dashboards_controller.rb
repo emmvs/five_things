@@ -44,38 +44,44 @@ class DashboardsController < ApplicationController
     @user_ids = [current_user.id] + friend_ids
 
     @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids).order(created_at: :desc)
-    fetch_happy_things_by_time(friend_ids)
+    fetch_happy_things_by_time(@user_ids)
   end
 
-  def fetch_happy_things_by_time(friend_ids)
-    ids = with_current_user(friend_ids)
+  def fetch_happy_things_by_time(user_ids)
     @happy_things_today = happy_things_by_period(
-      Date.today..Date.tomorrow, ids
+      Date.today..Date.tomorrow, user_ids
     )
 
     @happy_things_of_the_last_two_days = happy_things_by_period(
-      (Date.today - 1.days)..Date.today.end_of_day, ids
+      (Date.today - 1.days)..Date.today.end_of_day, user_ids
     )
 
-    @happy_things_one_year_ago = HappyThing.where(
-      'DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date, ids
-    ).group_by(&:user)
+    # currently unused
+    # @happy_things_one_year_ago = HappyThing.where(
+    #   'DATE(start_time) = ? AND user_id IN (?)', 1.year.ago.to_date, ids
+    # ).group_by(&:user)
   end
 
-  def with_current_user(friend_ids)
-    friend_ids + [current_user.id]
+  def set_user_ids
+    [current_user.id] + current_user.friends_and_friends_who_added_me_ids
   end
 
-  def happy_things_by_period(period, friend_ids)
-    HappyThing.where(start_time: period, user_id: friend_ids).order(created_at: :desc).group_by(&:user)
+  def happy_things_by_period(period, user_ids)
+    HappyThing.where(start_time: period, user_id: user_ids).order(start_time: :desc).group_by(&:user)
   end
 
   def set_happy_things_of_today
     today = Date.today
-    friend_ids = with_current_user(current_user.friends_and_friends_who_added_me_ids)
-    @happy_things_by_date = HappyThing.where(
+
+    happy_things_past = HappyThing.where(
       'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
-      today.month, today.day, friend_ids
+      today.month, today.day, set_user_ids
     )
+
+    @happy_things_by_date = happy_things_past
+                            .group_by { |happy_thing| happy_thing.start_time.year }
+                            .reject { |year, _| year == today.year }
+                            .sort.reverse.to_h
+                            .transform_values { |year_happy_things| year_happy_things.group_by(&:user) }
   end
 end
