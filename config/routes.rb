@@ -30,7 +30,11 @@ Rails.application.routes.draw do
     get 'settings', to: 'users/registrations#settings'
     patch 'settings', to: 'users/registrations#update'
   end
-  resources :users, only: %i[index show]
+  resources :users, only: %i[index show] do
+    member do
+      post :update_timezone
+    end
+  end
   get 'friends', to: 'users#friends'
   get 'profile', to: 'users#profile'
 

@@ -4,17 +4,23 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
   before do
-    @user = create(:user)
-    @user.update_column(:encrypted_password, Devise::Encryptor.digest(User, '123456')) # Bypass validation
-    sign_in @user
+    @current_user = create(:user)
+    @current_user.update_column(:encrypted_password, Devise::Encryptor.digest(User, '123456')) # Bypass validation
+    sign_in @current_user
   end
 
   describe 'CRUD operations' do
     describe 'GET /show' do
-      it 'returns http success' do
-        user = create(:user)
-        user.update_column(:encrypted_password, Devise::Encryptor.digest(User, '123456'))
-        get "/users/#{user.id}"
+      it 'redirects when attempting to view non-friend profile' do
+        other_user = create(:user)
+        get "/users/#{other_user.id}"
+        expect(response).to have_http_status(:redirect)
+      end
+
+      it 'shows the profile of a friend' do
+        friend = create(:user)
+        create(:friendship, user: @current_user, friend:)
+        get "/users/#{friend.id}"
         expect(response).to have_http_status(:success)
       end
     end
@@ -23,7 +29,7 @@ RSpec.describe 'Users', type: :request do
   describe 'authentication' do
     describe 'POST /login' do
       it 'allows old users with weak passwords to log in' do
-        post user_session_path, params: { user: { email: @user.email, password: '123456' } }
+        post user_session_path, params: { user: { email: @current_user.email, password: '123456' } }
         follow_redirect!
         expect(response).to have_http_status(:success)
       end
@@ -31,7 +37,7 @@ RSpec.describe 'Users', type: :request do
 
     describe 'User sign up and email confirmation flow' do
       it 'allows a user to sign up, confirm their email, and log in' do
-        sign_out @user
+        sign_out @current_user
         ActionMailer::Base.deliveries.clear
 
         post user_registration_path, params: {
@@ -84,7 +90,7 @@ RSpec.describe 'Users', type: :request do
         delete user_registration_path
         expect(response).to have_http_status(:found)
         expect(response).to redirect_to(root_path)
-        expect(User.find_by(id: @user.id)).to be_nil
+        expect(User.find_by(id: @current_user.id)).to be_nil
       end
     end
   end

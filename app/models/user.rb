@@ -35,8 +35,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   \z/x
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :confirmable,
+         :recoverable, :rememberable, :confirmable,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
   scope :all_except, ->(user) { where.not(id: user.id) }
@@ -58,8 +57,15 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
                        confirmation: true,
                        if: :password_required?
 
+  validates :email, presence: true,
+                    uniqueness: { case_sensitive: false },
+                    format: { with: URI::MailTo::EMAIL_REGEXP },
+                    length: { within: 3..255 }
+
   validates :provider, presence: true, on: :oauth_linking
   validates :uid, presence: true, on: :oauth_linking
+
+  before_validation :normalize_email
 
   has_many :happy_things, dependent: :destroy
   has_many :comments, dependent: :destroy
@@ -174,6 +180,10 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def self.generate_password_for_oauth
     "Oauth1!#{SecureRandom.hex(4)}"
+  end
+
+  def normalize_email
+    self.email = email.to_s.downcase.strip
   end
 
   def password_required?
