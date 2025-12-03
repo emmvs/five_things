@@ -108,7 +108,7 @@ RSpec.describe 'HappyThings visibility', type: :request do
       sign_in owner, scope: :user
       get future_root_path
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('What made you smile today?')
+      expect(response.body).to include('What made you happy today?')
     end
   end
 end

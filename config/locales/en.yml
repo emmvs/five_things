@@ -44,3 +44,6 @@ en:
     pending_received: "Friend Requests You Received"
     users: "Users"
     no_results: "No users found matching"
+
+  profile:
+    happy_count: "Happy Count"
