@@ -3,6 +3,7 @@
 
 .happy_thing {
   // Base
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -67,5 +68,24 @@
   .pagination li a {
     padding: 12px 10px;
     font-size: 0.9rem;
+  }
+}
+
+@keyframes heartFloatToCorner {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -80%) scale(1.3);
+  }
+  100% {
+    opacity: 1;
+    font-size: 1.2rem;
+    top: -6px;
+    right: -6px;
+    left: auto;
+    transform: translate(0, 0) scale(1);
   }
 }
