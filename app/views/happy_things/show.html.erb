@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between align-items-start mb-3">
       <h1 class="mb-0"><%= @happy_thing.title %></h1>
       <% if @happy_thing.user == current_user %>
-        <%= link_to "⋮", edit_happy_thing_path(@happy_thing), class: "btn btn--light edit-link", style: "font-size: 2rem;" %>
+        <%= link_to "⋮", edit_happy_thing_path(@happy_thing), class: "btn btn--light edit-link", style: "font-size: 2rem;", aria: { label: "Edit happy thing" } %>
       <% end %>
     </div>
     
