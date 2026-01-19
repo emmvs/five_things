@@ -9,6 +9,8 @@ AllCops:
     - 'vendor/**/*'
     - 'tmp/**/*'
     - '.github/**/*'
+    - 'app/views/**/*.erb'
+    - 'app/views/**/*.html.erb'
 
 Metrics/BlockLength:
   Exclude:

@@ -67,6 +67,8 @@
         <% @happy_things_by_date.group_by { |ht| ht.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
           <% next if year == current_year %>
 
+      <div data-toggle-target="togglableElement" class="d-none">
+        <% past_years_happy_things.group_by { |ht| ht.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
           <div class="p-2" style="border-radius: 0.375rem; background-color: <%= index.even? ? '#f8f9fa' : '#f1f3f5'; %>;">
             <h3><%= year %></h3>
             <% year_happy_things.group_by(&:user).each do |user, happy_things| %>
