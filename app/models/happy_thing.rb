@@ -5,18 +5,30 @@
 # Table name: happy_things
 #
 #  id             :bigint           not null, primary key
-#  title          :string           not null
 #  body           :text
-#  status         :integer
-#  user_id        :bigint           not null
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  start_time     :datetime
-#  place          :string
 #  latitude       :float
 #  longitude      :float
-#  category_id    :bigint
+#  place          :string
 #  share_location :boolean
+#  start_time     :datetime
+#  status         :integer
+#  title          :string           not null
+#  visibility     :string           default("public")
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  category_id    :bigint
+#  user_id        :bigint           not null
+#
+# Indexes
+#
+#  index_happy_things_on_category_id  (category_id)
+#  index_happy_things_on_user_id      (user_id)
+#  index_happy_things_on_visibility   (visibility)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (category_id => categories.id)
+#  fk_rails_...  (user_id => users.id)
 #
 class HappyThing < ApplicationRecord
   geocoded_by :place
