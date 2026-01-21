@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_26_140700) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_10_143653) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -127,18 +127,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_26_140700) do
     t.float "longitude"
     t.bigint "category_id"
     t.boolean "share_location"
-    t.string "visibility", default: "public"
     t.index ["category_id"], name: "index_happy_things_on_category_id"
     t.index ["user_id"], name: "index_happy_things_on_user_id"
-    t.index ["visibility"], name: "index_happy_things_on_visibility"
   end
 
-  create_table "user_configs", force: :cascade do |t|
+  create_table "reactions", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.boolean "install_prompt_shown", default: false, null: false
+    t.bigint "happy_thing_id", null: false
+    t.string "emoji"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_user_configs_on_user_id"
+    t.index ["happy_thing_id"], name: "index_reactions_on_happy_thing_id"
+    t.index ["user_id"], name: "index_reactions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -185,5 +185,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_26_140700) do
   add_foreign_key "happy_thing_user_shares", "users", column: "friend_id"
   add_foreign_key "happy_things", "categories"
   add_foreign_key "happy_things", "users"
-  add_foreign_key "user_configs", "users"
+  add_foreign_key "reactions", "happy_things"
+  add_foreign_key "reactions", "users"
 end

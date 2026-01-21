@@ -1,13 +1,25 @@
-<div class="happy_thing shadow">
+<div class="happy_thing shadow" 
+     data-controller="reaction"
+     data-reaction-url-value="<%= happy_thing_reactions_path(happy_thing) rescue '#' %>"
+     data-reaction-happy-thing-id-value="<%= happy_thing.id %>"
+     data-action="click->reaction#handleTap">
     <% if happy_thing.photo.attached? %>
         <span>📸</span>
     <% end %>
     <div class="happy_thing_content">
         <span><%= link_to happy_thing.title, happy_thing_path(happy_thing), class: "text-decoration-none" %></span>
     </div>
-    <div class="happy_thing_creator">
-        <!-- TODO: Show user's name or other details -->
-    </div>
+
+    <% reaction_count = happy_thing.reactions.size %>
+    <% if reaction_count > 0 %>
+        <div class="happy_thing_reactions" style="position: absolute; top: -6px; right: -6px; font-size: 1.2rem; z-index: 10;">
+            <% if reaction_count == 1 %>
+                <span>♥️</span>
+            <% else %>
+                <span>♥️ <%= reaction_count %></span>
+            <% end %>
+        </div>
+    <% end %>
 
     <div class="happy_thing_actions d-flex justify-content-between align-items-center">
         <span style="color: #888; font-size: 0.85em;"><%= friendly_date(happy_thing.start_time) %></span>

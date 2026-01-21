@@ -35,6 +35,15 @@ Rails.application.routes.draw do
   get 'profile', to: 'users#profile'
 
   # Happy Things
+  resources :happy_things, except: %i[index] do
+    resources :reactions, only: [:create]
+    resources :comments, only: %i[create]
+
+    collection do
+      get :analytics
+    end
+  end
+
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,
                             constraints: { date: /\d{4}-\d{2}-\d{2}/ }
   get 'happy_things/old_happy_thing', to: 'happy_things#old_happy_thing', as: :old_happy_thing
@@ -42,13 +51,6 @@ Rails.application.routes.draw do
   get 'calendar', to: 'happy_things#calendar'
   get 'friends/happy_things', to: 'happy_things#recent_happy_things'
   get 'through_the_years', to: 'happy_things#through_the_years'
-
-  resources :happy_things, except: %i[index] do
-    resources :comments, only: %i[create]
-    collection do
-      get :analytics
-    end
-  end
 
   resources :comments, only: %i[destroy]
 
