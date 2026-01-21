@@ -44,3 +44,9 @@ en:
     pending_received: "Friend Requests You Received"
     users: "Users"
     no_results: "No users found matching"
+
+  account:
+    delete:
+      unhappy_button: "Unhappy? 😕"
+      page_title: "Delete Your Account"
+      delete_button: "Delete My Account Permanently"

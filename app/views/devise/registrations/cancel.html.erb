@@ -1,0 +1,37 @@
+<div class="container session-manager-container">
+  <h2 class="session-manager-header mb-4">We're Sorry to See You Go 😕</h2>
+  
+  <div class="dash-box my-3 p-4">
+    <h4 class="mb-4">Before you leave...</h4>    <p class="mb-3">We'd love to understand what we could improve. Your feedback helps us make the app better for everyone.</p>
+
+    <div class="alert alert-warning mt-4" style="padding: 1.5rem;">
+      <h5 class="mb-3">⚠️ What happens when you delete your account:</h5>
+      <ul class="mb-0" style="line-height: 2; padding-left: 1.5rem;">
+        <li class="mb-2">All your happy things will be permanently deleted</li>
+        <li class="mb-2">Your friendships and shared moments will be removed</li>
+        <li class="mb-2">Your profile and avatar will be deleted</li>
+        <li class="mb-2">Any connected integrations (like Oura) will be disconnected</li>
+        <li class="mb-2"><strong>This action cannot be undone</strong></li>
+      </ul>
+    </div>
+
+    <h5 class="mt-5 mb-3">Alternatives to consider:</h5>
+    <ul class="mb-4" style="line-height: 2;">
+      <li class="mb-2">Take a break - you can always come back later</li>
+      <li class="mb-2">Adjust your privacy settings</li>
+      <li class="mb-2">Disconnect from friends if you need more privacy</li>
+      <li class="mb-2">Contact us if you're having technical issues</li>
+    </ul>
+
+    <hr class="my-4">
+
+    <h4 class="mb-4 text-danger"><%= t('account.delete.page_title') %></h4>
+
+    <%= link_to t('account.delete.delete_button'), registration_path(resource_name), 
+        data: { 
+          turbo_confirm: "This will permanently delete all your data. This action cannot be undone. Are you absolutely sure?", 
+          turbo_method: :delete 
+        },
+        class: "btn btn-danger btn-lg w-100 py-3 mb-3" %>
+  </div>
+</div>
