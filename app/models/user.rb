@@ -83,6 +83,10 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_one_attached :avatar
 
+  # User Config
+  has_one :user_config, dependent: :destroy
+  after_create :create_user_config
+
   def self.search(query)
     where('first_name ILIKE :query OR last_name ILIKE :query OR username ILIKE :query OR email ILIKE :query',
           query: "%#{query}%")
@@ -149,6 +153,10 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   private
+
+  def create_user_config
+    UserConfig.create(user: self)
+  end
 
   def happy_things_dates
     happy_things.reorder(start_time: :desc)

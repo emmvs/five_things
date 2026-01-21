@@ -206,6 +206,8 @@ GEM
     mime-types (3.5.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.1205)
+    mini_magick (5.3.1)
+      logger
     mini_mime (1.1.5)
     minitest (5.25.5)
     moonphases (1.0.3)
@@ -472,6 +474,7 @@ DEPENDENCIES
   jbuilder (~> 2.13)
   kaminari
   letter_opener
+  mini_magick (~> 5.3)
   moonphases
   observer
   omniauth-google-oauth2

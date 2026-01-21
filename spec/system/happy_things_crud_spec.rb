@@ -13,6 +13,7 @@ RSpec.describe 'Happy Things CRUD', type: :system do
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     click_button 'Log in'
+    dismiss_install_prompt_if_present
   end
 
   describe 'CRUD operations' do

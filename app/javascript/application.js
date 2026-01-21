@@ -8,3 +8,9 @@ import "controllers"
 
 import "bootstrap"
 import "@popperjs/core"
+
+window.capturedNativePrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  window.capturedNativePrompt = e;
+});

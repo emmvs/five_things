@@ -44,3 +44,33 @@ en:
     pending_received: "Friend Requests You Received"
     users: "Users"
     no_results: "No users found matching"
+
+  install_prompt:
+    title: Install 5 Things
+    actions:
+      skip: Skip
+      noted: Noted
+      install: Install
+    variants:
+      ios_safari:
+        step_1: Tap
+        step_2_prefix: Tap
+        step_2_emphasized: Add to Home Screen
+      android_chrome_edge:
+        native_prefix: Tap
+        native_emphasized: Install
+        native_suffix: below to add to your home screen
+        fallback:
+          step_1: Tap
+          step_2_prefix: Tap
+          step_2_emphasized_1: Install app
+          step_2_or: or
+          step_2_emphasized_2: Add to Home screen
+      desktop_chrome_edge:
+        native_prefix: Click
+        native_emphasized: Install
+        native_suffix: below to get the app on your desktop
+        fallback:
+          prefix: Look for
+          suffix: in the URL bar of your browser to add the app to your desktop
+      fallback: If you'd like to install the app, check the browser menu!
