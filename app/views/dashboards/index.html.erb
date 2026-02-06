@@ -56,16 +56,12 @@
 
   <!-- Section: Happy Things Through the Years -->
   <% current_year = Date.current.year %>
-  <% past_year_happy_things = @happy_things_by_date.select { |ht| ht.start_time.year != current_year } %>
+  <% past_years_happy_things = @happy_things_by_date.reject { |ht| ht.start_time.year == current_year } %>
   
-  <% if past_year_happy_things.any? %>
+  <% if past_years_happy_things.any? %>
     <div class="m-2 mt-5 mx-2 my-3" data-controller="toggle">
       <h3 class="mb-3">Through the years...</h3>
       <a data-action="click->toggle#fire" class="btn button--primary">Read more...</a>
-
-      <div data-toggle-target="togglableElement" class="d-none">
-        <% @happy_things_by_date.group_by { |ht| ht.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
-          <% next if year == current_year %>
 
       <div data-toggle-target="togglableElement" class="d-none">
         <% past_years_happy_things.group_by { |ht| ht.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
