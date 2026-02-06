@@ -1,0 +1,87 @@
+<div class="container analytics my-3">
+      <!-- Section: Profile Info & Emoji-->
+      <div class="dash-box p-4 mx-2 mt-3 text-center">
+        <h1><%= current_user.name %></h1>
+      </div>
+
+      <div class="d-flex justify-content-center mt-3">
+        <% if current_user.emoji.present? %>
+          <div class="d-flex align-items-center justify-content-center pb-3" 
+               style="font-size: 8rem;">
+            <%= current_user.emoji %>
+          </div>
+        <% elsif current_user.avatar.key.present? %>
+          <%= cl_image_tag current_user.avatar.key,
+          style: "border-radius: 50%; width: 200px; height: 100%;",
+          class: "pb-3",
+          alt: "User Avatar",
+          transformation: [
+            { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
+            { radius: :max }
+            ] %>
+        <% end %>
+      </div>
+
+      <!-- Section: Happy Count -->
+      <div class="dash-box p-4 mx-2 mb-3">
+        <h2><%= t('profile.happy_count') %></h2>
+        <div class="happy-count d-flex justify-content-center">
+          <%= @happy_count %>
+        </div>
+      </div>
+      
+      <!-- Section: Analytics -->
+      <div class="analytics-container dash-box p-4 mx-2 my-3">
+        <h2>Happy Analytics</h2>
+        <h3 class="mt-4">Most used words this year:</h3>
+        <% if @words_for_wordcloud.present? %>
+        <div class="word-cloud">
+          <% @words_for_wordcloud.each do |word, frequency| %>
+          <% size = [[0.5 + frequency * 0.2, 0.75].max, 2.5].min %>
+          <%= content_tag :span, word.capitalize, style: "font-size: #{size}rem;" %>
+          <% end %>
+        </div>
+        <% else %>
+        <p class="opacity-50">No words data available for this year 😔</p>
+        <% end %>
+      </div>
+
+      <div class="analytics-container dash-box p-4 mx-2 my-3">
+        <h3 class="mt-4">Most used words this month:</h3>
+        <% if @words_for_wordcloud_month.present? %>
+          <div class="word-cloud">
+            <% @words_for_wordcloud_month.each do |word, frequency| %>
+              <% size = [[0.5 + frequency * 0.2, 0.75].max, 2.5].min %>
+              <%= content_tag :span, word.capitalize, style: "font-size: #{size}rem;" %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="opacity-50">No words data available for this month 😌</p>
+        <% end %>
+      </div>
+
+      <!-- Section: Happy Places -->
+      <div class="analytics-container dash-box p-4 mx-2 my-3">
+        <h2>Visited Happy Places</h2>
+        <p>This year you have visited <%= pluralize(@visited_places_count, 'place') %>. 🧳</p>
+      </div>
+
+      <!-- Mapbox Map -->
+      <% if @markers %>
+        <div class="rounded-map" style="width: 100%; height: 600px;"
+          data-controller="map"
+          data-map-markers-value="<%= @markers.to_json %>"
+          data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+        </div>
+      <% end %>
+
+</div>
+
+<%= link_to "Edit Profile", settings_path, class: "mb-5 btn nav-link bottom-icons" %>
+
+<div id="dream-chart">
+  <canvas id="dreamPieChart" data-controller="analytics"
+          data-analytics-labels-value="<%= @label_counts.keys %>"
+          data-analytics-data-value="<%= @label_counts.values %>">
+  </canvas>
+</div>
