@@ -103,9 +103,9 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe 'GET /profile' do
+  describe 'GET /happylytics' do
     it 'returns http success' do
-      get profile_path
+      get happylytics_path
       expect(response).to have_http_status(:success)
       expect(response.body).to include(I18n.t('profile.happy_count'))
       expect(response.body).to include(@current_user.name)

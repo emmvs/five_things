@@ -25,10 +25,10 @@ export default class extends Controller {
     this.stepContent = {
       1: {
         greeting: "Hello stranger!",
-        heading: "This app is all about the things that make us happy.",
+        heading: "This app is all about the little things",
         text1: "So, first things first",
-        text2: "Think of your day today",
-        text3: "and tell me one thing that made you smile",
+        text2: "if you think of your day today,",
+        text3: "tell me one thing that made you smile",
       },
       2: {
         greeting: "Wonderful!",

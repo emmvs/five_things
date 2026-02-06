@@ -5,10 +5,10 @@ require 'faker'
 
 if Rails.env.development?
   puts 'Cleaning DB… 🧼'
-  
+
   # Clean up tables with foreign key dependencies first
   ActiveRecord::Base.connection.execute('DELETE FROM reactions') if ActiveRecord::Base.connection.table_exists?('reactions')
-  
+
   GroupMembership.destroy_all
   HappyThing.destroy_all
   Friendship.destroy_all
@@ -37,7 +37,7 @@ puts "Created main users: #{users.map(&:name).join(', ')}"
 more_users = %w[Joshy Nadieschka Hansibaby Lisita Juanfairy Nomnom Santimaus Florenke Mäx].map do |user_name|
   User.create!(
     name: user_name,
-    email: "#{user_name.downcase.gsub(/[^a-z0-9]/, '')}@test.com",
+    email: "#{user_name.downcase}@test.com",
     emoji: EMOJIS.sample,
     password: 'G1ggl3!Fluff',
     confirmed_at: Time.current

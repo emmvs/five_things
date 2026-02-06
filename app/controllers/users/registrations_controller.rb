@@ -19,6 +19,7 @@ module Users
           # Create the happy thing from the guest session
           resource.happy_things.create(
             title: session[:guest_onboarding]['happy_thing'],
+            start_time: Time.current,
             created_at: Time.current
           )
           # Clear the guest session

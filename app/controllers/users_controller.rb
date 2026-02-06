@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def profile
+  def happylytics
     fetch_happy_count
     fetch_words_for_wordcloud
     fetch_visited_places_count

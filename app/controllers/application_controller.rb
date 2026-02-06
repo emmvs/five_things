@@ -17,6 +17,10 @@ class ApplicationController < ActionController::Base
                                       keys: %i[name avatar emoji email_opt_in location_opt_in])
   end
 
+  def after_sign_in_path_for(_resource)
+    authenticated_root_path
+  end
+
   private
 
   def set_navbar_default

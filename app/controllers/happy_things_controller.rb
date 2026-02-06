@@ -5,6 +5,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   include WordAggregator
   include UserRelated
 
+  skip_before_action :authenticate_user!, only: %i[future_root]
   before_action :set_happy_thing, only: %i[show]
   before_action :set_own_happy_thing, only: %i[edit update destroy]
   before_action :disable_navbar_for_guests, only: %i[future_root]

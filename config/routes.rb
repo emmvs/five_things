@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     end
   end
   get 'friends', to: 'users#friends'
-  get 'profile', to: 'users#profile'
+  get 'happylytics', to: 'users#happylytics'
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,
