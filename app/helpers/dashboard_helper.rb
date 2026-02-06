@@ -2,7 +2,8 @@
 
 # Helpers for dashboards#index
 module DashboardHelper
-  def time_based_greeting(first_name, timezone = current_user.timezone || 'UTC') # rubocop:disable Metrics/MethodLength
+  def time_based_greeting(first_name, timezone = nil) # rubocop:disable Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    timezone ||= current_user&.timezone || 'UTC'
     current_hour = Time.current.in_time_zone(timezone).hour
 
     if current_hour < 5
@@ -18,7 +19,8 @@ module DashboardHelper
     end
   end
 
-  def time_based_emoji(timezone = current_user.timezone || 'UTC')
+  def time_based_emoji(timezone = nil) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    timezone ||= current_user&.timezone || 'UTC'
     current_hour = Time.current.in_time_zone(timezone).hour
     return moon_phase_emoji if current_hour >= 22 || current_hour < 6
 

@@ -17,12 +17,8 @@
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
         <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
       <% end %>
-      <%= f.input :first_name,
-                  placeholder: "What's your first name?",
-                  required: false,
-                  input_html: { autocomplete: "new-password" } %>
-      <%= f.input :last_name,
-                  placeholder: "What's your last name?",
+      <%= f.input :name,
+                  hint: "What's your name?",
                   required: false,
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :emoji %>

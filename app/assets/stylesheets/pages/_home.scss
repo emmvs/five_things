@@ -2,25 +2,89 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 15vh;
   height: 100vh;
-  font-family: 'Arial', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ffffff;
 }
 
-.slogan {
-  font-size: $font-size-xxl;
-  margin: 20px 0;
+.future-root-container {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-in forwards;
 }
 
-.actions {
-  margin-top: 20px;
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
 
-  .btn {
-    margin-right: 10px;
+.homepage-content {
+  text-align: center;
+  max-width: 600px;
+  padding: 0 20px;
+}
 
-    &.btn-secondary {
-      background-color: #ddd;
-      border-color: #ccc;
+.logo-home {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+
+  img {
+    max-width: 180px;
+    height: auto;
+  }
+}
+
+.homepage-title {
+  font-size: 3rem;
+  font-weight: 300;
+  color: #2c3e50;
+  margin-bottom: 5rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.homepage-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+
+  .button--primary,
+  .button--secondary {
+    font-size: 1rem;
+    border-radius: 25px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    text-align: center;
+    line-height: 42px;
+    padding: 0 2.5rem;
+    display: inline-block;
+    height: 46px;
+    box-sizing: border-box;
+  }
+
+  .button--secondary {
+    background: transparent;
+    border: 2px solid #c489d8;
+    color: #c489d8;
+    box-shadow: none;
+    line-height: 38px;
+
+    &:hover {
+      background: rgba(196, 137, 216, 0.1);
+      transform: translateY(-2px);
     }
   }
 }

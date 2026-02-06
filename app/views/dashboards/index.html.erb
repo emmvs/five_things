@@ -4,7 +4,7 @@
 
 <div class="container mt-1">
   <div class="dash-box mx-2 my-3">
-    <h1><%= time_based_greeting(current_user ? current_user.first_name : "Sunshine") %> <%= time_based_emoji %></h1>
+    <h1><%= time_based_greeting(current_user.name) %> <%= time_based_emoji %></h1>
     <div class="my-3">
       <h3>Current Happy Streak</h3>
       <p><%= pluralize(current_user.happy_streak, 'day') %></p>
@@ -24,7 +24,7 @@
   <div class="dash-box mx-2 my-3">
     <h3>What made you happy</h3>
     <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
-      <h5><%= user.emoji %> <%= user.first_name %></h5>
+      <h5><%= user.emoji %> <%= user.name %></h5>
       <% happy_things.each do |happy_thing| %>
         <%= render 'happy_things/happy_thing', happy_thing: happy_thing %>
       <% end %>
@@ -46,7 +46,7 @@
       data-insert-in-list-target="items">
       <h3 class="mb-3">Your Happy Things of today</h3>
       <% @happy_things_today.each do |user, happy_things| %>
-        <h3><%= user.emoji %> <%= user.first_name %></h3>
+        <h3><%= user.emoji %> <%= user.name %></h3>
         <% happy_things.each do |happy_thing| %>
           <%= render "happy_things/happy_thing", user: user, happy_thing: happy_thing %>
         <% end %>
@@ -69,7 +69,7 @@
             <h3><%= year %></h3>
             <% year_happy_things.group_by(&:user).each do |user, happy_things| %>
               <div class="dash-box mb-4">
-                <h5><%= user.emoji %> <%= user.first_name %></h5>
+                <h5><%= user.emoji %> <%= user.name %></h5>
                 <ol>
                   <% happy_things.each do |happy_thing| %>
                     <li>

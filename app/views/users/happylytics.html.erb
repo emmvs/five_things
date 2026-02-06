@@ -1,7 +1,7 @@
 <div class="container analytics my-3">
       <!-- Section: Profile Info & Emoji-->
       <div class="dash-box p-4 mx-2 mt-3 text-center">
-        <h1><%= current_user.first_name %></h1>
+        <h1><%= current_user.name %></h1>
       </div>
 
       <div class="d-flex justify-content-center mt-3">
@@ -24,7 +24,7 @@
 
       <!-- Section: Happy Count -->
       <div class="dash-box p-4 mx-2 mb-3">
-        <h2>Happy Count</h2>
+        <h2><%= t('profile.happy_count') %></h2>
         <div class="happy-count d-flex justify-content-center">
           <%= @happy_count %>
         </div>

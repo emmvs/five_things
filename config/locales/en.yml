@@ -16,12 +16,14 @@ en:
   errors:
     models:
       user:
-        first_name:
+        name:
           length: "must be between 3 and 30 characters long"
           format: "cannot contain links or scripts"
+          invalid: "cannot contain links or scripts"
         password:
           length: "must be between 8 and 30 characters long"
           format: "must include at least one uppercase, one lowercase, one number, and one special character, and cannot contain spaces"
+          invalid: "must include at least one uppercase, one lowercase, one number, and one special character, and cannot contain spaces"
         email:
           presence: "must be present"
           uniqueness: "must be unique"
@@ -44,3 +46,6 @@ en:
     pending_received: "Friend Requests You Received"
     users: "Users"
     no_results: "No users found matching"
+
+  profile:
+    happy_count: "Happy Count"

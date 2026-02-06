@@ -3,9 +3,17 @@
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def google_oauth2 # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-      user = User.from_omniauth(auth)
+      user = User.from_omniauth(auth, session)
 
       if user.persisted?
+        if session[:guest_onboarding].present?
+          user.happy_things.create(
+            title: session[:guest_onboarding]['happy_thing'],
+            created_at: Time.current
+          )
+          session.delete(:guest_onboarding)
+        end
+
         sign_out_all_scopes
         flash[:success] = t 'devise.omniauth_callbacks.success', kind: 'Google'
         sign_in_and_redirect user, event: :authentication
@@ -26,7 +34,7 @@ module Users
     end
 
     def after_sign_in_path_for(resource_or_scope)
-      stored_location_for(resource_or_scope) || root_path
+      stored_location_for(resource_or_scope) || future_root_path
     end
 
     private

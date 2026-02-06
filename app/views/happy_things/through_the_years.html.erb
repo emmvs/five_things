@@ -12,7 +12,7 @@
             <h3><%= year %></h3>
             <% year_happy_things.group_by(&:user).each do |user, happy_things| %>
               <div class="dash-box mb-4">
-                <h5><%= user.emoji %> <%= user.first_name %></h5>
+                <h5><%= user.emoji %> <%= user.name %></h5>
                 <ol>
                   <% happy_things.each do |happy_thing| %>
                     <li>

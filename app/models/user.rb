@@ -5,8 +5,7 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
-#  first_name             :string
-#  last_name              :string
+#  name                   :string
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string
@@ -41,13 +40,13 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   scope :all_except, ->(user) { where.not(id: user.id) }
 
-  validates :first_name, presence: true,
-                         length: { in: 3..30, message: I18n.t('errors.models.user.first_name.length') },
-                         format: {
-                           without: %r{http|https|www|<script.*?>|</script>}i,
-                           message: I18n.t('errors.models.user.first_name.format')
-                         },
-                         on: %i[create update oauth_linking]
+  validates :name, presence: true,
+                   length: { in: 3..30, message: I18n.t('errors.models.user.name.length') },
+                   format: {
+                     without: %r{http|https|www|<script.*?>|</script>}i,
+                     message: I18n.t('errors.models.user.name.invalid')
+                   },
+                   on: %i[create update oauth_linking]
 
   validates :password, presence: true,
                        length: { in: 8..30, message: I18n.t('errors.models.user.password.length') },
@@ -84,7 +83,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_one_attached :avatar
 
   def self.search(query)
-    where('first_name ILIKE :query OR last_name ILIKE :query OR username ILIKE :query OR email ILIKE :query',
+    where('name ILIKE :query ILIKE :query OR username ILIKE :query OR email ILIKE :query',
           query: "%#{query}%")
   end
 
@@ -105,7 +104,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     calculate_streak(dates)
   end
 
-  def self.from_omniauth(auth) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+  def self.from_omniauth(auth, session = {}) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     # Returning user signing in via OAuth
     user = where(provider: auth.provider, uid: auth.uid).first
 
@@ -122,9 +121,12 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     # Brand new user via OAuth — create account from auth hash
     if user.nil?
+      guest_data = session[:guest_onboarding] || {}
+
       user = new(
         email: auth.info.email,
-        first_name: extract_first_name(auth.info.name, auth.info.email),
+        name: guest_data['name'] || extract_name(auth.info.name, auth.info.email),
+        emoji: guest_data['emoji'],
         provider: auth.provider,
         uid: auth.uid,
         password: generate_password_for_oauth
@@ -136,13 +138,13 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     user
   end
 
-  def self.extract_first_name(name, email)
-    first_name_candidates = generate_first_name_candidates(name, email)
+  def self.extract_name(name_param, email)
+    name_candidates = generate_name_candidates(name_param, email)
 
-    first_name_candidates.each do |first_name_candidate|
-      temp_user = User.new(first_name: first_name_candidate)
-      temp_user.validate
-      return first_name_candidate if temp_user.errors[:first_name].empty?
+    name_candidates.each do |name_candidate|
+      temp_user = User.new(name: name_candidate)
+      temp_user.valid?
+      return name_candidate if temp_user.errors[:name].empty?
     end
 
     'User'
@@ -168,10 +170,10 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     streak
   end
 
-  def self.generate_first_name_candidates(name, email) # rubocop:disable Metrics/CyclomaticComplexity
+  def self.generate_name_candidates(name_param, email) # rubocop:disable Metrics/CyclomaticComplexity
     [
-      name&.split&.first,
-      name&.strip,
+      name_param&.split&.first,
+      name_param&.strip,
       email&.split('@')&.first&.split('.')&.first&.capitalize
     ]
   end
@@ -188,5 +190,5 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     !persisted? || !password.nil?
   end
 
-  private_class_method :generate_password_for_oauth, :generate_first_name_candidates
+  private_class_method :generate_password_for_oauth, :generate_name_candidates
 end

@@ -42,8 +42,7 @@ RSpec.describe 'Users', type: :request do
 
         post user_registration_path, params: {
           user: {
-            first_name: 'Testy',
-            last_name: 'Tester',
+            name: 'Testy',
             email: 'testy-confirm@example.com',
             password: 'StrongPass1!',
             password_confirmation: 'StrongPass1!'
@@ -73,9 +72,9 @@ RSpec.describe 'Users', type: :request do
 
     describe 'PATCH /update registration' do
       it 'allows existing users to keep their weak password' do
-        patch user_registration_path, params: { user: { first_name: 'Updated Name' } }
+        patch user_registration_path, params: { user: { name: 'Updated Name' } }
         expect(response).to have_http_status(:redirect)
-        expect(@current_user.reload.first_name).to eq('Updated Name')
+        expect(@current_user.reload.name).to eq('Updated Name')
       end
 
       it 'enforces strong password rules only when updating the password' do
@@ -104,12 +103,12 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe 'GET /profile' do
+  describe 'GET /happylytics' do
     it 'returns http success' do
-      get profile_path
+      get happylytics_path
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Happy Count')
-      expect(response.body).to include(@current_user.first_name)
+      expect(response.body).to include(I18n.t('profile.happy_count'))
+      expect(response.body).to include(@current_user.name)
     end
   end
 end

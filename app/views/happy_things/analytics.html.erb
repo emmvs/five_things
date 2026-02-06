@@ -15,12 +15,12 @@
 
       <!-- Section: Profile Info -->
       <div class="dash-box p-4 mx-2 my-3">
-        <h2><%= current_user.emoji %> <%= current_user.first_name %></h2>
+        <h2><%= current_user.emoji %> <%= current_user.name %></h2>
       </div>
 
       <!-- Section: Happy Count -->
-      <div class="dash-box p-4 mx-2 my-3">
-        <h2>Happy Count</h2>
+      <div class="dash-box p-4 mx-2 mb-3">
+        <h2><%= t('profile.happy_count') %></h2>
         <div class="happy-count d-flex justify-content-center">
           <%= @happy_count %>
         </div>
