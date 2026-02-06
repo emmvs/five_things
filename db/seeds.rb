@@ -6,9 +6,6 @@ require 'faker'
 if Rails.env.development?
   puts 'Cleaning DB… 🧼'
 
-  # Clean up tables with foreign key dependencies first
-  ActiveRecord::Base.connection.execute('DELETE FROM reactions') if ActiveRecord::Base.connection.table_exists?('reactions')
-
   GroupMembership.destroy_all
   HappyThing.destroy_all
   Friendship.destroy_all
