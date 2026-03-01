@@ -5,6 +5,7 @@ require 'faker'
 
 if Rails.env.development?
   puts 'Cleaning DB… 🧼'
+
   GroupMembership.destroy_all
   HappyThing.destroy_all
   Friendship.destroy_all
@@ -17,9 +18,9 @@ EMOJIS = %w[🦊 🐝 🦙 🐳 🐼 🐧 🐨 🐰 🦄 🐯 🐥 🦩 🐺 �
 
 # --- Users ---
 users = [
-  { first_name: 'Leababy', last_name: 'Balkenhol', email: 'lea@test.com', emoji: '🦙' },
-  { first_name: 'Emmsiboom', last_name: 'Rünzel', email: 'emma@test.com', emoji: '👻' },
-  { first_name: 'Bruno-no-no', last_name: 'Thormählen', email: 'bruno@test.com', emoji: '🤗' }
+  { name: 'Leababy', email: 'lea@test.com', emoji: '🦙' },
+  { name: 'Emmsiboom', email: 'emma@test.com', emoji: '👻' },
+  { name: 'Bruno-no-no', email: 'bruno@test.com', emoji: '🤗' }
 ].map do |attrs|
   User.create!(
     **attrs,
@@ -28,23 +29,22 @@ users = [
   )
 end
 
-puts "Created main users: #{users.map(&:first_name).join(', ')}"
+puts "Created main users: #{users.map(&:name).join(', ')}"
 
-more_users = %w[Joshy Nadieschka Hansibaby Lisita Juanfairy Nomnom Santimaus Florenke Mäx].map do |name|
+more_users = %w[Joshy Nadieschka Hansibaby Lisita Juanfairy Nomnom Santimaus Florenke Mäx].map do |user_name|
   User.create!(
-    first_name: name,
-    last_name: 'Testy',
-    email: "#{name.downcase}@test.com",
+    name: user_name,
+    email: "#{user_name.downcase}@test.com",
     emoji: EMOJIS.sample,
     password: 'G1ggl3!Fluff',
     confirmed_at: Time.current
   )
 end
 
-puts "Created extra users: #{more_users.map(&:first_name).join(', ')}"
+puts "Created extra users: #{more_users.map(&:name).join(', ')}"
 
 def u(name)
-  User.find_by(first_name: name)
+  User.find_by(name:)
 end
 
 # --- Friendships ---
@@ -144,9 +144,10 @@ User.all.each do |user|
       )
       total_for_user += 1
     end
+
   end
 
-  puts "✅ Created #{total_for_user} happy things for #{user.first_name} in total."
+  puts "✅ Created #{total_for_user} happy things for #{user.name} in total."
 end
 
 puts 'HappyThings created 🎉'

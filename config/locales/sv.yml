@@ -16,7 +16,7 @@ sv:
   errors:
     models:
       user:
-        first_name:
+        name:
           length: "måste vara mellan 3 och 30 tecken lång"
           invalid: "kan inte innehålla länkar eller skript"
         password:

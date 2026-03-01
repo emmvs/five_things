@@ -20,11 +20,11 @@ RSpec.describe 'Settings', type: :request do
   describe 'PATCH /settings' do
     context 'with valid params' do
       it 'changes the users attributes' do
-        patch settings_path, params: { user: { first_name: 'Friendly Ghost', emoji: '👻' } }
+        patch settings_path, params: { user: { name: 'Friendly Ghost', emoji: '👻' } }
 
         expect(response).to have_http_status(:redirect)
         expect(response).to redirect_to(root_path)
-        expect(user.reload.first_name).to eq('Friendly Ghost')
+        expect(user.reload.name).to eq('Friendly Ghost')
         expect(user.reload.emoji).to eq('👻')
       end
     end

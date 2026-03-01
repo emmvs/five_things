@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe 'HappyThings visibility', type: :request do
-  let(:owner)     { create(:user, first_name: 'Owner') }
-  let(:friend)    { create(:user, first_name: 'Friend') }
-  let(:groupie)   { create(:user, first_name: 'Groupie') }
-  let(:stranger)  { create(:user, first_name: 'Stranger') }
+  let(:owner)     { create(:user, name: 'Owner') }
+  let(:friend)    { create(:user, name: 'Friend') }
+  let(:groupie)   { create(:user, name: 'Groupie') }
+  let(:stranger)  { create(:user, name: 'Stranger') }
 
   # With bidirectional friendships, creating one friendship creates both records
   let!(:friendship_one) { create(:friendship, user: owner, friend:, accepted: true) }
@@ -108,7 +108,7 @@ RSpec.describe 'HappyThings visibility', type: :request do
       sign_in owner, scope: :user
       get future_root_path
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('What made you smile today?')
+      expect(response.body).to include('What made you happy today?')
     end
   end
 end

@@ -20,7 +20,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'includes user’s name or relevant info in body' do
-      expect(mail.body.encoded).to include(user.first_name)
+      expect(mail.body.encoded).to include(user.name)
     end
   end
 

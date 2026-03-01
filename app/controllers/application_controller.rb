@@ -3,6 +3,8 @@
 # ApplicationController
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_timezone
+  before_action :authenticate_user!, unless: :public_controller?
   before_action :set_navbar_default
   helper_method :render_navbar?
 
@@ -10,9 +12,13 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up,
-                                      keys: %i[first_name last_name avatar emoji email_opt_in location_opt_in])
+                                      keys: %i[name avatar emoji email_opt_in location_opt_in])
     devise_parameter_sanitizer.permit(:account_update,
-                                      keys: %i[first_name last_name avatar emoji email_opt_in location_opt_in])
+                                      keys: %i[name avatar emoji email_opt_in location_opt_in])
+  end
+
+  def after_sign_in_path_for(_resource)
+    authenticated_root_path
   end
 
   private
@@ -27,5 +33,13 @@ class ApplicationController < ActionController::Base
 
   def disable_navbar
     @render_navbar = false
+  end
+
+  def set_timezone
+    Time.zone = current_user.timezone if current_user
+  end
+
+  def public_controller?
+    controller_name.in?(%w[pages])
   end
 end

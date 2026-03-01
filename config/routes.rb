@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   # If not authenticated, route to the home page
   root to: 'pages#home'
 
+  # Onboarding
+  get 'onboarding', to: 'onboarding#new'
+  post 'onboarding/create_guest_session', to: 'onboarding#create_guest_session'
+
   # Users
   devise_for :users,
              controllers: {
@@ -26,9 +30,13 @@ Rails.application.routes.draw do
     get 'settings', to: 'users/registrations#settings'
     patch 'settings', to: 'users/registrations#update'
   end
-  resources :users, only: %i[index show]
+  resources :users, only: %i[index show] do
+    member do
+      post :update_timezone
+    end
+  end
   get 'friends', to: 'users#friends'
-  get 'profile', to: 'users#profile'
+  get 'happylytics', to: 'users#happylytics'
 
   # Happy Things
   get 'happy_things/:date', to: 'happy_things#show_by_date', as: :happy_things_by_date,

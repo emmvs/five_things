@@ -16,7 +16,7 @@ de:
   errors:
     models:
       user:
-        first_name:
+        name:
           length: "muss zwischen 3 und 30 Zeichen lang sein"
           invalid: "darf keine Links oder Skripte enthalten"
         password:

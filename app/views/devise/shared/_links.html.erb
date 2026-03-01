@@ -1,9 +1,9 @@
-<%- if controller_name != 'sessions' %>
+<%- if controller_name != 'sessions' && controller_name != 'registrations' %>
   <%= link_to "Log in", new_session_path(resource_name), class: "btn btn-secondary btn-sm mt-1" %><br />
 <% end %>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to "Sign up", new_registration_path(resource_name), class: "btn button--primary w-100 btn-secondary mt-1 d-block border-0" %><br />
+  <%= link_to "Sign up", onboarding_path, class: "btn button--primary w-100 btn-secondary mt-1 d-block border-0" %><br />
 <% end %>
 
 <%- if devise_mapping.omniauthable? %>

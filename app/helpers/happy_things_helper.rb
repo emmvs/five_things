@@ -18,13 +18,13 @@ module HappyThingsHelper
     group_options = user.groups.map { |g| ["🌟 #{g.name}", "group_#{g.id}"] }
     group_member_options = user.groups.flat_map do |group|
       group.friends.map do |friend|
-        ["👤 #{friend.first_name} #{friend.last_name} (#{group.name})", "friend_#{friend.id}"]
+        ["👤 #{friend.name} (#{group.name})", "friend_#{friend.id}"]
       end
     end
 
     other_friends = user.all_friends.reject do |f|
       user.groups.flat_map(&:friends).include?(f)
-    end.map { |f| ["👤 #{f.first_name} #{f.last_name}", "friend_#{f.id}"] } # rubocop:disable Style/MultilineBlockChain
+    end.map { |f| ["👤 #{f.name}", "friend_#{f.id}"] } # rubocop:disable Style/MultilineBlockChain
 
     group_options + group_member_options + other_friends
   end
