@@ -92,6 +92,25 @@ ngrok http 3000
 
 The ngrok URL will be displayed in Terminal 2 under "Forwarding" (e.g., `https://abc123.ngrok-free.app`, `https://abc123.ngrok-free.dev`, or `https://abc123.ngrok.io`). Use this URL to test the app on your mobile device. Ngrok URLs may end in `.app`, `.dev`, or `.io` depending on your ngrok account. The app is configured to accept all formats. 🙌🏻
 
+### Linting
+
+RuboCop is configured via `.rubocop.yml`. Run it locally with:
+
+```bash
+bundle exec rubocop
+```
+
+The CI pipeline also runs RuboCop and Brakeman automatically on every push and PR to `main` (see `.github/workflows/ci.yml`).
+
+### AI Agent Configuration
+
+This project includes configuration files that provide coding standards to AI assistants:
+
+- **`.cursor/rules/rails-standards.mdc`** — rules for Cursor (always applied)
+- **`AGENTS.md`** — rules for GitHub Copilot
+
+Both files enforce the same standards: RuboCop compliance, DRY principles, and i18n translations across all three locale files (`en.yml`, `de.yml`, `sv.yml`).
+
 ### Services
 
 - Poetry Service: Fetches a random poem to display on the page.
