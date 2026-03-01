@@ -48,3 +48,7 @@ When adding a new translation key:
 2. Add the German translation to `de.yml`.
 3. Add the Swedish translation to `sv.yml`.
 4. Use `%{variable}` syntax for interpolation (e.g. `"User %{email} not found"`).
+
+## Testing
+
+- In specs, reference flash/notice messages via `I18n.t('key')` instead of hardcoded strings. The locale files are the single source of truth.

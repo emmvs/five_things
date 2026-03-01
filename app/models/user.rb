@@ -62,6 +62,9 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
                     format: { with: URI::MailTo::EMAIL_REGEXP },
                     length: { within: 3..255 }
 
+  SUPPORTED_LOCALES = %w[en de sv].freeze
+
+  validates :locale, inclusion: { in: SUPPORTED_LOCALES }, allow_nil: true
   validates :provider, presence: true, on: :oauth_linking
   validates :uid, presence: true, on: :oauth_linking
 
@@ -79,8 +82,6 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :friendships, dependent: :destroy
   has_many :friends, -> { where(friendships: { accepted: true }) }, through: :friendships, source: :friend
   has_many :pending_friends, -> { where(friendships: { accepted: false }) }, through: :friendships, source: :friend
-
-  has_one_attached :avatar
 
   def self.search(query)
     where('name ILIKE :query ILIKE :query OR username ILIKE :query OR email ILIKE :query',

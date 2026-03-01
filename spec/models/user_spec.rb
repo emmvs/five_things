@@ -49,6 +49,18 @@ RSpec.describe User, type: :model do
       user = build(:user, password: no_special, password_confirmation: no_special)
       expect(user).to be_invalid
     end
+
+    it 'accepts supported locales' do
+      User::SUPPORTED_LOCALES.each do |loc|
+        expect(build(:user, locale: loc)).to be_valid
+      end
+    end
+
+    it 'rejects unsupported locales' do
+      user = build(:user, locale: 'klingon')
+      expect(user).to be_invalid
+      expect(user.errors[:locale]).to be_present
+    end
   end
 
   describe '#happy_streak' do

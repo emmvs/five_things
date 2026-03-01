@@ -46,7 +46,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
       @happy_thing.happy_thing_user_shares.destroy_all
       @happy_thing.happy_thing_group_shares.destroy_all
       handle_visibility(@happy_thing)
-      redirect_to root_path, notice: 'Yay! 🎉 Happy Thing was updated 🥰'
+      redirect_to happy_thing_path(@happy_thing), notice: t('happy_things.updated')
     else
       render :edit, status: 422
     end
@@ -54,7 +54,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def destroy
     @happy_thing.destroy
-    redirect_to root_path, notice: 'Happy Thing was destroyed 😕'
+    redirect_to root_path, notice: t('happy_things.destroyed')
   end
 
   def analytics
@@ -120,7 +120,8 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def create_old_happy_thing
     @old_happy_thing = current_user.happy_things.build(happy_thing_params)
     if @old_happy_thing.save
-      redirect_to root_path, notice: 'Happy Thing was successfully created.'
+      date_path = happy_things_by_date_path(date: @old_happy_thing.start_time.to_date)
+      redirect_to date_path, notice: t('happy_things.created')
     else
       render :new, status: :unprocessable_entity
     end
@@ -139,7 +140,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def save_and_respond(resource)
     respond_to do |format|
       if resource.save
-        format.html { redirect_to root_path, notice: 'Happy Thing was successfully created.' }
+        format.html { redirect_to root_path, notice: t('happy_things.created') }
         format.json { render json: { status: :created, happy_thing: resource } }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -171,7 +172,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def create_happy_thing
     respond_to do |format|
       if @happy_thing.save
-        format.html { redirect_to root_path, notice: 'Happy Thing was successfully created.' }
+        format.html { redirect_to root_path, notice: t('happy_things.created') }
         format.json { render json: { status: :created, happy_thing: @happy_thing } }
       else
         format.html { render :new, status: :unprocessable_entity }

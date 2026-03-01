@@ -77,6 +77,8 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ActiveJob::TestHelper
 
+  Capybara.default_max_wait_time = 10
+
   config.before(:each, type: :system) do
     Capybara.register_driver :custom_selenium_chrome_headless do |app|
       options = Selenium::WebDriver::Chrome::Options.new
