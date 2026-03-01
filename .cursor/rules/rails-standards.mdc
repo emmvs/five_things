@@ -1,9 +1,28 @@
 ---
-description: Rails coding standards — RuboCop compliance, DRY principles, and i18n translations
+description: Rails coding standards — security, RuboCop compliance, DRY principles, and i18n translations
 alwaysApply: true
 ---
 
 # Rails Coding Standards
+
+## Security
+
+**NEVER** commit secrets, credentials, or sensitive data to the repository. This includes:
+
+- API keys, tokens, and secrets (e.g. `GOOGLE_OAUTH_CLIENT_SECRET`, `CLOUDINARY_URL`)
+- `.env` files (only `.env.sample` with empty values is allowed)
+- `config/master.key` or `config/credentials/*.key`
+- `cloudinary.yml`
+- Database passwords or connection strings with credentials
+- Private keys, certificates, or PEM files
+- Hardcoded passwords or secrets anywhere in source code
+
+Before every commit:
+
+1. Run `git diff --cached` and review staged files for secrets.
+2. Never stage files matching `.env*` (except `.env.sample`), `*.key`, `*.pem`, `credentials.json`, or `cloudinary.yml`.
+3. Never hardcode real credentials in seed files, fixtures, tests, or config — use `ENV.fetch("VAR_NAME")` or Rails credentials instead.
+4. If a secret is accidentally committed, treat it as compromised — rotate it immediately.
 
 ## RuboCop
 

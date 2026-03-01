@@ -17,32 +17,38 @@ module Users
     def create
       return super unless passwordless_login?
 
-      user = User.find_by(email: login_email)
-      return sign_in_and_redirect_user(user) if user
+      user = User.find_for_database_authentication(email: login_email)
+      return sign_in_and_redirect_user(user) if user&.active_for_authentication?
+      return render_passwordless_failure(user) if user
 
-      self.resource = resource_class.new(sign_in_params)
-      flash.now[:alert] = t('sessions.user_not_found', email: login_email)
-      render :new, status: :unprocessable_entity
+      render_passwordless_failure
     end
 
     private
 
     def passwordless_login?
-      allow_passwordless? && params[:user][:password].blank?
+      allow_passwordless? && params.dig(:user, :password).blank?
     end
 
     def allow_passwordless?
-      Rails.env.development?
+      Rails.env.development? && request.local?
     end
 
     def login_email
-      params[:user][:email]
+      params.dig(:user, :email)
     end
 
     def sign_in_and_redirect_user(user)
       sign_in(user)
       set_flash_message!(:notice, :signed_in)
       redirect_to after_sign_in_path_for(user)
+    end
+
+    def render_passwordless_failure(user = nil)
+      self.resource = resource_class.new(sign_in_params)
+      alert = user ? t("devise.failure.#{user.inactive_message}") : t('sessions.user_not_found', email: login_email)
+      flash.now[:alert] = alert
+      render :new, status: :unprocessable_entity
     end
   end
 end

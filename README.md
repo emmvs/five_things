@@ -109,7 +109,21 @@ This project includes configuration files that provide coding standards to AI as
 - **`.cursor/rules/rails-standards.mdc`** — rules for Cursor (always applied)
 - **`AGENTS.md`** — rules for GitHub Copilot
 
-Both files enforce the same standards: RuboCop compliance, DRY principles, and i18n translations across all three locale files (`en.yml`, `de.yml`, `sv.yml`).
+Both files enforce the same standards: security (never commit secrets), RuboCop compliance, DRY principles, and i18n translations across all three locale files (`en.yml`, `de.yml`, `sv.yml`).
+
+### Security
+
+Secrets and credentials must **never** be committed to this repository. The `.gitignore` is configured to exclude `.env*` files (except the empty `.env.sample`), `config/master.key`, and `cloudinary.yml`. If you need to add a new environment variable:
+
+1. Add the key (with an empty value) to `.env.sample` so other developers know it exists.
+2. Set the actual value in your local `.env` file (which is git-ignored).
+3. In code, access it via `ENV.fetch("VAR_NAME")` or Rails credentials.
+
+Brakeman runs in CI to catch common security vulnerabilities. Run it locally with:
+
+```bash
+bundle exec brakeman -q -w2
+```
 
 ### Services
 

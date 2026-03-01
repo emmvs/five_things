@@ -84,13 +84,14 @@ puts "#{categories.size} categories created!"
 
 # --- HappyThings ---
 def create_happy_thing(user:, categories:, date: nil)
+  start = (date || Date.current).in_time_zone.change(hour: rand(8..22))
   attrs = {
     user:, title: Faker::Hobby.activity, body: Faker::Lorem.paragraph(sentence_count: 2),
-    start_time: (date || Date.current).to_time.change(hour: rand(8..22)),
+    start_time: start,
     place: Faker::Address.city, latitude: Faker::Address.latitude, longitude: Faker::Address.longitude,
     share_location: [true, false].sample, status: [0, 1, 2].sample, category: categories.sample
   }
-  attrs.merge!(created_at: date, updated_at: date) if date
+  attrs.merge!(created_at: start, updated_at: start) if date
   HappyThing.create!(**attrs)
 end
 
