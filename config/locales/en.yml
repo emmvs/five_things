@@ -29,6 +29,9 @@ en:
           uniqueness: "must be unique"
           format: "must be a valid email address"
           length: "must be between 3 and 255 characters long"
+  sessions:
+    user_not_found: "User with email %{email} not found"
+
   friendships:
     created: "Friend request sent. 👻"
     create_failed: "Unable to send friend request. 🤔"
