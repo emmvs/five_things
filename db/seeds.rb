@@ -31,7 +31,7 @@ end
 
 puts "Created main users: #{users.map(&:name).join(', ')}"
 
-more_users = %w[Joshy Nadieschka Hansibaby Lisita Juanfairy Nomnom Santimaus Florenke Mäx].map do |user_name|
+more_users = %w[Joshy Nadieschka Hansibaby Lisita Juanfairy Nomnom Santimaus Florenke Maex].map do |user_name|
   User.create!(
     name: user_name,
     email: "#{user_name.downcase}@test.com",
@@ -52,13 +52,13 @@ Friendship.create!([
                      { user: u('Emmsiboom'), friend: u('Joshy'), accepted: true },
                      { user: u('Emmsiboom'), friend: u('Hansibaby'), accepted: true },
                      { user: u('Emmsiboom'), friend: u('Juanfairy'), accepted: true },
-                     { user: u('Mäx'), friend: u('Emmsiboom'), accepted: false },
+                     { user: u('Maex'), friend: u('Emmsiboom'), accepted: false },
                      { user: u('Santimaus'), friend: u('Emmsiboom'), accepted: false },
                      { user: u('Emmsiboom'), friend: u('Florenke'), accepted: false },
                      { user: u('Joshy'), friend: u('Hansibaby'), accepted: true },
                      { user: u('Juanfairy'), friend: u('Santimaus'), accepted: true },
-                     { user: u('Mäx'), friend: u('Joshy'), accepted: false },
-                     { user: u('Juanfairy'), friend: u('Mäx'), accepted: false }
+                     { user: u('Maex'), friend: u('Joshy'), accepted: false },
+                     { user: u('Juanfairy'), friend: u('Maex'), accepted: false }
                    ])
 
 puts 'Friendships created 🤝'
@@ -83,71 +83,28 @@ end
 puts "#{categories.size} categories created!"
 
 # --- HappyThings ---
+def create_happy_thing(user:, categories:, date: nil)
+  attrs = {
+    user:, title: Faker::Hobby.activity, body: Faker::Lorem.paragraph(sentence_count: 2),
+    start_time: (date || Date.current).to_time.change(hour: rand(8..22)),
+    place: Faker::Address.city, latitude: Faker::Address.latitude, longitude: Faker::Address.longitude,
+    share_location: [true, false].sample, status: [0, 1, 2].sample, category: categories.sample
+  }
+  attrs.merge!(created_at: date, updated_at: date) if date
+  HappyThing.create!(**attrs)
+end
+
 User.all.each do |user|
-  total_for_user = 0
   today = Date.current
+  count = 0
 
-  # Create 1-3 happy things for today
-  rand(1..3).times do
-    HappyThing.create!(
-      user:,
-      title: Faker::Hobby.activity,
-      body: Faker::Lorem.paragraph(sentence_count: 2),
-      start_time: Time.current.change(hour: rand(8..22)),
-      place: Faker::Address.city,
-      latitude: Faker::Address.latitude,
-      longitude: Faker::Address.longitude,
-      share_location: [true, false].sample,
-      status: [0, 1, 2].sample,
-      category: categories.sample
-    )
-    total_for_user += 1
+  count += rand(1..3).times.count { create_happy_thing(user:, categories:) }
+
+  [1.year.ago.to_date, *(2..5).map { |y| today - y.years }].each do |date|
+    count += rand(1..3).times.count { create_happy_thing(user:, categories:, date:) }
   end
 
-  # Create 1-3 happy things for exactly 1 year ago (same month/day)
-  one_year_ago = today - 1.year
-  rand(1..3).times do
-    HappyThing.create!(
-      user:,
-      title: Faker::Hobby.activity,
-      body: Faker::Lorem.paragraph(sentence_count: 2),
-      start_time: one_year_ago.to_time.change(hour: rand(8..22)),
-      place: Faker::Address.city,
-      latitude: Faker::Address.latitude,
-      longitude: Faker::Address.longitude,
-      share_location: [true, false].sample,
-      status: [0, 1, 2].sample,
-      category: categories.sample,
-      created_at: one_year_ago,
-      updated_at: one_year_ago
-    )
-    total_for_user += 1
-  end
-
-  # Create 1-3 happy things for 1-5 years ago (same month/day)
-  (2..5).each do |years_ago|
-    years_ago_date = today - years_ago.years
-    rand(1..3).times do
-      HappyThing.create!(
-        user:,
-        title: Faker::Hobby.activity,
-        body: Faker::Lorem.paragraph(sentence_count: 2),
-        start_time: years_ago_date.to_time.change(hour: rand(8..22)),
-        place: Faker::Address.city,
-        latitude: Faker::Address.latitude,
-        longitude: Faker::Address.longitude,
-        share_location: [true, false].sample,
-        status: [0, 1, 2].sample,
-        category: categories.sample,
-        created_at: years_ago_date,
-        updated_at: years_ago_date
-      )
-      total_for_user += 1
-    end
-
-  end
-
-  puts "✅ Created #{total_for_user} happy things for #{user.name} in total."
+  puts "✅ Created #{count} happy things for #{user.name} in total."
 end
 
 puts 'HappyThings created 🎉'

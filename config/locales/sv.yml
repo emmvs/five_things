@@ -23,6 +23,9 @@ sv:
           length: "måste vara mellan 12 och 30 tecken lång"
           invalid: "måste innehålla minst en stor bokstav, en liten bokstav, en siffra och ett specialtecken, och kan inte innehålla mellanslag"
 
+  sessions:
+    user_not_found: "Användare med e-post %{email} hittades inte"
+
   friendships:
     created: "Vänförfrågan skickad. 👻"
     create_failed: "Kunde inte skicka vänförfrågan. 🤔"

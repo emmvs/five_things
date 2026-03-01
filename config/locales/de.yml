@@ -23,6 +23,9 @@ de:
           length: "muss zwischen 12 und 30 Zeichen lang sein"
           invalid: "muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten und darf keine Leerzeichen enthalten"
 
+  sessions:
+    user_not_found: "Benutzer*in mit E-Mail %{email} nicht gefunden"
+
   friendships:
     created: "Freundschaftsanfrage gesendet. 👻"
     create_failed: "Freundschaftsanfrage konnte nicht gesendet werden. 🤔"
