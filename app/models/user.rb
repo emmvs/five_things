@@ -64,7 +64,7 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   SUPPORTED_LOCALES = %w[en de sv].freeze
 
-  validates :locale, inclusion: { in: SUPPORTED_LOCALES }, allow_nil: true
+  validates :locale, inclusion: { in: SUPPORTED_LOCALES }
   validates :provider, presence: true, on: :oauth_linking
   validates :uid, presence: true, on: :oauth_linking
 
