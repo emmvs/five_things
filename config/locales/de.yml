@@ -43,3 +43,40 @@ de:
     pending_received: "Empfangene Freundschaftsanfragen"
     users: "Nutzer*innen"
     no_results: "Keine Nutzer*innen gefunden für"
+
+  happy_things:
+    created: "Glücklicher Moment wurde erfolgreich erstellt."
+    updated: "Yay! Glücklicher Moment wurde aktualisiert!"
+    destroyed: "Glücklicher Moment wurde gelöscht."
+
+  settings:
+    title: "Einstellungen"
+    profile:
+      heading: "Profil"
+      name: "Name"
+      name_hint: "Wie heißt du?"
+      emoji: "Emoji"
+    account:
+      heading: "Konto"
+      email: "E-Mail"
+      pending_reconfirmation: "Warte auf Bestätigung für: %{email}"
+      password: "Neues Passwort"
+      password_confirmation: "Neues Passwort bestätigen"
+      current_password: "Aktuelles Passwort"
+      current_password_hint: "um deine Änderungen zu bestätigen"
+    preferences:
+      heading: "Einstellungen"
+      language: "Sprache"
+      email_notifications: "E-Mail-Benachrichtigungen"
+      location_sharing: "Standortfreigabe"
+    actions:
+      save: "Änderungen speichern"
+    danger_zone:
+      heading: "Gefahrenzone"
+      delete_description: "Wenn du dein Konto löschst, gibt es kein Zurück."
+      delete_button: "Mein Konto löschen"
+      delete_confirmation: "Bist du sicher? Dein Konto wird dauerhaft gelöscht."
+    languages:
+      en: "English"
+      de: "Deutsch"
+      sv: "Svenska"

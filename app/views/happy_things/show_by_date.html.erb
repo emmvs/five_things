@@ -36,8 +36,7 @@
     <p class="opacity-50">No Happy Things found for this date.</p>
   <% end %>
 
-  <!-- Conditional Form to add a new Happy Thing, shown only if there are less than 10 happy things -->
-  <% if @happy_things.count < 10 %>
+  <% if @own_count_for_date < 5 %>
     <div class="my-5">
       <h3>Forgot something? Add more Happy Things</h3>
       <%= simple_form_for(@old_happy_thing, url: happy_things_old_happy_thing_path, method: :post, html: { multipart: true }) do |f| %>
@@ -48,6 +47,4 @@
       <% end %>
     </div>
   <% end %>
-
-  <%= link_to 'Back to Dashboard', root_path, class: "btn button--primary" %>
 </div>

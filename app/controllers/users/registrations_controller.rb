@@ -44,12 +44,16 @@ module Users
     private
 
     def user_params
-      params.require(:user).permit(:name, :avatar, :emoji, :email, :password, :password_confirmation,
-                                   :current_password, :email_opt_in, :location_opt_in)
+      params.require(:user).permit(:name, :emoji, :email, :password, :password_confirmation,
+                                   :current_password, :email_opt_in, :location_opt_in, :locale)
     end
 
     def updating_sensitive_info?
       user_params[:password].present?
+    end
+
+    def after_update_path_for(_resource)
+      settings_path
     end
 
     def after_sign_up_path_for(_resource)

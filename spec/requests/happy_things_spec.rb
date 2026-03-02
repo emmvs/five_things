@@ -111,4 +111,44 @@ RSpec.describe 'HappyThings visibility', type: :request do
       expect(response.body).to include('What made you happy today?')
     end
   end
+
+  describe 'GET /happy_things/:date (show_by_date)' do
+    let(:yesterday) { Date.yesterday }
+
+    it 'shows the add form when only the current user has few happy things' do
+      sign_in owner, scope: :user
+
+      create_list(:happy_thing, 3, user: owner, start_time: yesterday.noon)
+      create_list(:happy_thing, 5, user: friend, start_time: yesterday.noon)
+
+      get happy_things_by_date_path(date: yesterday)
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Forgot something?')
+    end
+
+    it 'shows the add form even when friends collectively have 10+ happy things' do
+      sign_in owner, scope: :user
+
+      create_list(:happy_thing, 2, user: owner, start_time: yesterday.noon)
+      create_list(:happy_thing, 5, user: friend, start_time: yesterday.noon)
+      create_list(:happy_thing, 5, user: groupie, start_time: yesterday.noon)
+
+      get happy_things_by_date_path(date: yesterday)
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Forgot something?')
+    end
+
+    it 'hides the add form when the current user already has 5 happy things for that date' do
+      sign_in owner, scope: :user
+
+      create_list(:happy_thing, 5, user: owner, start_time: yesterday.noon)
+
+      get happy_things_by_date_path(date: yesterday)
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).not_to include('Forgot something?')
+    end
+  end
 end

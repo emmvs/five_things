@@ -43,3 +43,40 @@ sv:
     pending_received: "Mottagna vänförfrågningar"
     users: "Användare"
     no_results: "Inga användare hittades för"
+
+  happy_things:
+    created: "Glad sak skapades framgångsrikt."
+    updated: "Yay! Glad sak uppdaterades!"
+    destroyed: "Glad sak togs bort."
+
+  settings:
+    title: "Inställningar"
+    profile:
+      heading: "Profil"
+      name: "Namn"
+      name_hint: "Vad heter du?"
+      emoji: "Emoji"
+    account:
+      heading: "Konto"
+      email: "E-post"
+      pending_reconfirmation: "Väntar på bekräftelse för: %{email}"
+      password: "Nytt lösenord"
+      password_confirmation: "Bekräfta nytt lösenord"
+      current_password: "Nuvarande lösenord"
+      current_password_hint: "för att bekräfta dina ändringar"
+    preferences:
+      heading: "Inställningar"
+      language: "Språk"
+      email_notifications: "E-postnotiser"
+      location_sharing: "Platsdelning"
+    actions:
+      save: "Spara ändringar"
+    danger_zone:
+      heading: "Farozon"
+      delete_description: "När du raderar ditt konto finns det ingen återvändo."
+      delete_button: "Radera mitt konto"
+      delete_confirmation: "Är du säker? Ditt konto kommer att raderas permanent."
+    languages:
+      en: "English"
+      de: "Deutsch"
+      sv: "Svenska"

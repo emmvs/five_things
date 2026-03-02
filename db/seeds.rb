@@ -95,12 +95,39 @@ def create_happy_thing(user:, categories:, date: nil)
   HappyThing.create!(**attrs)
 end
 
+today = Date.current
+lea = User.find_by(name: 'Leababy')
+emma = User.find_by(name: 'Emmsiboom')
+bruno = User.find_by(name: 'Bruno-no-no')
+daily_users = [lea, emma]
+friend_today = User.where(name: %w[Joshy Hansibaby Juanfairy]).sample
+
 User.all.each do |user|
-  today = Date.current
   count = 0
 
-  count += rand(1..3).times.count { create_happy_thing(user:, categories:) }
+  # Today: one happy thing each for the 3 main users + 1 friend
+  if [lea, emma, bruno, friend_today].include?(user)
+    create_happy_thing(user:, categories:)
+    count += 1
+  end
 
+  # Past 14 days
+  if daily_users.include?(user)
+    (1..14).each do |days_ago|
+      n = rand(1..2)
+      n.times { create_happy_thing(user:, categories:, date: today - days_ago.days) }
+      count += n
+    end
+  elsif user == bruno
+    (1..14).each do |days_ago|
+      next if rand < 0.6
+
+      create_happy_thing(user:, categories:, date: today - days_ago.days)
+      count += 1
+    end
+  end
+
+  # Historical data for everyone
   [1.year.ago.to_date, *(2..5).map { |y| today - y.years }].each do |date|
     count += rand(1..3).times.count { create_happy_thing(user:, categories:, date:) }
   end

@@ -50,5 +50,42 @@ en:
     users: "Users"
     no_results: "No users found matching"
 
+  happy_things:
+    created: "HappyThing was successfully created."
+    updated: "Yay! HappyThing was updated!"
+    destroyed: "HappyThing was destroyed."
+
+  settings:
+    title: "Settings"
+    profile:
+      heading: "Profile"
+      name: "Name"
+      name_hint: "What's your name?"
+      emoji: "Emoji"
+    account:
+      heading: "Account"
+      email: "Email"
+      pending_reconfirmation: "Currently waiting confirmation for: %{email}"
+      password: "New password"
+      password_confirmation: "Confirm new password"
+      current_password: "Current password"
+      current_password_hint: "to confirm your changes"
+    preferences:
+      heading: "Preferences"
+      language: "Language"
+      email_notifications: "Email notifications"
+      location_sharing: "Location sharing"
+    actions:
+      save: "Save changes"
+    danger_zone:
+      heading: "Danger zone"
+      delete_description: "Once you delete your account, there is no going back."
+      delete_button: "Delete my account"
+      delete_confirmation: "Are you sure? This will permanently delete your account."
+    languages:
+      en: "English"
+      de: "Deutsch"
+      sv: "Svenska"
+
   profile:
     happy_count: "Happy Count"
