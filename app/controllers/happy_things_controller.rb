@@ -87,6 +87,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
       Date.today
     end
     setup_happy_things_for_view
+    @own_count_for_date = current_user.happy_things.where(start_time: @date.all_day).count
     @old_happy_thing = current_user.happy_things.new(start_time: @date)
   end
 
