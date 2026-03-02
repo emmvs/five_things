@@ -9,15 +9,6 @@
              style="font-size: 8rem;">
           <%= @user.emoji %>
         </div>
-      <% elsif @user.avatar.key.present? %>
-        <%= cl_image_tag @user.avatar.key,
-        style: "border-radius: 50%; width: 200px; height: 100%;",
-        class: "pb-3",
-        alt: "User Avatar",
-        transformation: [
-          { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-          { radius: :max }
-          ] %>
       <% end %>
     </div>
 

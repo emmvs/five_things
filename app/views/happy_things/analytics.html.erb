@@ -2,16 +2,14 @@
   <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary mb-3" %>
     <h1 class="title">My Profile</h1>
 
-      <div class="d-flex justify-content-center mt-3">
-        <%= cl_image_tag current_user.avatar.key,
-        style: "border-radius: 50%; width: 200px; height: 100%;",
-        class: "pb-3",
-        alt: "User Avatar",
-        transformation: [
-          { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-          { radius: :max }
-          ] unless current_user.avatar.key.nil? %>
-      </div>
+      <% if current_user.emoji.present? %>
+        <div class="d-flex justify-content-center mt-3">
+          <div class="d-flex align-items-center justify-content-center pb-3"
+               style="font-size: 8rem;">
+            <%= current_user.emoji %>
+          </div>
+        </div>
+      <% end %>
 
       <!-- Section: Profile Info -->
       <div class="dash-box p-4 mx-2 my-3">
