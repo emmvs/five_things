@@ -17,7 +17,7 @@ RSpec.describe 'Settings', type: :request do
       expect(response.body).to include(I18n.t('settings.title'))
     end
 
-    it 'renders the page in the users preferred locale' do
+    it "renders the page in the user's preferred locale" do
       user.update!(locale: 'de')
       get settings_path
 

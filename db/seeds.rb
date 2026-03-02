@@ -114,8 +114,9 @@ User.all.each do |user|
   # Past 14 days
   if daily_users.include?(user)
     (1..14).each do |days_ago|
-      rand(1..2).times { create_happy_thing(user:, categories:, date: today - days_ago.days) }
-      count += rand(1..2)
+      n = rand(1..2)
+      n.times { create_happy_thing(user:, categories:, date: today - days_ago.days) }
+      count += n
     end
   elsif user == bruno
     (1..14).each do |days_ago|
