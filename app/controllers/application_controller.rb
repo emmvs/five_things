@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_navbar_default
-    @render_navbar = true
+    @render_navbar = user_signed_in?
   end
 
   def render_navbar?

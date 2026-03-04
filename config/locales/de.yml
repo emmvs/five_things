@@ -10,8 +10,8 @@ de:
   helpers:
     submit:
       happy_thing:
-        create: Glücklichen Moment erstellen
-        update: Glücklichen Moment aktualisieren
+        create: HappyThing™ erstellen
+        update: HappyThing™ aktualisieren
 
   errors:
     models:
@@ -25,6 +25,18 @@ de:
 
   sessions:
     user_not_found: "Benutzer*in mit E-Mail %{email} nicht gefunden"
+
+  nav:
+    home: "Startseite"
+    recent_happy_things: "Neueste HappyThings"
+    calendar: "Kalender"
+    through_the_years: "Durch die Jahre"
+    friends: "Freund*innen"
+    new_happy_thing: "Neues HappyThing"
+    old_happy_thing: "Altes HappyThing"
+    happylytics: "Happylytics™"
+    settings: "Einstellungen"
+    log_out: "Abmelden"
 
   friendships:
     created: "Freundschaftsanfrage gesendet. 👻"
@@ -44,10 +56,78 @@ de:
     users: "Nutzer*innen"
     no_results: "Keine Nutzer*innen gefunden für"
 
+  dashboard:
+    happy_streak: "Aktuelle Glückssträhne"
+    quote_of_day: "Zitat des Tages"
+    no_quote: "Leider kein Zitat verfügbar heute."
+    what_made_you_happy: "Was hat dich glücklich gemacht"
+    what_made_you_happy_today: "Was hat dich heute glücklich gemacht?"
+    your_happy_things_today: "Deine HappyThings von heute"
+    through_the_years: "Durch die Jahre..."
+    read_more: "Mehr lesen..."
+    forgot_something: "Etwas vergessen?"
+    add_old_happy_thing: "Altes HappyThing hinzufügen"
+
   happy_things:
-    created: "Glücklicher Moment wurde erfolgreich erstellt."
-    updated: "Yay! Glücklicher Moment wurde aktualisiert!"
-    destroyed: "Glücklicher Moment wurde gelöscht."
+    created: "HappyThing™ wurde erfolgreich erstellt."
+    updated: "Yay! HappyThing™ wurde aktualisiert!"
+    destroyed: "HappyThing™ wurde gelöscht."
+    edit_title: "Happy Thing bearbeiten"
+    new_title: "Neues Happy Thing"
+    new_subtitle: "Was hat dich zum Lächeln gebracht? ✨"
+    old_title: "Altes Happy Thing hinzufügen"
+    edit_aria: "HappyThing bearbeiten"
+    forgot_add_more: "Etwas vergessen? Mehr HappyThings hinzufügen"
+    no_happy_things_for_date: "Keine HappyThings für dieses Datum gefunden."
+    title_label: "Titel"
+    upload_photo: "Foto hochladen (optional)"
+    save: "Speichern"
+    delete_button: "Löschen"
+    comments: "Kommentare:"
+    share_location: "Meinen Standort teilen"
+    who_should_see: "Wer soll das sehen?"
+    everyone_prompt: "Alle (sofern unten nicht ausgewählt)"
+    select_category: "Kategorie auswählen"
+
+  through_the_years:
+    title: "Durch die Jahre..."
+    no_happy_things: "Keine HappyThings für heute in vergangenen Jahren gefunden."
+    add_from_past: "HappyThing aus einem vergangenen Jahr hinzufügen"
+
+  analytics:
+    my_profile: "Mein Profil"
+    happylytics: "Happylytics™"
+    most_used_words_year: "Meistgenutzte Wörter dieses Jahr:"
+    most_used_words_month: "Meistgenutzte Wörter diesen Monat:"
+    no_words_year: "Keine Wörterdaten für dieses Jahr verfügbar 😔"
+    no_words_month: "Keine Wörterdaten für diesen Monat verfügbar 😌"
+    visited_places: "Besuchte Happy Places"
+    visited_count_html: "Dieses Jahr hast du %{count} besucht. 🧳"
+    edit_profile: "Profil bearbeiten"
+    logout: "Abmelden"
+    remove_friend: "Freund*in entfernen"
+    remove_friend_confirm: "Bist du sicher, dass du %{name} als Freund*in entfernen möchtest?"
+
+  future_root:
+    your_happy_things: "Deine HappyThings"
+    your_happy_things_today: "Deine HappyThings von heute"
+    just_now: "Gerade eben"
+    want_more: "Möchtest du mehr HappyThings hinzufügen?"
+    create_account_cta: "Erstelle ein Konto, um deine HappyThings zu speichern und deine Strähne zu verfolgen!"
+    create_account: "Konto erstellen"
+
+  registration:
+    title: "Erstelle dein Konto!"
+    consent_email: "Ich stimme zu, E-Mails über meine HappyThings™ und andere Updates zu erhalten."
+    consent_location: "Ich stimme der Erfassung meiner Standortdaten für die Erstellung von HappyThings™ zu."
+    sign_up: "Registrieren"
+
+  user_mailer:
+    happy_things_notification:
+      body_html: "Eine*r deiner Freund*innen hat heute <strong>5 HappyThings</strong> hinzugefügt. Das ist jede Menge Glück! 🥳"
+      cta: "Willst du sehen, was sie zum Lächeln gebracht hat? Schau auf dein Dashboard und genieße die guten Vibes."
+      button: "Dashboard ansehen"
+      sign_off_html: "Teile die Liebe 🫶🏻<br>— Dein 5 Things Team"
 
   settings:
     title: "Einstellungen"
@@ -80,3 +160,6 @@ de:
       en: "English"
       de: "Deutsch"
       sv: "Svenska"
+
+  profile:
+    happy_count: "HappyCount™"

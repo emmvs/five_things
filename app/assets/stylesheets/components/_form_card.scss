@@ -1,0 +1,170 @@
+.form-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $space-m 0 $space-xxl;
+  position: relative;
+
+}
+
+.form-card {
+  width: 100%;
+  max-width: 540px;
+  background-color: $white;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+
+  &__header {
+    padding: $space-xl $space-l $space-m;
+    text-align: center;
+
+    h1 {
+      margin-bottom: $space-xxxs;
+    }
+  }
+
+  &__subtitle {
+    font-size: $font-size-m;
+    color: $color-text-muted;
+    font-weight: 300;
+  }
+
+  &__body {
+    padding: 0 $space-l $space-l;
+    display: flex;
+    flex-direction: column;
+    gap: $space-s;
+  }
+
+  &__field {
+    .string, .text, .select, .file, .boolean {
+      label {
+        font-size: $font-size-s;
+        font-weight: 500;
+        color: $color-text-body;
+        margin-bottom: $space-xxxs;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1.5px solid darken($color-light, 4%);
+        border-radius: 10px;
+        font-size: $font-size-m;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        background-color: $off-white;
+
+        &:focus {
+          outline: none;
+          border-color: $soft-purple;
+          box-shadow: 0 0 0 3px rgba($soft-purple, 0.15);
+          background-color: $white;
+        }
+
+        &::placeholder {
+          color: $light-gray;
+        }
+      }
+    }
+
+    &--file {
+      label.file {
+        font-size: $font-size-s;
+        font-weight: 500;
+        color: $color-text-body;
+      }
+
+      input[type="file"] {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1.5px dashed darken($color-light, 8%);
+        border-radius: 10px;
+        background-color: $off-white;
+        cursor: pointer;
+        font-size: $font-size-s;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+
+        &:hover {
+          border-color: $soft-purple;
+          background-color: rgba($soft-purple, 0.03);
+        }
+      }
+    }
+
+    &--checkbox {
+      .boolean {
+        display: flex;
+        align-items: center;
+        gap: $space-xs;
+        padding: $space-xs 0;
+
+        label {
+          font-weight: 400;
+          margin-bottom: 0;
+          cursor: pointer;
+          user-select: none;
+        }
+      }
+    }
+
+    &--visibility {
+      background-color: rgba($soft-purple, 0.04);
+      border: 1.5px solid rgba($soft-purple, 0.12);
+      border-radius: 12px;
+      padding: $space-s $space-m;
+    }
+  }
+
+  &__visibility-header {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+    font-size: $font-size-s;
+    font-weight: 500;
+    color: $color-text-body;
+    margin-bottom: $space-xs;
+  }
+
+  &__visibility-icon {
+    font-size: 1.2rem;
+  }
+
+  &__submit {
+    width: 100%;
+    margin-top: $space-xs;
+    padding: 12px 24px;
+    border-radius: 10px !important;
+    font-size: $font-size-m;
+    letter-spacing: 0.02em;
+  }
+
+  &__danger-zone {
+    padding: $space-m $space-l $space-l;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid $color-light;
+  }
+}
+
+.btn--danger-outline {
+  color: $red;
+  border: 1.5px solid rgba($red, 0.3);
+  background: transparent;
+  border-radius: 10px;
+  padding: 8px 24px;
+  font-weight: 500;
+  font-size: $font-size-s;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba($red, 0.06);
+    border-color: $red;
+    color: darken($red, 10%);
+  }
+}

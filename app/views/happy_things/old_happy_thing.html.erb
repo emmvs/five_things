@@ -1,15 +1,21 @@
-<div class="container my-3">
-  <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary" %>
+<div class="container">
+  <div class="form-page">
+    <div class="form-card">
+      <div class="form-card__header">
+        <h1><%= t('happy_things.old_title') %></h1>
+      </div>
 
-  <div class="header">
-    <h1>Add an old happy thing</h1>
+      <%= simple_form_for @old_happy_thing, url: happy_things_old_happy_thing_path, html: { class: "form-card__body" } do |f| %>
+        <div class="form-card__field">
+          <%= f.input :title, label: t('happy_things.title_label') %>
+        </div>
+        <div class="form-card__field">
+          <%= f.input :start_time,
+                  as: :string,
+                  input_html: { data: { controller: "datepicker" } } %>
+        </div>
+        <%= f.button :submit, t('happy_things.save'), class: 'btn button--primary form-card__submit' %>
+      <% end %>
+    </div>
   </div>
-
-  <%= simple_form_for @old_happy_thing, url: happy_things_old_happy_thing_path do |f| %>
-    <%= f.input :title, label: 'Title' %>
-    <%= f.input :start_time,
-            as: :string,
-            input_html: { data: { controller: "datepicker" } } %>
-    <%= f.button :submit, 'Save', class: 'btn button--primary mt-3' %>
-  <% end %>
 </div>

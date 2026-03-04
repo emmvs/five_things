@@ -52,6 +52,76 @@ RSpec.describe 'HappyThings visibility', type: :request do
     end
   end
 
+  describe 'creating with visibility' do
+    it 'creates a happy thing visible to everyone when no shared_with_ids are provided' do
+      sign_in owner, scope: :user
+
+      expect do
+        post happy_things_path, params: { happy_thing: { title: 'For everyone' } }
+      end.to change(HappyThing, :count).by(1)
+
+      happy_thing = HappyThing.last
+      expect(happy_thing.happy_thing_user_shares).to be_empty
+      expect(happy_thing.happy_thing_group_shares).to be_empty
+    end
+
+    it 'creates a happy thing shared with a specific friend' do
+      sign_in owner, scope: :user
+
+      expect do
+        post happy_things_path, params: {
+          happy_thing: { title: 'Just for you', shared_with_ids: ["friend_#{friend.id}"] }
+        }
+      end.to change(HappyThing, :count).by(1)
+
+      happy_thing = HappyThing.last
+      expect(happy_thing.shared_users).to contain_exactly(friend)
+    end
+
+    it 'creates a happy thing shared with a group' do
+      sign_in owner, scope: :user
+
+      expect do
+        post happy_things_path, params: {
+          happy_thing: { title: 'For the group', shared_with_ids: ["group_#{group.id}"] }
+        }
+      end.to change(HappyThing, :count).by(1)
+
+      happy_thing = HappyThing.last
+      expect(happy_thing.shared_groups).to contain_exactly(group)
+    end
+
+    it 'creates a happy thing shared with both a friend and a group' do
+      sign_in owner, scope: :user
+
+      post happy_things_path, params: {
+        happy_thing: {
+          title: 'Mixed sharing',
+          shared_with_ids: ["friend_#{friend.id}", "group_#{group.id}"]
+        }
+      }
+
+      happy_thing = HappyThing.last
+      expect(happy_thing.shared_users).to contain_exactly(friend)
+      expect(happy_thing.shared_groups).to contain_exactly(group)
+    end
+
+    it 'replaces visibility shares on update' do
+      sign_in owner, scope: :user
+
+      patch happy_thing_path(happy_thing_user_shared), params: {
+        happy_thing: {
+          title: 'Now for the group',
+          shared_with_ids: ["group_#{group.id}"]
+        }
+      }
+
+      happy_thing_user_shared.reload
+      expect(happy_thing_user_shared.shared_users).to be_empty
+      expect(happy_thing_user_shared.shared_groups).to contain_exactly(group)
+    end
+  end
+
   describe 'location sharing' do
     it 'saves location when share_location is checked' do
       sign_in owner, scope: :user
@@ -90,7 +160,7 @@ RSpec.describe 'HappyThings visibility', type: :request do
       sign_in owner, scope: :user
       get friends_happy_things_path
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('What made you happy')
+      expect(response.body).to include(I18n.t('dashboard.what_made_you_happy'))
     end
   end
 
@@ -99,7 +169,7 @@ RSpec.describe 'HappyThings visibility', type: :request do
       sign_in owner, scope: :user
       get through_the_years_path
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Add a Happy Thing from a past year')
+      expect(response.body).to include(I18n.t('through_the_years.add_from_past'))
     end
   end
 
@@ -108,7 +178,7 @@ RSpec.describe 'HappyThings visibility', type: :request do
       sign_in owner, scope: :user
       get future_root_path
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('What made you happy today?')
+      expect(response.body).to include(I18n.t('dashboard.what_made_you_happy_today'))
     end
   end
 
@@ -124,7 +194,7 @@ RSpec.describe 'HappyThings visibility', type: :request do
       get happy_things_by_date_path(date: yesterday)
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Forgot something?')
+      expect(response.body).to include(I18n.t('happy_things.forgot_add_more'))
     end
 
     it 'shows the add form even when friends collectively have 10+ happy things' do
@@ -137,7 +207,7 @@ RSpec.describe 'HappyThings visibility', type: :request do
       get happy_things_by_date_path(date: yesterday)
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('Forgot something?')
+      expect(response.body).to include(I18n.t('happy_things.forgot_add_more'))
     end
 
     it 'hides the add form when the current user already has 5 happy things for that date' do
@@ -148,7 +218,7 @@ RSpec.describe 'HappyThings visibility', type: :request do
       get happy_things_by_date_path(date: yesterday)
 
       expect(response).to have_http_status(:success)
-      expect(response.body).not_to include('Forgot something?')
+      expect(response.body).not_to include(I18n.t('happy_things.forgot_add_more'))
     end
   end
 end

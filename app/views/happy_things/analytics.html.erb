@@ -1,6 +1,6 @@
 <div class="container analytics my-3">
   <%= link_to sanitize("&larr;"), root_path, class: "btn button--primary mb-3" %>
-    <h1 class="title">My Profile</h1>
+    <h1 class="title"><%= t('analytics.my_profile') %></h1>
 
       <% if current_user.emoji.present? %>
         <div class="d-flex justify-content-center mt-3">
@@ -11,12 +11,10 @@
         </div>
       <% end %>
 
-      <!-- Section: Profile Info -->
       <div class="dash-box p-4 mx-2 my-3">
         <h2><%= current_user.emoji %> <%= current_user.name %></h2>
       </div>
 
-      <!-- Section: Happy Count -->
       <div class="dash-box p-4 mx-2 mb-3">
         <h2><%= t('profile.happy_count') %></h2>
         <div class="happy-count d-flex justify-content-center">
@@ -24,10 +22,9 @@
         </div>
       </div>
       
-      <!-- Section: Analytics -->
       <div class="analytics-container dash-box p-4 mx-2 my-3">
-        <h2>Happy Analytics</h2>
-        <h3 class="mt-4">Most used words this year:</h3>
+        <h2><%= t('analytics.happylytics') %></h2>
+        <h3 class="mt-4"><%= t('analytics.most_used_words_year') %></h3>
         <% if @words_for_wordcloud.present? %>
         <div class="word-cloud">
           <% @words_for_wordcloud.each do |word, frequency| %>
@@ -35,12 +32,12 @@
           <% end %>
         </div>
         <% else %>
-        <p class="opacity-50">No words data available for this year 😔</p>
+        <p class="opacity-50"><%= t('analytics.no_words_year') %></p>
         <% end %>
       </div>
 
       <div class="analytics-container dash-box p-4 mx-2 my-3">
-        <h3 class="mt-4">Most used words this month:</h3>
+        <h3 class="mt-4"><%= t('analytics.most_used_words_month') %></h3>
         <% if @words_for_wordcloud_month.present? %>
           <div class="word-cloud">
             <% @words_for_wordcloud_month.each do |word, frequency| %>
@@ -49,17 +46,15 @@
             <% end %>
           </div>
         <% else %>
-          <p class="opacity-50">No words data available for this month 😌</p>
+          <p class="opacity-50"><%= t('analytics.no_words_month') %></p>
         <% end %>
       </div>
 
-      <!-- Section: Happy Places -->
       <div class="analytics-container dash-box p-4 mx-2 my-3">
-        <h2>Visited Happy Places</h2>
-        <p>This year you have visited <%= pluralize(@visited_places_count, 'place') %>. 🧳</p>
+        <h2><%= t('analytics.visited_places') %></h2>
+        <p><%= t('analytics.visited_count_html', count: pluralize(@visited_places_count, 'place')) %></p>
       </div>
 
-      <!-- Mapbox Map -->
       <% if @markers %>
         <div class="rounded-map" style="width: 100%; height: 600px;"
           data-controller="map"
@@ -71,7 +66,7 @@
 
 </div>
 
-<%= link_to "Edit Profile", edit_user_registration_path, class: "mb-5 btn nav-link bottom-icons" %>
+<%= link_to t('analytics.edit_profile'), edit_user_registration_path, class: "mb-5 btn nav-link bottom-icons" %>
 
 <div id="dream-chart">
   <canvas id="dreamPieChart" data-controller="analytics"

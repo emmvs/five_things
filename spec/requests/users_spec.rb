@@ -66,7 +66,7 @@ RSpec.describe 'Users', type: :request do
         }
         expect(response).to have_http_status(:found)
         follow_redirect!
-        expect(response.body).to include('Current Happy Streak')
+        expect(response.body).to include(I18n.t('dashboard.happy_streak'))
       end
     end
 
