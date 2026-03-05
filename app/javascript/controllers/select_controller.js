@@ -1,36 +1,29 @@
 import { Controller } from "@hotwired/stimulus"
 import TomSelect from "tom-select"
 
-// Connects to data-controller="select"
 export default class extends Controller {
-  static values = { options: Object }
+  static values = { placeholder: String }
 
   connect() {
-    const baseOptions = {
-      plugins: {
-        remove_button: {
-          title: "Remove this item"
-        }
-      },
-      create: true,
-      persist: false,
-      onDelete: (values) => {
-        return confirm(
-          values.length > 1
-            ? `Are you sure you want to remove these ${values.length} items?`
-            : `Are you sure you want to remove "${values[0]}"?`
-        );
-      }
+    const placeholder = this.placeholderValue || ""
+
+    this.tom = new TomSelect(this.element, {
+      plugins: { remove_button: { title: "Remove" } },
+      placeholder,
+      allowEmptyOption: false,
+      onItemAdd: () => setTimeout(() => this.#updatePlaceholder(), 0),
+      onItemRemove: () => setTimeout(() => this.#updatePlaceholder(), 0)
+    })
+  }
+
+  #updatePlaceholder() {
+    const input = this.tom.control_input
+    if (this.tom.items.length > 0) {
+      input.placeholder = ""
+      input.style.width = "0"
+    } else {
+      input.placeholder = this.placeholderValue || ""
+      input.style.width = ""
     }
-
-    const mergedOptions = {
-      ...baseOptions,
-      ...(this.optionsValue || {})
-    }
-
-    new TomSelect(this.element, mergedOptions)
-
-    // Optional: hide original select element (TomSelect replaces it visually)
-    this.element.style.display = "none"
   }
 }

@@ -1,4 +1,11 @@
-<%# app/views/layouts/_alerts.html.erb %>
+<% if notice.present? %>
+  <div class="flash-toast flash-toast--notice">
+    <p class="mb-0"><%= notice %></p>
+  </div>
+<% end %>
 
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+<% if alert.present? %>
+  <div class="flash-toast flash-toast--alert">
+    <p class="mb-0"><%= alert %></p>
+  </div>
+<% end %>

@@ -1,21 +1,38 @@
-.alert {
+.flash-toast {
   position: fixed;
   bottom: 16px;
   right: 16px;
-  z-index: 100;
-  color: $soft-purple;
-  background-color: $white;
-  padding: 10px;
+  z-index: 1050;
+  max-width: 400px;
+  padding: 12px 20px;
   border-radius: $border-radius;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: flash-slide-in 0.3s ease-out;
+
+  p {
+    font-size: 0.95rem;
+  }
 }
 
-.notice {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  z-index: 100;
-  color: $soft-purple;
+.flash-toast--notice {
+  color: darken($soft-purple, 20%);
   background-color: $white;
-  padding: 10px;
-  border-radius: $border-radius;
+  border-left: 4px solid $soft-purple;
+}
+
+.flash-toast--alert {
+  color: #842029;
+  background-color: #fff3f3;
+  border-left: 4px solid #dc3545;
+}
+
+@keyframes flash-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

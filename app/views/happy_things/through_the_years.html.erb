@@ -1,5 +1,5 @@
   <div class="m-2 mt-5 mx-2 my-3">
-    <h3 class="mb-3">Through the years...</h3>
+    <h3 class="mb-3"><%= t('through_the_years.title') %></h3>
 
     <% current_year = Date.current.year %>
 
@@ -25,8 +25,8 @@
           </div>
         <% end %>
       <% else %>
-        <p class="opacity-50">No Happy Things found for today in past years.</p>
-        <%= link_to 'Add a Happy Thing from a past year', old_happy_thing_path, class: "btn button--primary" %>
+        <p class="opacity-50"><%= t('through_the_years.no_happy_things') %></p>
+        <%= link_to t('through_the_years.add_from_past'), old_happy_thing_path, class: "btn button--primary" %>
       <% end %>
     </div>
   </div>

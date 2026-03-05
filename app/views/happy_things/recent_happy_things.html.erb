@@ -1,5 +1,5 @@
   <div class="dash-box mx-2 my-3">
-    <h3>What made you happy</h3>
+    <h3><%= t('dashboard.what_made_you_happy') %></h3>
     <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
       <h5><%= user.emoji %> <%= user.name %></h5>
       <% happy_things.each do |happy_thing| %>

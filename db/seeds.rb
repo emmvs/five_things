@@ -49,6 +49,9 @@ end
 
 # --- Friendships ---
 Friendship.create!([
+                     { user: u('Emmsiboom'), friend: u('Leababy'), accepted: true },
+                     { user: u('Emmsiboom'), friend: u('Bruno-no-no'), accepted: true },
+                     { user: u('Leababy'), friend: u('Bruno-no-no'), accepted: true },
                      { user: u('Emmsiboom'), friend: u('Joshy'), accepted: true },
                      { user: u('Emmsiboom'), friend: u('Hansibaby'), accepted: true },
                      { user: u('Emmsiboom'), friend: u('Juanfairy'), accepted: true },

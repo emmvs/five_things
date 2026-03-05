@@ -10,8 +10,8 @@ sv:
   helpers:
     submit:
       happy_thing:
-        create: Skapa glad sak
-        update: Uppdatera glad sak
+        create: Skapa HappyThing™
+        update: Uppdatera HappyThing™
 
   errors:
     models:
@@ -24,7 +24,20 @@ sv:
           invalid: "måste innehålla minst en stor bokstav, en liten bokstav, en siffra och ett specialtecken, och kan inte innehålla mellanslag"
 
   sessions:
+    log_in: "Logga in"
     user_not_found: "Användare med e-post %{email} hittades inte"
+
+  nav:
+    home: "Hem"
+    recent_happy_things: "Senaste HappyThings"
+    calendar: "Kalender"
+    through_the_years: "Genom åren"
+    friends: "Vänner"
+    new_happy_thing: "Nytt HappyThing"
+    old_happy_thing: "Gammalt HappyThing"
+    happylytics: "Happylytics™"
+    settings: "Inställningar"
+    log_out: "Logga ut"
 
   friendships:
     created: "Vänförfrågan skickad. 👻"
@@ -44,10 +57,79 @@ sv:
     users: "Användare"
     no_results: "Inga användare hittades för"
 
+  dashboard:
+    happy_streak: "Nuvarande lyckostrejk"
+    quote_of_day: "Dagens citat"
+    no_quote: "Tyvärr, inget citat tillgängligt idag."
+    what_made_you_happy: "Vad gjorde dig glad"
+    what_made_you_happy_today: "Vad gjorde dig glad idag?"
+    your_happy_things_today: "Dina HappyThings idag"
+    through_the_years: "Genom åren..."
+    read_more: "Läs mer..."
+    forgot_something: "Glömt något?"
+    add_old_happy_thing: "Lägg till gammalt HappyThing"
+
   happy_things:
-    created: "Glad sak skapades framgångsrikt."
-    updated: "Yay! Glad sak uppdaterades!"
-    destroyed: "Glad sak togs bort."
+    created: "HappyThing™ skapades framgångsrikt."
+    updated: "Yay! HappyThing™ uppdaterades!"
+    destroyed: "HappyThing™ togs bort."
+    edit_title: "Redigera Happy Thing"
+    new_title: "Nytt Happy Thing"
+    new_subtitle: "Vad fick dig att le? ✨"
+    old_title: "Lägg till ett gammalt Happy Thing"
+    edit_aria: "Redigera HappyThing"
+    forgot_add_more: "Glömt något? Lägg till fler HappyThings"
+    no_happy_things_for_date: "Inga HappyThings hittades för detta datum."
+    title_label: "Titel"
+    upload_photo: "Ladda upp foto (valfritt)"
+    save: "Spara"
+    delete_button: "Radera"
+    comments: "Kommentarer:"
+    share_location: "Dela min plats"
+    who_should_see: "Vem ska se detta?"
+    only_me: "🔒 Bara jag"
+    everyone_prompt: "Alla"
+    select_category: "Välj en kategori"
+
+  through_the_years:
+    title: "Genom åren..."
+    no_happy_things: "Inga HappyThings hittades för idag under tidigare år."
+    add_from_past: "Lägg till ett HappyThing från ett tidigare år"
+
+  analytics:
+    my_profile: "Min profil"
+    happylytics: "Happylytics™"
+    most_used_words_year: "Mest använda ord i år:"
+    most_used_words_month: "Mest använda ord denna månad:"
+    no_words_year: "Inga orddata tillgängliga för i år 😔"
+    no_words_month: "Inga orddata tillgängliga för denna månad 😌"
+    visited_places: "Besökta Happy Places"
+    visited_count_html: "I år har du besökt %{count}. 🧳"
+    edit_profile: "Redigera profil"
+    logout: "Logga ut"
+    remove_friend: "Ta bort vän"
+    remove_friend_confirm: "Är du säker på att du vill ta bort %{name} som vän?"
+
+  future_root:
+    your_happy_things: "Dina HappyThings"
+    your_happy_things_today: "Dina HappyThings idag"
+    just_now: "Just nu"
+    want_more: "Vill du lägga till fler HappyThings?"
+    create_account_cta: "Skapa ett konto för att spara dina HappyThings och följa din streak!"
+    create_account: "Skapa ditt konto"
+
+  registration:
+    title: "Skapa ditt konto!"
+    consent_email: "Jag samtycker till att ta emot e-post om mina HappyThings™ och andra uppdateringar."
+    consent_location: "Jag samtycker till insamling av min platsdata för att skapa HappyThings™."
+    sign_up: "Registrera"
+
+  user_mailer:
+    happy_things_notification:
+      body_html: "En av dina vänner har lagt till <strong>5 HappyThings</strong> idag. Det är en hel del lycka! 🥳"
+      cta: "Vill du se vad som fick dem att le? Gå till din dashboard och njut av de goda viberna."
+      button: "Visa Dashboard"
+      sign_off_html: "Dela kärleken 🫶🏻<br>— Ditt 5 Things Team"
 
   settings:
     title: "Inställningar"
@@ -80,3 +162,6 @@ sv:
       en: "English"
       de: "Deutsch"
       sv: "Svenska"
+
+  profile:
+    happy_count: "HappyCount™"

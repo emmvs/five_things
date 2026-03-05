@@ -1,9 +1,20 @@
 <div class="happy_thing shadow">
-    <% if happy_thing.photo.attached? %>
-        <span>📸</span>
-    <% end %>
     <div class="happy_thing_content">
-        <span><%= link_to happy_thing.title, happy_thing_path(happy_thing), class: "text-decoration-none" %></span>
+        <div class="d-block mb-1">
+            <%= link_to happy_thing.title, happy_thing_path(happy_thing), class: "text-decoration-none" %>
+            <% if happy_thing.photo.attached? %>
+                <span class="ms-1">📸</span>
+            <% end %>
+        </div>
+        
+        <% if happy_thing.user == current_user %>
+          <% badge = visibility_badge(happy_thing) %>
+          <% if badge %>
+            <div class="mt-1">
+              <span class="happy_thing__visibility-badge ms-0"><%= badge %></span>
+            </div>
+          <% end %>
+        <% end %>
     </div>
     <div class="happy_thing_creator">
         <!-- TODO: Show user's name or other details -->

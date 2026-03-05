@@ -32,7 +32,7 @@ RSpec.describe 'Happy Things CRUD', type: :system do
 
       click_link(href: new_happy_thing_path)
 
-      expect(page).to have_selector('h1', text: 'NEW HAPPY THING')
+      expect(page).to have_selector('h1', text: I18n.t('happy_things.new_title').upcase)
       expect(page).to have_current_path(new_happy_thing_path)
 
       fill_in 'Name', with: 'cute mirror wtf'
@@ -56,7 +56,7 @@ RSpec.describe 'Happy Things CRUD', type: :system do
 
       click_link(href: edit_happy_thing_path(happy_thing), match: :first)
 
-      expect(page).to have_selector('h1', text: 'EDIT HAPPY THING')
+      expect(page).to have_selector('h1', text: I18n.t('happy_things.edit_title').upcase)
       expect(page).to have_current_path(edit_happy_thing_path(happy_thing))
 
       fill_in 'Name', with: 'fresh new title'
@@ -71,9 +71,9 @@ RSpec.describe 'Happy Things CRUD', type: :system do
 
       click_link(href: edit_happy_thing_path(happy_thing), match: :first)
 
-      expect(page).to have_selector('h1', text: 'EDIT HAPPY THING')
+      expect(page).to have_selector('h1', text: I18n.t('happy_things.edit_title').upcase)
       expect(page).to have_current_path(edit_happy_thing_path(happy_thing))
-      expect(page).to have_button('🗑️ Delete')
+      expect(page).to have_button("🗑️ #{I18n.t('happy_things.delete_button')}")
 
       expect do
         click_button('🗑️ Delete')

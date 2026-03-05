@@ -4,21 +4,20 @@
   </h1>
 
   <p style="font-size: 16px;">
-    One of your friends just added <strong>5 happy things</strong> today. That’s a whole lot of happy stuff! 🥳
+    <%= t('user_mailer.happy_things_notification.body_html') %>
   </p>
 
   <p style="font-size: 16px;">
-    Want to see what made them smile? Head over to your dashboard and soak up the good vibes.
+    <%= t('user_mailer.happy_things_notification.cta') %>
   </p>
 
   <p>
     <a href="<%= root_url %>" style="display: inline-block; padding: 10px 20px; background-color:#95B7FE; color: white; text-decoration: none; border-radius: 5px;">
-      View Dashboard
+      <%= t('user_mailer.happy_things_notification.button') %>
     </a>
   </p>
 
   <p style="font-size: 14px; color: #888;">
-    Share the love 🫶🏻<br>
-    — Your 5 Things Team
+    <%= t('user_mailer.happy_things_notification.sign_off_html') %>
   </p>
 </div>
