@@ -113,10 +113,18 @@
     }
 
     &--visibility {
-      background-color: rgba($soft-purple, 0.04);
-      border: 1.5px solid rgba($soft-purple, 0.12);
-      border-radius: 12px;
-      padding: $space-s $space-m;
+      // background-color: rgba($soft-purple, 0.04);
+      // border: 1.5px solid rgba($soft-purple, 0.12);
+      // border-radius: 12px;
+      // padding: $space-s;
+
+      // @media (min-width: 480px) {
+      //   padding: $space-s $space-m;
+      // }
+
+      .ts-wrapper {
+        width: 100%;
+      }
     }
   }
 

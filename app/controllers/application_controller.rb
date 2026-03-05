@@ -37,7 +37,12 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = current_user&.locale || I18n.default_locale
+    I18n.locale = current_user&.locale || locale_from_header || I18n.default_locale
+  end
+
+  def locale_from_header
+    preferred = request.env['HTTP_ACCEPT_LANGUAGE']&.scan(/[a-z]{2}/)&.first&.to_sym
+    I18n.available_locales.include?(preferred) ? preferred : nil
   end
 
   def set_timezone

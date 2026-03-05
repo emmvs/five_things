@@ -24,6 +24,7 @@ sv:
           invalid: "måste innehålla minst en stor bokstav, en liten bokstav, en siffra och ett specialtecken, och kan inte innehålla mellanslag"
 
   sessions:
+    log_in: "Logga in"
     user_not_found: "Användare med e-post %{email} hittades inte"
 
   nav:
@@ -86,7 +87,8 @@ sv:
     comments: "Kommentarer:"
     share_location: "Dela min plats"
     who_should_see: "Vem ska se detta?"
-    everyone_prompt: "Alla (om inte valt nedan)"
+    only_me: "🔒 Bara jag"
+    everyone_prompt: "Alla"
     select_category: "Välj en kategori"
 
   through_the_years:

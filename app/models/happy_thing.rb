@@ -33,6 +33,17 @@ class HappyThing < ApplicationRecord
   validates :title, presence: true
   validates :start_time, presence: true
 
+  scope :visible_to, lambda { |user|
+    owned       = where(user_id: user.id)
+    no_shares   = where.not(id: HappyThingUserShare.select(:happy_thing_id))
+                       .where.not(id: HappyThingGroupShare.select(:happy_thing_id))
+    user_shared = where(id: HappyThingUserShare.where(friend_id: user.id).select(:happy_thing_id))
+    group_ids   = GroupMembership.where(friend_id: user.id).select(:group_id)
+    grp_shared  = where(id: HappyThingGroupShare.where(group_id: group_ids).select(:happy_thing_id))
+
+    owned.or(no_shares).or(user_shared).or(grp_shared)
+  }
+
   before_validation :set_default_category, on: :create
   after_validation :geocode, if: -> { will_save_change_to_place? && !Rails.env.test? && geocoding_enabled? }
   after_create :check_happy_things_count

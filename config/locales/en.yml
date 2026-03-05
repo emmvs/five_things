@@ -30,6 +30,7 @@ en:
           format: "must be a valid email address"
           length: "must be between 3 and 255 characters long"
   sessions:
+    log_in: "Log in"
     user_not_found: "User with email %{email} not found"
 
   nav:
@@ -92,7 +93,10 @@ en:
     comments: "Comments:"
     share_location: "Share my location"
     who_should_see: "Who should see this?"
-    everyone_prompt: "Everyone (unless selected below)"
+    only_me: "🔒 Only me"
+    badge_only_me: "🔒 Only you"
+    badge_shared_with: "👁️ %{names}"
+    everyone_prompt: "Everyone"
     select_category: "Select a category"
 
   through_the_years:

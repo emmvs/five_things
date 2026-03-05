@@ -7,6 +7,10 @@
 .navbar .navbar-brand img {
   height: 50px;
   width: auto;
+
+  @include media(phoneOnly) {
+    height: 80px;
+  }
 }
 
 .offcanvas {

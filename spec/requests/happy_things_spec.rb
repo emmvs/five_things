@@ -43,6 +43,18 @@ RSpec.describe 'HappyThings visibility', type: :request do
       expect(response.body).to include('Private One')
     end
 
+    it 'does not show user-shared happy thing to a friend who is not the share target' do
+      sign_in groupie, scope: :user
+      get root_path
+      expect(response.body).not_to include('Directly Shared')
+    end
+
+    it 'does not show group-shared happy thing to a friend outside that group' do
+      sign_in friend, scope: :user
+      get root_path
+      expect(response.body).not_to include('Group Shared')
+    end
+
     it 'does not show private happy thing to a stranger' do
       sign_in stranger, scope: :user
       get root_path
@@ -63,6 +75,27 @@ RSpec.describe 'HappyThings visibility', type: :request do
       happy_thing = HappyThing.last
       expect(happy_thing.happy_thing_user_shares).to be_empty
       expect(happy_thing.happy_thing_group_shares).to be_empty
+    end
+
+    it 'creates a happy thing visible only to the owner with only_me' do
+      sign_in owner, scope: :user
+
+      expect do
+        post happy_things_path, params: {
+          happy_thing: { title: 'My secret', shared_with_ids: ['only_me'] }
+        }
+      end.to change(HappyThing, :count).by(1)
+
+      happy_thing = HappyThing.last
+      expect(happy_thing.shared_users).to contain_exactly(owner)
+
+      sign_in friend, scope: :user
+      get root_path
+      expect(response.body).not_to include('My secret')
+
+      sign_in owner, scope: :user
+      get root_path
+      expect(response.body).to include('My secret')
     end
 
     it 'creates a happy thing shared with a specific friend' do

@@ -7,6 +7,18 @@
       <% end %>
     </div>
     
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      <% if @happy_thing.category %>
+        <span class="happy_thing__category-badge"><%= @happy_thing.category.name %></span>
+      <% end %>
+      <% if @happy_thing.user == current_user %>
+        <% badge = visibility_badge(@happy_thing) %>
+        <% if badge %>
+          <span class="happy_thing__visibility-badge"><%= badge %></span>
+        <% end %>
+      <% end %>
+    </div>
+
     <% if @happy_thing.photo.attached? %>
       <%= cl_image_tag @happy_thing.photo.key, class: "rounded mt-3", height: 300, width: 400, crop: :fill %>
     <% end %>
