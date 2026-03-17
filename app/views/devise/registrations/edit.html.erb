@@ -1,53 +1,78 @@
-<div class="container session-manager-container">
-  <h2 class="session-manager-header">Edit <%= resource_name.to_s.humanize %></h2>
+<div class="container my-4">
+  <div class="dash-box p-4 mx-2 mt-3 text-center">
+    <h1><%= t('settings.title') %></h1>
+  </div>
+
+  <% if current_user.emoji.present? %>
+    <div class="d-flex justify-content-center mt-3">
+      <div class="d-flex align-items-center justify-content-center pb-3" style="font-size: 8rem;">
+        <%= current_user.emoji %>
+      </div>
+    </div>
+  <% end %>
 
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
     <%= f.error_notification %>
 
-    <div class="form-inputs container">
-      <%= cl_image_tag @user.avatar.key,
-      class: "pb-3",
-      height: 300, width: 300,
-      transformation: [
-        { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-        { radius: :max }
-        ] unless @user.avatar.key.nil? %>
-      <%= f.input :avatar, as: :file %>
+    <div class="dash-box p-4 mx-2 my-3">
+      <h2><%= t('settings.profile.heading') %></h2>
+      <%= f.input :name,
+                  label: t('settings.profile.name'),
+                  hint: t('settings.profile.name_hint'),
+                  required: false,
+                  input_html: { autocomplete: "name" } %>
+      <%= f.input :emoji, label: t('settings.profile.emoji') %>
+    </div>
+
+    <div class="dash-box p-4 mx-2 my-3">
+      <h2><%= t('settings.preferences.heading') %></h2>
+      <%= f.input :locale, as: :select,
+                  label: t('settings.preferences.language'),
+                  collection: User::SUPPORTED_LOCALES.map { |l| [t("settings.languages.#{l}"), l] },
+                  include_blank: false %>
+      <%= f.input :email_opt_in, as: :boolean,
+                  label: t('settings.preferences.email_notifications') %>
+      <%= f.input :location_opt_in, as: :boolean,
+                  label: t('settings.preferences.location_sharing') %>
+    </div>
+
+    <div class="dash-box p-4 mx-2 my-3">
+      <h2><%= t('settings.account.heading') %></h2>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+        <p class="opacity-50"><%= t('settings.account.pending_reconfirmation', email: resource.unconfirmed_email) %></p>
       <% end %>
-      <%= f.input :first_name,
-                  hint: "What's your first name?",
-                  required: false,
-                  input_html: { autocomplete: "new-password" } %>
-      <%= f.input :last_name,
-                  hint: "What's your first name?",
-                  required: false,
-                  input_html: { autocomplete: "new-password" } %>
-      <%= f.input :emoji %>
-      <%= f.input :email, required: true, autofocus: true %>
+
+      <%= f.input :email, label: t('settings.account.email'),
+                  required: false, autofocus: true %>
       <%= f.input :password,
-                  hint: "leave it blank if you don't want to change it",
+                  label: t('settings.account.password'),
                   required: false,
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :password_confirmation,
+                  label: t('settings.account.password_confirmation'),
                   required: false,
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :current_password,
-                  hint: "we need your current password to confirm your changes",
+                  label: t('settings.account.current_password'),
+                  hint: t('settings.account.current_password_hint'),
                   required: false,
                   input_html: { autocomplete: "current-password" } %>
     </div>
 
-    <div class="form-actions">
-      <%= f.button :submit, "Update", data: { turbo: false } %>
+    <div class="mx-2 my-3">
+      <%= f.button :submit, t('settings.actions.save'),
+          class: "btn button--primary px-4", data: { turbo: false } %>
     </div>
   <% end %>
 
-  <h4>Cancel my account</h4>
-
-  <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { turbo_confirm: "Are you sure?", turbo_method: :delete } %></p>
-
-  <%= link_to "Back", :back %>
+  <div class="dash-box p-4 mx-2 my-3" style="border: 1px solid #f5c6cb;">
+    <h2 style="color: #E74C3C;"><%= t('settings.danger_zone.heading') %></h2>
+    <p class="opacity-50 mb-3"><%= t('settings.danger_zone.delete_description') %></p>
+    <%= button_to t('settings.danger_zone.delete_button'),
+        registration_path(resource_name),
+        method: :delete,
+        class: "btn btn-outline-danger",
+        data: { turbo_confirm: t('settings.danger_zone.delete_confirmation') } %>
+  </div>
 </div>

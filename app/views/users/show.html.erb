@@ -1,6 +1,6 @@
 <div class="container analytics my-3">
     <div class="dash-box p-4 mx-2 mb-3 text-center">
-      <h1><%= @user.first_name %></h1>
+      <h1><%= @user.name %></h1>
     </div>
 
     <div class="d-flex justify-content-center mt-3">
@@ -9,30 +9,19 @@
              style="font-size: 8rem;">
           <%= @user.emoji %>
         </div>
-      <% elsif @user.avatar.key.present? %>
-        <%= cl_image_tag @user.avatar.key,
-        style: "border-radius: 50%; width: 200px; height: 100%;",
-        class: "pb-3",
-        alt: "User Avatar",
-        transformation: [
-          { aspect_ratio: :"1.0", crop: :fill, gravity: :face },
-          { radius: :max }
-          ] %>
       <% end %>
     </div>
 
-    <!-- Section: Happy Count -->
     <div class="dash-box p-4 mx-2 mb-3">
-      <h2>Happy Count</h2>
+      <h2><%= t('profile.happy_count') %></h2>
         <div class="happy-count d-flex justify-content-center">
           <%= @happy_count %>
         </div>
     </div>
 
-    <!-- Section: Analytics -->
     <div class="analytics-container dash-box p-4 mx-2 my-3">
-      <h2>Happy Analytics</h2>
-      <h3 class="mt-2">Most used words this year:</h3>
+      <h2><%= t('analytics.happylytics') %></h2>
+      <h3 class="mt-2"><%= t('analytics.most_used_words_year') %></h3>
         <% if @words_for_wordcloud.present? %>
           <div class="word-cloud">
             <% @words_for_wordcloud.each do |word, frequency| %>
@@ -40,17 +29,15 @@
             <% end %>
           </div>
         <% else %>
-          <p class="opacity-50">No words data available for this year 😔</p>
+          <p class="opacity-50"><%= t('analytics.no_words_year') %></p>
         <% end %>
     </div>
 
-    <!-- Section: Happy Places -->
     <div class="analytics-container dash-box p-4 mx-2 my-3">
-      <h2>Visited Happy Places</h2>
-      <p>This year you have visited <%= @visited_places_count %> places. 🧳</p>
+      <h2><%= t('analytics.visited_places') %></h2>
+      <p><%= t('analytics.visited_count_html', count: pluralize(@visited_places_count, 'place')) %></p>
     </div>
 
-    <!-- Mapbox Map -->
     <% if @markers %>
       <div class="mx-2 my-3">
         <div class="rounded-map"
@@ -63,15 +50,15 @@
     <% end %>
 
     <% if @user == current_user %>
-      <%= link_to "Edit Profile", edit_user_registration_path, class: "mb-5 btn nav-link bottom-icons" %>
-      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn shadow mt-5" %>
+      <%= link_to t('analytics.edit_profile'), edit_user_registration_path, class: "mb-5 btn nav-link bottom-icons" %>
+      <%= button_to t('analytics.logout'), destroy_user_session_path, method: :delete, class: "btn shadow mt-5" %>
     <% else %>
       <% friendship = current_user.friendships.accepted.find_by(friend_id: @user.id) %>
       <% if friendship.present? %>
         <div class="mt-5 mx-2 d-flex justify-content-end">
-          <%= button_to "Remove Friend", friendship_path(friendship), method: :delete, 
+          <%= button_to t('analytics.remove_friend'), friendship_path(friendship), method: :delete, 
               class: "btn shadow", 
-              data: { confirm: "Are you sure you want to remove #{@user.first_name} as a friend?" } %>
+              data: { confirm: t('analytics.remove_friend_confirm', name: @user.name) } %>
         </div>
       <% end %>
     <% end %>

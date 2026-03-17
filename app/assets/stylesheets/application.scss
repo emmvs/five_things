@@ -35,6 +35,87 @@
 @import "bootstrap";
 @import "simple_calendar";
 @import url("https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.default.min.css");
+
+.ts-wrapper {
+  &.multi .ts-control > .item {
+    display: inline-flex;
+    align-items: center;
+    background: rgba($pink, 0.2);
+    color: darken($pink, 35%);
+    border: none;
+    border-radius: 20px;
+    padding: 4px 10px 4px 12px;
+    font-family: $font-family-sans;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 3px 4px 3px 0;
+    line-height: 1.2;
+    max-width: 100%;
+    overflow: hidden;
+
+    .remove {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-left: none;
+      color: darken($pink, 20%);
+      font-size: 0.9rem;
+      padding: 0;
+      margin-left: 6px;
+      margin-right: 2px;
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+
+      &:hover {
+        color: darken($pink, 40%);
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
+
+  .ts-control {
+    border: 1.5px solid darken($color-light, 4%);
+    border-radius: 10px;
+    padding: 8px 12px;
+    background-color: $off-white;
+    box-shadow: none;
+
+    &:focus, &.focus {
+      border-color: $soft-purple;
+      box-shadow: 0 0 0 3px rgba($soft-purple, 0.15);
+    }
+
+    input {
+      font-size: 1rem;
+    }
+  }
+
+  .ts-dropdown {
+    border: 1.5px solid darken($color-light, 4%);
+    border-radius: 10px;
+    margin-top: 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+
+    .option {
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      border-radius: 0;
+
+      &.active {
+        background-color: rgba($soft-purple, 0.08);
+        color: $color-text-body;
+      }
+
+      &:hover {
+        background-color: rgba($soft-purple, 0.12);
+      }
+    }
+  }
+}
 @import url("https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css");
 
 // General Styles

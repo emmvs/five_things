@@ -5,14 +5,20 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   include WordAggregator
   include UserRelated
 
+  skip_before_action :authenticate_user!, only: %i[future_root]
   before_action :set_happy_thing, only: %i[show]
   before_action :set_own_happy_thing, only: %i[edit update destroy]
+  before_action :disable_navbar_for_guests, only: %i[future_root]
 
   # TODO: rename when this replaces current root path after transition
   def future_root
     @happy_thing = HappyThing.new
-    range = Time.zone.today.all_day
-    @happy_things_today = happy_things_by_period(range, user_ids)
+
+    if current_user
+      load_authenticated_user_data
+    else
+      load_guest_data
+    end
   end
 
   def recent_happy_things
@@ -30,6 +36,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def create
     @happy_thing = current_user_happy_things.new(happy_thing_params)
+    @happy_thing.start_time = Time.zone.now
     save_and_respond(@happy_thing)
     handle_visibility(@happy_thing) if @happy_thing.persisted?
   end
@@ -39,7 +46,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
       @happy_thing.happy_thing_user_shares.destroy_all
       @happy_thing.happy_thing_group_shares.destroy_all
       handle_visibility(@happy_thing)
-      redirect_to root_path, notice: 'Yay! 🎉 Happy Thing was updated 🥰'
+      redirect_to happy_thing_path(@happy_thing), notice: t('happy_things.updated')
     else
       render :edit, status: 422
     end
@@ -47,7 +54,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
 
   def destroy
     @happy_thing.destroy
-    redirect_to root_path, notice: 'Happy Thing was destroyed 😕'
+    redirect_to root_path, notice: t('happy_things.destroyed')
   end
 
   def analytics
@@ -63,13 +70,15 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     @happy_things_of_the_past_years = HappyThing.where(
       'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
       today.month, today.day, user_ids
-    ).reject { |ht| ht.start_time.year == today.year }
+    ).visible_to(current_user).reject { |ht| ht.start_time.year == today.year }
   end
 
   def calendar
     @user_ids = user_ids
 
-    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids).order(created_at: :desc)
+    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids)
+                                                 .visible_to(current_user)
+                                                 .order(created_at: :desc)
   end
 
   def show_by_date
@@ -80,11 +89,14 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
       Date.today
     end
     setup_happy_things_for_view
+    @own_count_for_date = current_user.happy_things.where(start_time: @date.all_day).count
     @old_happy_thing = current_user.happy_things.new(start_time: @date)
   end
 
   def setup_happy_things_for_view
     @happy_things = HappyThing.where(user_id: user_ids, start_time: @date.all_day)
+                              .visible_to(current_user)
+                              .includes(:happy_thing_user_shares, :happy_thing_group_shares)
   end
 
   def old_happy_thing
@@ -113,7 +125,8 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def create_old_happy_thing
     @old_happy_thing = current_user.happy_things.build(happy_thing_params)
     if @old_happy_thing.save
-      redirect_to root_path, notice: 'Happy Thing was successfully created.'
+      date_path = happy_things_by_date_path(date: @old_happy_thing.start_time.to_date)
+      redirect_to date_path, notice: t('happy_things.created')
     else
       render :new, status: :unprocessable_entity
     end
@@ -122,7 +135,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   private
 
   def set_happy_thing
-    @happy_thing = HappyThing.where(user_id: user_ids).find(params[:id])
+    @happy_thing = HappyThing.where(user_id: user_ids).visible_to(current_user).find(params[:id])
   end
 
   def set_own_happy_thing
@@ -132,7 +145,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def save_and_respond(resource)
     respond_to do |format|
       if resource.save
-        format.html { redirect_to root_path, notice: 'Happy Thing was successfully created.' }
+        format.html { redirect_to root_path, notice: t('happy_things.created') }
         format.json { render json: { status: :created, happy_thing: resource } }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -146,12 +159,16 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     return if shared_ids.blank?
 
     shared_ids.each do |entry|
-      type, id = entry.split('_')
-      case type
-      when 'group'
-        happy_thing.happy_thing_group_shares.create!(group_id: id)
-      when 'friend'
-        happy_thing.happy_thing_user_shares.create!(friend_id: id)
+      if entry == 'only_me'
+        happy_thing.happy_thing_user_shares.create!(friend_id: happy_thing.user_id)
+      else
+        type, id = entry.split('_')
+        case type
+        when 'group'
+          happy_thing.happy_thing_group_shares.create!(group_id: id)
+        when 'friend'
+          happy_thing.happy_thing_user_shares.create!(friend_id: id)
+        end
       end
     end
   end
@@ -164,7 +181,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def create_happy_thing
     respond_to do |format|
       if @happy_thing.save
-        format.html { redirect_to root_path, notice: 'Happy Thing was successfully created.' }
+        format.html { redirect_to root_path, notice: t('happy_things.created') }
         format.json { render json: { status: :created, happy_thing: @happy_thing } }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -174,7 +191,11 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   def happy_things_by_period(period, friend_ids)
-    HappyThing.where(start_time: period, user_id: friend_ids).order(created_at: :desc).group_by(&:user)
+    HappyThing.where(start_time: period, user_id: friend_ids)
+              .visible_to(current_user)
+              .includes(:happy_thing_user_shares, :happy_thing_group_shares)
+              .order(created_at: :desc)
+              .group_by(&:user)
   end
 
   def user_ids(with_current_user: true)
@@ -183,5 +204,21 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     else
       current_user.friends_and_friends_who_added_me_ids
     end
+  end
+
+  def disable_navbar_for_guests
+    disable_navbar unless current_user
+  end
+
+  def load_authenticated_user_data
+    range = Time.zone.today.all_day
+    @happy_things_today = happy_things_by_period(range, user_ids)
+  end
+
+  def load_guest_data
+    @happy_things_today = {}
+    @guest_happy_thing = session[:guest_onboarding]&.dig('happy_thing')
+    @guest_emoji = session[:guest_onboarding]&.dig('emoji')
+    @guest_name = session[:guest_onboarding]&.dig('name')
   end
 end

@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Five Things</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -26,7 +26,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   </head>
 
-  <body data-controller="notification service-worker" data-notification-target="notification" class="d-flex flex-column min-vh-100">
+  <body 
+    data-controller="notification service-worker timezone" 
+    data-notification-target="notification"
+    data-timezone-user-id-value="<%= current_user&.id || '0' %>" 
+    class="d-flex flex-column min-vh-100"
+  >
     <%= render partial: 'layouts/navbar' if render_navbar?  %>
     <main class="flex-grow-1">
       <%= yield %>

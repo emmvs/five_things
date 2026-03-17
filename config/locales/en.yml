@@ -10,18 +10,40 @@ en:
   helpers:
     submit:
       happy_thing:
-        create: Create happy thing
-        update: Update happy thing
+        create: Create HappyThing™
+        update: Update HappyThing™
 
   errors:
     models:
       user:
-        first_name:
+        name:
           length: "must be between 3 and 30 characters long"
+          format: "cannot contain links or scripts"
           invalid: "cannot contain links or scripts"
         password:
-          length: "must be between 12 and 30 characters long"
+          length: "must be between 8 and 30 characters long"
+          format: "must include at least one uppercase, one lowercase, one number, and one special character, and cannot contain spaces"
           invalid: "must include at least one uppercase, one lowercase, one number, and one special character, and cannot contain spaces"
+        email:
+          presence: "must be present"
+          uniqueness: "must be unique"
+          format: "must be a valid email address"
+          length: "must be between 3 and 255 characters long"
+  sessions:
+    log_in: "Log in"
+    user_not_found: "User with email %{email} not found"
+
+  nav:
+    home: "Home"
+    recent_happy_things: "Recent HappyThings"
+    calendar: "Calendar"
+    through_the_years: "Through the Years"
+    friends: "Friends"
+    new_happy_thing: "New HappyThing"
+    old_happy_thing: "Old HappyThing"
+    happylytics: "Happylytics™"
+    settings: "Settings"
+    log_out: "Log Out"
 
   friendships:
     created: "Friend request sent. 👻"
@@ -58,3 +80,114 @@ en:
     pending_received: "Friend Requests You Received"
     users: "Users"
     no_results: "No users found matching"
+
+  dashboard:
+    happy_streak: "Current Happy Streak"
+    quote_of_day: "Quote of the day"
+    no_quote: "Sorry, no quote available today."
+    what_made_you_happy: "What made you happy"
+    what_made_you_happy_today: "What made you happy today?"
+    your_happy_things_today: "Your HappyThings of today"
+    through_the_years: "Through the years..."
+    read_more: "Read more..."
+    forgot_something: "Forgot something?"
+    add_old_happy_thing: "Add old HappyThing"
+
+  happy_things:
+    created: "HappyThing™ was successfully created."
+    updated: "Yay! HappyThing™ was updated!"
+    destroyed: "HappyThing™ was destroyed."
+    edit_title: "Edit Happy Thing"
+    new_title: "New Happy Thing"
+    new_subtitle: "What made you smile? ✨"
+    old_title: "Add an old Happy Thing"
+    edit_aria: "Edit HappyThing"
+    forgot_add_more: "Forgot something? Add more HappyThings"
+    no_happy_things_for_date: "No HappyThings found for this date."
+    title_label: "Title"
+    upload_photo: "Upload Photo (optional)"
+    save: "Save"
+    delete_button: "Delete"
+    comments: "Comments:"
+    share_location: "Share my location"
+    who_should_see: "Who should see this?"
+    only_me: "🔒 Only me"
+    badge_only_me: "🔒 Only you"
+    badge_shared_with: "👁️ %{names}"
+    everyone_prompt: "Everyone"
+    select_category: "Select a category"
+
+  through_the_years:
+    title: "Through the years..."
+    no_happy_things: "No HappyThings found for today in past years."
+    add_from_past: "Add a HappyThing from a past year"
+
+  analytics:
+    my_profile: "My Profile"
+    happylytics: "Happylytics™"
+    most_used_words_year: "Most used words this year:"
+    most_used_words_month: "Most used words this month:"
+    no_words_year: "No words data available for this year 😔"
+    no_words_month: "No words data available for this month 😌"
+    visited_places: "Visited Happy Places"
+    visited_count_html: "This year you have visited %{count}. 🧳"
+    edit_profile: "Edit Profile"
+    logout: "Logout"
+    remove_friend: "Remove Friend"
+    remove_friend_confirm: "Are you sure you want to remove %{name} as a friend?"
+
+  future_root:
+    your_happy_things: "Your HappyThings"
+    your_happy_things_today: "Your HappyThings of today"
+    just_now: "Just now"
+    want_more: "Want to add more HappyThings?"
+    create_account_cta: "Create your account to save your HappyThings and track your streak!"
+    create_account: "Create your account"
+
+  registration:
+    title: "Let's get you an Account!"
+    consent_email: "I agree to receive emails about my HappyThings™ and other updates."
+    consent_location: "I consent to the collection of my location data for creating HappyThings™."
+    sign_up: "Sign up"
+
+  user_mailer:
+    happy_things_notification:
+      body_html: "One of your friends just added <strong>5 HappyThings</strong> today. That's a whole lot of happy stuff! 🥳"
+      cta: "Want to see what made them smile? Head over to your dashboard and soak up the good vibes."
+      button: "View Dashboard"
+      sign_off_html: "Share the love 🫶🏻<br>— Your 5 Things Team"
+
+  settings:
+    title: "Settings"
+    profile:
+      heading: "Profile"
+      name: "Name"
+      name_hint: "What's your name?"
+      emoji: "Emoji"
+    account:
+      heading: "Account"
+      email: "Email"
+      pending_reconfirmation: "Currently waiting confirmation for: %{email}"
+      password: "New password"
+      password_confirmation: "Confirm new password"
+      current_password: "Current password"
+      current_password_hint: "to confirm your changes"
+    preferences:
+      heading: "Preferences"
+      language: "Language"
+      email_notifications: "Email notifications"
+      location_sharing: "Location sharing"
+    actions:
+      save: "Save changes"
+    danger_zone:
+      heading: "Danger zone"
+      delete_description: "Once you delete your account, there is no going back."
+      delete_button: "Delete my account"
+      delete_confirmation: "Are you sure? This will permanently delete your account."
+    languages:
+      en: "English"
+      de: "Deutsch"
+      sv: "Svenska"
+
+  profile:
+    happy_count: "HappyCount™"

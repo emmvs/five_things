@@ -1,26 +1,59 @@
-<div class="container p-5">
-  <div class="row justify-content-center"> <!-- Center the content -->
-    <!-- changed to col-sm-6 to make it smaller and centered -->
-    <div class="col-xs-12 col-sm-6">
-      <h2 class="session-manager-header">Welcome back, little human!</h2>
+<div class="login-page">
+  <div class="login-page__content">
+    <h2 class="login-page__title">Welcome back, little human! 👋</h2>
 
+    <div class="login-card">
       <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="form-inputs">
-          <%= f.input :email,
-                      required: false,
-                      autofocus: true,
-                      input_html: { autocomplete: "email" } %>
+        <%= f.input :email,
+                    required: false,
+                    autofocus: true,
+                    label: false,
+                    placeholder: "Email",
+                    input_html: { autocomplete: "email", class: "login-card__input" } %>
+        <% unless Rails.env.development? && request.local? %>
           <%= f.input :password,
                       required: false,
-                      input_html: { autocomplete: "current-password" } %>
-          <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-        </div>
+                      label: false,
+                      placeholder: "Password",
+                      input_html: { autocomplete: "current-password", class: "login-card__input" } %>
+        <% end %>
 
-        <div class="form-actions d-flex justify-content-center mt-2">
-          <%= f.button :submit, "Log in", class: "btn button--primary w-100", style: "color: white !important;", data: { turbo: false } %>
-        </div>
+        <%= f.button :submit, t('sessions.log_in'),
+            class: "login-card__btn",
+            data: { turbo: false } %>
       <% end %>
-          <%= render "devise/shared/links" %>
+    </div>
+
+    <%- if devise_mapping.omniauthable? %>
+      <div class="login-page__divider">
+        <span>or</span>
+      </div>
+
+      <div class="login-page__social">
+        <%- resource_class.omniauth_providers.each do |provider| %>
+          <% if provider == :google_oauth2 %>
+            <%= form_for "Login", url: omniauth_authorize_path(resource_name, provider), method: :post, data: { turbo: "false" } do |f| %>
+              <button type="submit" class="login-google-btn" aria-label="Sign in with Google">
+                <svg viewBox="0 0 48 48" width="24" height="24">
+                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                </svg>
+              </button>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="login-page__footer">
+      <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+        <%= link_to "Sign up", onboarding_path %>
+      <% end %>
+      <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
+        <%= link_to "Forgot password?", new_password_path(resource_name) %>
+      <% end %>
     </div>
   </div>
 </div>
