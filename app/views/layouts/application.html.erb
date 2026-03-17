@@ -26,9 +26,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   </head>
 
-  <body data-controller="notification service-worker" data-notification-target="notification">
+  <body data-controller="notification service-worker" data-notification-target="notification" class="d-flex flex-column min-vh-100">
     <%= render partial: 'layouts/navbar' if render_navbar?  %>
-    <%= yield %>
+    <main class="flex-grow-1">
+      <%= yield %>
+    </main>
+    <%= render partial: 'layouts/footer' %>
     <%= render partial: 'layouts/alerts'  %>
   </body>
 </html>

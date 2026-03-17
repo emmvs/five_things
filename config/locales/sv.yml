@@ -30,6 +30,24 @@ sv:
     accept_failed: "Kunde inte acceptera vänförfrågan. 🙈"
     destroyed: "Vänskap borttagen. 😭"
 
+  legal:
+    footer:
+      impressum: "Impressum"
+      privacy: "Integritetspolicy"
+      terms: "Användarvillkor"
+    impressum:
+      title: "Impressum"
+      responsible: "Ansvarig för innehållet (§ 5 DDG)"
+      name: "Emma A. A. Rünzel"
+      address: "[Gata, Postnummer Ort]"
+      country: "Tyskland"
+      contact: "Kontakt"
+      email_label: "E-post:"
+      liability_heading: "Ansvar för innehåll"
+      liability_content: "Som tjänsteleverantör är vi enligt allmänna lagar ansvariga för vårt eget innehåll på dessa sidor. Vi är inte skyldiga att övervaka överförda eller lagrade tredjepartsinformation eller att undersöka omständigheter som indikerar olaglig verksamhet."
+      copyright_heading: "Upphovsrätt"
+      copyright_content: "Innehållet och verken som skapats av webbplatsoperatören på dessa sidor är föremål för tysk upphovsrätt. Reproduktion, redigering, distribution och varje form av användning utanför upphovsrättens gränser kräver skriftligt samtycke från respektive författare eller skapare."
+
   friends:
     page_title: "Lägg till eller sök vänner"
     search_placeholder: "Sök efter namn, användarnamn eller e-post"

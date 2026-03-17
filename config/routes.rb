@@ -60,4 +60,5 @@ Rails.application.routes.draw do
   # Legal pages
   get 'privacy', to: 'legal#privacy'
   get 'terms', to: 'legal#terms'
+  get 'impressum', to: 'legal#impressum'
 end
