@@ -5,7 +5,7 @@
     <div class="row">
       <% @happy_things.group_by(&:user).each do |user, happy_things| %>
         <div class="col-12 mb-4">
-          <div class="card p-4 shadow-sm" style="border-radius: 0.5rem; border: 1px solid #e9ecef;">
+          <div class="card happy-thing-date-card p-4 shadow-sm" style="border-radius: 0.5rem; border: 1px solid #e9ecef;">
             <h2 class="mb-3"><%= user.emoji %> <%= user.name %></h2>
             <ol class="ps-3">
               <% happy_things.each do |happy_thing| %>

@@ -7,15 +7,31 @@
   justify-content: space-between;
   align-items: center;
   gap: $space-s;
+  min-width: 0; // Allow flex child to shrink below content size
 
   background-color: $color-white;
   border-radius: $border-radius;
   box-shadow: $box-shadow;
   margin-bottom: $space-m;
   padding: $space-xs;
+  overflow: hidden;
 
   @include media(tabletAndUp) {
     padding: $space-xs $space-m;
+  }
+
+  &_content {
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    flex: 1 1 auto;
+  }
+
+  a {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
   }
 
   &__actions {

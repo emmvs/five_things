@@ -1,0 +1,20 @@
+// Happy things show and show_by_date pages - prevent long text overflow
+.happy-thing-detail,
+.happy-thing-date-card {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow: hidden;
+
+  h1, h2, h3, h5, p, a, li, strong, .comment {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+  }
+}
+
+// Allow h1 in flex container to shrink so long titles wrap
+.happy-thing-detail .d-flex h1 {
+  min-width: 0;
+}

@@ -58,6 +58,17 @@ de:
     no_results: "Keine Nutzer*innen gefunden für"
 
   dashboard:
+    greetings:
+      go_to_bed: "Geh schlafen, du freches Ding!"
+      good_morning: "Guten Morgen, %{name}"
+      good_evening: "Guten Abend, %{name}"
+      good_night: "Gute Nacht, %{name}"
+      day_hej: "Hej, %{name}"
+      day_lovely_day: "Ist heute nicht ein wunderbarer Tag, %{name}"
+      day_hals_beinbruch: "Hals- und Beinbruch, %{name}"
+      day_wonderful_day: "Hab einen wunderbaren Tag, %{name}"
+      day_whats_up: "Was geht aaaaab, %{name}"
+      day_hey_there: "Hey, %{name}"
     happy_streak: "Aktuelle Glückssträhne"
     quote_of_day: "Zitat des Tages"
     no_quote: "Leider kein Zitat verfügbar heute."
