@@ -2,21 +2,9 @@
 
 # Helpers for dashboards#index
 module DashboardHelper
-  def time_based_greeting(first_name, timezone = nil) # rubocop:disable Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-    timezone ||= current_user&.timezone || 'UTC'
-    current_hour = Time.current.in_time_zone(timezone).hour
-
-    if current_hour < 5
-      'Go to bed naughty!'
-    elsif current_hour < 12
-      "Good Morning, #{first_name}"
-    elsif current_hour < 18
-      "#{day_greetings.sample}, #{first_name}"
-    elsif current_hour < 22
-      "Good Evening, #{first_name}"
-    else
-      "Good Night, #{first_name}"
-    end
+  def time_based_greeting(first_name, timezone = nil)
+    key = greeting_key_for_hour(current_hour_in(timezone))
+    t("dashboard.greetings.#{key}", name: first_name)
   end
 
   def time_based_emoji(timezone = nil) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
@@ -41,15 +29,22 @@ module DashboardHelper
 
   private
 
-  def day_greetings
-    [
-      'Hej, ',
-      'Isn’t it a Lovely Day, ',
-      'Hals & Beinbruch, ',
-      'Have a Wonderful Day, ',
-      'What’s Up, ',
-      'Hey There, '
-    ]
+  def current_hour_in(timezone)
+    tz = timezone || current_user&.timezone || 'UTC'
+    Time.current.in_time_zone(tz).hour
+  end
+
+  def greeting_key_for_hour(hour)
+    return :go_to_bed if hour < 5
+    return :good_morning if hour < 12
+    return day_greeting_keys.sample if hour < 18
+    return :good_evening if hour < 22
+
+    :good_night
+  end
+
+  def day_greeting_keys
+    %i[day_hej day_lovely_day day_hals_beinbruch day_wonderful_day day_whats_up day_hey_there]
   end
 
   def find_moon_phase(fullness)

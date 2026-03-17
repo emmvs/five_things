@@ -1,0 +1,65 @@
+# Additional translations at https://github.com/heartcombo/devise/wiki/I18n
+
+de:
+  devise:
+    confirmations:
+      confirmed: "Ihre E-Mail-Adresse wurde erfolgreich bestätigt."
+      send_instructions: "Sie erhalten in wenigen Minuten eine E-Mail mit Anweisungen zur Bestätigung Ihrer E-Mail-Adresse."
+      send_paranoid_instructions: "Falls Ihre E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten eine E-Mail mit Anweisungen zur Bestätigung."
+    failure:
+      already_authenticated: "Sie sind bereits angemeldet."
+      inactive: "Ihr Konto ist noch nicht aktiviert."
+      invalid: "Ungültige %{authentication_keys} oder Passwort."
+      locked: "Ihr Konto ist gesperrt."
+      last_attempt: "Sie haben noch einen Versuch, bevor Ihr Konto gesperrt wird."
+      not_found_in_database: "Ungültige %{authentication_keys} oder Passwort."
+      timeout: "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an."
+      unauthenticated: "Sie müssen sich anmelden oder registrieren, um fortzufahren."
+      unconfirmed: "Sie müssen Ihre E-Mail-Adresse bestätigen, bevor Sie fortfahren können."
+    mailer:
+      confirmation_instructions:
+        subject: "Anleitung zur Konto-Bestätigung 🫶🏻"
+      reset_password_instructions:
+        subject: "Anweisungen zum Zurücksetzen Ihres Passworts"
+      unlock_instructions:
+        subject: "Anweisungen zur Entsperrung Ihres Kontos"
+      email_changed:
+        subject: "E-Mail-Adresse geändert"
+      password_change:
+        subject: "Passwortänderung"
+    omniauth_callbacks:
+      failure: "Die Anmeldung mit Ihrem %{kind}-Konto war nicht möglich: \"%{reason}\"."
+      success: "Sie haben sich erfolgreich über Ihr %{kind}-Konto angemeldet."
+    passwords:
+      no_token: "Sie können diese Seite nicht nutzen, es sei denn, Sie kommen von einer Passwort-Zurücksetzen-E-Mail. Stellen Sie sicher, dass Sie die vollständige URL verwendet haben."
+      send_instructions: "Sie erhalten in Kürze eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts."
+      send_paranoid_instructions: "Wenn Ihre E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in Kürze eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts."
+      updated: "Ihr Passwort wurde geändert. Sie sind jetzt angemeldet."
+      updated_not_active: "Ihr Passwort wurde erfolgreich geändert."
+    registrations:
+      destroyed: "Tschüss! Ihr Konto wurde erfolgreich gelöscht. Wir hoffen, Sie bald wiederzusehen."
+      signed_up: "Willkommen! Sie haben sich erfolgreich registriert."
+      signed_up_but_inactive: "Sie haben sich erfolgreich registriert. Ihr Konto ist jedoch noch nicht aktiviert."
+      signed_up_but_locked: "Sie haben sich erfolgreich registriert. Ihr Konto ist jedoch gesperrt."
+      signed_up_but_unconfirmed: "Eine Bestätigungs-E-Mail wurde an Ihre Adresse gesendet. Bitte klicken Sie auf den Link, um Ihr Konto zu aktivieren."
+      update_needs_confirmation: "Sie haben Ihre Daten aktualisiert. Eine Bestätigungs-E-Mail wurde gesendet. Bitte klicken Sie auf den Link, um Ihre Änderungen zu bestätigen."
+      updated: "Ihr Konto wurde erfolgreich aktualisiert."
+      updated_but_not_signed_in: "Ihr Konto wurde aktualisiert. Da Sie Ihr Passwort geändert haben, müssen Sie sich erneut anmelden."
+    sessions:
+      signed_in: "Erfolgreich angemeldet."
+      signed_out: "Erfolgreich abgemeldet."
+      already_signed_out: "Erfolgreich abgemeldet."
+    unlocks:
+      send_instructions: "Sie erhalten in Kürze eine E-Mail mit Anweisungen zur Entsperrung Ihres Kontos."
+      send_paranoid_instructions: "Wenn Ihr Konto existiert, erhalten Sie eine E-Mail mit Anweisungen zur Entsperrung."
+      unlocked: "Ihr Konto wurde entsperrt. Bitte melden Sie sich an."
+  errors:
+    messages:
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "not found"
+      not_locked: "was not locked"
+      not_saved:
+        one: "1 Fehler verhinderte das Speichern von %{resource}:"
+        other: "%{count} Fehler verhinderten das Speichern von %{resource}:"

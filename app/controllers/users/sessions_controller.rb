@@ -31,7 +31,7 @@ module Users
     end
 
     def allow_passwordless?
-      Rails.env.development? && request.local?
+      Rails.env.development?
     end
 
     def login_email

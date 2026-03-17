@@ -64,6 +64,17 @@ en:
     no_results: "No users found matching"
 
   dashboard:
+    greetings:
+      go_to_bed: "Go to bed naughty!"
+      good_morning: "Good Morning, %{name}"
+      good_evening: "Good Evening, %{name}"
+      good_night: "Good Night, %{name}"
+      day_hej: "Hej, %{name}"
+      day_lovely_day: "Isn't it a Lovely Day, %{name}"
+      day_hals_beinbruch: "Hals & Beinbruch, %{name}"
+      day_wonderful_day: "Have a Wonderful Day, %{name}"
+      day_whats_up: "What's Up, %{name}"
+      day_hey_there: "Hey There, %{name}"
     happy_streak: "Current Happy Streak"
     quote_of_day: "Quote of the day"
     no_quote: "Sorry, no quote available today."

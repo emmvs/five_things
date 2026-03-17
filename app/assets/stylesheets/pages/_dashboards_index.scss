@@ -8,6 +8,18 @@
   box-shadow: $box-shadow;
   border-radius: $border-radius;
   padding: 24px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow: hidden;
+
+  h1, h2, h3, p, a, li, strong {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+  }
+
   p {
     font-family: $body-font;
   }

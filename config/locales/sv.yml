@@ -33,8 +33,8 @@ sv:
     calendar: "Kalender"
     through_the_years: "Genom åren"
     friends: "Vänner"
-    new_happy_thing: "Nytt HappyThing"
-    old_happy_thing: "Gammalt HappyThing"
+    new_happy_thing: "Ny HappyThing"
+    old_happy_thing: "Gammal HappyThing"
     happylytics: "Happylytics™"
     settings: "Inställningar"
     log_out: "Logga ut"
@@ -58,6 +58,17 @@ sv:
     no_results: "Inga användare hittades för"
 
   dashboard:
+    greetings:
+      go_to_bed: "Gå och lägg dig, stygga!"
+      good_morning: "God morgon, %{name}"
+      good_evening: "God kväll, %{name}"
+      good_night: "God natt, %{name}"
+      day_hej: "Hej, %{name}"
+      day_lovely_day: "Är det inte en underbar dag, %{name}"
+      day_hals_beinbruch: "Lycka till, %{name}"
+      day_wonderful_day: "Ha en underbar dag, %{name}"
+      day_whats_up: "Läget, %{name}"
+      day_hey_there: "Hej där, %{name}"
     happy_streak: "Nuvarande lyckostrejk"
     quote_of_day: "Dagens citat"
     no_quote: "Tyvärr, inget citat tillgängligt idag."
@@ -67,16 +78,16 @@ sv:
     through_the_years: "Genom åren..."
     read_more: "Läs mer..."
     forgot_something: "Glömt något?"
-    add_old_happy_thing: "Lägg till gammalt HappyThing"
+    add_old_happy_thing: "Lägg till gammal HappyThing"
 
   happy_things:
     created: "HappyThing™ skapades framgångsrikt."
     updated: "Yay! HappyThing™ uppdaterades!"
     destroyed: "HappyThing™ togs bort."
     edit_title: "Redigera Happy Thing"
-    new_title: "Nytt Happy Thing"
+    new_title: "Ny Happy Thing"
     new_subtitle: "Vad fick dig att le? ✨"
-    old_title: "Lägg till ett gammalt Happy Thing"
+    old_title: "Lägg till en gammal Happy Thing"
     edit_aria: "Redigera HappyThing"
     forgot_add_more: "Glömt något? Lägg till fler HappyThings"
     no_happy_things_for_date: "Inga HappyThings hittades för detta datum."
@@ -94,7 +105,7 @@ sv:
   through_the_years:
     title: "Genom åren..."
     no_happy_things: "Inga HappyThings hittades för idag under tidigare år."
-    add_from_past: "Lägg till ett HappyThing från ett tidigare år"
+    add_from_past: "Lägg till en HappyThing från ett tidigare år"
 
   analytics:
     my_profile: "Min profil"
