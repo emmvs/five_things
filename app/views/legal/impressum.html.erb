@@ -1,0 +1,29 @@
+<div class="container my-5">
+  <h1><%= t('legal.impressum.title') %></h1>
+
+  <section class="mt-4">
+    <h2><%= t('legal.impressum.responsible') %></h2>
+    <p>
+      <%= t('legal.impressum.name') %><br>
+      <%= t('legal.impressum.address') %><br>
+      <%= t('legal.impressum.country') %>
+    </p>
+  </section>
+
+  <section class="mt-4">
+    <h2><%= t('legal.impressum.contact') %></h2>
+    <p>
+      <%= t('legal.impressum.email_label') %> <%= mail_to "emma@ruenzel.de" %>
+    </p>
+  </section>
+
+  <section class="mt-4">
+    <h2><%= t('legal.impressum.liability_heading') %></h2>
+    <p><%= t('legal.impressum.liability_content') %></p>
+  </section>
+
+  <section class="mt-4">
+    <h2><%= t('legal.impressum.copyright_heading') %></h2>
+    <p><%= t('legal.impressum.copyright_content') %></p>
+  </section>
+</div>

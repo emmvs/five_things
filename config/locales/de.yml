@@ -46,6 +46,24 @@ de:
     accept_failed: "Freundschaftsanfrage konnte nicht akzeptiert werden. 🙈"
     destroyed: "Freundschaft entfernt. 😭"
 
+  legal:
+    footer:
+      impressum: "Impressum"
+      privacy: "Datenschutzerklärung"
+      terms: "Nutzungsbedingungen"
+    impressum:
+      title: "Impressum"
+      responsible: "Verantwortlich für den Inhalt (§ 5 DDG)"
+      name: "Emma A. A. Rünzel"
+      address: "[Straße, PLZ Ort]"
+      country: "Deutschland"
+      contact: "Kontakt"
+      email_label: "E-Mail:"
+      liability_heading: "Haftung für Inhalte"
+      liability_content: "Als Diensteanbieter sind wir gemäß den allgemeinen Gesetzen für eigene Inhalte auf diesen Seiten verantwortlich. Wir sind nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder Umstände zu untersuchen, die auf eine rechtswidrige Tätigkeit hinweisen."
+      copyright_heading: "Urheberrecht"
+      copyright_content: "Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers."
+
   friends:
     page_title: "Lieblingsmenschen hinzufügen oder suchen"
     search_placeholder: "Nach Namen, Nutzernamen oder E-Mails suchen"

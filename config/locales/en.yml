@@ -52,6 +52,24 @@ en:
     accept_failed: "Unable to accept friend request. 🙈"
     destroyed: "Friendship removed. 😭"
 
+  legal:
+    footer:
+      impressum: "Impressum"
+      privacy: "Privacy Policy"
+      terms: "Terms of Service"
+    impressum:
+      title: "Impressum"
+      responsible: "Responsible for content (§ 5 DDG)"
+      name: "Emma A. A. Rünzel"
+      address: "[Street, Postal Code City]"
+      country: "Germany"
+      contact: "Contact"
+      email_label: "Email:"
+      liability_heading: "Liability for content"
+      liability_content: "As a service provider, we are responsible for our own content on these pages according to general laws. We are not obliged to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity."
+      copyright_heading: "Copyright"
+      copyright_content: "The content and works created by the site operator on these pages are subject to German copyright law. Reproduction, editing, distribution and any kind of use outside the limits of copyright require the written consent of the respective author or creator."
+
   friends:
     page_title: "Add or Search Friends"
     search_placeholder: "Search for names, usernames, or emails"

@@ -1,0 +1,11 @@
+<footer class="legal-footer mt-auto py-3">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-center gap-3 text-muted small">
+      <%= link_to t('legal.footer.impressum'), impressum_path, class: "legal-footer__link" %>
+      <span class="legal-footer__separator" aria-hidden="true">·</span>
+      <%= link_to t('legal.footer.privacy'), privacy_path, class: "legal-footer__link" %>
+      <span class="legal-footer__separator" aria-hidden="true">·</span>
+      <%= link_to t('legal.footer.terms'), terms_path, class: "legal-footer__link" %>
+    </div>
+  </div>
+</footer>

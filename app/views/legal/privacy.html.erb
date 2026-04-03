@@ -1,0 +1,173 @@
+<div class="container my-5">
+  <h1>Privacy Policy</h1>
+  <p class="text-muted">Last updated: <%= Date.today.strftime("%B %d, %Y") %></p>
+
+  <section class="mt-4">
+    <h2>1. Introduction</h2>
+    <p>
+      Welcome to Five Things ("we," "our," or "us"). We are committed to protecting your personal data and respecting your privacy. 
+      This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our web application 
+      at <a href="https://www.my5things.com">www.my5things.com</a> (the "Service").
+    </p>
+    <p>
+      This policy complies with the EU General Data Protection Regulation (GDPR) and other applicable data protection laws.
+    </p>
+  </section>
+
+  <section class="mt-4">
+    <h2>2. Data Controller</h2>
+    <p>
+      The data controller responsible for your personal data is:<br>
+      Emma A. A. Rünzel<br>
+      Email: <%= mail_to "emma@ruenzel.de" %>
+    </p>
+  </section>
+
+  <section class="mt-4">
+    <h2>3. Information We Collect</h2>
+    
+    <h3>3.1 Information You Provide</h3>
+    <ul>
+      <li><strong>Account Information:</strong> Name, email address, password, emoji/avatar</li>
+      <li><strong>Content:</strong> Your "happy things" entries, including text, photos, dates, and locations (if you choose to share)</li>
+      <li><strong>Social Features:</strong> Friend connections, group memberships, and comments</li>
+    </ul>
+
+    <h3>3.2 Information Collected Automatically</h3>
+    <ul>
+      <li><strong>Usage Data:</strong> How you interact with the Service, pages visited, features used</li>
+      <li><strong>Device Information:</strong> IP address, browser type, operating system</li>
+      <li><strong>Cookies:</strong> We use cookies to maintain your session and remember your preferences</li>
+    </ul>
+
+    <h3>3.3 Information from Third Parties</h3>
+    <ul>
+      <li><strong>Google OAuth:</strong> If you sign up using Google, we receive your name and email address</li>
+      <li><strong>Oura Ring Integration:</strong> If you connect your Oura Ring, we receive health and activity data you authorize us to access (daily activity, heart rate, workout, session, and tag data)</li>
+      <li><strong>Location Services:</strong> We use geocoding services to convert location names to coordinates (only if you choose to share location)</li>
+    </ul>
+  </section>
+
+  <section class="mt-4">
+    <h2>4. How We Use Your Information</h2>
+    <p>We use your personal data for the following purposes:</p>
+    <ul>
+      <li><strong>Provide the Service:</strong> To create and manage your account, store your entries, and enable social features</li>
+      <li><strong>Personalization:</strong> To show you your streaks, analytics, word clouds, and location maps</li>
+      <li><strong>Communications:</strong> To send you notifications about friends' activities (if enabled)</li>
+      <li><strong>Improvement:</strong> To analyze usage patterns and improve the Service</li>
+      <li><strong>Security:</strong> To protect against fraud, abuse, and security threats</li>
+      <li><strong>Legal Compliance:</strong> To comply with legal obligations</li>
+    </ul>
+    <p><strong>Legal Basis (GDPR):</strong> We process your data based on:</p>
+    <ul>
+      <li>Your consent (e.g., for optional features like location sharing)</li>
+      <li>Contract performance (to provide the Service you signed up for)</li>
+      <li>Legitimate interests (to improve and secure the Service)</li>
+    </ul>
+  </section>
+
+  <section class="mt-4">
+    <h2>5. Data Sharing and Disclosure</h2>
+    
+    <h3>5.1 Social Features</h3>
+    <p>
+      Content you choose to share with friends or groups will be visible to those users. You control what you share.
+    </p>
+
+    <h3>5.2 Third-Party Services</h3>
+    <ul>
+      <li><strong>Cloudinary:</strong> For image storage and processing</li>
+      <li><strong>Heroku/PostgreSQL:</strong> For hosting and database services</li>
+      <li><strong>Google OAuth:</strong> For authentication (if you choose to sign in with Google)</li>
+      <li><strong>Oura:</strong> To fetch your health data (only if you authorize the connection)</li>
+      <li><strong>Geocoding Services:</strong> To convert location names to coordinates</li>
+    </ul>
+
+    <h3>5.3 Legal Requirements</h3>
+    <p>We may disclose your data if required by law or to protect our rights and safety.</p>
+  </section>
+
+  <section class="mt-4">
+    <h2>6. International Data Transfers</h2>
+    <p>
+      Your data may be transferred to and processed in countries outside the European Economic Area (EEA), 
+      including the United States. We ensure adequate protection through standard contractual clauses and 
+      other approved safeguards.
+    </p>
+  </section>
+
+  <section class="mt-4">
+    <h2>7. Data Retention</h2>
+    <p>
+      We retain your personal data for as long as your account is active or as needed to provide the Service. 
+      You can delete your account at any time, and we will delete your data within 30 days, except where we 
+      are required to retain it for legal purposes.
+    </p>
+  </section>
+
+  <section class="mt-4">
+    <h2>8. Your Rights (GDPR)</h2>
+    <p>Under GDPR, you have the following rights:</p>
+    <ul>
+      <li><strong>Access:</strong> Request a copy of your personal data</li>
+      <li><strong>Rectification:</strong> Correct inaccurate or incomplete data</li>
+      <li><strong>Erasure:</strong> Request deletion of your data ("right to be forgotten")</li>
+      <li><strong>Restriction:</strong> Limit how we process your data</li>
+      <li><strong>Portability:</strong> Receive your data in a structured, machine-readable format</li>
+      <li><strong>Object:</strong> Object to certain types of processing</li>
+      <li><strong>Withdraw Consent:</strong> Withdraw consent at any time (where processing is based on consent)</li>
+      <li><strong>Lodge a Complaint:</strong> File a complaint with your local data protection authority</li>
+    </ul>
+    <p>To exercise these rights, contact us at <%= mail_to "emma@ruenzel.de" %>.</p>
+  </section>
+
+  <section class="mt-4">
+    <h2>9. Security</h2>
+    <p>
+      We implement appropriate technical and organizational measures to protect your data, including:
+    </p>
+    <ul>
+      <li>Encryption of data in transit (HTTPS/SSL)</li>
+      <li>Secure password hashing</li>
+      <li>Regular security updates</li>
+      <li>Access controls and authentication</li>
+    </ul>
+    <p>However, no method of transmission over the internet is 100% secure.</p>
+  </section>
+
+  <section class="mt-4">
+    <h2>10. Children's Privacy</h2>
+    <p>
+      Our Service is not intended for children under 16. We do not knowingly collect personal data from children. 
+      If you believe we have collected data from a child, please contact us immediately.
+    </p>
+  </section>
+
+  <section class="mt-4">
+    <h2>11. Cookies and Tracking</h2>
+    <p>We use the following types of cookies:</p>
+    <ul>
+      <li><strong>Essential Cookies:</strong> Required for the Service to function (session management, authentication)</li>
+      <li><strong>Functional Cookies:</strong> Remember your preferences and settings</li>
+    </ul>
+    <p>You can control cookies through your browser settings, but disabling essential cookies may affect functionality.</p>
+  </section>
+
+  <section class="mt-4">
+    <h2>12. Changes to This Privacy Policy</h2>
+    <p>
+      We may update this Privacy Policy from time to time. We will notify you of significant changes by email or 
+      through a notice on the Service. The "Last updated" date at the top will be revised.
+    </p>
+  </section>
+
+  <section class="mt-4">
+    <h2>13. Contact Us</h2>
+    <p>
+      If you have questions about this Privacy Policy or our data practices, please contact us at:<br>
+      Email: <%= mail_to "emma@ruenzel.de" %><br>
+      GitHub: <a href="https://github.com/emmvs/five_things" target="_blank">github.com/emmvs/five_things</a>
+    </p>
+  </section>
+</div>
