@@ -68,6 +68,7 @@ de:
 
   dashboard:
     greetings:
+      default_name: "Sonnenschein"
       go_to_bed: "Geh schlafen, du freches Ding!"
       good_morning: "Guten Morgen, %{name}"
       good_evening: "Guten Abend, %{name}"

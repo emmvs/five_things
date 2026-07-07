@@ -171,11 +171,19 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     streak
   end
 
+  def self.sanitize_display_name(name)
+    cleaned = name.to_s.strip
+    while cleaned.match?(/\A[,\s]|[,\s]\z/)
+      cleaned = cleaned.gsub(/\A[,\s]+/, '').gsub(/[,\s]+\z/, '').strip
+    end
+    cleaned
+  end
+
   def self.generate_name_candidates(name_param, email) # rubocop:disable Metrics/CyclomaticComplexity
     [
-      name_param&.split&.first,
-      name_param&.strip,
-      email&.split('@')&.first&.split('.')&.first&.capitalize
+      sanitize_display_name(name_param&.split&.first),
+      sanitize_display_name(name_param),
+      sanitize_display_name(email&.split('@')&.first&.split('.')&.first&.capitalize)
     ]
   end
 

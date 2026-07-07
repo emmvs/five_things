@@ -74,6 +74,7 @@ en:
 
   dashboard:
     greetings:
+      default_name: "Sunshine"
       go_to_bed: "Go to bed naughty!"
       good_morning: "Good Morning, %{name}"
       good_evening: "Good Evening, %{name}"
