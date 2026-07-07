@@ -64,4 +64,25 @@ Rails.application.routes.draw do
   resources :dashboards, as: :dashboard do
     # get :retrieve_poem, on: :collection
   end
+
+  namespace :close_friends do
+    root to: 'joins#show'
+    get 'dashboard', to: 'dashboard#index', as: :dashboard
+    post 'subscribers', to: 'subscribers#create', as: :subscribers
+    get 'confirm', to: 'subscribers#confirm', as: :confirm
+    get 'unsubscribe', to: 'subscribers#unsubscribe', as: :unsubscribe
+
+    resources :issues, only: %i[new create show edit update] do
+      member do
+        post :publish
+        post :send_issue
+      end
+    end
+    resources :subscribers, only: [] do
+      member do
+        post :approve
+        delete :reject
+      end
+    end
+  end
 end

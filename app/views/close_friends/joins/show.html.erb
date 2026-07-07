@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <div class="dash-box mx-2 my-3 p-4">
+    <h1><%= t('close_friends.join.title') %></h1>
+    <p><%= t('close_friends.join.description') %></p>
+
+    <%= form_with model: @subscriber,
+                  url: close_friends_subscribers_path,
+                  local: true do |form| %>
+      <% if @subscriber.errors.any? %>
+        <div class="alert alert-danger">
+          <%= @subscriber.errors.full_messages.to_sentence %>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= form.label :name, t('close_friends.join.name_label') %>
+        <%= form.text_field :name, class: 'form-control', required: true, autocomplete: 'name' %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :email, t('close_friends.join.email_label') %>
+        <%= form.email_field :email, class: 'form-control', required: true, autocomplete: 'email' %>
+      </div>
+
+      <%= form.submit t('close_friends.join.submit'), class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>

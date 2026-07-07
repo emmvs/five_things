@@ -1,0 +1,59 @@
+<div class="container mt-4">
+  <div class="dash-box mx-2 my-3 p-4">
+    <h1><%= t('close_friends.dashboard.title') %></h1>
+
+    <div class="my-3">
+      <h3><%= t('close_friends.dashboard.subscriber_count') %></h3>
+      <p><%= @deliverable_count %></p>
+    </div>
+
+    <div class="my-3">
+      <%= link_to t('close_friends.dashboard.new_issue'), new_close_friends_issue_path, class: 'btn btn-primary' %>
+    </div>
+
+    <% if @pending_subscribers.any? %>
+      <div class="my-3">
+        <h3><%= t('close_friends.dashboard.pending_approval') %></h3>
+        <ul class="list-unstyled">
+          <% @pending_subscribers.each do |subscriber| %>
+            <li class="d-flex align-items-center gap-2 my-2">
+              <span><%= subscriber.name %> (<%= subscriber.email %>)</span>
+              <%= button_to t('close_friends.dashboard.approve'),
+                            approve_close_friends_subscriber_path(subscriber),
+                            method: :post,
+                            class: 'btn btn-sm btn-success' %>
+              <%= button_to t('close_friends.dashboard.reject'),
+                            reject_close_friends_subscriber_path(subscriber),
+                            method: :delete,
+                            class: 'btn btn-sm btn-outline-danger' %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="my-3">
+      <h3><%= t('close_friends.dashboard.issues') %></h3>
+      <% if @issues.any? %>
+        <ul class="list-unstyled">
+          <% @issues.each do |issue| %>
+            <li class="my-2">
+              <strong><%= issue.title %></strong>
+              — <%= t("close_friends.issues.status.#{issue_status_key(issue)}") %>
+              <% if issue.draft? %>
+                <%= link_to t('close_friends.dashboard.edit'), edit_close_friends_issue_path(issue) %>
+              <% elsif issue.published? %>
+                <%= link_to t('close_friends.dashboard.view'), close_friends_issue_path(issue) %>
+                <%= link_to t('close_friends.dashboard.edit'), edit_close_friends_issue_path(issue) %>
+              <% else %>
+                <%= link_to t('close_friends.dashboard.view'), close_friends_issue_path(issue) %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p><%= t('close_friends.dashboard.no_issues') %></p>
+      <% end %>
+    </div>
+  </div>
+</div>

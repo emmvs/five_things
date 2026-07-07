@@ -36,6 +36,7 @@ de:
     new_happy_thing: "Neues HappyThing"
     old_happy_thing: "Altes HappyThing"
     happylytics: "Happylytics™"
+    close_friends: "Close Friends"
     settings: "Einstellungen"
     log_out: "Abmelden"
 
@@ -178,3 +179,54 @@ de:
 
   profile:
     happy_count: "HappyCount™"
+
+  close_friends:
+    join:
+      title: "Close Friends"
+      description: "Melde dich für den Newsletter an. Du erhältst zuerst eine Bestätigungs-E-Mail."
+      name_label: "Name"
+      email_label: "E-Mail"
+      submit: "Anmelden"
+    dashboard:
+      title: "Close Friends"
+      subscriber_count: "Bestätigte Abonnent*innen"
+      pending_approval: "Warten auf deine Freigabe"
+      new_issue: "Neue Ausgabe"
+      issues: "Ausgaben"
+      no_issues: "Noch keine Ausgaben."
+      edit: "Bearbeiten"
+      view: "Ansehen"
+      approve: "Freigeben"
+      reject: "Ablehnen"
+    subscribers:
+      signup_notice: "Wenn diese E-Mail berechtigt ist, erhältst du in Kürze eine Bestätigung."
+      confirmed_title: "E-Mail bestätigt"
+      confirmed_message: "Danke! Du hörst von uns, sobald du freigegeben wurdest."
+      unsubscribed_title: "Abgemeldet"
+      unsubscribed_message: "Du wurdest von der Close-Friends-Liste entfernt."
+      approved: "Abonnent*in freigegeben."
+      rejected: "Abonnent*in abgelehnt."
+    issues:
+      new_title: "Neue Ausgabe"
+      edit_title: "Ausgabe bearbeiten"
+      title_label: "Titel"
+      body_label: "Text"
+      create: "Entwurf speichern"
+      save: "Speichern"
+      publish: "Veröffentlichen"
+      send: "An Abonnent*innen senden"
+      send_confirm: "Diese Ausgabe an alle freigegebenen Abonnent*innen senden?"
+      created: "Entwurf gespeichert."
+      updated: "Ausgabe aktualisiert."
+      published: "Ausgabe veröffentlicht."
+      sent: "Ausgabe gesendet."
+      status:
+        draft: "Entwurf"
+        published: "Veröffentlicht"
+        sent: "Gesendet"
+    mailer:
+      confirmation_subject: "Close-Friends-Abonnement bestätigen"
+      confirmation_body: "Bitte bestätige, dass du Close Friends abonnieren möchtest."
+      confirm_button: "Abonnement bestätigen"
+      issue_subject: "Close Friends: %{title}"
+      unsubscribe: "Abmelden"

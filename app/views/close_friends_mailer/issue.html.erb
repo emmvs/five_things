@@ -1,0 +1,7 @@
+<h1><%= @issue.title %></h1>
+
+<%= simple_format h(@issue.body) %>
+
+<p>
+  <%= link_to t('close_friends.mailer.unsubscribe'), @unsubscribe_url %>
+</p>

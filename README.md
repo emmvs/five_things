@@ -4,6 +4,10 @@
 
 The 5 Things App is designed to help users appreciate the smaller joys in life by listing down five things that make them happy every day.
 
+### Close Friends newsletter
+
+An in-app newsletter for a small list of subscribers. See **[docs/close_friends.md](docs/close_friends.md)** for setup and publisher workflow.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine
