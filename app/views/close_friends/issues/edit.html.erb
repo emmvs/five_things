@@ -1,0 +1,22 @@
+<div class="container mt-4">
+  <div class="dash-box mx-2 my-3 p-4">
+    <h1><%= t('close_friends.issues.edit_title') %></h1>
+    <%= render 'form', issue: @issue %>
+
+    <% if @issue.draft? %>
+      <%= button_to t('close_friends.issues.publish'),
+                    publish_close_friends_issue_path(@issue),
+                    method: :post,
+                    class: 'btn btn-primary mt-3' %>
+    <% elsif @issue.published? %>
+      <p class="mt-3">
+        <%= link_to t('close_friends.dashboard.view'), close_friends_issue_path(@issue) %>
+      </p>
+      <%= button_to t('close_friends.issues.send'),
+                    send_issue_close_friends_issue_path(@issue),
+                    method: :post,
+                    class: 'btn btn-primary mt-3',
+                    data: { turbo_confirm: t('close_friends.issues.send_confirm') } %>
+    <% end %>
+  </div>
+</div>

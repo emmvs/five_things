@@ -42,6 +42,7 @@ en:
     new_happy_thing: "New HappyThing"
     old_happy_thing: "Old HappyThing"
     happylytics: "Happylytics™"
+    close_friends: "Close Friends"
     settings: "Settings"
     log_out: "Log Out"
 
@@ -184,3 +185,54 @@ en:
 
   profile:
     happy_count: "HappyCount™"
+
+  close_friends:
+    join:
+      title: "Close Friends"
+      description: "Sign up for the newsletter. You'll receive a confirmation email first."
+      name_label: "Name"
+      email_label: "Email"
+      submit: "Sign up"
+    dashboard:
+      title: "Close Friends"
+      subscriber_count: "Approved subscribers"
+      pending_approval: "Awaiting your approval"
+      new_issue: "New issue"
+      issues: "Issues"
+      no_issues: "No issues yet."
+      edit: "Edit"
+      view: "View"
+      approve: "Approve"
+      reject: "Reject"
+    subscribers:
+      signup_notice: "If this email is eligible, you'll receive a confirmation message shortly."
+      confirmed_title: "Email confirmed"
+      confirmed_message: "Thanks! You'll hear from us once you're approved."
+      unsubscribed_title: "Unsubscribed"
+      unsubscribed_message: "You have been removed from the Close Friends list."
+      approved: "Subscriber approved."
+      rejected: "Subscriber rejected."
+    issues:
+      new_title: "New issue"
+      edit_title: "Edit issue"
+      title_label: "Title"
+      body_label: "Body"
+      create: "Save draft"
+      save: "Save"
+      publish: "Publish"
+      send: "Send to subscribers"
+      send_confirm: "Send this issue to all approved subscribers?"
+      created: "Draft saved."
+      updated: "Issue updated."
+      published: "Issue published."
+      sent: "Issue sent."
+      status:
+        draft: "Draft"
+        published: "Published"
+        sent: "Sent"
+    mailer:
+      confirmation_subject: "Confirm your Close Friends subscription"
+      confirmation_body: "Please confirm you want to join Close Friends."
+      confirm_button: "Confirm subscription"
+      issue_subject: "Close Friends: %{title}"
+      unsubscribe: "Unsubscribe"

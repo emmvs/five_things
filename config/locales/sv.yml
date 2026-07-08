@@ -36,6 +36,7 @@ sv:
     new_happy_thing: "Ny HappyThing"
     old_happy_thing: "Gammal HappyThing"
     happylytics: "Happylytics™"
+    close_friends: "Close Friends"
     settings: "Inställningar"
     log_out: "Logga ut"
 
@@ -176,3 +177,54 @@ sv:
 
   profile:
     happy_count: "HappyCount™"
+
+  close_friends:
+    join:
+      title: "Close Friends"
+      description: "Anmäl dig till nyhetsbrevet. Du får först ett bekräftelsemejl."
+      name_label: "Namn"
+      email_label: "E-post"
+      submit: "Anmäl dig"
+    dashboard:
+      title: "Close Friends"
+      subscriber_count: "Godkända prenumeranter"
+      pending_approval: "Väntar på ditt godkännande"
+      new_issue: "Nytt nummer"
+      issues: "Nummer"
+      no_issues: "Inga nummer ännu."
+      edit: "Redigera"
+      view: "Visa"
+      approve: "Godkänn"
+      reject: "Avvisa"
+    subscribers:
+      signup_notice: "Om den här e-posten är giltig får du snart ett bekräftelsemejl."
+      confirmed_title: "E-post bekräftad"
+      confirmed_message: "Tack! Du hör av oss när du har godkänts."
+      unsubscribed_title: "Avprenumererad"
+      unsubscribed_message: "Du har tagits bort från Close Friends-listan."
+      approved: "Prenumerant godkänd."
+      rejected: "Prenumerant avvisad."
+    issues:
+      new_title: "Nytt nummer"
+      edit_title: "Redigera nummer"
+      title_label: "Titel"
+      body_label: "Text"
+      create: "Spara utkast"
+      save: "Spara"
+      publish: "Publicera"
+      send: "Skicka till prenumeranter"
+      send_confirm: "Skicka detta nummer till alla godkända prenumeranter?"
+      created: "Utkast sparat."
+      updated: "Nummer uppdaterat."
+      published: "Nummer publicerat."
+      sent: "Nummer skickat."
+      status:
+        draft: "Utkast"
+        published: "Publicerat"
+        sent: "Skickat"
+    mailer:
+      confirmation_subject: "Bekräfta din Close Friends-prenumeration"
+      confirmation_body: "Bekräfta att du vill prenumerera på Close Friends."
+      confirm_button: "Bekräfta prenumeration"
+      issue_subject: "Close Friends: %{title}"
+      unsubscribe: "Avprenumerera"

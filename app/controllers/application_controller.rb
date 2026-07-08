@@ -50,6 +50,19 @@ class ApplicationController < ActionController::Base
   end
 
   def public_controller?
-    controller_name.in?(%w[pages])
+    return true if controller_name.in?(%w[pages])
+
+    close_friends_public_action?
+  end
+
+  def close_friends_public_action?
+    return false unless controller_path.start_with?('close_friends/')
+
+    case controller_name
+    when 'joins' then true
+    when 'subscribers' then action_name.in?(%w[create confirm unsubscribe])
+    when 'issues' then action_name == 'show'
+    else false
+    end
   end
 end

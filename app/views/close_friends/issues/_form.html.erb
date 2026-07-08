@@ -1,0 +1,20 @@
+<%= form_with model: issue, url: issue.persisted? ? close_friends_issue_path(issue) : close_friends_issues_path, local: true do |form| %>
+  <% if issue.errors.any? %>
+    <div class="alert alert-danger">
+      <%= issue.errors.full_messages.to_sentence %>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, t('close_friends.issues.title_label') %>
+    <%= form.text_field :title, class: 'form-control', required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :body, t('close_friends.issues.body_label') %>
+    <%= form.text_area :body, class: 'form-control', rows: 16, required: true %>
+  </div>
+
+  <%= form.submit issue.persisted? ? t('close_friends.issues.save') : t('close_friends.issues.create'),
+                  class: 'btn btn-primary' %>
+<% end %>
