@@ -4,7 +4,7 @@
 
 <div class="container mt-1">
   <div class="dash-box mx-2 my-3">
-    <h1><%= time_based_greeting(current_user.name) %> <%= time_based_emoji %></h1>
+    <h1><%= dashboard_greeting_heading(current_user) %></h1>
     <div class="my-3">
       <h3><%= t('dashboard.happy_streak') %></h3>
       <p><%= pluralize(current_user.happy_streak, 'day') %></p>
@@ -20,15 +20,17 @@
         <% end %>
   </div>
 
-  <div class="dash-box mx-2 my-3">
-    <h3><%= t('dashboard.what_made_you_happy') %></h3>
-    <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
-      <h5><%= user.emoji %> <%= user.name %></h5>
-      <% happy_things.each do |happy_thing| %>
-        <%= render 'happy_things/happy_thing', happy_thing: happy_thing %>
+  <% if @happy_things_of_the_last_two_days.any? %>
+    <div class="dash-box mx-2 my-3">
+      <h3><%= t('dashboard.what_made_you_happy') %></h3>
+      <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
+        <h5><%= user_with_emoji(user) %></h5>
+        <% happy_things.each do |happy_thing| %>
+          <%= render 'happy_things/happy_thing', happy_thing: happy_thing %>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 
   <%= render 'calendar' %>
 
@@ -41,9 +43,11 @@
     <div id="happy_things" class="m-2 mt-5"
       data-notification-target="happyThings"
       data-insert-in-list-target="items">
-      <h3 class="mb-3"><%= t('dashboard.your_happy_things_today') %></h3>
+      <% if @happy_things_today.any? %>
+        <h3 class="mb-3"><%= t('dashboard.your_happy_things_today') %></h3>
+      <% end %>
       <% @happy_things_today.each do |user, happy_things| %>
-        <h3><%= user.emoji %> <%= user.name %></h3>
+        <h3><%= user_with_emoji(user) %></h3>
         <% happy_things.each do |happy_thing| %>
           <%= render "happy_things/happy_thing", user: user, happy_thing: happy_thing %>
         <% end %>
@@ -65,7 +69,7 @@
             <h3><%= year %></h3>
             <% year_happy_things.group_by(&:user).each do |user, happy_things| %>
               <div class="dash-box mb-4">
-                <h5><%= user.emoji %> <%= user.name %></h5>
+                <h5><%= user_with_emoji(user) %></h5>
                 <ol>
                   <% happy_things.each do |happy_thing| %>
                     <li>

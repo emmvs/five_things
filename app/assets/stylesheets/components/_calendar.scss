@@ -1,8 +1,16 @@
 .simple-calendar {
   border-radius: $border-radius;
   overflow: hidden;
-  width: 350px !important;
+  width: 100% !important;
+  max-width: 350px;
+  background-color: $white;
+  box-shadow: $box-shadow;
+  isolation: isolate;
+  transform: translateZ(0);
 
+  @media (min-width: 768px) {
+    max-width: 600px;
+  }
 
   .calendar-heading {
     border-top-left-radius: $border-radius;
@@ -31,6 +39,10 @@
     position: relative;
     height: 40px !important;
     border-radius: $border-radius !important;
+
+    @media (min-width: 768px) {
+      height: 60px !important;
+    }
   }
 
   .calendar-day-link {
@@ -50,11 +62,13 @@
   }
 
   .table {
-    margin: 0 auto;
+    margin: 0 auto !important;
+    margin-bottom: 0 !important;
     border-collapse: separate;
     border-spacing: 8px;
     table-layout: fixed;
     width: 100%;
+    background-color: transparent !important;
 
     thead tr th {
       border-radius: $border-radius;
@@ -62,6 +76,13 @@
       padding: 0;
       background-color: darken($soft-purple, 10%);
       color: white;
+      border: none !important;
+    }
+
+    tbody tr td {
+      border: none !important;
+      background-color: transparent !important;
+      padding: 0;
     }
   }
 

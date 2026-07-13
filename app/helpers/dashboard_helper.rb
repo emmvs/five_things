@@ -2,6 +2,21 @@
 
 # Helpers for dashboards#index
 module DashboardHelper
+  def dashboard_greeting_heading(user, timezone = nil)
+    name = greeting_display_name(user.name)
+    emoji = time_based_emoji(timezone)
+    greeting = time_based_greeting(user.name, timezone)
+    name_with_emoji = content_tag(:span, class: 'user-with-emoji') do
+      safe_join([name, emoji], nbsp)
+    end
+
+    return greeting.sub(name, name_with_emoji).html_safe if greeting.include?(name)
+
+    content_tag(:span, class: 'user-with-emoji') do
+      safe_join([greeting, emoji], nbsp)
+    end
+  end
+
   def time_based_greeting(first_name, timezone = nil)
     key = greeting_key_for_hour(current_hour_in(timezone))
     t("dashboard.greetings.#{key}", name: greeting_display_name(first_name))
@@ -70,5 +85,9 @@ module DashboardHelper
       waxing_gibbous: '🌔',
       full_moon: '🌕'
     }
+  end
+
+  def nbsp
+    raw('&nbsp;')
   end
 end
