@@ -1,4 +1,7 @@
 en:
+  layouts:
+    logo_alt: "Five Things Logo"
+
   simple_form:
     placeholders:
       happy_thing:
@@ -31,6 +34,12 @@ en:
           length: "must be between 3 and 255 characters long"
   sessions:
     log_in: "Log in"
+    welcome_back: "Welcome back, little human! %{emoji}"
+    email_placeholder: "Email"
+    password_placeholder: "Password"
+    or: "or"
+    forgot_password: "Forgot password?"
+    sign_in_with_google: "Sign in with Google"
     user_not_found: "User with email %{email} not found"
 
   nav:
@@ -65,6 +74,7 @@ en:
 
   dashboard:
     greetings:
+      default_name: "Sunshine"
       go_to_bed: "Go to bed naughty!"
       good_morning: "Good Morning, %{name}"
       good_evening: "Good Evening, %{name}"

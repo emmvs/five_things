@@ -79,14 +79,16 @@ class HappyThing < ApplicationRecord
   def check_happy_things_count
     today_count = user.happy_things.where(start_time: Time.zone.today.all_day).count
     return unless today_count == 5
+    return if user.friends_notified_today?
 
     notify_friends_about_happy_things
   end
 
   def notify_friends_about_happy_things
-    user.all_friends.each do |friend|
+    user.friends_with_email_opt_in.find_each do |friend|
       UserMailer.happy_things_notification(friend).deliver_later
     end
+    user.mark_friends_notified_today!
   end
 
   def geocoding_enabled?

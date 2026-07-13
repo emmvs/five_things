@@ -1,4 +1,7 @@
 sv:
+  layouts:
+    logo_alt: "Five Things Logo"
+
   simple_form:
     placeholders:
       happy_thing:
@@ -25,6 +28,12 @@ sv:
 
   sessions:
     log_in: "Logga in"
+    welcome_back: "Välkommen tillbaka, lilla människa! %{emoji}"
+    email_placeholder: "E-post"
+    password_placeholder: "Lösenord"
+    or: "eller"
+    forgot_password: "Glömt lösenordet?"
+    sign_in_with_google: "Logga in med Google"
     user_not_found: "Användare med e-post %{email} hittades inte"
 
   nav:
@@ -59,6 +68,7 @@ sv:
 
   dashboard:
     greetings:
+      default_name: "Solsken"
       go_to_bed: "Gå och lägg dig, stygga!"
       good_morning: "God morgon, %{name}"
       good_evening: "God kväll, %{name}"

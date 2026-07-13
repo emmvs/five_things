@@ -1,4 +1,7 @@
 de:
+  layouts:
+    logo_alt: "Five Things Logo"
+
   simple_form:
     placeholders:
       happy_thing:
@@ -25,6 +28,12 @@ de:
 
   sessions:
     log_in: "Einloggen"
+    welcome_back: "Willkommen zurück, du kleiner Mensch! %{emoji}"
+    email_placeholder: "E-Mail"
+    password_placeholder: "Passwort"
+    or: "oder"
+    forgot_password: "Passwort vergessen?"
+    sign_in_with_google: "Mit Google anmelden"
     user_not_found: "Benutzer*in mit E-Mail %{email} nicht gefunden"
 
   nav:
@@ -59,6 +68,7 @@ de:
 
   dashboard:
     greetings:
+      default_name: "Sonnenschein"
       go_to_bed: "Geh schlafen, du freches Ding!"
       good_morning: "Guten Morgen, %{name}"
       good_evening: "Guten Abend, %{name}"

@@ -4,7 +4,7 @@
 module DashboardHelper
   def time_based_greeting(first_name, timezone = nil)
     key = greeting_key_for_hour(current_hour_in(timezone))
-    t("dashboard.greetings.#{key}", name: first_name)
+    t("dashboard.greetings.#{key}", name: greeting_display_name(first_name))
   end
 
   def time_based_emoji(timezone = nil) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
@@ -28,6 +28,11 @@ module DashboardHelper
   end
 
   private
+
+  def greeting_display_name(name)
+    display_name = User.sanitize_display_name(name)
+    display_name.presence || t('dashboard.greetings.default_name')
+  end
 
   def current_hour_in(timezone)
     tz = timezone || current_user&.timezone || 'UTC'

@@ -81,6 +81,10 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # Friendships - Bidirectional: each friendship exists as two records
   has_many :friendships, dependent: :destroy
   has_many :friends, -> { where(friendships: { accepted: true }) }, through: :friendships, source: :friend
+  has_many :friends_with_email_opt_in,
+           -> { where(friendships: { accepted: true }, email_opt_in: true) },
+           through: :friendships,
+           source: :friend
   has_many :pending_friends, -> { where(friendships: { accepted: false }) }, through: :friendships, source: :friend
 
   def self.search(query)
@@ -95,6 +99,14 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # Aliases for backward compatibility
   alias friends_and_friends_who_added_me_ids friend_ids
   alias all_friends friends
+
+  def friends_notified_today?
+    notified_friends_on == Time.zone.today
+  end
+
+  def mark_friends_notified_today!
+    update_column(:notified_friends_on, Time.zone.today)
+  end
 
   def happy_streak
     return 0 if happy_things.empty?
@@ -151,6 +163,12 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
     'User'
   end
 
+  def self.sanitize_display_name(name)
+    cleaned = name.to_s.strip
+    cleaned = cleaned.gsub(/\A[,\s]+/, '').gsub(/[,\s]+\z/, '').strip while cleaned.match?(/\A[,\s]|[,\s]\z/)
+    cleaned
+  end
+
   private
 
   def happy_things_dates
@@ -173,9 +191,9 @@ class User < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def self.generate_name_candidates(name_param, email) # rubocop:disable Metrics/CyclomaticComplexity
     [
-      name_param&.split&.first,
-      name_param&.strip,
-      email&.split('@')&.first&.split('.')&.first&.capitalize
+      sanitize_display_name(name_param&.split&.first),
+      sanitize_display_name(name_param),
+      sanitize_display_name(email&.split('@')&.first&.split('.')&.first&.capitalize)
     ]
   end
 
