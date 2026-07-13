@@ -68,7 +68,7 @@ sv:
 
   dashboard:
     greetings:
-      default_name: "Solstråle"
+      default_name: "Solsken"
       go_to_bed: "Gå och lägg dig, stygga!"
       good_morning: "God morgon, %{name}"
       good_evening: "God kväll, %{name}"
