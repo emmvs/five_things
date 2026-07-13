@@ -8,11 +8,10 @@ $homepage-padding-y: 2rem;
   justify-content: center;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: $homepage-padding-y $homepage-padding-x;
-  padding-top: unquote("max(#{$homepage-padding-y}, env(safe-area-inset-top, 0px))");
-  padding-right: unquote("max(#{$homepage-padding-x}, env(safe-area-inset-right, 0px))");
-  padding-bottom: unquote("max(#{$homepage-padding-y}, env(safe-area-inset-bottom, 0px))");
-  padding-left: unquote("max(#{$homepage-padding-x}, env(safe-area-inset-left, 0px))");
+  padding-top: calc(#{$homepage-padding-y} + env(safe-area-inset-top, 0px));
+  padding-right: calc(#{$homepage-padding-x} + env(safe-area-inset-right, 0px));
+  padding-bottom: calc(#{$homepage-padding-y} + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(#{$homepage-padding-x} + env(safe-area-inset-left, 0px));
   background: $off-white;
 }
 
