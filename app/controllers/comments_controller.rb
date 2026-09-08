@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
   private
 
   def set_happy_thing
-    @happy_thing = HappyThing.find(params[:happy_thing_id])
+    @happy_thing = HappyThing.visible_to(current_user).find(params[:happy_thing_id])
   end
 
   def comment_params
