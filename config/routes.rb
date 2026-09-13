@@ -65,6 +65,8 @@ Rails.application.routes.draw do
     # get :retrieve_poem, on: :collection
   end
 
+  get 'the_essence', to: 'the_essence#show', as: :the_essence
+
   namespace :close_friends do
     root to: 'joins#show'
     get 'dashboard', to: 'dashboard#index', as: :dashboard

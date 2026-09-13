@@ -180,9 +180,12 @@ de:
   profile:
     happy_count: "HappyCount™"
 
+  essence:
+    title: "The Essence"
+
   close_friends:
     join:
-      title: "Close Friends"
+      title: "The Essence"
       description: "Melde dich für den Newsletter an. Du erhältst zuerst eine Bestätigungs-E-Mail."
       name_label: "Name"
       email_label: "E-Mail"
@@ -203,7 +206,7 @@ de:
       confirmed_title: "E-Mail bestätigt"
       confirmed_message: "Danke! Du hörst von uns, sobald du freigegeben wurdest."
       unsubscribed_title: "Abgemeldet"
-      unsubscribed_message: "Du wurdest von der Close-Friends-Liste entfernt."
+      unsubscribed_message: "Du wurdest von der The-Essence-Liste entfernt."
       approved: "Abonnent*in freigegeben."
       rejected: "Abonnent*in abgelehnt."
     issues:
@@ -225,8 +228,8 @@ de:
         published: "Veröffentlicht"
         sent: "Gesendet"
     mailer:
-      confirmation_subject: "Close-Friends-Abonnement bestätigen"
-      confirmation_body: "Bitte bestätige, dass du Close Friends abonnieren möchtest."
+      confirmation_subject: "Bestätige dein Abonnement von The Essence"
+      confirmation_body: "Bitte bestätige, dass du The Essence abonnieren möchtest."
       confirm_button: "Abonnement bestätigen"
-      issue_subject: "Close Friends: %{title}"
+      issue_subject: "The Essence: %{title}"
       unsubscribe: "Abmelden"

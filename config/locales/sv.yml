@@ -178,9 +178,12 @@ sv:
   profile:
     happy_count: "HappyCount™"
 
+  essence:
+    title: "The Essence"
+
   close_friends:
     join:
-      title: "Close Friends"
+      title: "The Essence"
       description: "Anmäl dig till nyhetsbrevet. Du får först ett bekräftelsemejl."
       name_label: "Namn"
       email_label: "E-post"
@@ -201,7 +204,7 @@ sv:
       confirmed_title: "E-post bekräftad"
       confirmed_message: "Tack! Du hör av oss när du har godkänts."
       unsubscribed_title: "Avprenumererad"
-      unsubscribed_message: "Du har tagits bort från Close Friends-listan."
+      unsubscribed_message: "Du har tagits bort från The Essence-listan."
       approved: "Prenumerant godkänd."
       rejected: "Prenumerant avvisad."
     issues:
@@ -223,8 +226,8 @@ sv:
         published: "Publicerat"
         sent: "Skickat"
     mailer:
-      confirmation_subject: "Bekräfta din Close Friends-prenumeration"
-      confirmation_body: "Bekräfta att du vill prenumerera på Close Friends."
+      confirmation_subject: "Bekräfta din prenumeration på The Essence"
+      confirmation_body: "Bekräfta att du vill prenumerera på The Essence."
       confirm_button: "Bekräfta prenumeration"
-      issue_subject: "Close Friends: %{title}"
+      issue_subject: "The Essence: %{title}"
       unsubscribe: "Avprenumerera"

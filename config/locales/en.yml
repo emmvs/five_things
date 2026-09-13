@@ -186,9 +186,12 @@ en:
   profile:
     happy_count: "HappyCount™"
 
+  essence:
+    title: "The Essence"
+
   close_friends:
     join:
-      title: "Close Friends"
+      title: "The Essence"
       description: "Sign up for the newsletter. You'll receive a confirmation email first."
       name_label: "Name"
       email_label: "Email"
@@ -209,7 +212,7 @@ en:
       confirmed_title: "Email confirmed"
       confirmed_message: "Thanks! You'll hear from us once you're approved."
       unsubscribed_title: "Unsubscribed"
-      unsubscribed_message: "You have been removed from the Close Friends list."
+      unsubscribed_message: "You have been removed from The Essence list."
       approved: "Subscriber approved."
       rejected: "Subscriber rejected."
     issues:
@@ -231,8 +234,8 @@ en:
         published: "Published"
         sent: "Sent"
     mailer:
-      confirmation_subject: "Confirm your Close Friends subscription"
-      confirmation_body: "Please confirm you want to join Close Friends."
+      confirmation_subject: "Confirm your subscription to The Essence"
+      confirmation_body: "Please confirm you want to join The Essence."
       confirm_button: "Confirm subscription"
-      issue_subject: "Close Friends: %{title}"
+      issue_subject: "The Essence: %{title}"
       unsubscribe: "Unsubscribe"
