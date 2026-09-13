@@ -154,6 +154,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_13_220000) do
     t.string "uid"
     t.string "timezone", default: "UTC"
     t.string "locale", default: "en", null: false
+    t.date "notified_friends_on"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
