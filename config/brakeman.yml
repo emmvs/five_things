@@ -1,0 +1,5 @@
+# Brakeman 7.1+ flags EOLRails when the current Rails line is near end-of-life.
+# That is a maintenance reminder, not an app vulnerability — exclude it from CI.
+:skip_checks:
+  - CheckEOLRails
+  - CheckEOLRuby

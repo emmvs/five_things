@@ -5,7 +5,7 @@ These instructions get the project running on your local machine.
 ## Prerequisites
 
 - [Ruby](https://www.ruby-lang.org/en/documentation/installation/) 3.4.4
-- [Rails](https://guides.rubyonrails.org/) 8.0.3
+- [Rails](https://guides.rubyonrails.org/) 8.0.5
 - PostgreSQL
 
 ## Installation
