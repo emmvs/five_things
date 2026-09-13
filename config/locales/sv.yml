@@ -16,6 +16,25 @@ sv:
         create: Skapa HappyThing™
         update: Uppdatera HappyThing™
 
+  activerecord:
+    errors:
+      models:
+        essence_subscriber:
+          attributes:
+            name:
+              blank: "får inte vara tomt"
+              too_short: "måste vara mellan 3 och 30 tecken långt"
+              too_long: "måste vara mellan 3 och 30 tecken långt"
+              invalid: "får inte innehålla länkar eller skript"
+            email:
+              blank: "får inte vara tomt"
+              taken: "har redan tagits"
+              invalid: "måste vara en giltig e-postadress"
+              too_short: "måste vara mellan 3 och 255 tecken långt"
+              too_long: "måste vara mellan 3 och 255 tecken långt"
+            locale:
+              inclusion: "finns inte med i listan"
+
   errors:
     models:
       user:
@@ -191,3 +210,25 @@ sv:
 
   essence:
     title: "The Essence"
+    sign_up:
+      link: "Anmäl dig"
+      greeting: "Hej, främling! ✨"
+      name_question: "Vad ska vi kalla dig?"
+      name_reply: "Hej, %{name}!👩🏼‍💻"
+      email_question: "Vad är din e-post?"
+      farewell: "Du har post! 📫"
+      next: "Nästa"
+      submit: "Anmäl dig"
+    subscribers:
+      confirm_message: "Samtycke är viktigt 💓"
+      confirm_button: "Vi accepterar ✨"
+      welcome_title: "Welcome to the essence! ✨"
+      unsubscribe_title: "Avsluta prenumeration"
+      unsubscribe_message: "Tryck på knappen nedan för att lämna The Essence-listan."
+      unsubscribe_button: "Avsluta prenumeration"
+      unsubscribed_title: "Avprenumererad"
+      unsubscribed_message: "Du har tagits bort från The Essence-listan."
+    mailer:
+      confirmation_subject: "Din inbjudan till The Essence"
+      confirmation_body: "Öppna länken nedan för att slutföra din anmälan."
+      confirm_link: "Fortsätt"

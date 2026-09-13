@@ -1,0 +1,11 @@
+<div class="homepage-container">
+  <div class="essence-result">
+    <p class="essence-result__text"><%= t('essence.subscribers.confirm_message') %></p>
+    <%= button_to t('essence.subscribers.confirm_button'),
+                  the_essence_confirm_path,
+                  method: :post,
+                  params: { token: @token },
+                  class: 'btn button--primary',
+                  form: { data: { turbo: false } } %>
+  </div>
+</div>

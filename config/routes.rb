@@ -66,4 +66,12 @@ Rails.application.routes.draw do
   end
 
   get 'the_essence', to: 'the_essence#show', as: :the_essence
+  get 'the_essence/sign_up', to: 'essence/subscribers#new', as: :the_essence_sign_up
+  post 'the_essence/subscribers', to: 'essence/subscribers#create', as: :the_essence_subscribers
+  get 'the_essence/confirm', to: 'essence/subscribers#confirm_prompt', as: :the_essence_confirm
+  post 'the_essence/confirm', to: 'essence/subscribers#confirm'
+  get 'the_essence/welcome', to: 'essence/subscribers#confirmed', as: :the_essence_welcome
+  get 'the_essence/unsubscribe', to: 'essence/subscribers#unsubscribe_prompt', as: :the_essence_unsubscribe
+  post 'the_essence/unsubscribe', to: 'essence/subscribers#unsubscribe'
+  get 'the_essence/unsubscribed', to: 'essence/subscribers#unsubscribed', as: :the_essence_unsubscribed_done
 end
