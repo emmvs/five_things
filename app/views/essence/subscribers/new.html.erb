@@ -1,0 +1,58 @@
+<div class="homepage-container"
+     data-controller="essence-signup"
+     data-essence-signup-greeting-value="<%= t('essence.sign_up.greeting') %>"
+     data-essence-signup-name-question-value="<%= t('essence.sign_up.name_question') %>"
+     data-essence-signup-name-reply-value="<%= t('essence.sign_up.name_reply') %>"
+     data-essence-signup-email-question-value="<%= t('essence.sign_up.email_question') %>"
+     data-essence-signup-farewell-value="<%= t('essence.sign_up.farewell') %>"
+     data-essence-signup-url-value="<%= the_essence_subscribers_path %>">
+
+  <% if @show_farewell %>
+    <div class="essence-result">
+      <h1 class="essence-result__title"><%= t('essence.sign_up.farewell') %></h1>
+    </div>
+  <% else %>
+    <%= form_with model: @subscriber,
+                  url: the_essence_subscribers_path,
+                  data: { turbo: false, essence_signup_target: 'form' } do |form| %>
+      <div class="onboarding-step" data-essence-signup-target="step1">
+        <h2 class="onboarding-heading mb-4" data-essence-signup-target="heading1"></h2>
+        <div class="onboarding-input-container" data-essence-signup-target="inputContainer1">
+          <%= form.text_field :name,
+                              class: 'form-control mb-3',
+                              required: true,
+                              autocomplete: 'name',
+                              data: {
+                                essence_signup_target: 'nameInput',
+                                action: 'keypress->essence-signup#handleNameEnter'
+                              } %>
+          <button type="button"
+                  class="btn button--primary w-100"
+                  data-action="click->essence-signup#advanceFromName">
+            <%= t('essence.sign_up.next') %>
+          </button>
+        </div>
+      </div>
+
+      <div class="onboarding-step d-none" data-essence-signup-target="step2">
+        <h2 class="onboarding-heading mb-4" data-essence-signup-target="heading2"></h2>
+        <div class="alert alert-danger d-none" data-essence-signup-target="errorMessage"></div>
+        <div class="onboarding-input-container" data-essence-signup-target="inputContainer2">
+          <%= form.email_field :email,
+                               class: 'form-control mb-3',
+                               required: true,
+                               autocomplete: 'email',
+                               data: {
+                                 essence_signup_target: 'emailInput',
+                                 action: 'keypress->essence-signup#handleEmailEnter'
+                               } %>
+          <button type="button"
+                  class="btn button--primary w-100"
+                  data-action="click->essence-signup#submitSignup">
+            <%= t('essence.sign_up.submit') %>
+          </button>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

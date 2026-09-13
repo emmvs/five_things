@@ -7,6 +7,7 @@ A Rails app for noticing the small joys in life; log what made you happy, share 
 ### 🛠️ Development
 
 - [Getting started](docs/getting_started.md)
+- [The Essence](docs/the_essence.md)
 - [CI workflow](.github/workflows/ci.yml)
 - [AGENTS.md](AGENTS.md)
 - `[.cursor/rules/rails-standards.mdc](.cursor/rules/rails-standards.mdc)`

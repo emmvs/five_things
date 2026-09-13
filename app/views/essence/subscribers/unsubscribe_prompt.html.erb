@@ -1,0 +1,13 @@
+<div class="homepage-container">
+  <div class="essence-result">
+    <h1 class="essence-result__title"><%= t('essence.subscribers.unsubscribe_title') %></h1>
+    <p class="essence-result__text"><%= t('essence.subscribers.unsubscribe_message') %></p>
+
+    <%= button_to t('essence.subscribers.unsubscribe_button'),
+                  the_essence_unsubscribe_path,
+                  method: :post,
+                  params: { token: @token },
+                  class: 'btn button--primary',
+                  form: { data: { turbo: false } } %>
+  </div>
+</div>

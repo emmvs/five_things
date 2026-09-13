@@ -16,6 +16,25 @@ de:
         create: HappyThing™ erstellen
         update: HappyThing™ aktualisieren
 
+  activerecord:
+    errors:
+      models:
+        essence_subscriber:
+          attributes:
+            name:
+              blank: "darf nicht leer sein"
+              too_short: "muss zwischen 3 und 30 Zeichen lang sein"
+              too_long: "muss zwischen 3 und 30 Zeichen lang sein"
+              invalid: "darf keine Links oder Skripte enthalten"
+            email:
+              blank: "darf nicht leer sein"
+              taken: "ist bereits vergeben"
+              invalid: "muss eine gültige E-Mail-Adresse sein"
+              too_short: "muss zwischen 3 und 255 Zeichen lang sein"
+              too_long: "muss zwischen 3 und 255 Zeichen lang sein"
+            locale:
+              inclusion: "ist nicht enthalten"
+
   errors:
     models:
       user:
@@ -193,3 +212,25 @@ de:
 
   essence:
     title: "The Essence"
+    sign_up:
+      link: "Anmelden"
+      greeting: "Hallo, Fremder! ✨"
+      name_question: "Wie sollen wir dich nennen?"
+      name_reply: "Hey, %{name}!👩🏼‍💻"
+      email_question: "Wie lautet deine E-Mail?"
+      farewell: "Du hast Post! 📫"
+      next: "Weiter"
+      submit: "Anmelden"
+    subscribers:
+      confirm_message: "Zustimmung ist wichtig 💓"
+      confirm_button: "Wir akzeptieren ✨"
+      welcome_title: "Welcome to the essence! ✨"
+      unsubscribe_title: "Abmelden"
+      unsubscribe_message: "Drücke den Button unten, um dich von The Essence abzumelden."
+      unsubscribe_button: "Abmelden"
+      unsubscribed_title: "Abgemeldet"
+      unsubscribed_message: "Du wurdest von der The Essence-Liste entfernt."
+    mailer:
+      confirmation_subject: "Deine Einladung zu The Essence"
+      confirmation_body: "Öffne den Link unten, um die Anmeldung abzuschließen."
+      confirm_link: "Weiter"
