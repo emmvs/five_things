@@ -1,3 +1,6 @@
+$homepage-padding-x: 1.25rem;
+$homepage-padding-y: 2rem;
+
 .homepage-container {
   display: flex;
   flex-direction: column;
@@ -5,7 +8,10 @@
   justify-content: center;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: 2rem 1rem;
+  padding-top: calc(#{$homepage-padding-y} + env(safe-area-inset-top, 0px));
+  padding-right: calc(#{$homepage-padding-x} + env(safe-area-inset-right, 0px));
+  padding-bottom: calc(#{$homepage-padding-y} + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(#{$homepage-padding-x} + env(safe-area-inset-left, 0px));
   background: $off-white;
 }
 
@@ -70,6 +76,20 @@
 
   &:active {
     transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba($soft-purple, 0.55);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover,
+    &:active {
+      transform: none;
+    }
   }
 
   &--primary {

@@ -1,0 +1,13 @@
+.user-with-emoji {
+  white-space: nowrap;
+}
+
+h1 .user-with-emoji,
+h2 .user-with-emoji,
+h3 .user-with-emoji,
+h4 .user-with-emoji,
+h5 .user-with-emoji {
+  font-family: inherit;
+  font-weight: inherit;
+  text-transform: inherit;
+}

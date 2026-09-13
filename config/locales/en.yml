@@ -1,4 +1,7 @@
 en:
+  layouts:
+    logo_alt: "Five Things Logo"
+
   simple_form:
     placeholders:
       happy_thing:
@@ -31,6 +34,12 @@ en:
           length: "must be between 3 and 255 characters long"
   sessions:
     log_in: "Log in"
+    welcome_back: "Welcome back, little human! %{emoji}"
+    email_placeholder: "Email"
+    password_placeholder: "Password"
+    or: "or"
+    forgot_password: "Forgot password?"
+    sign_in_with_google: "Sign in with Google"
     user_not_found: "User with email %{email} not found"
 
   nav:
@@ -65,6 +74,7 @@ en:
 
   dashboard:
     greetings:
+      default_name: "Sunshine"
       go_to_bed: "Go to bed naughty!"
       good_morning: "Good Morning, %{name}"
       good_evening: "Good Evening, %{name}"
@@ -79,6 +89,7 @@ en:
     quote_of_day: "Quote of the day"
     no_quote: "Sorry, no quote available today."
     what_made_you_happy: "What made you happy"
+    nothing_to_see_yet: "Nothing to see here yet ☀️"
     what_made_you_happy_today: "What made you happy today?"
     your_happy_things_today: "Your HappyThings of today"
     through_the_years: "Through the years..."
@@ -98,6 +109,7 @@ en:
     forgot_add_more: "Forgot something? Add more HappyThings"
     no_happy_things_for_date: "No HappyThings found for this date."
     title_label: "Title"
+    date_label: "Date"
     upload_photo: "Upload Photo (optional)"
     save: "Save"
     delete_button: "Delete"

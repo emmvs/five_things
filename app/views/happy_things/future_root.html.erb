@@ -1,6 +1,6 @@
 <div class="container mt-1 future-root-container" data-controller="insert-in-list">
   <div class="dash-box mx-2 my-3">
-    <h1><%= time_based_greeting(current_user ? current_user.name : (session[:guest_onboarding]&.dig('name') || "Sunshine")) %> <%= time_based_emoji %></h1>
+    <h1><%= time_based_greeting(current_user&.name || session[:guest_onboarding]&.dig('name')) %> <%= time_based_emoji %></h1>
     <% if current_user %>
       <div class="my-3">
         <h3><%= t('dashboard.happy_streak') %></h3>
@@ -14,7 +14,7 @@
       <% if current_user %>
         <h3 class="mb-3"><%= t('future_root.your_happy_things_today') %></h3>
         <% @happy_things_today.each do |user, happy_things| %>
-          <h3><%= user.emoji %> <%= user.name %></h3>
+          <h3><%= user_with_emoji(user) %></h3>
           <% happy_things.each do |happy_thing| %>
             <%= render "happy_things/happy_thing", user: user, happy_thing: happy_thing %>
           <% end %>

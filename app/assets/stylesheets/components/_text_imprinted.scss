@@ -1,0 +1,17 @@
+// Letterpress / deboss: same tone as the page, depth from light + shadow only.
+.text-imprinted {
+  margin: 0;
+  color: $off-white;
+  font-family: $accent-font;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow:
+    1px 1px 1px rgba($white, 0.95),
+    2px 2px 3px rgba($white, 0.55),
+    -1px -1px 1px rgba($black, 0.18),
+    -2px -2px 3px rgba($black, 0.08);
+}

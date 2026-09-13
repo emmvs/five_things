@@ -195,6 +195,10 @@ RSpec.describe User, type: :model do
       expect(User.extract_name('Emma Who', 'emmazing@gmail.com')).to eq('Emma')
     end
 
+    it 'strips trailing commas from OAuth-style last names' do
+      expect(User.extract_name('Smith, John', 'john.smith@gmail.com')).to eq('Smith')
+    end
+
     it 'returns full name if first word is too short' do
       expect(User.extract_name('I love rspec 🥳', 'email@gmail.com')).to eq('I love rspec 🥳')
       expect(User.extract_name('A. B. B. A.', 'email@gmail.com')).to eq('A. B. B. A.')

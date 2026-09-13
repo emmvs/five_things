@@ -1,4 +1,7 @@
 de:
+  layouts:
+    logo_alt: "Five Things Logo"
+
   simple_form:
     placeholders:
       happy_thing:
@@ -25,6 +28,12 @@ de:
 
   sessions:
     log_in: "Einloggen"
+    welcome_back: "Willkommen zurück, du kleiner Mensch! %{emoji}"
+    email_placeholder: "E-Mail"
+    password_placeholder: "Passwort"
+    or: "oder"
+    forgot_password: "Passwort vergessen?"
+    sign_in_with_google: "Mit Google anmelden"
     user_not_found: "Benutzer*in mit E-Mail %{email} nicht gefunden"
 
   nav:
@@ -59,6 +68,7 @@ de:
 
   dashboard:
     greetings:
+      default_name: "Sonnenschein"
       go_to_bed: "Geh schlafen, du freches Ding!"
       good_morning: "Guten Morgen, %{name}"
       good_evening: "Guten Abend, %{name}"
@@ -73,6 +83,7 @@ de:
     quote_of_day: "Zitat des Tages"
     no_quote: "Leider kein Zitat verfügbar heute."
     what_made_you_happy: "Was hat dich glücklich gemacht"
+    nothing_to_see_yet: "Noch nichts zu sehen ☀️"
     what_made_you_happy_today: "Was hat dich heute glücklich gemacht?"
     your_happy_things_today: "Deine HappyThings von heute"
     through_the_years: "Durch die Jahre..."
@@ -92,6 +103,7 @@ de:
     forgot_add_more: "Etwas vergessen? Mehr HappyThings hinzufügen"
     no_happy_things_for_date: "Keine HappyThings für dieses Datum gefunden."
     title_label: "Titel"
+    date_label: "Datum"
     upload_photo: "Foto hochladen (optional)"
     save: "Speichern"
     delete_button: "Löschen"

@@ -1,39 +1,51 @@
-<div class="login-page">
-  <div class="login-page__content">
-    <h2 class="login-page__title">Welcome back, little human! 👋</h2>
+<div class="homepage-container login-page">
+  <div class="homepage-content">
+    <div class="logo-home">
+      <%= image_tag "five.png", alt: t("layouts.logo_alt") %>
+    </div>
 
-    <div class="login-card">
+    <h1 class="homepage-title login-page__headline"><%= t('sessions.welcome_back', emoji: login_wave_emoji) %></h1>
+
+    <div class="login-page__form">
       <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <%= f.input :email,
                     required: false,
                     autofocus: true,
                     label: false,
-                    placeholder: "Email",
-                    input_html: { autocomplete: "email", class: "login-card__input" } %>
+                    placeholder: t('sessions.email_placeholder'),
+                    input_html: {
+                      autocomplete: "username",
+                      class: "login-page__input",
+                      aria: { label: t('sessions.email_placeholder') }
+                    } %>
         <% unless Rails.env.development? %>
           <%= f.input :password,
                       required: false,
                       label: false,
-                      placeholder: "Password",
-                      input_html: { autocomplete: "current-password", class: "login-card__input" } %>
+                      placeholder: t('sessions.password_placeholder'),
+                      input_html: {
+                        autocomplete: "current-password",
+                        class: "login-page__input",
+                        aria: { label: t('sessions.password_placeholder') }
+                      } %>
         <% end %>
 
         <%= f.button :submit, t('sessions.log_in'),
-            class: "login-card__btn",
+            class: "homepage-btn homepage-btn--primary login-page__submit",
             data: { turbo: false } %>
       <% end %>
     </div>
 
     <%- if devise_mapping.omniauthable? %>
       <div class="login-page__divider">
-        <span>or</span>
+        <span><%= t('sessions.or') %></span>
       </div>
 
       <div class="login-page__social">
         <%- resource_class.omniauth_providers.each do |provider| %>
           <% if provider == :google_oauth2 %>
             <%= form_for "Login", url: omniauth_authorize_path(resource_name, provider), method: :post, data: { turbo: "false" } do |f| %>
-              <button type="submit" class="login-google-btn" aria-label="Sign in with Google">
+              <button type="submit" class="login-google-btn" aria-label="<%= t('sessions.sign_in_with_google') %>">
                 <%# Google "G" logo (red, blue, yellow, green segments) %>
                 <svg viewBox="0 0 48 48" width="24" height="24">
                   <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -50,10 +62,10 @@
 
     <div class="login-page__footer">
       <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-        <%= link_to "Sign up", onboarding_path %>
+        <%= link_to t('registration.sign_up'), onboarding_path, class: "login-page__footer-link" %>
       <% end %>
       <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
-        <%= link_to "Forgot password?", new_password_path(resource_name) %>
+        <%= link_to t('sessions.forgot_password'), new_password_path(resource_name), class: "login-page__footer-link" %>
       <% end %>
     </div>
   </div>
