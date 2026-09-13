@@ -5,7 +5,7 @@ These instructions get the project running on your local machine.
 ## Prerequisites
 
 - [Ruby](https://www.ruby-lang.org/en/documentation/installation/) 3.4.4
-- [Rails](https://guides.rubyonrails.org/) 8.0.3
+- [Rails](https://guides.rubyonrails.org/) 8.0.5
 - PostgreSQL
 
 ## Installation
@@ -77,8 +77,8 @@ rspec spec/requests/users_spec.rb  # single file
 ## Linting & security
 
 ```bash
-bundle exec rubocop
-bundle exec brakeman -q -w2
+bundle exec rubocop              # style & lint checks (see .rubocop.yml)
+bundle exec brakeman -q -w2      # security scan; -q = quiet, -w2 = high-confidence warnings only
 ```
 
 CI runs RuboCop and Brakeman on every push and PR to `main` (see `.github/workflows/ci.yml`).

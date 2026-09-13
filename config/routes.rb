@@ -64,4 +64,6 @@ Rails.application.routes.draw do
   resources :dashboards, as: :dashboard do
     # get :retrieve_poem, on: :collection
   end
+
+  get 'the_essence', to: 'the_essence#show', as: :the_essence
 end
