@@ -19,6 +19,8 @@
 #  share_location :boolean
 #
 class HappyThing < ApplicationRecord
+  include HappyThingSearch
+
   geocoded_by :place
 
   belongs_to :user
@@ -43,6 +45,23 @@ class HappyThing < ApplicationRecord
 
     owned.or(no_shares).or(user_shared).or(grp_shared)
   }
+
+  # --- Dates ---
+
+  YEAR_SQL = 'extract(year from happy_things.start_time)'
+
+  # The same day and month as the given date, in the years before it
+  scope :on_this_day_in_past_years, lambda { |date|
+    where('extract(month from start_time) = ? AND extract(day from start_time) = ?', date.month, date.day)
+      .where("#{YEAR_SQL} < ?", date.year)
+  }
+
+  scope :in_year, ->(year) { where("#{YEAR_SQL} = ?", year) }
+
+  # The years that have HappyThings in this list, newest first, for example [2025, 2023]
+  def self.years
+    distinct.pluck(Arel.sql(YEAR_SQL)).map(&:to_i).sort.reverse
+  end
 
   before_validation :set_default_category, on: :create
   after_validation :geocode, if: -> { will_save_change_to_place? && !Rails.env.test? && geocoding_enabled? }

@@ -5,6 +5,8 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   include WordAggregator
   include UserRelated
 
+  YEARS_PER_PAGE = 30
+
   skip_before_action :authenticate_user!, only: %i[future_root]
   before_action :set_happy_thing, only: %i[show]
   before_action :set_own_happy_thing, only: %i[edit update destroy]
@@ -65,20 +67,22 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
     @markers = current_user.happy_things.geocoded.map { |ht| { lat: ht.latitude, lng: ht.longitude } }
   end
 
+  # Without a search: HappyThings from today's date in earlier years, yours and your friends'.
+  # With a search: all of your own HappyThings that match.
+  # Both can be narrowed down to one category and one year with the chips.
   def through_the_years
-    today = Date.today
-    @happy_things_of_the_past_years = HappyThing.where(
-      'extract(month from start_time) = ? AND extract(day from start_time) = ? AND user_id IN (?)',
-      today.month, today.day, user_ids
-    ).visible_to(current_user).reject { |ht| ht.start_time.year == today.year }
+    @query = params[:query].to_s.strip.first(HappyThing::SEARCH_MAX_LENGTH)
+    @query_too_short = @query.present? && @query.length < HappyThing::SEARCH_MIN_LENGTH
+    happy_things = filter_by_year(filter_by_category(happy_things_for_through_the_years))
+    @happy_things = happy_things.includes(:user, :category)
+                                .order(start_time: :desc, id: :desc)
+                                .page(params[:page]).per(YEARS_PER_PAGE)
   end
 
   def calendar
     @user_ids = user_ids
 
-    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids)
-                                                 .visible_to(current_user)
-                                                 .order(created_at: :desc)
+    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids).visible_to(current_user)
   end
 
   def show_by_date
@@ -133,6 +137,34 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   end
 
   private
+
+  # Nothing for a too short search, your matches for a search, otherwise today in earlier years
+  def happy_things_for_through_the_years
+    return HappyThing.none if @query_too_short
+    return current_user.happy_things.search(@query) if @query.present?
+
+    happy_things_on_this_day
+  end
+
+  def happy_things_on_this_day
+    HappyThing.where(user_id: user_ids).visible_to(current_user).on_this_day_in_past_years(Date.today)
+  end
+
+  # Sets the category chips and keeps only the chosen category, if any.
+  # Only a category that is on a chip is used, so any other value in the URL is ignored.
+  def filter_by_category(happy_things)
+    @categories = Category.where(id: happy_things.select(:category_id)).order(:name)
+    @category = @categories.find { |category| category.id.to_s == params[:category] }
+    @category ? happy_things.where(category: @category) : happy_things
+  end
+
+  # Sets the year chips and keeps only the chosen year, if any.
+  # Only a year that is on a chip is used, so any other value in the URL is ignored.
+  def filter_by_year(happy_things)
+    @years = happy_things.years
+    @year = @years.find { |year| year.to_s == params[:year] }
+    @year ? happy_things.in_year(@year) : happy_things
+  end
 
   def set_happy_thing
     @happy_thing = HappyThing.where(user_id: user_ids).visible_to(current_user).find(params[:id])

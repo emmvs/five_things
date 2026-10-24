@@ -76,6 +76,10 @@ $border-radius: 0.375rem;
 // Border
 $border: solid 2px $color-light;
 
+// Form controls: one height and border for every field, the "who should see it" picker and the submit button
+$form-control-height: 48px;
+$form-control-border: 1.5px solid darken($color-light, 4%);
+
 // Shadows
 $shadow-large: 2px 4px 10px hsl(0, 0%, 0% / 0.1);
 $shadow-small: 1px 3px 6px hsl(0, 0%, 0% / 0.1);

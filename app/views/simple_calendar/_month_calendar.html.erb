@@ -1,11 +1,15 @@
 <div class="simple-calendar">
   <div class="calendar-heading">
-    <%= link_to t('simple_calendar.previous', default: '<<'), calendar.url_for_previous_view %>
-    <span class="calendar-title calendar_header"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></span>
-    <%= link_to t('simple_calendar.next', default: '>>'), calendar.url_for_next_view %>
+    <%= link_to calendar.url_for_previous_view, class: 'calendar-nav', aria: { label: t('calendar.previous_month') } do %>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+    <% end %>
+    <h3 class="calendar-title"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></h3>
+    <%= link_to calendar.url_for_next_view, class: 'calendar-nav', aria: { label: t('calendar.next_month') } do %>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg>
+    <% end %>
   </div>
 
-  <table class="table table-striped">
+  <table class="calendar-grid">
     <thead>
       <tr>
         <% date_range.slice(0, 7).each do |day| %>

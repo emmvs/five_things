@@ -130,8 +130,9 @@ User.all.each do |user|
     end
   end
 
-  # Historical data for everyone
-  [1.year.ago.to_date, *(2..5).map { |y| today - y.years }].each do |date|
+  # Through the years: HappyThings on today's date in each of the last 5 years,
+  # so that section on the dashboard and its page have something to show
+  (1..5).map { |years_ago| today - years_ago.years }.each do |date|
     count += rand(1..3).times.count { create_happy_thing(user:, categories:, date:) }
   end
 

@@ -107,8 +107,6 @@ sv:
     your_happy_things_today: "Dina HappyThings idag"
     through_the_years: "Genom åren..."
     read_more: "Läs mer..."
-    forgot_something: "Glömt något?"
-    add_old_happy_thing: "Lägg till gammal HappyThing"
 
   happy_things:
     created: "HappyThing™ skapades framgångsrikt."
@@ -137,6 +135,20 @@ sv:
     title: "Genom åren..."
     no_happy_things: "Inga HappyThings hittades för idag under tidigare år."
     add_from_past: "Lägg till en HappyThing från ett tidigare år"
+    search: "Sök"
+    search_placeholder: "Sök ett ord eller en stad"
+    clear_search: "Rensa sökning"
+    filter_by_year: "Filtrera efter år"
+    all_years: "Alla"
+    date_format: "%-d %B %Y"
+    results:
+      one: "1 HappyThing"
+      other: "%{count} HappyThings"
+    no_results: "Inga HappyThings hittades för \"%{query}\""
+    filter_by_category: "Filtrera efter kategori"
+    all_categories: "Alla kategorier"
+    show_more: "Visa fler"
+    query_too_short: "Skriv minst %{count} tecken för att söka."
 
   analytics:
     my_profile: "Min profil"
@@ -151,6 +163,9 @@ sv:
     logout: "Logga ut"
     remove_friend: "Ta bort vän"
     remove_friend_confirm: "Är du säker på att du vill ta bort %{name} som vän?"
+    word_count:
+      one: "använt en gång"
+      other: "använt %{count} gånger"
 
   future_root:
     your_happy_things: "Dina HappyThings"
@@ -232,3 +247,17 @@ sv:
       confirmation_subject: "Din inbjudan till The Essence"
       confirmation_body: "Öppna länken nedan för att slutföra din anmälan."
       confirm_link: "Fortsätt"
+
+  date:
+    abbr_day_names: [sön, mån, tis, ons, tor, fre, lör]
+    day_names: [söndag, måndag, tisdag, onsdag, torsdag, fredag, lördag]
+    abbr_month_names: [~, jan, feb, mar, apr, maj, jun, jul, aug, sep, okt, nov, dec]
+    month_names: [~, januari, februari, mars, april, maj, juni, juli, augusti, september, oktober, november, december]
+
+  calendar:
+    previous_month: "Föregående månad"
+    next_month: "Nästa månad"
+    day_heading: "%A %-d %B"
+    people:
+      one: "1 person"
+      other: "%{count} personer"

@@ -1,0 +1,203 @@
+// Through the years: results list with year chips and a search bar at the bottom, where the thumb rests.
+// Every surface uses the same radius and shadow as the dash boxes and HappyThing cards.
+$years-touch: 44px;
+$years-search-height: 72px;
+
+// Reserves room for the fixed search bar so the last card never hides behind it
+.years {
+  padding-bottom: calc(#{$years-search-height} + env(safe-area-inset-bottom));
+}
+
+.years__content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 16px;
+}
+
+.years__title {
+  margin: 0;
+}
+
+.years__chips {
+  display: flex;
+  gap: 8px;
+  margin: 0 -8px;
+  padding: 4px 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.years__chip {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  min-width: $years-touch;
+  min-height: $years-touch;
+  padding: 0 16px;
+  justify-content: center;
+  border-radius: $border-radius;
+  background-color: $white;
+  box-shadow: $box-shadow;
+  color: $black;
+  font-size: $font-size-s;
+  text-decoration: none;
+  touch-action: manipulation;
+
+  &:hover,
+  &:focus-visible {
+    color: $black;
+  }
+
+  &--active,
+  &--active:hover,
+  &--active:focus-visible {
+    background-color: $pink;
+    color: $white;
+    font-weight: 600;
+  }
+}
+
+.years__count,
+.years__empty {
+  margin: 0;
+  color: $color-text-muted;
+  font-size: $font-size-s;
+}
+
+.years__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.years__card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: $years-touch;
+  padding: 12px 16px;
+  border-radius: $border-radius;
+  background-color: $white;
+  box-shadow: $box-shadow;
+  color: $black;
+  text-decoration: none;
+  touch-action: manipulation;
+
+  &:hover,
+  &:focus-visible {
+    color: $black;
+  }
+
+  &:active {
+    background-color: darken($white, 3%);
+  }
+}
+
+.years__card-title {
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+
+.years__card-meta {
+  color: $color-text-muted;
+  font-size: $font-size-xs;
+}
+
+.years__mark {
+  padding: 0 2px;
+  border-radius: 2px;
+  background-color: rgba($pink, 0.6);
+  color: inherit;
+}
+
+// Fixed to the bottom of the screen, above the home indicator on phones
+.years__search-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+  background-color: $color-background;
+}
+
+.years__search {
+  display: flex;
+  gap: 8px;
+}
+
+.years__search-field {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  padding: 0 16px;
+  border: none;
+  border-radius: $border-radius;
+  background-color: $white;
+  box-shadow: $box-shadow;
+  font-size: $font-size-m; // 16px keeps iOS from zooming in on focus
+
+  &:focus-visible {
+    outline: 2px solid darken($pink, 35%);
+    outline-offset: 2px;
+  }
+}
+
+.years__search-button {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: $border-radius;
+  background-color: $pink;
+  box-shadow: $box-shadow;
+  color: $white;
+  touch-action: manipulation;
+
+  &:hover,
+  &:focus-visible {
+    color: $white;
+  }
+
+  &--clear,
+  &--clear:hover,
+  &--clear:focus-visible {
+    background-color: $white;
+    color: $black;
+  }
+}
+
+.years__more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: 8px;
+  border-radius: $border-radius;
+  background-color: $white;
+  box-shadow: $box-shadow;
+  color: $black;
+  font-size: $font-size-s;
+  text-decoration: none;
+  touch-action: manipulation;
+
+  &:hover,
+  &:focus-visible {
+    color: $black;
+  }
+
+  &:active {
+    background-color: darken($white, 3%);
+  }
+}

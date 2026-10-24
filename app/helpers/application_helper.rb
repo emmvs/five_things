@@ -16,6 +16,16 @@ module ApplicationHelper
 
   private
 
+  # Lets a page be swiped right to go back, see swipe_back_controller.js
+  def swipe_back_data
+    {
+      controller: 'swipe-back',
+      action: 'touchstart->swipe-back#start touchmove->swipe-back#move touchend->swipe-back#end ' \
+              'touchcancel->swipe-back#end turbo:before-cache@document->swipe-back#reset',
+      swipe_back_fallback_url_value: root_path
+    }
+  end
+
   def nbsp
     raw('&nbsp;')
   end

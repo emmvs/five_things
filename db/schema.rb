@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_09_13_220000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_24_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -128,7 +129,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_13_220000) do
     t.float "longitude"
     t.bigint "category_id"
     t.boolean "share_location"
+    t.virtual "searchable", type: :tsvector, as: "(((to_tsvector('simple'::regconfig, (((((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(body, ''::text)) || ' '::text) || (COALESCE(place, ''::character varying))::text)) || to_tsvector('english'::regconfig, (((((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(body, ''::text)) || ' '::text) || (COALESCE(place, ''::character varying))::text))) || to_tsvector('german'::regconfig, (((((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(body, ''::text)) || ' '::text) || (COALESCE(place, ''::character varying))::text))) || to_tsvector('swedish'::regconfig, (((((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(body, ''::text)) || ' '::text) || (COALESCE(place, ''::character varying))::text)))", stored: true
     t.index ["category_id"], name: "index_happy_things_on_category_id"
+    t.index ["searchable"], name: "index_happy_things_on_searchable", using: :gin
     t.index ["user_id"], name: "index_happy_things_on_user_id"
   end
 

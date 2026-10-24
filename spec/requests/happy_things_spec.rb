@@ -186,6 +186,18 @@ RSpec.describe 'HappyThings visibility', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include('Tue')
     end
+
+    it 'falls back to this month for a broken date in the URL' do
+      sign_in owner, scope: :user
+      get calendar_path(start_date: 'x' * 500)
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'labels each day with how many people added something' do
+      sign_in owner, scope: :user
+      get calendar_path
+      expect(response.body).to include(I18n.t('calendar.people', count: 1))
+    end
   end
 
   describe 'GET /friends/happy_things' do
@@ -203,6 +215,74 @@ RSpec.describe 'HappyThings visibility', type: :request do
       get through_the_years_path
       expect(response).to have_http_status(:success)
       expect(response.body).to include(I18n.t('through_the_years.add_from_past'))
+    end
+
+    context 'when searching' do
+      let!(:surfing) do
+        create(:happy_thing, user: owner, title: 'Surfing at sunrise', place: 'Lisbon', start_time: 2.years.ago)
+      end
+      let!(:tram) { create(:happy_thing, user: owner, title: 'Tram ride', place: 'Lisbon', start_time: 1.year.ago) }
+      let!(:friends_surfing) { create(:happy_thing, user: friend, title: 'Surfing with friends', place: 'Lisbon') }
+
+      before { sign_in owner, scope: :user }
+
+      it 'finds own HappyThings by a word in the title' do
+        get through_the_years_path(query: 'surfing')
+        expect(response.body).to include('Surfing</mark> at sunrise')
+        expect(response.body).not_to include(friends_surfing.title, tram.title)
+      end
+
+      it 'finds own HappyThings by city across all years' do
+        get through_the_years_path(query: 'lisbon')
+        expect(response.body).to include(surfing.title, tram.title, I18n.t('through_the_years.results', count: 2))
+      end
+
+      it 'filters the results by year' do
+        get through_the_years_path(query: 'lisbon', year: tram.start_time.year)
+        expect(response.body).to include(tram.title)
+        expect(response.body).not_to include(surfing.title)
+      end
+
+      it 'says when nothing matches' do
+        get through_the_years_path(query: 'volcano')
+        expect(response.body).to include(CGI.escapeHTML(I18n.t('through_the_years.no_results', query: 'volcano')))
+      end
+
+      it 'finds other word forms' do
+        get through_the_years_path(query: 'surfed')
+        expect(response.body).to include(surfing.title)
+      end
+
+      it 'finds words while they are still being typed' do
+        get through_the_years_path(query: 'surf lis')
+        expect(response.body).to include('<mark class="years__mark">Surf</mark>ing at sunrise')
+      end
+
+      it 'tolerates typos in a place' do
+        get through_the_years_path(query: 'Lisbn')
+        expect(response.body).to include(surfing.title, tram.title)
+      end
+
+      it 'asks for at least two characters' do
+        get through_the_years_path(query: 's')
+        expect(response.body).to include(I18n.t('through_the_years.query_too_short', count: 2))
+        expect(response.body).not_to include(surfing.title)
+      end
+
+      it 'filters the results by category' do
+        hobby = create(:category, name: 'Hobby')
+        surfing.update!(category: hobby)
+        get through_the_years_path(query: 'lisbon', category: hobby.id)
+        expect(response.body).to include(surfing.title)
+        expect(response.body).not_to include(tram.title)
+      end
+
+      it 'shows the first page and a link to the next one' do
+        create_list(:happy_thing, 30, user: owner, title: 'Lisbon walk', start_time: 1.month.ago)
+        get through_the_years_path(query: 'lisbon')
+        expect(response.body).to include(I18n.t('through_the_years.show_more'), 'page=2')
+        expect(response.body).not_to include(surfing.title)
+      end
     end
   end
 

@@ -20,27 +20,13 @@
         <% end %>
   </div>
 
-  <% if @happy_things_of_the_last_two_days.any? %>
-    <div class="dash-box mx-2 my-3">
-      <h3><%= t('dashboard.what_made_you_happy') %></h3>
-      <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
-        <h5><%= user_with_emoji(user) %></h5>
-        <% happy_things.each do |happy_thing| %>
-          <%= render 'happy_things/happy_thing', happy_thing: happy_thing %>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
-
-  <%= render 'calendar' %>
-
   <div data-controller="insert-in-list">
     <div class="div dash-box p-4 mx-2 my-3">
       <h3><%= t('dashboard.what_made_you_happy_today') %></h3>
       <%= render 'happy_things/form', happy_thing: @happy_thing %>
     </div>
 
-    <div id="happy_things" class="m-2 mt-5"
+    <div id="happy_things" class="mx-2 my-3"
       data-notification-target="happyThings"
       data-insert-in-list-target="items">
       <% if @happy_things_today.any? %>
@@ -55,16 +41,27 @@
     </div>
   </div>
 
-  <% current_year = Date.current.year %>
-  <% past_years_happy_things = @happy_things_by_date.reject { |ht| ht.start_time.year == current_year } %>
-  
-  <% if past_years_happy_things.any? %>
-    <div class="m-2 mt-5 mx-2 my-3" data-controller="toggle">
+  <%= render 'shared/emoji_calendar', happy_things: @happy_things_of_you_and_friends, user_ids: @user_ids %>
+
+  <% if @happy_things_of_the_last_two_days.any? %>
+    <div class="dash-box mx-2 my-3">
+      <h3><%= t('dashboard.what_made_you_happy') %></h3>
+      <% @happy_things_of_the_last_two_days.each do |user, happy_things| %>
+        <h5><%= user_with_emoji(user) %></h5>
+        <% happy_things.each do |happy_thing| %>
+          <%= render 'happy_things/happy_thing', happy_thing: happy_thing %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @happy_things_by_date.any? %>
+    <div class="mx-2 my-3" data-controller="toggle">
       <h3 class="mb-3"><%= t('dashboard.through_the_years') %></h3>
       <a data-action="click->toggle#fire" class="btn button--primary"><%= t('dashboard.read_more') %></a>
 
       <div data-toggle-target="togglableElement" class="d-none">
-        <% past_years_happy_things.group_by { |ht| ht.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
+        <% @happy_things_by_date.group_by { |happy_thing| happy_thing.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
           <div class="p-2" style="border-radius: 0.375rem; background-color: <%= index.even? ? '#f8f9fa' : '#f1f3f5'; %>;">
             <h3><%= year %></h3>
             <% year_happy_things.group_by(&:user).each do |user, happy_things| %>
@@ -84,9 +81,4 @@
       </div>
     </div>
   <% end %>
-
-  <div class="m-2 mt-5 mx-2 my-3">
-    <h3 class="mb-3"><%= t('dashboard.forgot_something') %></h3>
-      <%= link_to t('dashboard.add_old_happy_thing'), old_happy_thing_path, class: "btn shadow" %>
-  </div>
 </div>
