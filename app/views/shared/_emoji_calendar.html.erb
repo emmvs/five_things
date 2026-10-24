@@ -1,0 +1,22 @@
+<% month = calendar_month %>
+<% users_by_day = calendar_users_by_day(happy_things, user_ids, month) %>
+
+<div id="calendar" class="mx-2 my-3">
+  <%# start_date: the checked month, so a broken date in the URL can't crash the calendar %>
+  <%= month_calendar(start_date: month) do |date| %>
+    <% if date.month == month.month %>
+      <% users = users_by_day.fetch(date, []) %>
+      <%= link_to happy_things_by_date_path(date: date.iso8601), class: 'calendar-day',
+                                                                 aria: { label: calendar_day_label(date, users) } do %>
+        <span class="calendar-day__number"><%= date.day %></span>
+        <% users.first(CalendarHelper::MAX_CALENDAR_EMOJIS).each do |user| %>
+          <span class="calendar-day__emoji" aria-hidden="true"><%= user.emoji %></span>
+        <% end %>
+      <% end %>
+    <% else %>
+      <span class="calendar-day calendar-day--other-month">
+        <span class="calendar-day__number"><%= date.day %></span>
+      </span>
+    <% end %>
+  <% end %>
+</div>

@@ -32,7 +32,7 @@
     </div>
   <% end %>
 
-  <%= render 'calendar' %>
+  <%= render 'shared/emoji_calendar', happy_things: @happy_things_of_you_and_friends, user_ids: @user_ids %>
 
   <div data-controller="insert-in-list">
     <div class="div dash-box p-4 mx-2 my-3">

@@ -232,3 +232,17 @@ sv:
       confirmation_subject: "Din inbjudan till The Essence"
       confirmation_body: "Öppna länken nedan för att slutföra din anmälan."
       confirm_link: "Fortsätt"
+
+  date:
+    abbr_day_names: [sön, mån, tis, ons, tor, fre, lör]
+    day_names: [söndag, måndag, tisdag, onsdag, torsdag, fredag, lördag]
+    abbr_month_names: [~, jan, feb, mar, apr, maj, jun, jul, aug, sep, okt, nov, dec]
+    month_names: [~, januari, februari, mars, april, maj, juni, juli, augusti, september, oktober, november, december]
+
+  calendar:
+    previous_month: "Föregående månad"
+    next_month: "Nästa månad"
+    day_heading: "%A %-d %B"
+    people:
+      one: "1 person"
+      other: "%{count} personer"

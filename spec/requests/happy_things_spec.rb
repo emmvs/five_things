@@ -186,6 +186,18 @@ RSpec.describe 'HappyThings visibility', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include('Tue')
     end
+
+    it 'falls back to this month for a broken date in the URL' do
+      sign_in owner, scope: :user
+      get calendar_path(start_date: 'x' * 500)
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'labels each day with how many people added something' do
+      sign_in owner, scope: :user
+      get calendar_path
+      expect(response.body).to include(I18n.t('calendar.people', count: 1))
+    end
   end
 
   describe 'GET /friends/happy_things' do

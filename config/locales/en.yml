@@ -240,3 +240,11 @@ en:
       confirmation_subject: "Your invitation to The Essence"
       confirmation_body: "Open the link below to finish signing up."
       confirm_link: "Continue"
+
+  calendar:
+    previous_month: "Previous month"
+    next_month: "Next month"
+    day_heading: "%A, %-d %B"
+    people:
+      one: "1 person"
+      other: "%{count} people"

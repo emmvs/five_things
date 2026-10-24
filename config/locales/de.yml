@@ -234,3 +234,17 @@ de:
       confirmation_subject: "Deine Einladung zu The Essence"
       confirmation_body: "Öffne den Link unten, um die Anmeldung abzuschließen."
       confirm_link: "Weiter"
+
+  date:
+    abbr_day_names: [So, Mo, Di, Mi, Do, Fr, Sa]
+    day_names: [Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]
+    abbr_month_names: [~, Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
+    month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
+
+  calendar:
+    previous_month: "Vorheriger Monat"
+    next_month: "Nächster Monat"
+    day_heading: "%A, %-d. %B"
+    people:
+      one: "1 Person"
+      other: "%{count} Personen"

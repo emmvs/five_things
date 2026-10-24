@@ -1,104 +1,179 @@
+// Text colors follow the dash boxes; the app's pink marks today and focus
+$calendar-accent: darken($pink, 35%);
+
 .simple-calendar {
+  padding: 16px 8px;
   border-radius: $border-radius;
-  overflow: hidden;
-  width: 100% !important;
-  max-width: 350px;
   background-color: $white;
+  color: $black;
   box-shadow: $box-shadow;
-  isolation: isolate;
-  transform: translateZ(0);
 
   @media (min-width: 768px) {
-    max-width: 600px;
+    padding: 24px;
   }
 
   .calendar-heading {
-    border-top-left-radius: $border-radius;
-    border-top-right-radius: $border-radius;
-    padding: 0% 1%;
-    background-color: $soft-purple;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 0 4px 12px;
   }
 
+  // Same heading style as the other dash box section titles
   .calendar-title {
-    font-size: $font-size-xxl;
-    color: $white;
+    margin: 0;
+    text-align: center;
   }
 
-  .prev-month,
-  .next-month {
-    background: lighten($soft-purple, 10%);
-    color: white;
-  }
-
-  .today {
-    background: $pink !important;
-  }
-
-  .day {
-    padding: 1px;
-    position: relative;
-    height: 40px !important;
-    border-radius: $border-radius !important;
-
-    @media (min-width: 768px) {
-      height: 60px !important;
-    }
-  }
-
-  .calendar-day-link {
-    display: block;
-    text-decoration: none;
-    color: darken($soft-purple, 50%);
-  }
-
-  .day.has-many-emojis .calendar-day-link {
-    z-index: 1;
-    font-weight: calc(var(--bs-body-font-weight) * 1.1);
-  }
-
-  .calendar-day-link:hover {
-    background-color: #f0f0f0;
+  .calendar-nav {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
+    background-color: $color-light;
+    color: $black;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    &:active {
+      background-color: darken($color-light, 8%);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $calendar-accent;
+      outline-offset: 2px;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: darken($color-light, 5%);
+        color: $black;
+      }
+    }
   }
 
-  .table {
-    margin: 0 auto !important;
-    margin-bottom: 0 !important;
-    border-collapse: separate;
-    border-spacing: 8px;
-    table-layout: fixed;
+  // No gaps between cells so each day is as wide as possible for a thumb
+  .calendar-grid {
     width: 100%;
-    background-color: transparent !important;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: none;
 
-    thead tr th {
-      border-radius: $border-radius;
+    // Override the cell borders and backgrounds from simple_calendar's own stylesheet
+    th,
+    td {
+      height: auto;
+      padding: 0;
+      border: none;
+      background: transparent;
+      vertical-align: middle;
+    }
+
+    th {
+      padding-bottom: 8px;
       text-align: center;
-      padding: 0;
-      background-color: darken($soft-purple, 10%);
-      color: white;
-      border: none !important;
-    }
-
-    tbody tr td {
-      border: none !important;
-      background-color: transparent !important;
-      padding: 0;
+      font-family: $body-font;
+      font-size: $font-size-xs;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: $color-text-muted;
     }
   }
+}
 
-  .table-striped > tbody > tr:nth-of-type(odd) > * {
-    --bs-table-bg-type: none;
+.calendar-day {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus-visible {
+    outline: 2px solid $calendar-accent;
+    outline-offset: -2px;
+    border-radius: $border-radius;
   }
 
-  .emoji-grid {
-    display: grid;
-    aspect-ratio: 1 / 1;
-    position: absolute;
-    pointer-events: none;
+  @media (min-width: 768px) {
+    height: 72px;
+  }
+}
+
+.calendar-day__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-family: $body-font;
+  font-size: $font-size-s;
+  font-weight: 400;
+  color: $black;
+  transition: background-color 0.1s ease;
+
+  .calendar-day--other-month & {
+    color: $light-gray;
   }
 
-  .emoji {
-    position: relative;
-    line-height: 1;
+  a.calendar-day:active & {
+    background-color: $color-light;
+  }
+
+  @media (hover: hover) {
+    a.calendar-day:hover & {
+      background-color: $color-light;
+    }
+  }
+
+  .today .calendar-day & {
+    background-color: $pink;
+    color: $white;
+    font-weight: 600;
+  }
+
+  @media (min-width: 768px) {
+    font-size: $font-size-m;
+  }
+}
+
+// Up to four emojis sit on the diagonals around the date, filled in the order
+// top left, bottom right, top right, bottom left so two emojis stay balanced
+.calendar-day__emoji {
+  --emoji-radius: 13px;
+  --emoji-size: 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--emoji-size);
+  height: var(--emoji-size);
+  margin: calc(var(--emoji-size) / -2) 0 0 calc(var(--emoji-size) / -2);
+  font-size: calc(var(--emoji-size) - 2px);
+  line-height: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 0 1px $white) drop-shadow(0 1px 1px rgba($black, 0.18));
+  transform: translate(calc(var(--emoji-x) * var(--emoji-radius)), calc(var(--emoji-y) * var(--emoji-radius)));
+
+  &:nth-child(2) { --emoji-x: -1; --emoji-y: -1; }
+  &:nth-child(3) { --emoji-x: 1; --emoji-y: 1; }
+  &:nth-child(4) { --emoji-x: 1; --emoji-y: -1; }
+  &:nth-child(5) { --emoji-x: -1; --emoji-y: 1; }
+
+  @media (min-width: 768px) {
+    --emoji-radius: 18px;
+    --emoji-size: 24px;
   }
 }

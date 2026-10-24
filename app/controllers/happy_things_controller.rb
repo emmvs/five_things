@@ -76,9 +76,7 @@ class HappyThingsController < ApplicationController # rubocop:disable Metrics/Cl
   def calendar
     @user_ids = user_ids
 
-    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids)
-                                                 .visible_to(current_user)
-                                                 .order(created_at: :desc)
+    @happy_things_of_you_and_friends = HappyThing.where(user_id: @user_ids).visible_to(current_user)
   end
 
   def show_by_date
