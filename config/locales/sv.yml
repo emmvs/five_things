@@ -107,8 +107,6 @@ sv:
     your_happy_things_today: "Dina HappyThings idag"
     through_the_years: "Genom åren..."
     read_more: "Läs mer..."
-    forgot_something: "Glömt något?"
-    add_old_happy_thing: "Lägg till gammal HappyThing"
 
   happy_things:
     created: "HappyThing™ skapades framgångsrikt."

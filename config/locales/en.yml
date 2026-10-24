@@ -113,8 +113,6 @@ en:
     your_happy_things_today: "Your HappyThings of today"
     through_the_years: "Through the years..."
     read_more: "Read more..."
-    forgot_something: "Forgot something?"
-    add_old_happy_thing: "Add old HappyThing"
 
   happy_things:
     created: "HappyThing™ was successfully created."
