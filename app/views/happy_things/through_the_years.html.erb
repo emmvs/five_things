@@ -1,32 +1,85 @@
-  <div class="m-2 mt-5 mx-2 my-3">
-    <h3 class="mb-3"><%= t('through_the_years.title') %></h3>
+<% filters = years_filters(query: @query, year: @year, category: @category) %>
 
-    <% current_year = Date.current.year %>
+<div class="container years">
+  <div class="years__content mx-2">
+    <h3 class="years__title"><%= t('through_the_years.title') %></h3>
 
-    <div>
-      <% if @happy_things_of_the_past_years.any? %>
-        <% @happy_things_of_the_past_years.group_by { |ht| ht.start_time.year }.sort.reverse.each_with_index do |(year, year_happy_things), index| %>
-          <% next if year == current_year %>
-
-          <div class="p-2" style="border-radius: 0.375rem; background-color: <%= index.even? ? '#f8f9fa' : '#f1f3f5'; %>;">
-            <h3><%= year %></h3>
-            <% year_happy_things.group_by(&:user).each do |user, happy_things| %>
-              <div class="dash-box mb-4">
-                <h5><%= user_with_emoji(user) %></h5>
-                <ol>
-                  <% happy_things.each do |happy_thing| %>
-                    <li>
-                      <%= link_to happy_thing.title, happy_things_by_date_path(date: happy_thing.start_time.strftime('%Y-%m-%d')), style: "text-decoration: none; color: inherit;" %>
-                    </li>
-                  <% end %>
-                </ol>
-              </div>
-            <% end %>
-          </div>
+    <% if @years.size > 1 || @year %>
+      <nav class="years__chips" aria-label="<%= t('through_the_years.filter_by_year') %>">
+        <%= years_filter_link t('through_the_years.all_years'), filters: filters.merge(year: nil), active: @year.nil? %>
+        <% @years.each do |year| %>
+          <%= years_filter_link year, filters: filters.merge(year:), active: year == @year %>
         <% end %>
-      <% else %>
-        <p class="opacity-50"><%= t('through_the_years.no_happy_things') %></p>
-        <%= link_to t('through_the_years.add_from_past'), old_happy_thing_path, class: "btn button--primary" %>
+      </nav>
+    <% end %>
+
+    <% if @categories.size > 1 || @category %>
+      <nav class="years__chips" aria-label="<%= t('through_the_years.filter_by_category') %>">
+        <%= years_filter_link t('through_the_years.all_categories'), filters: filters.merge(category: nil),
+                                                                     active: @category.nil? %>
+        <% @categories.each do |category| %>
+          <%= years_filter_link category.name, filters: filters.merge(category: category.id),
+                                               active: category == @category %>
+        <% end %>
+      </nav>
+    <% end %>
+
+    <% if @query_too_short %>
+      <p class="years__empty"><%= t('through_the_years.query_too_short', count: HappyThing::SEARCH_MIN_LENGTH) %></p>
+    <% elsif @happy_things.any? %>
+      <% if @query.present? %>
+        <p class="years__count"><%= t('through_the_years.results', count: @happy_things.total_count) %></p>
+      <% end %>
+      <%# Each page sits in its own frame, so "Show more" swaps itself for the next page and keeps the ones above %>
+      <%= turbo_frame_tag "years_page_#{@happy_things.current_page}", target: '_top' do %>
+        <ul class="years__list">
+          <% @happy_things.each do |happy_thing| %>
+            <li>
+              <%= link_to happy_thing_path(happy_thing), class: 'years__card' do %>
+                <span class="years__card-title"><%= years_highlight(happy_thing.title, @query) %></span>
+                <span class="years__card-meta"><%= years_card_meta(happy_thing, @query) %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+        <% unless @happy_things.last_page? %>
+          <% next_frame = "years_page_#{@happy_things.next_page}" %>
+          <%= turbo_frame_tag next_frame, target: '_top' do %>
+            <%= link_to t('through_the_years.show_more'),
+                        through_the_years_path(filters.merge(page: @happy_things.next_page)),
+                        class: 'years__more', data: { turbo_frame: next_frame } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% elsif @query.present? %>
+      <p class="years__empty"><%= t('through_the_years.no_results', query: @query) %></p>
+    <% else %>
+      <p class="years__empty"><%= t('through_the_years.no_happy_things') %></p>
+      <%= link_to t('through_the_years.add_from_past'), old_happy_thing_path, class: "btn button--primary" %>
+    <% end %>
+  </div>
+
+  <div class="years__search-bar">
+    <div class="container">
+      <%= form_with url: through_the_years_path, method: :get, class: 'years__search mx-2', html: { role: 'search' } do %>
+        <%= search_field_tag :query, @query,
+                             class: 'years__search-field',
+                             placeholder: t('through_the_years.search_placeholder'),
+                             aria: { label: t('through_the_years.search_placeholder') },
+                             minlength: HappyThing::SEARCH_MIN_LENGTH,
+                             maxlength: HappyThing::SEARCH_MAX_LENGTH,
+                             enterkeyhint: 'search' %>
+        <% if @query.present? %>
+          <%= link_to through_the_years_path, class: 'years__search-button years__search-button--clear',
+                                              aria: { label: t('through_the_years.clear_search') } do %>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+          <% end %>
+        <% end %>
+        <%= button_tag type: 'submit', name: nil, class: 'years__search-button',
+                       aria: { label: t('through_the_years.search') } do %>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-5-5"></path></svg>
+        <% end %>
       <% end %>
     </div>
   </div>
+</div>

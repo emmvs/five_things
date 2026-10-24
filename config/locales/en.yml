@@ -145,6 +145,20 @@ en:
     title: "Through the years..."
     no_happy_things: "No HappyThings found for today in past years."
     add_from_past: "Add a HappyThing from a past year"
+    search: "Search"
+    search_placeholder: "Search a word or a city"
+    clear_search: "Clear search"
+    filter_by_year: "Filter by year"
+    all_years: "All"
+    date_format: "%-d %B %Y"
+    results:
+      one: "1 HappyThing"
+      other: "%{count} HappyThings"
+    no_results: "No HappyThings found for \"%{query}\""
+    filter_by_category: "Filter by category"
+    all_categories: "All categories"
+    show_more: "Show more"
+    query_too_short: "Type at least %{count} characters to search."
 
   analytics:
     my_profile: "My Profile"

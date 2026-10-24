@@ -137,6 +137,20 @@ sv:
     title: "Genom åren..."
     no_happy_things: "Inga HappyThings hittades för idag under tidigare år."
     add_from_past: "Lägg till en HappyThing från ett tidigare år"
+    search: "Sök"
+    search_placeholder: "Sök ett ord eller en stad"
+    clear_search: "Rensa sökning"
+    filter_by_year: "Filtrera efter år"
+    all_years: "Alla"
+    date_format: "%-d %B %Y"
+    results:
+      one: "1 HappyThing"
+      other: "%{count} HappyThings"
+    no_results: "Inga HappyThings hittades för \"%{query}\""
+    filter_by_category: "Filtrera efter kategori"
+    all_categories: "Alla kategorier"
+    show_more: "Visa fler"
+    query_too_short: "Skriv minst %{count} tecken för att söka."
 
   analytics:
     my_profile: "Min profil"
