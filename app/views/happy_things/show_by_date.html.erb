@@ -1,4 +1,4 @@
-<div class="container my-3">
+<div class="container my-3" <%= tag.attributes(data: swipe_back_data) %>>
   <h1><%= @date.strftime('%B %d, %Y') %></h1>
 
   <% if @happy_things.any? %>

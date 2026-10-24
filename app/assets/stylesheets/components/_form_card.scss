@@ -31,100 +31,91 @@
   }
 
   &__body {
-    padding: 0 $space-l $space-l;
     display: flex;
     flex-direction: column;
     gap: $space-s;
+
+    // Only the standalone card on the new and edit pages needs its own padding.
+    // Inside a dash box the box already has it, so the fields line up with the rest of the dashboard.
+    .form-card & {
+      padding: 0 $space-l $space-l;
+    }
   }
 
+  // Every control has the same height, border, corners and background, so the form reads as one column
   &__field {
-    .string, .text, .select, .file, .boolean {
+    label {
+      font-size: $font-size-s;
+      font-weight: 500;
+      color: $color-text-body;
+      margin-bottom: $space-xxxs;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+      width: 100%;
+      min-height: $form-control-height;
+      padding: 10px 14px;
+      border: $form-control-border;
+      border-radius: $border-radius;
+      background-color: $off-white;
+      font-size: $font-size-m; // 16px keeps iOS from zooming in on focus
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $soft-purple;
+        box-shadow: 0 0 0 3px rgba($soft-purple, 0.15);
+        background-color: $white;
+      }
+
+      &::placeholder {
+        color: $light-gray;
+      }
+    }
+
+    &--file input[type="file"] {
+      width: 100%;
+      height: $form-control-height;
+      padding: 10px 14px;
+      border: 1.5px dashed darken($color-light, 8%);
+      border-radius: $border-radius;
+      background-color: $off-white;
+      font-size: $font-size-s;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+
+      &:hover {
+        border-color: $soft-purple;
+        background-color: rgba($soft-purple, 0.03);
+      }
+    }
+
+    &--checkbox .form-check {
+      display: flex;
+      align-items: center;
+      gap: $space-xs;
+      min-height: $form-control-height;
+      margin: 0;
+      padding: 0;
+
+      .form-check-input {
+        margin: 0;
+      }
+
       label {
-        font-size: $font-size-s;
-        font-weight: 500;
-        color: $color-text-body;
-        margin-bottom: $space-xxxs;
-      }
-
-      input[type="text"],
-      input[type="email"],
-      input[type="password"],
-      textarea,
-      select {
-        width: 100%;
-        padding: 10px 14px;
-        border: 1.5px solid darken($color-light, 4%);
-        border-radius: 10px;
-        font-size: $font-size-m;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        background-color: $off-white;
-
-        &:focus {
-          outline: none;
-          border-color: $soft-purple;
-          box-shadow: 0 0 0 3px rgba($soft-purple, 0.15);
-          background-color: $white;
-        }
-
-        &::placeholder {
-          color: $light-gray;
-        }
-      }
-    }
-
-    &--file {
-      label.file {
-        font-size: $font-size-s;
-        font-weight: 500;
-        color: $color-text-body;
-      }
-
-      input[type="file"] {
-        width: 100%;
-        padding: 10px 14px;
-        border: 1.5px dashed darken($color-light, 8%);
-        border-radius: 10px;
-        background-color: $off-white;
+        margin-bottom: 0;
+        font-weight: 400;
         cursor: pointer;
-        font-size: $font-size-s;
-        transition: border-color 0.2s ease, background-color 0.2s ease;
-
-        &:hover {
-          border-color: $soft-purple;
-          background-color: rgba($soft-purple, 0.03);
-        }
+        user-select: none;
       }
     }
 
-    &--checkbox {
-      .boolean {
-        display: flex;
-        align-items: center;
-        gap: $space-xs;
-        padding: $space-xs 0;
-
-        label {
-          font-weight: 400;
-          margin-bottom: 0;
-          cursor: pointer;
-          user-select: none;
-        }
-      }
-    }
-
-    &--visibility {
-      // background-color: rgba($soft-purple, 0.04);
-      // border: 1.5px solid rgba($soft-purple, 0.12);
-      // border-radius: 12px;
-      // padding: $space-s;
-
-      // @media (min-width: 480px) {
-      //   padding: $space-s $space-m;
-      // }
-
-      .ts-wrapper {
-        width: 100%;
-      }
+    &--visibility .ts-wrapper {
+      width: 100%;
     }
   }
 
@@ -144,9 +135,10 @@
 
   &__submit {
     width: 100%;
+    min-height: $form-control-height;
     margin-top: $space-xs;
     padding: 12px 24px;
-    border-radius: 10px !important;
+    border-radius: $border-radius !important;
     font-size: $font-size-m;
     letter-spacing: 0.02em;
   }

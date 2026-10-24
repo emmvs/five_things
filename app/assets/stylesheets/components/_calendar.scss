@@ -87,12 +87,14 @@ $calendar-accent: darken($pink, 35%);
 }
 
 .calendar-day {
-  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: 3px;
   width: 100%;
-  height: 56px;
+  height: 60px;
+  padding-top: 4px;
   text-decoration: none;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -104,7 +106,7 @@ $calendar-accent: darken($pink, 35%);
   }
 
   @media (min-width: 768px) {
-    height: 72px;
+    height: 76px;
   }
 }
 
@@ -146,34 +148,35 @@ $calendar-accent: darken($pink, 35%);
   }
 }
 
-// Up to four emojis sit on the diagonals around the date, filled in the order
-// top left, bottom right, top right, bottom left so two emojis stay balanced
-.calendar-day__emoji {
-  --emoji-radius: 13px;
-  --emoji-size: 16px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 2;
+// The emojis of everyone who added something that day, in a small white pill under the date.
+// Same shadow as the cards. With four people the emojis shrink a little so the pill still fits the day.
+.calendar-day__pill {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: var(--emoji-size);
-  height: var(--emoji-size);
-  margin: calc(var(--emoji-size) / -2) 0 0 calc(var(--emoji-size) / -2);
-  font-size: calc(var(--emoji-size) - 2px);
-  line-height: 1;
+  padding: 1px 5px;
+  border-radius: 999px;
+  background-color: $white;
+  box-shadow: $box-shadow;
+  font-size: 11px;
+  line-height: 16px;
   pointer-events: none;
-  filter: drop-shadow(0 0 1px $white) drop-shadow(0 1px 1px rgba($black, 0.18));
-  transform: translate(calc(var(--emoji-x) * var(--emoji-radius)), calc(var(--emoji-y) * var(--emoji-radius)));
 
-  &:nth-child(2) { --emoji-x: -1; --emoji-y: -1; }
-  &:nth-child(3) { --emoji-x: 1; --emoji-y: 1; }
-  &:nth-child(4) { --emoji-x: 1; --emoji-y: -1; }
-  &:nth-child(5) { --emoji-x: -1; --emoji-y: 1; }
+  &--full {
+    padding: 1px 3px;
+    font-size: 9px;
+
+    span + span {
+      margin-left: -1px;
+    }
+  }
 
   @media (min-width: 768px) {
-    --emoji-radius: 18px;
-    --emoji-size: 24px;
+    padding: 2px 8px;
+    font-size: 16px;
+    line-height: 20px;
+
+    &--full {
+      font-size: 14px;
+    }
   }
 }

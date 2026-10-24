@@ -9,8 +9,14 @@
       <%= link_to happy_things_by_date_path(date: date.iso8601), class: 'calendar-day',
                                                                  aria: { label: calendar_day_label(date, users) } do %>
         <span class="calendar-day__number"><%= date.day %></span>
-        <% users.first(CalendarHelper::MAX_CALENDAR_EMOJIS).each do |user| %>
-          <span class="calendar-day__emoji" aria-hidden="true"><%= user.emoji %></span>
+        <%# The pill only shows who; the link's aria-label already says how many people %>
+        <% if users.any? %>
+          <%= tag.span class: ['calendar-day__pill', { 'calendar-day__pill--full': users.size >= CalendarHelper::MAX_CALENDAR_EMOJIS }],
+                       aria: { hidden: true } do %>
+            <% users.first(CalendarHelper::MAX_CALENDAR_EMOJIS).each do |user| %>
+              <span><%= user.emoji %></span>
+            <% end %>
+          <% end %>
         <% end %>
       <% end %>
     <% else %>

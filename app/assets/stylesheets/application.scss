@@ -37,6 +37,16 @@
 @import url("https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.default.min.css");
 
 .ts-wrapper {
+  // simple_form puts .form-control on the wrapper too; without this reset Bootstrap draws
+  // a second border and padding around the picker's own box
+  &.form-control {
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+
   &.multi .ts-control > .item {
     display: inline-flex;
     align-items: center;
@@ -77,9 +87,10 @@
   }
 
   .ts-control {
-    border: 1.5px solid darken($color-light, 4%);
-    border-radius: 10px;
-    padding: 8px 12px;
+    min-height: $form-control-height;
+    border: $form-control-border;
+    border-radius: $border-radius;
+    padding: 8px 14px;
     background-color: $off-white;
     box-shadow: none;
 
@@ -94,8 +105,8 @@
   }
 
   .ts-dropdown {
-    border: 1.5px solid darken($color-light, 4%);
-    border-radius: 10px;
+    border: $form-control-border;
+    border-radius: $border-radius;
     margin-top: 4px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     overflow: hidden;
