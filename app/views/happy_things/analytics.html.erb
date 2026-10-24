@@ -26,11 +26,7 @@
         <h2><%= t('analytics.happylytics') %></h2>
         <h3 class="mt-4"><%= t('analytics.most_used_words_year') %></h3>
         <% if @words_for_wordcloud.present? %>
-        <div class="word-cloud">
-          <% @words_for_wordcloud.each do |word, frequency| %>
-          <%= content_tag :span, word.capitalize, style: "font-size: #{5 + frequency * 2}px;" %>
-          <% end %>
-        </div>
+        <%= render 'shared/word_bubbles', words: @words_for_wordcloud %>
         <% else %>
         <p class="opacity-50"><%= t('analytics.no_words_year') %></p>
         <% end %>
@@ -39,12 +35,7 @@
       <div class="analytics-container dash-box p-4 mx-2 my-3">
         <h3 class="mt-4"><%= t('analytics.most_used_words_month') %></h3>
         <% if @words_for_wordcloud_month.present? %>
-          <div class="word-cloud">
-            <% @words_for_wordcloud_month.each do |word, frequency| %>
-              <% size = [[0.5 + frequency * 0.2, 0.75].max, 2.5].min %>
-              <%= content_tag :span, word.capitalize, style: "font-size: #{size}rem;" %>
-            <% end %>
-          </div>
+          <%= render 'shared/word_bubbles', words: @words_for_wordcloud_month, period: :month %>
         <% else %>
           <p class="opacity-50"><%= t('analytics.no_words_month') %></p>
         <% end %>

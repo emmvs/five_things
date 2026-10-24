@@ -1,0 +1,10 @@
+<%# words: [["coffee", 142], ...], period: :year or :month, which picks the colors %>
+<ul class="word-bubbles word-bubbles--<%= local_assigns.fetch(:period, :year) %>">
+  <% word_bubbles(words).each do |bubble| %>
+    <%= tag.li class: 'word-bubble', style: word_bubble_style(bubble),
+               title: t('analytics.word_count', count: bubble[:count]) do %>
+      <%= bubble[:word].capitalize %>
+      <span class="visually-hidden">, <%= t('analytics.word_count', count: bubble[:count]) %></span>
+    <% end %>
+  <% end %>
+</ul>

@@ -163,6 +163,9 @@ sv:
     logout: "Logga ut"
     remove_friend: "Ta bort vän"
     remove_friend_confirm: "Är du säker på att du vill ta bort %{name} som vän?"
+    word_count:
+      one: "använt en gång"
+      other: "använt %{count} gånger"
 
   future_root:
     your_happy_things: "Dina HappyThings"

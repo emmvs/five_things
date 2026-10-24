@@ -171,6 +171,9 @@ en:
     logout: "Logout"
     remove_friend: "Remove Friend"
     remove_friend_confirm: "Are you sure you want to remove %{name} as a friend?"
+    word_count:
+      one: "used once"
+      other: "used %{count} times"
 
   future_root:
     your_happy_things: "Your HappyThings"
